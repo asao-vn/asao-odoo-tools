@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package media.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/media/v1;mediav1";
+

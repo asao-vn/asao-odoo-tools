@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package abe.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/abe/v1;abev1";
+
+service EvidenceRegistryService {
+  rpc CreateEvidenceSource (CreateEvidenceSourceRequest) returns (EvidenceSource);
+  rpc CreateProvenanceEdge (CreateProvenanceEdgeRequest) returns (ProvenanceEdge);
+  rpc GetEvidenceStats (GetEvidenceStatsRequest) returns (GetEvidenceStatsResponse);
+}
+
+service CoreMonitorService {
+  rpc CreateMonitorRun (CreateMonitorRunRequest) returns (MonitorRun);
+  rpc GetMonitorRun (GetMonitorRunRequest) returns (MonitorRun);
+}
+
+service ReviewManagerService {
+  rpc CreateReviewPacket (CreateReviewPacketRequest) returns (ReviewPacket);
+  rpc CreateReviewAssignment (CreateReviewAssignmentRequest) returns (ReviewAssignment);
+  rpc CreateReviewFinding (CreateReviewFindingRequest) returns (ReviewFinding);
+  rpc CreateOperationalOutcome (CreateOperationalOutcomeRequest) returns (OperationalOutcome);
+  // TransitionReviewAssignment drives the accepted assignment lifecycle
+  // (PENDING -> ACCEPTED -> ACTIVE, and the terminal transitions) from the
+  // live surface. It carries NO actor field: the acting subject is taken
+  // from the authenticated call context only.
+  rpc TransitionReviewAssignment (TransitionReviewAssignmentRequest) returns (ReviewAssignment);
+}
+
+// Evidence registry types
+message EvidenceSource {
+  string id = 1;
+  string name = 2;
+  string organization_id = 3;
+  string content_hash = 4;
+}
+
+message CreateEvidenceSourceRequest {
+  string name = 1;
+  string organization_id = 2;
+  string content_hash = 3;
+}
+
+message ProvenanceEdge {
+  string id = 1;
+  string graph_id = 2;
+  string source_node_id = 3;
+  string target_node_id = 4;
+  string organization_id = 5;
+}
+
+message CreateProvenanceEdgeRequest {
+  string graph_id = 1;
+  string source_node_id = 2;
+  string target_node_id = 3;
+  string organization_id = 4;
+}
+
+message GetEvidenceStatsRequest {
+  string organization_id = 1;
+}
+
+message GetEvidenceStatsResponse {
+  int64 source_count = 1;
+  int64 edge_count = 2;
+}
+
+// Core monitor types
+message MonitorRun {
+  string id = 1;
+  string status = 2;
+  string report = 3;
+  string organization_id = 4;
+}
+
+message CreateMonitorRunRequest {
+  string organization_id = 1;
+}
+
+message GetMonitorRunRequest {
+  string run_id = 1;
+  string organization_id = 2;
+}
+
+// Review manager types
+message ReviewPacket {
+  string id = 1;
+  string organization_id = 2;
+  string title = 3;
+  string version = 4;
+}
+
+message CreateReviewPacketRequest {
+  string organization_id = 1;
+  string title = 2;
+}
+
+message ReviewAssignment {
+  string id = 1;
+  string packet_id = 2;
+  string reviewer_id = 3;
+  string status = 4;
+  string organization_id = 5;
+}
+
+message CreateReviewAssignmentRequest {
+  string packet_id = 1;
+  string reviewer_id = 2;
+  string organization_id = 3;
+}
+
+// TransitionReviewAssignmentRequest names the assignment and the target state
+// only. reviewer_id is deliberately absent: a caller-supplied acting identity
+// is never trusted as authority.
+message TransitionReviewAssignmentRequest {
+  string assignment_id = 1;
+  string target_state = 2;
+  string organization_id = 3;
+}
+
+message ReviewFinding {
+  string id = 1;
+  string assignment_id = 2;
+  string details = 3;
+  string organization_id = 4;
+}
+
+message CreateReviewFindingRequest {
+  string assignment_id = 1;
+  string details = 2;
+  string organization_id = 3;
+}
+
+message OperationalOutcome {
+  string id = 1;
+  string assignment_id = 2;
+  string status = 3;
+  string organization_id = 4;
+}
+
+message CreateOperationalOutcomeRequest {
+  string assignment_id = 1;
+  string status = 2;
+  string organization_id = 3;
+}

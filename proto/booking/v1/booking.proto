@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package booking.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/booking/v1;bookingv1";
+
+service BookingService {
+  rpc GetBooking (GetBookingRequest) returns (GetBookingResponse);
+  rpc CreateBooking (CreateBookingRequest) returns (CreateBookingResponse);
+  rpc CompleteBooking (CompleteBookingRequest) returns (CompleteBookingResponse);
+  rpc CancelBooking (CancelBookingRequest) returns (CancelBookingResponse);
+}
+
+message GetBookingRequest {
+  string booking_id = 1;
+}
+
+message GetBookingResponse {
+  string booking_id = 1;
+  string organization_id = 2;
+  string branch_id = 3;
+  string customer_id = 4;
+  string status = 5;
+}
+
+message CreateBookingRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string customer_id = 3;
+  repeated string service_ids = 4;
+  string appointment_time = 5;
+  string idempotency_key = 6;
+}
+
+message CreateBookingResponse {
+  string booking_id = 1;
+  string status = 2;
+}
+
+message CompleteBookingRequest {
+  string booking_id = 1;
+}
+
+message CompleteBookingResponse {
+  string booking_id = 1;
+  string status = 2;
+}
+
+message CancelBookingRequest {
+  string booking_id = 1;
+}
+
+message CancelBookingResponse {
+  string booking_id = 1;
+  string status = 2;
+}

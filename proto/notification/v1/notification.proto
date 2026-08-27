@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package notification.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/notification/v1;notificationv1";
+

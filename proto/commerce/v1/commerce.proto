@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package commerce.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/commerce/v1;commercev1";
+
+service CommerceService {
+  rpc CreateCart(CreateCartRequest) returns (CartResponse);
+  rpc GetCart(GetCartRequest) returns (CartResponse);
+  rpc SetCartItem(SetCartItemRequest) returns (CartResponse);
+  rpc RemoveCartItem(RemoveCartItemRequest) returns (CartResponse);
+  rpc Checkout(CheckoutRequest) returns (OrderResponse);
+  rpc GetOrderByTrackingToken(GetOrderByTrackingTokenRequest) returns (PublicOrderStatusResponse);
+}
+
+message CreateCartRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+}
+
+message GetCartRequest {
+  string cart_token = 1;
+}
+
+// SetCartItemRequest carries ONLY: cart_token, catalog_item_id, quantity. It must NOT have
+// a price, currency, name, or total field.
+// Every price field is a field an attacker would choose, so the server reads them from catalog authority instead.
+message SetCartItemRequest {
+  string cart_token = 1;
+  string catalog_item_id = 2;
+  int32 quantity = 3;
+}
+
+message RemoveCartItemRequest {
+  string cart_token = 1;
+  string catalog_item_id = 2;
+}
+
+message CartLine {
+  string catalog_item_id = 1;
+  string name = 2;
+  int64 unit_price_minor = 3;
+  int32 quantity = 4;
+  int64 line_total_minor = 5;
+}
+
+// CartResponse carries: cart_token, currency, total_minor, and repeated CartLine
+// {catalog_item_id, name, unit_price_minor, quantity, line_total_minor}. It must NOT carry
+// the cart's internal UUID and must NOT carry any provider identifier.
+message CartResponse {
+  string cart_token = 1;
+  string currency = 2;
+  int64 total_minor = 3;
+  repeated CartLine lines = 4;
+}
+
+// CheckoutRequest carries: cart_token, idempotency_key, contact_name, contact_phone,
+// contact_email, fulfillment_mode, delivery_address. No price, no total, no line items.
+message CheckoutRequest {
+  string cart_token = 1;
+  string idempotency_key = 2;
+  string contact_name = 3;
+  string contact_phone = 4;
+  string contact_email = 5;
+  string fulfillment_mode = 6;
+  string delivery_address = 7;
+}
+
+// OrderResponse carries: tracking_token, currency, total_minor, commitment_state,
+// payment_mode, settlement_state, erp_execution_state. It must NOT carry the canonical
+// order UUID, the organization id, or any provider order id.
+message OrderResponse {
+  string tracking_token = 1;
+  string currency = 2;
+  int64 total_minor = 3;
+  string commitment_state = 4;
+  string payment_mode = 5;
+  string settlement_state = 6;
+  string erp_execution_state = 7;
+}
+
+message GetOrderByTrackingTokenRequest {
+  string tracking_token = 1;
+}
+
+// PublicOrderStatusResponse is the ANONYMOUS read and is deliberately minimal:
+// commitment_state, payment_mode, settlement_state, erp_execution_state, currency,
+// total_minor, created_at, and repeated line {name, quantity, unit_price_minor}. It must
+// NOT carry contact details, the delivery address, the canonical id, the organization id,
+// or any provider identifier.
+// WHY: the token is a bearer capability and anyone holding it gets exactly this and nothing more.
+message PublicOrderStatusResponse {
+  message Line {
+    string name = 1;
+    int32 quantity = 2;
+    int64 unit_price_minor = 3;
+  }
+
+  string commitment_state = 1;
+  string payment_mode = 2;
+  string settlement_state = 3;
+  string erp_execution_state = 4;
+  string currency = 5;
+  int64 total_minor = 6;
+  string created_at = 7;
+  repeated Line lines = 8;
+}

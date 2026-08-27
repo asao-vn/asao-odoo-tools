@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package website.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/website/v1;websitev1";
+

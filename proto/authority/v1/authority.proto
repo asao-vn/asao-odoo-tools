@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package authority.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/authority/v1;authorityv1";
+
+// AuthorityRuntime is the one actor-facing, privileged V1 execution boundary.
+// It executes only operations registered by the canonical asao command tree. It
+// is deliberately not a persistence CRUD API.
+service AuthorityRuntime {
+  rpc Execute(ExecuteRequest) returns (ExecuteResponse);
+}
+
+// Argument is an already-tokenized named CLI argument. The runtime validates
+// every name/value against the operation's own command metadata; no argument
+// is interpreted as authority metadata.
+message Argument {
+  string name = 1;
+  repeated string values = 2;
+}
+
+message ExecuteRequest {
+  // operation is canonical command identity, e.g. "aerp.execute". It is
+  // resolved against the runtime's own registered command tree.
+  string operation = 1;
+  repeated Argument arguments = 2;
+  string request_id = 3;
+  string correlation_id = 4;
+}
+
+message OperationMetadata {
+  string operation = 1;
+  string required_capability = 2;
+  string capability_resolved_from = 3;
+  string scope_kind = 4;
+  string side_effect = 5;
+  bool destructive = 6;
+  string provider_family = 7;
+  string execution_boundary = 8;
+}
+
+message StableError {
+  string code = 1;
+  string category = 2;
+  string message = 3;
+  int32 exit_code = 4;
+  string resource_type = 5;
+  string resource_id = 6;
+  bytes context_json = 7;
+  bool retryable = 8;
+  string remediation = 9;
+}
+
+message ExecuteResponse {
+  string request_id = 1;
+  string correlation_id = 2;
+  string audit_correlation_id = 3;
+  OperationMetadata metadata = 4;
+  // RFC 8259 JSON bytes. The client prints this unchanged in JSON mode, which
+  // preserves values such as large identifiers without a float round trip.
+  bytes result_json = 5;
+  StableError error = 6;
+  // Trusted runtime warnings that do not alter an operation's actual result.
+  // Today this reports a post-execution audit persistence gap without
+  // pretending an already-completed provider mutation failed.
+  repeated string warnings = 7;
+}

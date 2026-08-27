@@ -1,0 +1,41 @@
+version: 2
+project_name: asao-odoo-tools
+builds:
+  - id: odoo19-conformance
+    main: .
+    binary: odoo19-conformance
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+  - id: minttoken
+    main: ./cmd/minttoken
+    binary: minttoken
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+  - id: probetoken
+    main: ./cmd/probetoken
+    binary: probetoken
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: 'checksums.txt'

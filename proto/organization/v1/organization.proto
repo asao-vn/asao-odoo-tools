@@ -1,0 +1,286 @@
+syntax = "proto3";
+
+package organization.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/organization/v1;organizationv1";
+
+service OrganizationService {
+  rpc CreateOrganization (CreateOrganizationRequest) returns (Organization);
+  rpc GetOrganizationByCreator (GetOrganizationByCreatorRequest) returns (Organization);
+  rpc GetOrganization (GetOrganizationRequest) returns (Organization);
+  rpc UpdateOrganizationPublicInfo (UpdateOrganizationPublicInfoRequest) returns (Organization);
+  rpc PublishPublicPage (PublishPublicPageRequest) returns (Organization);
+  rpc UnpublishPublicPage (UnpublishPublicPageRequest) returns (Organization);
+  rpc GetPublicSalonBySlug (GetPublicSalonBySlugRequest) returns (GetPublicSalonBySlugResponse);
+  rpc ListPublishedOrganizations (ListPublishedOrganizationsRequest) returns (ListPublishedOrganizationsResponse);
+
+  rpc CreateBranch (CreateBranchRequest) returns (Branch);
+  rpc GetBranch (GetBranchRequest) returns (Branch);
+  rpc UpdateBranch (UpdateBranchRequest) returns (Branch);
+  rpc ListBranches (ListBranchesRequest) returns (ListBranchesResponse);
+  rpc UpdateBranchProfile (UpdateBranchProfileRequest) returns (Branch);
+  rpc SaveBranchLayout (SaveBranchLayoutRequest) returns (Branch);
+  rpc SetOrganizationIntroEffect (SetOrganizationIntroEffectRequest) returns (Organization);
+  rpc GetOrganizationSettings (GetOrganizationSettingsRequest) returns (OrganizationSettings);
+  rpc UpdateOrganizationSettings (UpdateOrganizationSettingsRequest) returns (OrganizationSettings);
+  rpc DispatchOperation (DispatchOperationRequest) returns (DispatchOperationResponse);
+}
+
+message OpeningHourDay {
+  int32 day_of_week = 1; // 0=Sunday, 1=Monday, ..., 6=Saturday
+  string open = 2;       // "HH:MM" e.g. "09:00"
+  string close = 3;      // "HH:MM" e.g. "18:00"
+  bool closed = 4;
+}
+
+message Organization {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string created_by_asao_user_id = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  string description = 7;
+  string logo_ref = 8;
+  string public_page_status = 9;
+  string published_at = 10;
+  int32 version = 11;
+  string intro_effect = 12;
+  repeated string business_types = 13;
+}
+
+message CreateOrganizationRequest {
+  string name = 1;
+  string slug = 2;
+  string created_by_asao_user_id = 3;
+  string correlation_id = 4;
+  string causation_id = 5;
+  repeated string business_types = 6;
+}
+
+message GetOrganizationByCreatorRequest {
+  string asao_user_id = 1;
+}
+
+message GetOrganizationRequest {
+  string organization_id = 1;
+}
+
+message UpdateOrganizationPublicInfoRequest {
+  string organization_id = 1;
+  string description = 2;
+  string logo_ref = 3;
+  int32 version = 4;
+}
+
+message PublishPublicPageRequest {
+  string organization_id = 1;
+  string idempotency_key = 2;
+}
+
+message UnpublishPublicPageRequest {
+  string organization_id = 1;
+  string idempotency_key = 2;
+}
+
+message Branch {
+  string id = 1;
+  string organization_id = 2;
+  string name = 3;
+  string slug = 4;
+  int32 version = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  string address = 8;
+  string phone = 9;
+  string email = 10;
+  repeated OpeningHourDay opening_hours = 11;
+  string timezone = 12;
+  bool is_active = 13;
+  bool is_public = 14;
+  string default_layout = 15;
+  string layout_content = 16;
+}
+
+message CreateBranchRequest {
+  string organization_id = 1;
+  string name = 2;
+  string slug = 3;
+  string address = 4;
+  string phone = 5;
+  string email = 6;
+  repeated OpeningHourDay opening_hours = 7;
+  string timezone = 8;
+  bool is_active = 9;
+  bool is_public = 10;
+}
+
+message GetBranchRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+}
+
+message UpdateBranchRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string name = 3;
+  string slug = 4;
+  int32 version = 5;
+  string address = 6;
+  string phone = 7;
+  string email = 8;
+  repeated OpeningHourDay opening_hours = 9;
+  string timezone = 10;
+  bool is_active = 11;
+  bool is_public = 12;
+}
+
+message ListBranchesRequest {
+  string organization_id = 1;
+}
+
+message ListBranchesResponse {
+  repeated Branch branches = 1;
+}
+
+message GetPublicSalonBySlugRequest {
+  string slug = 1;
+}
+
+message PublicBranch {
+  string name = 1;
+  string address = 2;
+  string phone = 3;
+  string email = 4;
+  repeated OpeningHourDay opening_hours = 5;
+  string timezone = 6;
+  bool is_active = 7;
+  string id = 8;
+  string slug = 9;
+  string default_layout = 10;
+}
+
+message PublicService {
+  string name = 1;
+  string description = 2;
+  string price_amount = 3;
+  string currency = 4;
+  int32 duration_minutes = 5;
+}
+
+message PublicSalonData {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+  string logo_ref = 4;
+  repeated PublicBranch branches = 5;
+  repeated PublicService services = 6;
+  string id = 7;
+  string intro_effect = 8;
+}
+
+message GetPublicSalonBySlugResponse {
+  bool published = 1;
+  string public_page_status = 2;
+  PublicSalonData salon = 3;
+  repeated string allowed_actions = 4;
+}
+
+message UpdateBranchProfileRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string name = 3;
+  string address = 4;
+  string phone = 5;
+  bool is_public = 6;
+  string default_layout = 7;
+  int32 expected_version = 8;
+}
+
+message SaveBranchLayoutRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string default_layout = 3;
+  string hero_title = 4;
+  string hero_description = 5;
+  repeated string photo_slots = 6;
+  map<string, bool> sections_visible = 7;
+  int32 expected_version = 8;
+}
+
+message SetOrganizationIntroEffectRequest {
+  string organization_id = 1;
+  string intro_effect = 2;
+}
+
+message OrganizationSettings {
+  string organization_id = 1;
+  string timezone = 2;
+  string default_language = 3;
+  string booking_confirmation = 4;
+  int32 version = 5;
+}
+
+message GetOrganizationSettingsRequest {
+  string organization_id = 1;
+}
+
+message UpdateOrganizationSettingsRequest {
+  string organization_id = 1;
+  string timezone = 2;
+  string default_language = 3;
+  string booking_confirmation = 4;
+  int32 expected_version = 5;
+}
+
+message ListPublishedOrganizationsRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message PublishedOrganizationSummary {
+  string id = 1;
+  string name = 2;
+  string slug = 3;
+  string description = 4;
+  string intro_effect = 5;
+  int32 branch_count = 6;
+  string sample_branch_address = 7;
+  string sample_branch_slug = 8;
+  string sample_branch_name = 9;
+}
+
+message ListPublishedOrganizationsResponse {
+  repeated PublishedOrganizationSummary organizations = 1;
+  int32 total = 2;
+}
+
+
+message DispatchOperationRequest {
+  string organization_id = 1;
+  // DEPRECATED and IGNORED by the server. The governed subject is derived
+  // from access_token via IdentityService.ValidateToken; a caller-supplied
+  // identity string is not trusted and confers no capability.
+  string asao_user_id = 2 [deprecated = true];
+  string branch_id = 3;
+  string operation_id = 4;
+  string arguments_json = 5;
+  string execution_context_json = 6;
+  // Required. An identity-service-issued access token. The asao_user_id it
+  // validates to is the subject that grants are resolved against.
+  string access_token = 7;
+}
+
+message DispatchOperationResponse {
+  string operation_id = 1;
+  string status = 2;
+  string data_json = 3;
+  string execution_intent_id = 4;
+  string execution_result_id = 5;
+  string verification_status = 6;
+  // Set when status is a failure class. JSON object carrying the stable
+  // error class plus whatever the failure can say about how to correct it
+  // (offending field, accepted fields). Empty on success. Raw provider
+  // error text is never included.
+  string error_json = 7;
+}

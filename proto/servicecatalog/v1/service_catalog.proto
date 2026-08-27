@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package servicecatalog.v1;
+
+option go_package = "github.com/asao-platform/atoc/packages/proto/servicecatalog/v1;servicecatalogv1";
+
+service ServiceCatalogService {
+  // list visible organization services.
+  rpc ListVisibleOrganizationServices (ListVisibleOrganizationServicesRequest) returns (ListVisibleOrganizationServicesResponse);
+  // get visible organization service detail.
+  rpc GetVisibleOrganizationServiceDetail (GetVisibleOrganizationServiceDetailRequest) returns (GetVisibleOrganizationServiceDetailResponse);
+  // list visible branch services.
+  rpc ListVisibleBranchServices (ListVisibleBranchServicesRequest) returns (ListVisibleBranchServicesResponse);
+  // get branch service availability detail.
+  rpc GetBranchServiceAvailabilityDetail (GetBranchServiceAvailabilityDetailRequest) returns (GetBranchServiceAvailabilityDetailResponse);
+  // create organization service catalog item.
+  rpc CreateOrganizationServiceCatalogItem (CreateOrganizationServiceCatalogItemRequest) returns (CreateOrganizationServiceCatalogItemResponse);
+  // update organization service catalog item.
+  rpc UpdateOrganizationServiceCatalogItem (UpdateOrganizationServiceCatalogItemRequest) returns (UpdateOrganizationServiceCatalogItemResponse);
+  // change service lifecycle/visibility.
+  rpc ChangeServiceLifecycleVisibility (ChangeServiceLifecycleVisibilityRequest) returns (ChangeServiceLifecycleVisibilityResponse);
+  // configure branch service availability.
+  rpc ConfigureBranchServiceAvailability (ConfigureBranchServiceAvailabilityRequest) returns (ConfigureBranchServiceAvailabilityResponse);
+  // update branch-specific candidate overrides.
+  rpc UpdateBranchSpecificOverrides (UpdateBranchSpecificOverridesRequest) returns (UpdateBranchSpecificOverridesResponse);
+}
+
+message ServiceCatalogItem {
+  string id = 1;
+  string organization_id = 2;
+  string name = 3;
+  string description = 4;
+  int32 duration_minutes = 5;
+  string price_amount = 6;
+  string currency = 7;
+  bool is_active = 8;
+  bool is_visible = 9;
+  string created_at = 10;
+  string updated_at = 11;
+  int32 version = 12;
+}
+
+message BranchServiceAvailability {
+  string id = 1;
+  string organization_id = 2;
+  string branch_id = 3;
+  string service_id = 4;
+  bool is_active = 5;
+  bool is_visible = 6;
+  string price_override = 7;
+  int32 duration_override = 8;
+  string created_at = 9;
+  string updated_at = 10;
+  int32 version = 11;
+}
+
+message ListVisibleOrganizationServicesRequest {
+  string organization_id = 1;
+}
+
+message ListVisibleOrganizationServicesResponse {
+  repeated ServiceCatalogItem services = 1;
+}
+
+message GetVisibleOrganizationServiceDetailRequest {
+  string organization_id = 1;
+  string service_id = 2;
+}
+
+message GetVisibleOrganizationServiceDetailResponse {
+  ServiceCatalogItem service = 1;
+}
+
+message ListVisibleBranchServicesRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+}
+
+message ListVisibleBranchServicesResponse {
+  message BranchServiceDetail {
+    ServiceCatalogItem service = 1;
+    bool is_active = 2;
+    bool is_visible = 3;
+    string price_override = 4;
+    int32 duration_override = 5;
+  }
+  repeated BranchServiceDetail branch_services = 1;
+}
+
+message GetBranchServiceAvailabilityDetailRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string service_id = 3;
+}
+
+message GetBranchServiceAvailabilityDetailResponse {
+  BranchServiceAvailability availability = 1;
+}
+
+message CreateOrganizationServiceCatalogItemRequest {
+  string organization_id = 1;
+  string name = 2;
+  string description = 3;
+  int32 duration_minutes = 4;
+  string price_amount = 5;
+  string currency = 6;
+}
+
+message CreateOrganizationServiceCatalogItemResponse {
+  string service_id = 1;
+  string status = 2;
+  int32 version = 3;
+}
+
+message UpdateOrganizationServiceCatalogItemRequest {
+  string organization_id = 1;
+  string service_id = 2;
+  string name = 3;
+  string description = 4;
+  int32 duration_minutes = 5;
+  string price_amount = 6;
+  string currency = 7;
+}
+
+message UpdateOrganizationServiceCatalogItemResponse {
+  string service_id = 1;
+  string status = 2;
+  int32 version = 3;
+}
+
+message ChangeServiceLifecycleVisibilityRequest {
+  string organization_id = 1;
+  string service_id = 2;
+  bool is_active = 3;
+  bool is_visible = 4;
+  int32 version = 5;
+}
+
+message ChangeServiceLifecycleVisibilityResponse {
+  string service_id = 1;
+  string status = 2;
+  int32 version = 3;
+}
+
+message ConfigureBranchServiceAvailabilityRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string service_id = 3;
+  bool is_active = 4;
+  bool is_visible = 5;
+  int32 version = 6;
+}
+
+message ConfigureBranchServiceAvailabilityResponse {
+  string service_id = 1;
+  string branch_id = 2;
+  string status = 3;
+  int32 version = 4;
+}
+
+message UpdateBranchSpecificOverridesRequest {
+  string organization_id = 1;
+  string branch_id = 2;
+  string service_id = 3;
+  string price_override = 4;
+  int32 duration_override = 5;
+  int32 version = 6;
+}
+
+message UpdateBranchSpecificOverridesResponse {
+  string service_id = 1;
+  string branch_id = 2;
+  string status = 3;
+  int32 version = 4;
+}
+
+// Forbidden Scope:
+// - Do not introduce tenant_id.
