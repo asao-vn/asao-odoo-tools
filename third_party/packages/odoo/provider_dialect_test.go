@@ -623,11 +623,11 @@ func TestAddRenamesRefusesConflicts(t *testing.T) {
 }
 
 // odoo20RenamesVerified fingerprints odoo20Renames as it was when the 20.0 conformance manifest was
-// last rebuilt (2026-10-10: every 20.0 record re-run under these renames). A regenerated table
+// last rebuilt (2026-10-11: every 20.0 record re-run under these renames, the parked apps installed). A regenerated table
 // changes what 20.0 operations send and return, so the records no longer cover it: re-run the 20.0
 // conformance (docs/architecture/provider-research/odoo-surface/README.md), rebuild the 20.0
 // manifest, then update this value.
-const odoo20RenamesVerified = "sha256:d651f7f46714ff75ec96d25f111ef958101aad0e20deca82c50b0fe87410b0ee"
+const odoo20RenamesVerified = "sha256:08e866aa8ed79149c1d5204aeac714dddcd31eb4604372dd147a238fcd8d90fb"
 
 func TestOdoo20ManifestWasVerifiedUnderTheCurrentRenames(t *testing.T) {
 	encoded, err := json.Marshal(odoo20Renames) // encoding/json sorts map keys

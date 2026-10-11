@@ -91,7 +91,7 @@ Before running an operation, `odoo-cli` checks the Odoo it reaches.
 |---|---|
 | The endpoint does not answer as Odoo | Refuses (`AERP_PROVIDER_NOT_ODOO`). Nothing is sent, not even the credential |
 | A series it does not support | Refuses, and says why: older than 19.0, newer than it knows, or an intermediate Odoo Online release (`saas~`) |
-| 20.0 | Runs only with `--allow-unverified`. 20.0 has a translation layer but no conformance evidence yet |
+| 20.0 | Runs only with `--allow-unverified`. A translation layer maps 19.0's names onto 20.0's; 759 of the 1139 operations are verified on 20.0 so far |
 | The operation's modules are not installed | Refuses before sending (`AERP_MODULE_NOT_INSTALLED`) |
 | A write where this Odoo is customised: a model that Enterprise or third-party modules extend, an automation watching it, or a required field added by hand | Holds it back (`AERP_ENVIRONMENT_UNVERIFIED`) until you pass `--allow-unverified` |
 | Reads on a customised Odoo | Runs them, with a note |

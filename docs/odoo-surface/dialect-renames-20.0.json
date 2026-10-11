@@ -97,6 +97,10 @@
    "model": "crm.lead"
   },
   {
+   "field": "origin_survey_id",
+   "model": "crm.lead"
+  },
+  {
    "field": "website_message_ids",
    "model": "crm.lead"
   },
@@ -113,6 +117,10 @@
    "model": "crm.team"
   },
   {
+   "field": "origin_survey_ids",
+   "model": "crm.team"
+  },
+  {
    "field": "website_message_ids",
    "model": "crm.team"
   },
@@ -123,6 +131,58 @@
   {
    "field": "website_message_ids",
    "model": "crm.team.member"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "event.event"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "event.registration"
+  },
+  {
+   "field": "horsepower_tax",
+   "model": "fleet.vehicle"
+  },
+  {
+   "field": "mobility_card",
+   "model": "fleet.vehicle"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "fleet.vehicle"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "fleet.vehicle.log.contract"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "fleet.vehicle.log.services"
+  },
+  {
+   "field": "color",
+   "model": "fleet.vehicle.model"
+  },
+  {
+   "field": "horsepower_tax",
+   "model": "fleet.vehicle.model"
+  },
+  {
+   "field": "trailer_hook",
+   "model": "fleet.vehicle.model"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "fleet.vehicle.model"
+  },
+  {
+   "field": "user_id",
+   "model": "hr.applicant"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.applicant"
   },
   {
    "field": "linked_overtime_ids",
@@ -169,7 +229,15 @@
    "model": "hr.job"
   },
   {
+   "field": "applicant_properties_definition",
+   "model": "hr.job"
+  },
+  {
    "field": "contract_type_id",
+   "model": "hr.job"
+  },
+  {
+   "field": "favorite_user_ids",
    "model": "hr.job"
   },
   {
@@ -201,8 +269,32 @@
    "model": "hr.leave.allocation"
   },
   {
+   "field": "name",
+   "model": "hr.recruitment.source"
+  },
+  {
+   "field": "legend_blocked",
+   "model": "hr.recruitment.stage"
+  },
+  {
+   "field": "legend_done",
+   "model": "hr.recruitment.stage"
+  },
+  {
+   "field": "legend_normal",
+   "model": "hr.recruitment.stage"
+  },
+  {
+   "field": "legend_waiting",
+   "model": "hr.recruitment.stage"
+  },
+  {
    "field": "certificate_filename",
    "model": "hr.resume.line"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.talent.pool"
   },
   {
    "field": "additional_note",
@@ -235,6 +327,58 @@
   {
    "field": "invoice_template_id",
    "model": "l10n_vn_edi_viettel.sinvoice.symbol"
+  },
+  {
+   "field": "source_pos_order_partner_id",
+   "model": "loyalty.card"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "loyalty.card"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "maintenance.equipment"
+  },
+  {
+   "field": "archive",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "done",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "email_cc",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "instruction_google_slide",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "instruction_pdf",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "request_date",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "user_id",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "maintenance.request"
+  },
+  {
+   "field": "done",
+   "model": "maintenance.stage"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "maintenance.team"
   },
   {
    "field": "consumption",
@@ -289,16 +433,16 @@
    "model": "phone.blacklist"
   },
   {
-   "field": "last_order_preparation_change",
-   "model": "pos.order"
-  },
-  {
    "field": "session_move_id",
    "model": "pos.order"
   },
   {
    "field": "website_message_ids",
    "model": "pos.order"
+  },
+  {
+   "field": "reward_identifier_code",
+   "model": "pos.order.line"
   },
   {
    "field": "bank_payment_ids",
@@ -409,8 +553,24 @@
    "model": "project.update"
   },
   {
+   "field": "alternative_po_ids",
+   "model": "purchase.order"
+  },
+  {
+   "field": "purchase_group_id",
+   "model": "purchase.order"
+  },
+  {
    "field": "website_message_ids",
    "model": "purchase.order"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "purchase.requisition"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "repair.order"
   },
   {
    "field": "layout_background_image",
@@ -477,8 +637,48 @@
    "model": "resource.resource"
   },
   {
+   "field": "background_color",
+   "model": "restaurant.floor"
+  },
+  {
+   "field": "background_image",
+   "model": "restaurant.floor"
+  },
+  {
+   "field": "floor_background_image",
+   "model": "restaurant.floor"
+  },
+  {
+   "field": "color",
+   "model": "restaurant.table"
+  },
+  {
+   "field": "height",
+   "model": "restaurant.table"
+  },
+  {
+   "field": "position_h",
+   "model": "restaurant.table"
+  },
+  {
+   "field": "position_v",
+   "model": "restaurant.table"
+  },
+  {
+   "field": "width",
+   "model": "restaurant.table"
+  },
+  {
+   "field": "amount_undiscounted",
+   "model": "sale.order"
+  },
+  {
    "field": "website_message_ids",
    "model": "sale.order"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "stock.landed.cost"
   },
   {
    "field": "website_message_ids",
@@ -503,6 +703,38 @@
   {
    "field": "website_message_ids",
    "model": "stock.picking"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "stock.picking.batch"
+  },
+  {
+   "field": "count_move_ready",
+   "model": "stock.picking.type"
+  },
+  {
+   "field": "count_picking_wave",
+   "model": "stock.picking.type"
+  },
+  {
+   "field": "count_repair_under_repair",
+   "model": "stock.picking.type"
+  },
+  {
+   "field": "has_image_only_suggested_answer",
+   "model": "survey.question"
+  },
+  {
+   "field": "lead_ids",
+   "model": "survey.survey"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "survey.survey"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "survey.user_input"
   },
   {
    "field": "rounding",
@@ -631,6 +863,107 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "price_incl",
+   "candidates": [
+    "total_price",
+    "total_price_incl",
+    "total_price_reduce",
+    "total_price_reduce_taxinc"
+   ],
+   "model": "event.event.ticket",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "price_reduce_taxinc",
+   "candidates": [
+    "total_price",
+    "total_price_incl",
+    "total_price_reduce",
+    "total_price_reduce_taxinc"
+   ],
+   "model": "event.event.ticket",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "plan_to_change_bike",
+   "candidates": [
+    "plan_to_change_vehicle"
+   ],
+   "model": "fleet.vehicle",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "plan_to_change_car",
+   "candidates": [
+    "plan_to_change_vehicle"
+   ],
+   "model": "fleet.vehicle",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "date",
+   "candidates": [
+    "date_from",
+    "date_to"
+   ],
+   "model": "fleet.vehicle.log.services",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "email_cc",
+   "candidates": [
+    "phone_formatted",
+    "recruiter_email"
+   ],
+   "model": "hr.applicant",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "legend_blocked",
+   "candidates": [
+    "phone_formatted",
+    "recruiter_email"
+   ],
+   "model": "hr.applicant",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "legend_done",
+   "candidates": [
+    "phone_formatted",
+    "recruiter_email"
+   ],
+   "model": "hr.applicant",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "legend_normal",
+   "candidates": [
+    "phone_formatted",
+    "recruiter_email"
+   ],
+   "model": "hr.applicant",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "legend_waiting",
+   "candidates": [
+    "phone_formatted",
+    "recruiter_email"
+   ],
+   "model": "hr.applicant",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "user_email",
+   "candidates": [
+    "phone_formatted",
+    "recruiter_email"
+   ],
+   "model": "hr.applicant",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "expected_hours",
    "candidates": [
     "break_duration"
@@ -688,12 +1021,12 @@
   {
    "baseline": "im_status",
    "candidates": [
+    "applicant_name",
     "driving_license_name",
     "emergency_phone_formatted",
     "emergency_phone_sanitized",
     "external_code",
-    "id_card_name",
-    "mobile_phone_formatted"
+    "id_card_name"
    ],
    "model": "hr.employee",
    "reason": "no candidate with the same label"
@@ -738,14 +1071,27 @@
    "reason": "no candidate with the same label"
   },
   {
-   "baseline": "private_car_plate",
+   "baseline": "mobility_card",
    "candidates": [
+    "applicant_name",
     "driving_license_name",
     "emergency_phone_formatted",
     "emergency_phone_sanitized",
     "external_code",
-    "id_card_name",
-    "mobile_phone_formatted"
+    "id_card_name"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "private_car_plate",
+   "candidates": [
+    "applicant_name",
+    "driving_license_name",
+    "emergency_phone_formatted",
+    "emergency_phone_sanitized",
+    "external_code",
+    "id_card_name"
    ],
    "model": "hr.employee",
    "reason": "no candidate with the same label"
@@ -753,12 +1099,12 @@
   {
    "baseline": "ssnid",
    "candidates": [
+    "applicant_name",
     "driving_license_name",
     "emergency_phone_formatted",
     "emergency_phone_sanitized",
     "external_code",
-    "id_card_name",
-    "mobile_phone_formatted"
+    "id_card_name"
    ],
    "model": "hr.employee",
    "reason": "no candidate with the same label"
@@ -766,12 +1112,12 @@
   {
    "baseline": "study_school",
    "candidates": [
+    "applicant_name",
     "driving_license_name",
     "emergency_phone_formatted",
     "emergency_phone_sanitized",
     "external_code",
-    "id_card_name",
-    "mobile_phone_formatted"
+    "id_card_name"
    ],
    "model": "hr.employee",
    "reason": "no candidate with the same label"
@@ -911,6 +1257,30 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "instruction_type",
+   "candidates": [
+    "state"
+   ],
+   "model": "maintenance.request",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "kanban_state",
+   "candidates": [
+    "state"
+   ],
+   "model": "maintenance.request",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "todo_request_count_block",
+   "candidates": [
+    "todo_request_count_changes_requested"
+   ],
+   "model": "maintenance.team",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "consumption",
    "candidates": [
     "validate_button_style"
@@ -936,6 +1306,14 @@
   },
   {
    "baseline": "show_produce_all",
+   "candidates": [
+    "is_due_today"
+   ],
+   "model": "mrp.production",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "subcontracting_has_been_recorded",
    "candidates": [
     "is_due_today"
    ],
@@ -1029,11 +1407,11 @@
    "baseline": "auto_validate_terminal_payment",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1067,11 +1445,11 @@
    "baseline": "iface_cashdrawer",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1080,11 +1458,11 @@
    "baseline": "iface_electronic_scale",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1093,11 +1471,11 @@
    "baseline": "iface_print_skip_screen",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1106,11 +1484,11 @@
    "baseline": "iface_print_via_proxy",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1119,11 +1497,24 @@
    "baseline": "iface_scan_via_proxy",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "iface_splitbill",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "preparation_devices",
+    "use_closing_entry_by_product",
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1140,11 +1531,11 @@
    "baseline": "is_posbox",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1184,11 +1575,11 @@
    "baseline": "order_edit_tracking",
    "candidates": [
     "auto_validate_electronic_payment",
-    "iface_printbill",
     "preparation_devices",
-    "set_tip_after_payment",
     "use_closing_entry_by_product",
-    "use_custom_receipt_info"
+    "use_course_allocation",
+    "use_custom_receipt_info",
+    "use_download_invoice"
    ],
    "model": "pos.config",
    "reason": "no candidate with the same label"
@@ -1226,6 +1617,14 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "last_order_preparation_change",
+   "candidates": [
+    "duration"
+   ],
+   "model": "pos.order",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "order_edit_tracking",
    "candidates": [
     "defer_invoice_pdf",
@@ -1233,6 +1632,14 @@
     "is_singly_invoiced"
    ],
    "model": "pos.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "coupon_id",
+   "candidates": [
+    "card_id"
+   ],
+   "model": "pos.order.line",
    "reason": "no candidate with the same label"
   },
   {
@@ -1386,6 +1793,19 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "product_catalog_product_is_in_repair",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "product_catalog_product_is_in_sale_order",
    "candidates": [
     "catalog_is_in_order",
@@ -1479,9 +1899,43 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "on_time_rate_perc",
+   "candidates": [
+    "bill_matched_ratio"
+   ],
+   "model": "purchase.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_currency_id",
+   "candidates": [
+    "consolidation_currency_id"
+   ],
+   "model": "purchase.order.line",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "location_final_id",
    "candidates": [
     "forecasted_location_id"
+   ],
+   "model": "purchase.order.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "on_time_rate_perc",
+   "candidates": [
+    "consolidation_rate",
+    "non_deductible_tax",
+    "qty_to_invoice_raw"
+   ],
+   "model": "purchase.order.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "price_total_cc",
+   "candidates": [
+    "price_subtotal_to_invoice"
    ],
    "model": "purchase.order.line",
    "reason": "no candidate with the same label"
@@ -1635,7 +2089,8 @@
    "candidates": [
     "additional_identifiers",
     "available_additional_identifiers_metadata",
-    "available_routing_schemes"
+    "available_routing_schemes",
+    "pickup_location_data"
    ],
    "model": "res.partner",
    "reason": "no candidate with the same label"
@@ -1716,6 +2171,19 @@
   },
   {
    "baseline": "is_peppol_edi_format",
+   "candidates": [
+    "country_enforce_cities",
+    "has_vat",
+    "is_pricelist_manually_set",
+    "property_account_payable_active",
+    "property_account_receivable_active",
+    "should_be_geolocalized"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_pickup_location",
    "candidates": [
     "country_enforce_cities",
     "has_vat",
@@ -1954,9 +2422,25 @@
    "reason": "no candidate with the same label"
   },
   {
-   "baseline": "amount_undiscounted",
+   "baseline": "shape",
    "candidates": [
-    "margin_percent"
+    "parent_side"
+   ],
+   "model": "restaurant.table",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "loyalty_data",
+   "candidates": [
+    "extra_total_fields"
+   ],
+   "model": "sale.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "pickup_location_data",
+   "candidates": [
+    "extra_total_fields"
    ],
    "model": "sale.order",
    "reason": "no candidate with the same label"
@@ -2074,22 +2558,12 @@
   {
    "baseline": "auto_show_reception_report",
    "candidates": [
-    "auto_batch",
     "auto_confirm_production",
+    "auto_print_carrier_labels",
+    "auto_print_export_documents",
     "auto_show_allocation_report",
-    "batch_auto_confirm",
-    "batch_group_by_dest_loc",
-    "batch_group_by_destination"
-   ],
-   "model": "stock.picking.type",
-   "reason": "no candidate with the same label"
-  },
-  {
-   "baseline": "count_move_ready",
-   "candidates": [
-    "batch_max_lines",
-    "batch_max_pickings",
-    "count_picking_batch"
+    "show_return_picking_type",
+    "wave_group_by_date"
    ],
    "model": "stock.picking.type",
    "reason": "no candidate with the same label"
@@ -2097,14 +2571,23 @@
   {
    "baseline": "show_operations",
    "candidates": [
-    "auto_batch",
     "auto_confirm_production",
+    "auto_print_carrier_labels",
+    "auto_print_export_documents",
     "auto_show_allocation_report",
-    "batch_auto_confirm",
-    "batch_group_by_dest_loc",
-    "batch_group_by_destination"
+    "show_return_picking_type",
+    "wave_group_by_date"
    ],
    "model": "stock.picking.type",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "scale_mid_label",
+   "candidates": [
+    "scale_max_label_placeholder",
+    "scale_min_label_placeholder"
+   ],
+   "model": "survey.question",
    "reason": "no candidate with the same label"
   },
   {
@@ -2233,6 +2716,26 @@
    "seriesField": {
     "label": "Account Number",
     "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "address_inline",
+   "baselineField": {
+    "label": "Venue (formatted for one line uses)",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "event.event",
+   "series": "contact_address_inline",
+   "seriesField": {
+    "label": "Venue (formatted for one line uses)",
+    "readonly": true,
     "relation": "",
     "store": false,
     "type": "char"
@@ -2673,6 +3176,46 @@
    },
    "basis": "DERIVED",
    "model": "purchase.order.line",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "purchase.requisition.line",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "repair.order",
    "series": "uom_id",
    "seriesField": {
     "label": "Unit",

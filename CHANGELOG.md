@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 (2026-10-11)
+
+- Odoo 20.0 conformance:
+  - the 20.0 lab runs the same apps as the 19.0 one;
+  - the renames table is rebuilt from both inventories;
+  - every operation ran again against 20.0.
+- 759 of 1139 operations are verified on 20.0. 20.0 stays a candidate series: it runs only with
+  `--allow-unverified`, and each result reports 20.0's own readiness.
+
 ## 0.4.0 (2026-10-11)
 
 - The 19 Community apps that were parked join the catalog:

@@ -941,6 +941,20 @@ The 19 Community apps parked on 2026-10-10 are in the catalog now. A fresh `lab1
 generic values, models the demo cannot hold twice in a button's state, and payments that need a
 provider which authorises.
 
+## Odoo 20.0 with the same apps (2026-10-11)
+
+The 20.0 lab (`vn20`) now runs the 19 modules the 19.0 labs gained. `stock_picking_batch` and
+`hr_homeworking` are no longer on 20.0's addons path, so their operations stay unsupported there.
+
+A fresh 20.0 inventory added one rename to `dialect-renames-20.0.json`. Because the table changed,
+the 20.0 manifest was rebuilt from this day's runs only, all of them under the new table. The runs
+were read, write and action, over JSON-2, with `--readiness ANY`. The empty models were seeded with
+`odoo-lab-seed.py`.
+
+The result is 759 records, against 578 before. `odoo20RenamesVerified` records the table they cover.
+
+20.0 stays a candidate series: making it supported is a decision for the owner.
+
 ## Not yet done
 
 - **Actions and wizards still UNVERIFIED on 19.0:** 39 actions and 7 wizards.

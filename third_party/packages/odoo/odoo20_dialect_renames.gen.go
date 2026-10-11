@@ -10,6 +10,7 @@ package odoo
 var odoo20Renames = map[string]map[string]string{
 	"account.analytic.line":           {"timesheet_invoice_id": "reinvoice_move_id"},
 	"account.journal":                 {"bank_acc_number": "bank_account_number"},
+	"event.event":                     {"address_inline": "contact_address_inline"},
 	"hr.leave":                        {"holiday_status_id": "work_entry_type_id", "holiday_status_requires_allocation": "work_entry_type_requires_allocation", "leave_type_increases_duration": "work_entry_type_increases_duration", "leave_type_request_unit": "work_entry_type_request_unit", "leave_type_support_document": "work_entry_type_support_document"},
 	"hr.leave.allocation":             {"holiday_status_id": "work_entry_type_id"},
 	"mrp.bom":                         {"product_uom_id": "uom_id"},
@@ -24,6 +25,8 @@ var odoo20Renames = map[string]map[string]string{
 	"product.supplierinfo":            {"product_uom_id": "uom_id"},
 	"product.template":                {"expense_policy": "reinvoice_policy", "visible_expense_policy": "visible_reinvoice_policy"},
 	"purchase.order.line":             {"product_uom_id": "uom_id"},
+	"purchase.requisition.line":       {"product_uom_id": "uom_id"},
+	"repair.order":                    {"product_uom": "uom_id"},
 	"res.partner.bank":                {"acc_number": "account_number", "bank_city": "city", "bank_country": "country_id", "bank_state": "state_id", "bank_street": "street", "bank_street2": "street2", "bank_zip": "zip", "sanitized_acc_number": "sanitized_account_number"},
 	"stock.location":                  {"is_valued_internal": "is_valued"},
 	"stock.lot":                       {"product_uom_id": "uom_id"},

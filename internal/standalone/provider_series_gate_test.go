@@ -99,19 +99,19 @@ func TestExecuteRefusesAnUnsupportedOdooSeries(t *testing.T) {
 // TestExecuteRunsACandidateSeriesWhenUnverifiedResultsAreAccepted: --allow-unverified is the
 // operator's acceptance of results without conformance evidence, and it is what admits a candidate
 // series. The answer must say which series produced it and that it is UNVERIFIED there:
-// work.milestone.list is CURRENT_VERIFIED on 19.0 but has no 20.0 record, so 19.0's evidence
+// finance.bank_statement.list is CURRENT_VERIFIED on 19.0 but has no 20.0 record, so 19.0's evidence
 // leaking into a 20.0 answer would show.
 func TestExecuteRunsACandidateSeriesWhenUnverifiedResultsAreAccepted(t *testing.T) {
-	if baseline, _ := odoo.ReadinessOf("work.milestone.list"); baseline != odoo.ReadinessCurrentVerified {
-		t.Fatalf("test premise: work.milestone.list must be CURRENT_VERIFIED on 19.0; it is %s", baseline)
+	if baseline, _ := odoo.ReadinessOf("finance.bank_statement.list"); baseline != odoo.ReadinessCurrentVerified {
+		t.Fatalf("test premise: finance.bank_statement.list must be CURRENT_VERIFIED on 19.0; it is %s", baseline)
 	}
-	if candidate, _ := odoo.ReadinessFor(odoo.Odoo20ProviderSeries, "work.milestone.list"); candidate != odoo.ReadinessUnverified {
-		t.Fatalf("test premise: work.milestone.list must have no 20.0 record; it is %s there, pick another operation", candidate)
+	if candidate, _ := odoo.ReadinessFor(odoo.Odoo20ProviderSeries, "finance.bank_statement.list"); candidate != odoo.ReadinessUnverified {
+		t.Fatalf("test premise: finance.bank_statement.list must have no 20.0 record; it is %s there, pick another operation", candidate)
 	}
 	_, server := newOdoo20Fake(t)
 	writeTestProfile(t, server.URL)
 
-	code, out, diag := runOdoo(t, "execute", "--profile", "lab-a", "--operation", "work.milestone.list", "--limit", "1", "--allow-unverified", "--output", "json")
+	code, out, diag := runOdoo(t, "execute", "--profile", "lab-a", "--operation", "finance.bank_statement.list", "--limit", "1", "--allow-unverified", "--output", "json")
 	if code != clicore.ExitOK {
 		t.Fatalf("exit = %d: %s\n%s", code, out, diag)
 	}
