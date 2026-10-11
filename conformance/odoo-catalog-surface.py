@@ -449,6 +449,13 @@ SKIP_METHODS = {
     # only that list's context names. The POS list's Create Invoices opens the pos.make.invoice
     # dialog for what the form's Invoice button (pos.order.pos_order_invoice) already does.
     "copy_to_bom", "action_create_invoices",
+    # Navigation: on the 19.0 lab each returns an ir.actions.act_window onto another model or an
+    # act_url, and changes nothing (action conformance: AGREE_NO_CHANGE on twins).
+    "action_event_view", "action_brand_model", "action_model_vehicle", "action_lot_open_repairs",
+    "action_talent_pool_stat_button", "action_survey_see_leads", "action_result_survey",
+    "action_survey_user_input", "action_survey_user_input_certified", "action_survey_user_input_completed",
+    "action_survey_preview_certification_template", "action_test_survey", "action_create_meeting",
+    "install_more_provider", "action_batch_detailed_operations", "action_lost_leads",
 }
 HIGH_RISK_VERBS = ("unbuild", "void", "reverse", "refund", "hash", "unlock", "reset")
 # A field with one of these names would become a --model / --method flag, which the CLI reserves for
@@ -536,6 +543,18 @@ def writable(fields, name, required_ok=False):
     return (not name.startswith(NOISE_FIELD_PREFIXES) and name not in ("id", "display_name")
             and name not in RESERVED_INPUT_NAMES)
 
+
+# Fields a form offers that Odoo sets itself whatever the create says: offering them as inputs would
+# promise a value Odoo silently replaces (found by write conformance, DISAGREE on fresh twins).
+OVERRIDDEN_INPUTS = {
+    ("stock.warehouse", "lot_stock_id"): "the warehouse makes its own stock location",
+    ("stock.warehouse", "view_location_id"): "the warehouse makes its own view location",
+    ("repair.order", "location_dest_id"): "computed from the repair operation type",
+    ("repair.order", "parts_location_id"): "computed from the repair operation type",
+    ("purchase.requisition", "name"): "the agreement's reference comes from its sequence",
+    ("hr.recruitment.source", "name"): "the source's name is its UTM source's",
+    ("hr.expense", "price_unit"): "computed from the product's cost and the total",
+}
 
 UI_ONLY_CONTEXT_KEYS = {"dialog_size"}
 
@@ -747,9 +766,10 @@ def main():
                 out.append({"id": f"{base}.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": model,
                             "module": module, "capability": read_capability, "risk": "RiskLow",
                             "read": ["id", "display_name"], "optional": projections[verb], "label": label})
-        allowed = [f for f in form.get("own_fields", []) if writable(fields, f)]
+        allowed = [f for f in form.get("own_fields", []) if writable(fields, f) and (model, f) not in OVERRIDDEN_INPUTS]
         for name, meta in sorted(fields.items()):
-            if meta["required"] and meta["store"] and writable(fields, name, required_ok=True) and name not in allowed:
+            if (meta["required"] and meta["store"] and writable(fields, name, required_ok=True) and name not in allowed
+                    and (model, name) not in OVERRIDDEN_INPUTS):
                 allowed.append(name)
         allowed += [f for f in extra if f not in allowed]
         relations = {}

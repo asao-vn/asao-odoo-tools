@@ -231,12 +231,15 @@ def main():
         to_series = renames.get(model, {})
         to_baseline = {series: baseline for baseline, series in to_series.items()}
         catalog_inputs = {f["name"]: f for f in described.get("inputs") or []}
-        values, missing = {}, []
+        # unoffered: required fields the catalog does not take, because Odoo sets them itself (a
+        # warehouse's locations). The create is tried all the same; only Odoo's refusal makes it
+        # unsatisfiable.
+        values, missing, unoffered = {}, [], []
         for name, field in sorted(meta.items()):
             if field.get("required") and field.get("store") and name not in defaults:
                 baseline = to_baseline.get(name, name)
                 if baseline not in accepted:
-                    missing.append(baseline)
+                    unoffered.append(baseline)
                     continue
                 spec = catalog_inputs.get(baseline, {})
                 value = scoped_value(oracle, model, name, spec) if scoped(spec, field) else sample(oracle, name, field, related_cache)
@@ -275,8 +278,11 @@ def main():
         created = ((answer.get("data") or {}).get("data") or {}) if answer.get("status") == "OK" else {}
         record_id = created.get("id") if isinstance(created, dict) else None
         if not record_id:
-            create_result.update({"status": "CLI_ERROR", "detail": ((answer.get("error") or {}).get("code") or "NO_ID"),
+            create_result.update({"status": "NOT_RUN_UNSATISFIABLE" if unoffered else "CLI_ERROR",
+                                  "detail": ((answer.get("error") or {}).get("code") or "NO_ID"),
                                   "message": ((answer.get("error") or {}).get("message") or "")[:200]})
+            if unoffered:
+                create_result["missingFields"] = unoffered
             if update_result is not None:
                 update_result.update({"status": "NOT_RUN_NO_RECORD"})
             continue
@@ -307,6 +313,11 @@ def main():
         stored = oracle.call(model, "read", [[record_id], [to_series.get(field, field)]])[0]
         update_result.update({"kind": "update", "writtenFields": [field],
                               "status": "AGREE" if stored.get(to_series.get(field, field)) == new_value else "DISAGREE"})
+
+    # An update whose create made no record (refused, unsatisfiable, nothing to write) falls back to
+    # the path below: the newest existing record inside its domain, updated and restored.
+    for update_id in [i for i, r in results.items() if i.endswith(".update") and r.get("status") == "NOT_RUN_NO_RECORD"]:
+        del results[update_id]
 
     # An update without a create beside it is a record Odoo provisions (the company) or a curated
     # family's missing verb: one simple field of the newest existing record is updated through the

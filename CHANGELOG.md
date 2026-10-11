@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0 (2026-10-11)
+
+- The 19 Community apps that were parked join the catalog:
+  - Fleet, Maintenance, Recruitment, Surveys, Repairs, Events and Restaurant;
+  - purchase agreements, batch transfers, loyalty, expiry, shipping, dropshipping, subcontracting,
+    landed costs and margins.
+- The operations whose forms those apps change ran their conformance again.
+- Fields that Odoo sets itself on create are no longer offered as inputs: a warehouse's locations, a
+  repair's locations, an agreement's reference, an expense's unit price.
+- Sixteen navigation buttons, which only open another list or a URL, are left out.
+- 1139 operations, 981 verified.
+
 ## 0.3.0 (2026-10-11)
 
 - The business buttons of list views join the catalog, each verified against the web client's own

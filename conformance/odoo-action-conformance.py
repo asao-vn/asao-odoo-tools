@@ -545,6 +545,93 @@ class Fixtures:
             self.call("mrp.workorder", "button_start", [twins])
         return twins
 
+    def agreements(self, state):
+        """Two blanket orders of one line, driven to state: draft, confirmed or cancel."""
+        vendor = self.first("res.partner", [["supplier_rank", ">", 0]])["id"]
+        product = self.first("product.product", [["purchase_ok", "=", True], ["type", "=", "consu"]])["id"]
+
+        def make():
+            agreement = self.call("purchase.requisition", "create", [{"vendor_id": vendor, "requisition_type": "blanket_order",
+                                                                       "line_ids": [[0, 0, {"product_id": product, "product_qty": 5, "price_unit": 10.0}]]}])
+            if state in ("confirmed", "cancel"):
+                self.call("purchase.requisition", "action_confirm", [[agreement]])
+            if state == "cancel":
+                self.call("purchase.requisition", "action_cancel", [[agreement]])
+            return agreement
+        return self.twice(make)
+
+    def repairs(self, state, part=None):
+        """Two repair orders of a product for a customer, confirmed or under repair; with one storable
+        part added, reserved or released, when the button acts on the parts. The product repaired is
+        not stocked: a stocked one without stock answers Confirm with the insufficient-quantity
+        dialog and stays a draft."""
+        partner = self.first("res.partner", [["customer_rank", ">", 0]])["id"]
+        product = self.first("product.product", [["type", "=", "consu"], ["is_storable", "=", False]])["id"]
+        stocked = None
+        if part:
+            kind = self.first("stock.picking.type", [["code", "=", "repair_operation"]], ("id", "default_location_src_id"))
+            stocked = self.first("stock.quant", [["location_id", "=", kind["default_location_src_id"][0]], ["quantity", ">=", 10],
+                                                 ["lot_id", "=", False], ["product_id.tracking", "=", "none"]], ("product_id",))["product_id"][0]
+
+        def make():
+            values = {"partner_id": partner, "product_id": product}
+            if stocked:
+                values["move_ids"] = [[0, 0, {"product_id": stocked, "product_uom_qty": 1, "repair_line_type": "add"}]]
+            repair = self.call("repair.order", "create", [values])
+            self.call("repair.order", "action_validate", [[repair]])
+            if part == "reserved":
+                self.call("repair.order", "action_assign", [[repair]])
+            if part == "released":
+                self.call("repair.order", "action_unreserve", [[repair]])
+            if state == "under_repair":
+                self.call("repair.order", "action_repair_start", [[repair]])
+            return repair
+        return self.twice(make)
+
+    def batches(self, confirmed, reserved):
+        """Two batch transfers of one delivery each (unreserved_deliveries): draft, or in progress with
+        the delivery released or reserved."""
+        twins = []
+        for picking in self.unreserved_deliveries():
+            if reserved:
+                self.call("stock.picking", "action_assign", [[picking]])
+            batch = self.call("stock.picking.batch", "create", [{"picking_ids": [[6, 0, [picking]]]}])
+            if confirmed:
+                self.call("stock.picking.batch", "action_confirm", [[batch]])
+            twins.append(batch)
+        return twins
+
+    def draft_registrations(self):
+        """Two registrations of one event, left unconfirmed (draft)."""
+        event = self.first("event.event", [["date_end", ">", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")]])["id"]
+
+        def make():
+            registration = self.call("event.registration", "create", [{"event_id": event, "name": f"Conformance attendee {STAMP}",
+                                                                         "email": "attendee@example.com"}])
+            self.call("event.registration", "write", [[registration], {"state": "draft"}])
+            return registration
+        return self.twice(make)
+
+    def vehicles_changing_driver(self):
+        """Two fresh vehicles of one model whose next drivers are set: two different people, because
+        accepting a change takes the new driver off every other vehicle they drive."""
+        model = self.first("fleet.vehicle.model", [])["id"]
+        drivers = self.call("res.partner", "search", [[["is_company", "=", False]]], {"limit": 2, "order": "id"})
+        if len(drivers) < 2:
+            raise Unsupported("fewer than two people to drive")
+        return [self.call("fleet.vehicle", "create", [{"model_id": model, "future_driver_id": driver,
+                                                        "license_plate": f"CF-{STAMP[-6:]}"}]) for driver in drivers]
+
+    def live_surveys(self, started):
+        """Two live-session surveys of one question, their session started when the button ends it."""
+        def make():
+            survey = self.call("survey.survey", "create", [{"title": f"Conformance live {STAMP}", "survey_type": "live_session",
+                                                            "question_ids": [[0, 0, {"title": "Conformance question", "question_type": "text_box"}]]}])
+            if started:
+                self.call("survey.survey", "action_start_session", [[survey]])
+            return survey
+        return self.twice(make)
+
     def reserved_deliveries(self):
         """Deliveries of 1 of a product with stock, reserved: Unreserve has something to release."""
         twins = self.unreserved_deliveries()
@@ -650,6 +737,23 @@ FIXTURES = {
     # List buttons: work orders of two fresh identical manufacturing orders, and reorder rules short
     # of their minimum (the demo's own differ in product, vendor and stock).
     "inventory.transfer.unreserve": lambda f: f.reserved_deliveries(),
+    # The parked apps (2026-10-11): blanket orders, repairs, batch transfers, event registrations,
+    # vehicles and live surveys in the states their buttons show in.
+    "procurement.agreement.confirm": lambda f: f.agreements("draft"),
+    "procurement.agreement.done": lambda f: f.agreements("confirmed"),
+    "procurement.agreement.cancel": lambda f: f.agreements("confirmed"),
+    "procurement.agreement.draft": lambda f: f.agreements("cancel"),
+    "repair.order.repair_start": lambda f: f.repairs("confirmed"),
+    "repair.order.repair_end": lambda f: f.repairs("under_repair"),
+    "repair.order.assign": lambda f: f.repairs("confirmed", part="released"),
+    "repair.order.unreserve": lambda f: f.repairs("confirmed", part="reserved"),
+    "inventory.batch_transfer.confirm": lambda f: f.batches(confirmed=False, reserved=False),
+    "inventory.batch_transfer.assign": lambda f: f.batches(confirmed=True, reserved=False),
+    "inventory.batch_transfer.done": lambda f: f.batches(confirmed=True, reserved=True),
+    "event.registration.confirm": lambda f: f.draft_registrations(),
+    "fleet.vehicle.accept_driver_change": lambda f: f.vehicles_changing_driver(),
+    "survey.survey.start_session": lambda f: f.live_surveys(started=False),
+    "survey.survey.end_session": lambda f: f.live_surveys(started=True),
     "manufacturing.workorder.start": lambda f: f.workorders(started=False),
     "manufacturing.workorder.pause": lambda f: f.workorders(started=True),
     "manufacturing.workorder.finish": lambda f: f.workorders(started=True),

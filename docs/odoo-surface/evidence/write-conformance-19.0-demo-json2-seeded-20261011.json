@@ -1,0 +1,1093 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-11T12:34:13Z",
+ "records": {
+  "catalog.combo_item.update": {
+   "definitionHash": "sha256:376261b2aff502869e1c87ded2f480b31120e1e25eb58722b9872040ea27b168",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "catalog.pricelist_item.create": {
+   "definitionHash": "sha256:4663865922ca87ff55faffce4f43ac5efa4feff8abfcb189b92d23d93f314408",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "catalog.pricelist_item.update": {
+   "definitionHash": "sha256:f8ae5841fbceef30c5e9c64271f5604aef45b408d6f21b6a51e865f13f3ab822",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "catalog.template_attribute_line.create": {
+   "definitionHash": "sha256:a0962222f2cc5d5c142cc09e5071a67d5eeabda4e19f9d247c345c20e0c7c7c0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The attribute Brand must have at least one value for the product Restaurant Expenses.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_line.update": {
+   "definitionHash": "sha256:c6407e7dcd5e365792bc3bc25f869e26ba6f220406c4ff7a2b4ba532f8cec955",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "catalog.template_attribute_value.create": {
+   "definitionHash": "sha256:60ee9a7c9ed0c679337f056f0b09afa1d8937207aeebd05f60c92fb2486e86ea",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The value Brand: Adidas is not defined for the attribute Legs on the product Customizable Desk.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_value.update": {
+   "definitionHash": "sha256:66612f3f60c221daf38fb61f6ceaa4b1d9648f95ed26a1bd2fb0dd2ecd7e7469",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "crm.team_member.create": {
+   "definitionHash": "sha256:6cea3559eb85421af1d8affb2c9ef886165078bb489d998e3984352c536c2745",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are trying to create duplicate membership(s). We found that Mitchell Admin (Sales) already exist(s).",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "crm.team_member.update": {
+   "definitionHash": "sha256:3df82f211f5f1243d996cf6b755d28055b761988417c71e7b78a053a29cea45f",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Member assignment domain for user Marc Demo and team Pre-Sales is incorrectly formatted",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "event.mail_schedule.create": {
+   "definitionHash": "sha256:b406bc875f34f43debb540da4069a26ba97966fc6b8f47a565aeee9a0145066d",
+   "missingFields": [
+    "template_ref"
+   ],
+   "modules": [
+    "event"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "event.mail_schedule.update": {
+   "definitionHash": "sha256:9ef4da1833050bd71f3bc5d4d8f9d823c950c0e789553a605afccf45ce76141f",
+   "modules": [
+    "event"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "event.registration_answer.create": {
+   "definitionHash": "sha256:232f5a10b4aec6a68490341cdf8d90c0418f6bd08d1daf2c880e1577b8ff1e48",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: There must be a suggested value or a text value.",
+   "modules": [
+    "event"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "event.registration_answer.update": {
+   "definitionHash": "sha256:5361d44a77d5b6f2f342c864a83758ef958ca93737446c90aef5a93bb66818ac",
+   "kind": "update-existing",
+   "modules": [
+    "event"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "value_text_box"
+   ]
+  },
+  "event.slot.create": {
+   "definitionHash": "sha256:464fe9d53036a8b2107ca3cfed44258b1841e2cfe25c3713de118c98256c9404",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "A slot end hour must be later than its start hour.\nOct 11, 2026, 01:00 AM - 01:00 AM",
+   "modules": [
+    "event"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "event.slot.update": {
+   "definitionHash": "sha256:9d05dc41161bcd84684d7055f0118cfc100be1c772fb3cf2648f22b78cd862a0",
+   "modules": [
+    "event"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "event.template_mail.create": {
+   "definitionHash": "sha256:6e4c7ce572cf74d877154d688977f9813a2478e800253e6556b73034d64fa30d",
+   "missingFields": [
+    "template_ref"
+   ],
+   "modules": [
+    "event"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "event.template_mail.update": {
+   "definitionHash": "sha256:7fac8dc4f42b5f9550cbd8bb97c2ad76bfd18804bfa15360708416763639d4bb",
+   "modules": [
+    "event"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "finance.account.chart.create": {
+   "definitionHash": "sha256:9fb8734b0e577577ed0778bc9f6e4e899551d76b65cf787933971a95c4f0bc56",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The code must be set for every company to which this account belongs.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account.chart.update": {
+   "definitionHash": "sha256:e35d96b8ee83a60263d9b570305bc189eb9ae2e61d1570eb0a4b16454c432c3b",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.account_tag.create": {
+   "definitionHash": "sha256:36f25e2993bcc3fdf6307c1d92ca84f753e7e785643937ec85fc5d63f3270668",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Account Tag' (account.account.tag) records.\n\nThis operation is allowed for the following groups:\n\t- Show Full Accounting Features\n\nContact your administra",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account_tag.update": {
+   "definitionHash": "sha256:41af55fd1fab59bc34e6952259a34790cc5475f0b0ce08948761628c96ed585b",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to modify 'Account Tag' (account.account.tag) records.\n\nThis operation is allowed for the following groups:\n\t- Show Full Accounting Features\n\nContact your administra",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.analytic_account.create": {
+   "definitionHash": "sha256:faf67248e2551c6063b7d2535ac1d4671fe4778aff5e5bc6910a6b92ccbcdd29",
+   "missingFields": [
+    "plan_id"
+   ],
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.analytic_account.update": {
+   "definitionHash": "sha256:949af442f60be5190aa051de9dbaf256a1f11ad6f3f8c143127e2539ee2116f2",
+   "kind": "update-existing",
+   "modules": [
+    "analytic"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.analytic_distribution_model.create": {
+   "definitionHash": "sha256:95ae8e8d5a75413ff942936b895463204872bcdfe387c7d7e61155f96088b545",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.analytic_distribution_model.update": {
+   "definitionHash": "sha256:3b9e3355425f9c75b4cda60fbb595a58bdcd812e52b529d41974e4a16bc202ed",
+   "kind": "update-existing",
+   "modules": [
+    "analytic"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "account_prefix"
+   ]
+  },
+  "finance.bank_statement.create": {
+   "definitionHash": "sha256:f6a1711f1376bf05aafcb2178bdb90b43224a46d3dfa03022c406435268fb33f",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Bank Statement' (account.bank.statement) records.\n\nThis operation is allowed for the following groups:\n\t- Basic\n\nContact your administrator to request acc",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement.update": {
+   "definitionHash": "sha256:a1e2360edf4a03998a668f20afec3cc7d27c6ff7b50984e00401a5c773166341",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to modify 'Bank Statement' (account.bank.statement) records.\n\nThis operation is allowed for the following groups:\n\t- Basic\n\nContact your administrator to request acc",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement_line.create": {
+   "definitionHash": "sha256:0444baca8aec19279d578c34129fdb16ac853e447cb218af52ccc306014c6947",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You can't create a new statement line without a suspense account set on the Sales journal.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement_line.update": {
+   "definitionHash": "sha256:e3478d403d0790d47e447461ebde05e0cd2dbcd44935b2ce946dc98387c6b6e9",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.currency.update": {
+   "definitionHash": "sha256:e9ed7f1f4b9ada05e9d936e4feae8d1ffc88c60fcda60fef3478861e4e87e99b",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: The currency code must be unique!",
+   "modules": [
+    "base"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.currency_rate.update": {
+   "definitionHash": "sha256:03c58dadb8c938d8cac156893f481b89ed6d94376d39bc01f138d370d6a58d66",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "finance.fiscal_position_account.create": {
+   "definitionHash": "sha256:77228e52aa8b29598339f86018e64c98b91775abe3047b34f341d5f72158739e",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: An account fiscal position could be defined only one time on same accounts.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.fiscal_position_account.update": {
+   "definitionHash": "sha256:9157a561eb7637a3d35ef49b4f939bd20582995a04090320493fcd310625c600",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "finance.journal_entry.create": {
+   "definitionHash": "sha256:2cebda3b2856e52605308f3028142c3824844ef83d1ae76d34ac884a0d255c5d",
+   "missingFields": [
+    "currency_id"
+   ],
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.journal_entry.update": {
+   "definitionHash": "sha256:18e3e75f0f156797536f43c855834cd104bc2080539a7745b86d549c228ceb29",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "ref"
+   ]
+  },
+  "finance.online_payment_method.create": {
+   "definitionHash": "sha256:2fe56e9f7ade5cdd779f7c0558d622dcb83bd5d5a0c7b0114fabb39633a7c2cd",
+   "missingFields": [
+    "image"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.online_payment_method.update": {
+   "definitionHash": "sha256:c58fc18f149fca2b0a04b664e1a7dd48ec77fd00609543f95b2ce28e982f0ca1",
+   "kind": "update-existing",
+   "modules": [
+    "payment"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment.create": {
+   "definitionHash": "sha256:a4ce63915b2a6502dcd0eee318f5f2b76d48e77a6770d48cd75f68e3b47e8a37",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Please define a payment method line on your payment.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment.update": {
+   "definitionHash": "sha256:f2624970efc1330a44b409ceee739feddd9c15b464997c49770e81a299d3de07",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "memo"
+   ]
+  },
+  "finance.payment_method.create": {
+   "definitionHash": "sha256:836301d374b86198e2337e4d9e36d67f70eeaf061dc9b0a6e57c5c43a3d7f697",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Payment Methods' (account.payment.method) records.\n\nNo group currently allows this operation.\n\nContact your administrator to request access if necessary.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_method.update": {
+   "definitionHash": "sha256:f77ce2e6ac31f40e76ed0f2e50b0c4263d85b669f57e35c4db7918408601e7ae",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment_term_line.update": {
+   "definitionHash": "sha256:2d297fc06f1e4dfe9f28b2073c04087604c0cc8d4995679274747b9966031cef",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The days added must be a number and has to be between 0 and 31.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_token.create": {
+   "definitionHash": "sha256:098af1f1ea0dc980f11a016ebf5cf51c5444cad8ed0a395fb43e6fde64463b97",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:fcd3ada7c121db1cdb012ffeb262ac8ee2b84d9b4661e385369f32593e1c4ee5",
+   "writtenFields": [
+    "partner_id",
+    "payment_method_id",
+    "provider_id",
+    "provider_ref"
+   ]
+  },
+  "finance.payment_token.update": {
+   "definitionHash": "sha256:4aa950a57822e8c4e43d442080c6a6587769a7f651ec02cc469a0c158d6d430f",
+   "kind": "update",
+   "modules": [
+    "payment"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "payment_details"
+   ]
+  },
+  "finance.reconcile_model.update": {
+   "definitionHash": "sha256:014c0929f5405d3bc372e3d264dfa97ba17ddf153f606ed2f078dc18b826ddb4",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to modify 'Preset to create journal entries during a invoices and payments matching' (account.reconcile.model) records.\n\nThis operation is allowed for the following ",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.reconcile_model_line.create": {
+   "definitionHash": "sha256:1459b3c912cc158295801346e1329f23118156c85fb30f1a26d690c1ae05d7d1",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.reconcile_model_line.update": {
+   "definitionHash": "sha256:e12583d766ff8d7dea8a2d4b1491edcab4d47b3c9b2e5adcb0baad3ccbd0052a",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to modify 'Rules for the reconciliation model' (account.reconcile.model.line) records.\n\nThis operation is allowed for the following groups:\n\t- Basic\n\nContact your ad",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.tax.create": {
+   "definitionHash": "sha256:7c6444b77a0b58aafd7717c6a7329de842684c52248604fd4eee480782f4736d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The tax group must have the same country_id as the tax using it.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.tax.update": {
+   "definitionHash": "sha256:727c2b3027a2ae6ccd5fafbd67d83d9c2403f5f9b9e6394df1447b8b6b7e7089",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "fleet.driver_history.update": {
+   "definitionHash": "sha256:09870de5c39813cb8ce9f6ed89f5744749d5b09f54c08e319f52b9571744d14a",
+   "modules": [
+    "fleet"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "fleet.odometer.update": {
+   "definitionHash": "sha256:a72710142c36ba55be24b43d2022c6d9549e0fa170c829f6331c1c42ddebbfcc",
+   "modules": [
+    "fleet"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.landed_cost.create": {
+   "definitionHash": "sha256:6c31567cb97a2487bf3dfb988a0a6b5081998c68c8652753b36dd794b5c2b9d2",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "inventory.landed_cost.update": {
+   "definitionHash": "sha256:d8a97be825acbf7bfce6a5126a2f5b3ff94a96e5a63d96cbf6b271d5ce6ed038",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.landed_cost_line.create": {
+   "definitionHash": "sha256:1bbe76edf8662361b82e49a0e1685d699f18673fa192374b8038ba4efe678db3",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:f54cb0ad85391321060d816e41b04899ae059e94f5eec869be71b0bf2f6a322f",
+   "writtenFields": [
+    "cost_id",
+    "name",
+    "price_unit",
+    "product_id",
+    "split_method"
+   ]
+  },
+  "inventory.landed_cost_line.update": {
+   "definitionHash": "sha256:9b06f6134f282b8c8140151f4627571e6c5faab98e1b1b16ab8c10a6278ae163",
+   "kind": "update",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.package_history.create": {
+   "definitionHash": "sha256:c672366db82f85f7560cbd8f3fb4156c52ee26076043c3877f903f94e3d243cd",
+   "missingFields": [
+    "move_line_ids"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "inventory.package_history.update": {
+   "definitionHash": "sha256:a9dad50dd7726cfd9dd35aa6eb5224ebcb4425374cea25324af4fbb55d4bc0cb",
+   "kind": "update-existing",
+   "modules": [
+    "stock"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "package_name"
+   ]
+  },
+  "inventory.putaway_rule.update": {
+   "definitionHash": "sha256:971bcc12824072c7c53501eaf00261b6bc23fa07769adfbcfbe63b72a4cedd7c",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.reorder_rule.create": {
+   "definitionHash": "sha256:ae8716001a02775414882ddfced99712abe5c5fec38ac0c7f344193c2bc2e202",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: A replenishment rule already exists for this product on this location.",
+   "modules": [
+    "stock"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "inventory.reorder_rule.update": {
+   "definitionHash": "sha256:1db568ce615a5dfc44761ecb50a5481f9442c9e6f673b1b2c30d7f362156c64e",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.shipping_price_rule.update": {
+   "definitionHash": "sha256:7b5ae30aff4e7369a25e8b6471f147e7bb03d0172b0d657de66422bd13232690",
+   "modules": [
+    "delivery"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.shipping_zip_prefix.create": {
+   "definitionHash": "sha256:61e86d98341611b2f3944735a89b65561df930ddbd5d2f682db23cd0b914b29b",
+   "kind": "create",
+   "mismatchedFields": [
+    "name"
+   ],
+   "modules": [
+    "delivery"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:1d99a75ccd3f2250218d5e8f7781b73892d6ef520915947bfb99fc6d4c2f145d",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.shipping_zip_prefix.update": {
+   "definitionHash": "sha256:8932e1b8787f450018268036dc1a59dd95a4b1507ef3024857af598094ed6455",
+   "kind": "update",
+   "modules": [
+    "delivery"
+   ],
+   "status": "DISAGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.storage_category_capacity.update": {
+   "definitionHash": "sha256:67871d50a9b8214ec4097326fd5f487dd42efee03bf6c014e250b60fee9b2981",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.valuation_adjustment_line.create": {
+   "definitionHash": "sha256:a43df0839cc1c1160d64b5016bf7c75102d49823b9b79751fc4b90a8f3aebebc",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:4b4abaad6f3b7663e7c1495c485708b778f47444680bf5909004857dafe939ae",
+   "writtenFields": [
+    "cost_id",
+    "product_id"
+   ]
+  },
+  "inventory.valuation_adjustment_line.update": {
+   "definitionHash": "sha256:682ae3cd0c951ee210fe46ef25fcc11000a2ac0bd6def3f93d1cd2d32e3337ed",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.bom_byproduct.update": {
+   "definitionHash": "sha256:ee827d00b75bcf429a4fa0d88bb70272afb66bcb2e3ff5411a1115846d123d87",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.bom_line.update": {
+   "definitionHash": "sha256:343b56ac35c40c61a961b4480cc35e66f969508f287dd9cc68205dda6eeb6e45",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.unbuild.update": {
+   "definitionHash": "sha256:16e03b4a6fb0ce8debcbffb154b7197a6b0d95124f3cf73207803c9ef1136f2a",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.workcenter_capacity.create": {
+   "definitionHash": "sha256:4ab914093a5ae65a452573e8681628a2260c40135b3ce80c4ac1212decb9f2cd",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Product/Unit capacity should be unique for each workcenter.",
+   "modules": [
+    "mrp"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "manufacturing.workcenter_capacity.update": {
+   "definitionHash": "sha256:1f2939743a00bd86e8a8e07778e1ca4b8b4dfafa3ac52a9c651ccadc24484c11",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.workcenter_productivity_loss_type.create": {
+   "definitionHash": "sha256:ff15c0281565b53ba9116cbf4d765c9997f5211f40388d562ceb033c0acacfb0",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "manufacturing.workcenter_productivity_loss_type.update": {
+   "definitionHash": "sha256:52fb62c46b157f12268a37ae4958b3acc736d963ad14c615cb44b2583d0cfac8",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "people.employee_location.update": {
+   "definitionHash": "sha256:0ac28b5089944ad99598b3124b1cb0e49de3fa6e018ebf0a5b0d8001101d5284",
+   "modules": [
+    "hr_homeworking"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "people.employee_skill.create": {
+   "definitionHash": "sha256:fef74703f2db57a9dbae6d8c4e684da57cdd988080d4f86a345469efb433422d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'employee_id': 1, 'skill_id': 1, 'id': 124, 'valid_from': datetime.date(2026, 10, 11), 'valid_to': False, 'sk",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.employee_skill.update": {
+   "definitionHash": "sha256:fe083aa7bc6a99dac397e2dea15fe270b28035a5253058c07e4fdd2a91937f9b",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "people.expense.create": {
+   "definitionHash": "sha256:56f43efc78f06f0e2b8698ce3b49547dafaedaa1af4004b740f9cacc0eff3369",
+   "kind": "create",
+   "mismatchedFields": [
+    "price_unit"
+   ],
+   "modules": [
+    "hr_expense"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:1fa958d2de3c49fa9aefb93ff60ec0a911e6d358323a48b93e41a1c6241f8891",
+   "writtenFields": [
+    "name",
+    "price_unit"
+   ]
+  },
+  "people.job_skill.create": {
+   "definitionHash": "sha256:633320d7269e7f03b2969a8bc78301ce3c9b66fe277f00890547cfe9ade145c4",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'job_id': 1, 'skill_id': 1, 'id': 35, 'valid_from': datetime.date(2026, 10, 11), 'valid_to': False, 'skill_le",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.job_skill.update": {
+   "definitionHash": "sha256:14f251fcb6544298f7e7d99611632db9feff5d90d9de453d8f20583f81378d2c",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "pos.order.create": {
+   "definitionHash": "sha256:09879e2caaadcc4565ea1dd263888c4af05d1c4d9c7707ef6481139a12c53ca0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "session_id",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.order.update": {
+   "definitionHash": "sha256:e3b811c9105d22a7443fd36867f6e1d7437f677ef92b5343ecb58bfb105ecb16",
+   "kind": "update-existing",
+   "modules": [
+    "point_of_sale"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "email"
+   ]
+  },
+  "pos.payment.create": {
+   "definitionHash": "sha256:63f3f337892b2c2220314632d60bc04218307512dcfdcc698efab2215a526ad8",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You cannot edit a payment for a posted order.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.payment.update": {
+   "definitionHash": "sha256:a44232adc2ba2651c2778782ba2074eaa7bd808f2053874ceb134a665fe9a28c",
+   "kind": "update-existing",
+   "modules": [
+    "point_of_sale"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "card_brand"
+   ]
+  },
+  "pos.session.create": {
+   "definitionHash": "sha256:9892bd66ab07b14796d2e44d76a1fbff59574794fba9a44e28f31ff875cca31d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Another session is already opened for this point of sale.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.session.update": {
+   "definitionHash": "sha256:134ac6d2da707342b07e43f749b52c064eab81262e93373dc2baafdd3143230b",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "procurement.agreement.create": {
+   "definitionHash": "sha256:7ed6c7c8a6cd87003b2a184355174a4d2586cef734257cabb660f861cf08a41e",
+   "kind": "create",
+   "mismatchedFields": [
+    "name"
+   ],
+   "modules": [
+    "purchase_requisition"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:f95bc2a24caf2d3f2ea3740ea4160a2618e8ae43f682c99ba12a59084f1d62a4",
+   "writtenFields": [
+    "currency_id",
+    "name"
+   ]
+  },
+  "procurement.agreement_line.create": {
+   "definitionHash": "sha256:0b6fb865141391158bd5cd2dbe724e286da404b7f27494cdc578c3384f2fa2f8",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "price_unit",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "procurement.agreement_line.update": {
+   "definitionHash": "sha256:44bf5f174b68e33cebf8d820aef798b258dd0a081ef816401c52e914df166768",
+   "kind": "update-existing",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "product_description_variants"
+   ]
+  },
+  "recruitment.applicant.create": {
+   "definitionHash": "sha256:73b7eb175ad7785b6d200db2e6a36db79abc79fda60920472279cc4b37749caa",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "recruitment.applicant.update": {
+   "definitionHash": "sha256:a117072626b72b7381e70822d86d73d81a1c91610de19bb415a92f948c0bd12e",
+   "kind": "update-existing",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "email_from"
+   ]
+  },
+  "recruitment.applicant_skill.update": {
+   "definitionHash": "sha256:3974de155e2ffb7643fd891a180934cb3cc17bcfa5e0edab53d6385f0afe7cdc",
+   "modules": [
+    "hr_recruitment_skills"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "recruitment.source.create": {
+   "definitionHash": "sha256:76d28af00e018ad73143d2f828971e44302880e81d54805dd91059d4b95981f0",
+   "kind": "create",
+   "mismatchedFields": [
+    "name"
+   ],
+   "modules": [
+    "hr_recruitment"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:97606b60b45db8713b1434c253a19cce440cf4d0d81f05cdbb94ce0d30d86c91",
+   "writtenFields": [
+    "name",
+    "source_id"
+   ]
+  },
+  "repair.order.create": {
+   "definitionHash": "sha256:676d0062ba871b7c900d781e1bbd4a99871375bee53418d4efcc281a18a31d72",
+   "kind": "create",
+   "mismatchedFields": [
+    "location_dest_id",
+    "parts_location_id"
+   ],
+   "modules": [
+    "repair"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:23eeec6eea603920507daccaad25d183e56d082dcef6a2dffb80c76fc509dfe8",
+   "writtenFields": [
+    "location_dest_id",
+    "location_id",
+    "name",
+    "parts_location_id",
+    "product_location_dest_id",
+    "product_location_src_id",
+    "recycle_location_id"
+   ]
+  },
+  "repair.order.update": {
+   "definitionHash": "sha256:5c724663f44afadb48dd4b64e0e5b097aa9a811ae53fa14c3b7f9cb5787c4fe9",
+   "modules": [
+    "repair"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "sales.loyalty_card.create": {
+   "definitionHash": "sha256:5a3031a16752b62c09e4bba0a5567b83609779943934caacdda01fd89382a3a0",
+   "modules": [
+    "loyalty"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "sales.loyalty_card.update": {
+   "definitionHash": "sha256:235dfad8dbd654036fd9b8ad1223ec5780fcdd25d541df17968bc239a68e9c0b",
+   "kind": "update-existing",
+   "modules": [
+    "loyalty"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "code"
+   ]
+  },
+  "sales.loyalty_mail.update": {
+   "definitionHash": "sha256:0a5406f1399c8ea2e18369eecdfa78631eef0894f75b07a55b3f252e93556429",
+   "modules": [
+    "loyalty"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "sales.quotation_template_line.create": {
+   "definitionHash": "sha256:66b0029b57a55ec88c111ba3516903d2cb1fe06e483b3cb3a846c109c60f6862",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Missing required product and UoM on accountable sale quote line.",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "sales.quotation_template_line.update": {
+   "definitionHash": "sha256:5db7ca6e9af765ee87619180bd4b28ce3e9a88ec9d4bb53b1a7357a697efbe2f",
+   "kind": "update-existing",
+   "modules": [
+    "sale_management"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.recurrence.create": {
+   "definitionHash": "sha256:01fe9421a9bb76f258b66bdd3df0cd4318c8319d8a733ae089f66497259296b7",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "schedule.recurrence.update": {
+   "definitionHash": "sha256:4f63a0bf72544aab92f132e68552bf96922504b698156523cc0788df2be316aa",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "not enough values to unpack (expected 2, got 1)",
+   "modules": [
+    "calendar"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "structure.warehouse.create": {
+   "definitionHash": "sha256:968cfa13b08f794a649dd77823522666b51ee81a8543440521a6d32d453b39ca",
+   "kind": "create",
+   "mismatchedFields": [
+    "lot_stock_id",
+    "view_location_id"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:1fe1298491ad18cc14ec373cb89be3e550aa37b149864c7a56b0ca3213f86f81",
+   "writtenFields": [
+    "code",
+    "lot_stock_id",
+    "name",
+    "view_location_id"
+   ]
+  },
+  "survey.question_answer.create": {
+   "definitionHash": "sha256:83769041a2d2e3023423663412602c2e617215f112ac1182892f0fffb24566c8",
+   "modules": [
+    "survey"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "survey.question_answer.update": {
+   "definitionHash": "sha256:a0e751b798b0f1c6caf5d607ac59c164ca4e41b9260d483ac251a0c67170d4a6",
+   "kind": "update-existing",
+   "modules": [
+    "survey"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "value"
+   ]
+  },
+  "survey.response.update": {
+   "definitionHash": "sha256:7b0f223164875def85c3fb30776dce918793b0a6c1c44f05cac21b89ad522763",
+   "modules": [
+    "survey"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "website.layout.update": {
+   "definitionHash": "sha256:c2abbe30b17564054a4f434925321e1243e37bf16c17b290924de7929e8e3105",
+   "modules": [
+    "website"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "work.collaborator.update": {
+   "definitionHash": "sha256:ee35e880712b32217de7dc875f5e1052c6b88ddc77851c7e93a1c8274b3f85fc",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "work.task_recurrence.create": {
+   "definitionHash": "sha256:d31227303eda78420d96fb8ef26b6d9a0afb19627cf80ff7504221ad703a9e49",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "work.task_recurrence.update": {
+   "definitionHash": "sha256:98605e70bfb83fad42a62f1e052c3ed12be5ef92cb227d5719e4ece815abd0d6",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "workforce.accrual_level.update": {
+   "definitionHash": "sha256:a4851028254cac1ab328c3c3be65645d8eb4607b1a1550dedb71c0f414d07fbb",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "workforce.leave.create": {
+   "definitionHash": "sha256:ff0033cdc4ea7a33f461ce1ba9bac6112b4b685675e186f89a558ca238c44ffe",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "None",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "workforce.leave.update": {
+   "definitionHash": "sha256:6c96ec8a782849395e0af22f48ae838fe134398d402b66355f73332344872568",
+   "kind": "update-existing",
+   "modules": [
+    "hr_holidays"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "workforce.overtime_line.update": {
+   "definitionHash": "sha256:3b69e6a0ca651a817665488cc067ff2a69cf14e005789b29680b176be93e4571",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

@@ -10,22 +10,26 @@ can drive Odoo through it as dependably as a person does through the web client.
 
 ## What it covers
 
-839 operations over the business apps of Odoo Community 19.0. 703 of them are verified on the stock
+1139 operations over the business apps of Odoo Community 19.0. 981 of them are verified on the stock
 image.
 
 | Kind | Operations | Verified |
 |---|---:|---:|
-| Read, list, group and paginate | 352 | 348 |
-| Create and update | 330 | 244 |
-| Business actions (form and list buttons) | 115 | 76 |
+| Read, list, group and paginate | 480 | 476 |
+| Create and update | 458 | 371 |
+| Business actions (form and list buttons) | 159 | 99 |
 | Dialogs (wizards) | 26 | 19 |
 | Print a document's PDF | 7 | 7 |
 | Guarded deletes | 8 | 8 |
 | Install a module | 1 | 1 |
 
-- **Apps:** Contacts, CRM, Sales, Invoicing and accounting, Purchase, Inventory, Manufacturing,
-  Project, Employees, Skills, Time Off, Attendances, Expenses, Point of Sale, Calendar, Website and
-  Discuss.
+- **Apps:**
+  - Contacts, CRM, Sales, Invoicing and accounting, Purchase, Inventory, Manufacturing and Project.
+  - Employees, Skills, Time Off, Attendances, Expenses and Recruitment.
+  - Point of Sale with Restaurant, Calendar, Website, Discuss and To-Do.
+  - Fleet, Maintenance, Repairs, Events and Surveys.
+  - Purchase agreements, batch transfers, loyalty, expiry dates, shipping, dropshipping,
+    subcontracting, landed costs and margins.
 - **Vietnam:** e-invoices through Viettel SInvoice (`l10n_vn_edi_viettel`).
 - **Business as code:** `odoo-cli spec plan|apply` brings an Odoo to a YAML description of a company:
   settings, products, website pages and more. The same spec rebuilds the same company on a blank
@@ -126,8 +130,9 @@ pip install asao-erp
   - Sending a document by email (a quotation, an RFQ, an invoice): odoo-cli prints the PDF instead.
   - Creating a user or a company from another record.
   - Paid IAP services (lead generation, enrichment).
-- **Apps not covered yet:** Fleet, Maintenance, Recruitment, Surveys, Repairs, Restaurant, To-Do,
-  Email and SMS Marketing, Events, eLearning, eCommerce, Live Chat and Lunch.
+- **Apps not covered yet:** Email and SMS Marketing, eLearning, eCommerce, Live Chat and Lunch.
+- **Not verified yet:** 156 operations, most of them writes and actions whose records the lab's data
+  cannot supply, or whose business rules refuse generic values.
 - **Self-update:** `odoo-cli update` needs a signed release channel that is not published yet. To
   update, run the installer again.
 
@@ -153,7 +158,7 @@ Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 ## Tiếng Việt
 
-`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 839 thao tác nghiệp vụ, trong đó 703 thao
+`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1139 thao tác nghiệp vụ, trong đó 981 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
 có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent.
 

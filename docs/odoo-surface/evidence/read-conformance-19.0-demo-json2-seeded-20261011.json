@@ -1,0 +1,308 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-11T12:30:16Z",
+ "records": {
+  "event.question_answer.describe": {
+   "cliHash": "sha256:7201a3d02cd494c3c11f74de83c1204c4e24544f6a1803ad6fc1ab2a96da86ce",
+   "definitionHash": "sha256:6c5831b94322c496b482eb1b70a8cad79618c276ac920bc1cd96efc3e3142639",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:7201a3d02cd494c3c11f74de83c1204c4e24544f6a1803ad6fc1ab2a96da86ce",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.question_answer.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:32ca6e8c02c04e9d465529f3bbc86188f52bad13fa29ac06aab95beaa470c5e3",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "event.registration_answer.describe": {
+   "cliHash": "sha256:57e42b032a2e1109b34734d8595f85ed2a235d94424b5e44b64156f9c6a10a1b",
+   "definitionHash": "sha256:5e4c30fd360e503024923fcb53b4da280810b7af8ab886e13db451b353ef336b",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:57e42b032a2e1109b34734d8595f85ed2a235d94424b5e44b64156f9c6a10a1b",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.registration_answer.list": {
+   "cliHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "definitionHash": "sha256:58dbc80a0f5a32b5e7cc640edb5fb40e826de44ac3fc2138b6b867d8850805c5",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "event.slot.describe": {
+   "definitionHash": "sha256:3ab0028306a27ba0b5eaf7d73fb102beb7c6839ea6e0475e825e41f56c86e89f",
+   "modules": [
+    "event"
+   ],
+   "providerDomain": false,
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "event.slot.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:d439bca955b51eba1ac52c6aecdbb0fac6a2d4a75e07d49496cf27639c9b9319",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "providerDomain": false,
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "event.template_ticket.describe": {
+   "cliHash": "sha256:56e0840e63c4c237cb20f19c44b86fe3b15943acce59154c7cd754a28b8afa32",
+   "definitionHash": "sha256:dbb719f6df7e89c3fd56e901e596de414e0512f7abfa96b4a7b13ab772befab6",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:bc4aba40a6e21a7f41f304e2680b35d2530dd3c8a8756da5c28689a9716f17aa",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.template_ticket.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:2e581713cfcbccd9a3617b56efb842c1ae5202eff726cdfb9c6736d32d4e8ae2",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.payment_token.describe": {
+   "cliHash": "sha256:a8bbef41b7e4369924bc1e1090e5c6dff5ed440427bd992f178ad84862df5ce9",
+   "definitionHash": "sha256:bb353878cfe332ebd3bfeed0000e68c07db826c0db2350e615e07075b8d5a2b8",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:a8bbef41b7e4369924bc1e1090e5c6dff5ed440427bd992f178ad84862df5ce9",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_token.list": {
+   "cliHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "definitionHash": "sha256:e0ce89b0522630c3450f43a31721b34ff95e37a1561207952c28d4bcd4d1a514",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "inventory.landed_cost.describe": {
+   "cliHash": "sha256:b80840e1cf735b9a4ac9f52da2d2ad9705358b551082d07024347b1a808aa949",
+   "definitionHash": "sha256:6134bcab6fb216e3a9ecc12f07ed52c97281442243197dfb274e4ce41e3c5e6b",
+   "fieldCount": 16,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleHash": "sha256:ba13056e01d76c01624ac4df8b80abaae1d671120aa6fc3b870657b7f280a0a9",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.landed_cost.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:76bf6257a372dbfc926a56892d7c139f2be976b73bf0d6990ff18fe5107ad787",
+   "kind": "list",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "inventory.landed_cost_line.describe": {
+   "cliHash": "sha256:00d7baa050a57e0742d1a0a163153c359d587e0185a07f95b3266e9b78810a20",
+   "definitionHash": "sha256:7401136145f580f04720c68fec4a9c452e6e03f9cc844d935a531fec82c62953",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleHash": "sha256:1abf4269e5f21e80173990f94ed67171938bc3920f43aff63e4a04f1b4ceded6",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.landed_cost_line.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:5484a3a7a08461f356a425972ffbd2e3c4dcbb39243b2a0d857edeaa517d7afc",
+   "kind": "list",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "inventory.package_history.describe": {
+   "cliHash": "sha256:f2a4dbbc51c1c0aed213fb02656c2d4ba392ec8065e842ee061eec0e6be38997",
+   "definitionHash": "sha256:0a21af413d75d27dbebe75d8aa571d25472e2f701f0273bcfbf48083830ca0dc",
+   "fieldCount": 15,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:f2a4dbbc51c1c0aed213fb02656c2d4ba392ec8065e842ee061eec0e6be38997",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.package_history.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:1515e9e63902300161f98458e28d89102c683f582d5e75efac43026ab52fade3",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "inventory.shipping_zip_prefix.describe": {
+   "cliHash": "sha256:b2de4b5dd057daba6da912ed6b386ecda93f06fba5c6bbdacc4d14ea9d0851bb",
+   "definitionHash": "sha256:a37606a30e0fb2ba6af2445a2699c3fee5e3e8a04c0e869053fdf225c2456ca9",
+   "fieldCount": 3,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "delivery"
+   ],
+   "oracleHash": "sha256:b2de4b5dd057daba6da912ed6b386ecda93f06fba5c6bbdacc4d14ea9d0851bb",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.shipping_zip_prefix.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:a37606a30e0fb2ba6af2445a2699c3fee5e3e8a04c0e869053fdf225c2456ca9",
+   "kind": "list",
+   "modules": [
+    "delivery"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "inventory.valuation_adjustment_line.describe": {
+   "cliHash": "sha256:fc83892105808993d2095ef6fa0c5bc92b699a0cc4ed004d932a71ca06c38fad",
+   "definitionHash": "sha256:942e4cd0e1de0bd9cba36fc6f69364a85257085ec531735dffb9c9e9e4c6c38c",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleHash": "sha256:d3537499da4afe3ac6e4ac854f11dde17cd2246c1fd69614cc9a7a9a93930970",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.valuation_adjustment_line.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:e1eac5f3f083e1a31bd5d0d01381abdb0f768f247bb75504d937d587b5cfb826",
+   "kind": "list",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "repair.tag.describe": {
+   "cliHash": "sha256:34b54d807b06c84154367b056e9261ffae768d5570d42a7ec1f2657acdd36a98",
+   "definitionHash": "sha256:70438d9522cfe22d1645c4fe3bcd2f929ac45bf39fb71eac0a7441d7315635de",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "repair"
+   ],
+   "oracleHash": "sha256:34b54d807b06c84154367b056e9261ffae768d5570d42a7ec1f2657acdd36a98",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "repair.tag.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:70438d9522cfe22d1645c4fe3bcd2f929ac45bf39fb71eac0a7441d7315635de",
+   "kind": "list",
+   "modules": [
+    "repair"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

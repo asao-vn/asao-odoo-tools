@@ -29,6 +29,13 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.move",
 		Method: "button_hash",
 	},
+	// account.move (Journal Entry): button_create_landed_costs "Create Landed Costs"
+	{
+		SemanticID: "finance.invoice.create_landed_costs", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"account"}, RequiredCapability: "finance.invoice.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.move",
+		Method: "button_create_landed_costs",
+	},
 	// account.move (Journal Entry): action_l10n_vn_edi_update_payment_status "Send Payment Status"
 	{
 		SemanticID: "finance.invoice.einvoice_send_payment_status", Kind: KindAction, Strategy: StrategyMethodCall,
@@ -299,6 +306,20 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.transfer.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
 		Method: "action_confirm",
+	},
+	// stock.picking (Transfer): send_to_shipper "Send to Shipper"
+	{
+		SemanticID: "inventory.transfer.send_to_shipper", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.transfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
+		Method: "send_to_shipper",
+	},
+	// stock.picking (Transfer): cancel_shipment "Cancel"
+	{
+		SemanticID: "inventory.transfer.cancel_shipment", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.transfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
+		Method: "cancel_shipment",
 	},
 	// stock.picking (Transfer): do_unreserve "Unreserve"
 	{
@@ -579,12 +600,13 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "catalog.product_variant.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.productvariant.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.product",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"service_type", "company_id", "tracking", "qty_available", "is_favorite", "name", "product_tmpl_id", "sale_ok", "available_in_pos", "can_be_expensed", "purchase_ok", "active", "type", "invoice_policy", "service_tracking", "project_id", "project_template_id", "task_template_id", "service_policy", "service_upsell_threshold", "is_storable", "list_price", "lst_price", "uom_id", "standard_price", "default_code", "barcode", "categ_id", "description_sale", "expense_policy", "color", "to_weight", "service_to_purchase", "purchase_method", "description_purchase", "weight", "volume", "sale_delay", "property_stock_production", "property_stock_inventory", "description_pickingin", "description_pickingout"},
-		InputTypes: map[string]string{"active": "boolean", "available_in_pos": "boolean", "can_be_expensed": "boolean", "categ_id": "reference", "color": "integer", "company_id": "reference", "is_favorite": "boolean", "is_storable": "boolean", "list_price": "number", "lst_price": "number", "product_tmpl_id": "reference", "project_id": "reference", "project_template_id": "reference", "property_stock_inventory": "reference", "property_stock_production": "reference", "purchase_ok": "boolean", "qty_available": "number", "sale_delay": "integer", "sale_ok": "boolean", "service_to_purchase": "boolean", "service_upsell_threshold": "number", "standard_price": "number", "task_template_id": "reference", "to_weight": "boolean", "uom_id": "reference", "volume": "number", "weight": "number"},
-		InputEnums: map[string][]string{"expense_policy": []string{"no", "cost", "sales_price"}, "invoice_policy": []string{"order", "delivery"}, "purchase_method": []string{"purchase", "receive"}, "service_policy": []string{"ordered_prepaid", "delivered_timesheet", "delivered_manual"}, "service_tracking": []string{"no", "task_global_project", "task_in_project", "project_only"}, "service_type": []string{"manual", "milestones", "timesheet"}, "tracking": []string{"serial", "lot", "none"}, "type": []string{"consu", "service", "combo"}},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"service_type", "company_id", "tracking", "qty_available", "is_favorite", "name", "product_tmpl_id", "sale_ok", "available_in_pos", "can_be_expensed", "purchase_ok", "active", "type", "invoice_policy", "service_tracking", "project_id", "project_template_id", "task_template_id", "service_policy", "service_upsell_threshold", "is_storable", "list_price", "lst_price", "uom_id", "standard_price", "default_code", "barcode", "categ_id", "description_sale", "expense_policy", "color", "to_weight", "self_order_available", "service_to_purchase", "landed_cost_ok", "split_method_landed_cost", "purchase_method", "description_purchase", "weight", "volume", "sale_delay", "hs_code", "country_of_origin", "lot_valuated", "serial_prefix_format", "use_expiration_date", "property_stock_production", "property_stock_inventory", "expiration_time", "use_time", "removal_time", "alert_time", "description_pickingin", "description_pickingout"},
+		InputTypes: map[string]string{"active": "boolean", "alert_time": "integer", "available_in_pos": "boolean", "can_be_expensed": "boolean", "categ_id": "reference", "color": "integer", "company_id": "reference", "country_of_origin": "reference", "expiration_time": "integer", "is_favorite": "boolean", "is_storable": "boolean", "landed_cost_ok": "boolean", "list_price": "number", "lot_valuated": "boolean", "lst_price": "number", "product_tmpl_id": "reference", "project_id": "reference", "project_template_id": "reference", "property_stock_inventory": "reference", "property_stock_production": "reference", "purchase_ok": "boolean", "qty_available": "number", "removal_time": "integer", "sale_delay": "integer", "sale_ok": "boolean", "self_order_available": "boolean", "service_to_purchase": "boolean", "service_upsell_threshold": "number", "standard_price": "number", "task_template_id": "reference", "to_weight": "boolean", "uom_id": "reference", "use_expiration_date": "boolean", "use_time": "integer", "volume": "number", "weight": "number"},
+		InputEnums: map[string][]string{"expense_policy": []string{"no", "cost", "sales_price"}, "invoice_policy": []string{"order", "delivery"}, "purchase_method": []string{"purchase", "receive"}, "service_policy": []string{"ordered_prepaid", "delivered_timesheet", "delivered_manual"}, "service_tracking": []string{"no", "event", "repair", "task_global_project", "task_in_project", "project_only"}, "service_type": []string{"manual", "milestones", "timesheet"}, "split_method_landed_cost": []string{"equal", "by_quantity", "by_current_cost_price", "by_weight", "by_volume"}, "tracking": []string{"serial", "lot", "none"}, "type": []string{"consu", "service", "combo"}},
 		Relations: map[string]RelationSpec{
 			"categ_id":                  {TargetModel: "product.category", SearchField: "name"},
 			"company_id":                {TargetModel: "res.company", SearchField: "name"},
+			"country_of_origin":         {TargetModel: "res.country", SearchField: "name"},
 			"product_tmpl_id":           {TargetModel: "product.template", SearchField: "name"},
 			"project_id":                {TargetModel: "project.project", SearchField: "name"},
 			"project_template_id":       {TargetModel: "project.project", SearchField: "name"},
@@ -668,7 +690,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.location.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.location",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"company_id", "name", "location_id", "active", "usage", "replenish_location", "valuation_account_id", "cyclic_inventory_frequency", "last_inventory_date", "next_inventory_date", "removal_strategy_id"},
+		OptionalReadFields: []string{"company_id", "equipment_count", "name", "location_id", "active", "usage", "replenish_location", "valuation_account_id", "cyclic_inventory_frequency", "last_inventory_date", "next_inventory_date", "removal_strategy_id"},
 	},
 	// stock.location (Inventory Locations)
 	{
@@ -705,10 +727,12 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.transfer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.transfer.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"priority", "partner_id", "picking_type_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "origin", "sale_id", "move_type", "user_id", "project_id", "is_locked"},
-		InputTypes: map[string]string{"is_locked": "boolean", "location_dest_id": "reference", "location_id": "reference", "partner_id": "reference", "picking_type_id": "reference", "project_id": "reference", "sale_id": "reference", "user_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"priority", "partner_id", "picking_type_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "origin", "carrier_id", "carrier_tracking_ref", "shipping_weight", "sale_id", "move_type", "user_id", "batch_id", "project_id", "is_locked"},
+		InputTypes: map[string]string{"batch_id": "reference", "carrier_id": "reference", "is_locked": "boolean", "location_dest_id": "reference", "location_id": "reference", "partner_id": "reference", "picking_type_id": "reference", "project_id": "reference", "sale_id": "reference", "shipping_weight": "number", "user_id": "reference"},
 		InputEnums: map[string][]string{"move_type": []string{"direct", "one"}, "priority": []string{"0", "1"}},
 		Relations: map[string]RelationSpec{
+			"batch_id":         {TargetModel: "stock.picking.batch", SearchField: "name"},
+			"carrier_id":       {TargetModel: "delivery.carrier", SearchField: "name"},
 			"location_dest_id": {TargetModel: "stock.location", SearchField: "name"},
 			"location_id":      {TargetModel: "stock.location", SearchField: "name"},
 			"partner_id":       {TargetModel: "res.partner", SearchField: "name"},
@@ -723,10 +747,12 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.transfer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.transfer.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"priority", "partner_id", "picking_type_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "origin", "sale_id", "move_type", "user_id", "project_id", "is_locked"},
-		InputTypes: map[string]string{"is_locked": "boolean", "location_dest_id": "reference", "location_id": "reference", "partner_id": "reference", "picking_type_id": "reference", "project_id": "reference", "sale_id": "reference", "user_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"priority", "partner_id", "picking_type_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "origin", "carrier_id", "carrier_tracking_ref", "shipping_weight", "sale_id", "move_type", "user_id", "batch_id", "project_id", "is_locked"},
+		InputTypes: map[string]string{"batch_id": "reference", "carrier_id": "reference", "is_locked": "boolean", "location_dest_id": "reference", "location_id": "reference", "partner_id": "reference", "picking_type_id": "reference", "project_id": "reference", "sale_id": "reference", "shipping_weight": "number", "user_id": "reference"},
 		InputEnums: map[string][]string{"move_type": []string{"direct", "one"}, "priority": []string{"0", "1"}},
 		Relations: map[string]RelationSpec{
+			"batch_id":         {TargetModel: "stock.picking.batch", SearchField: "name"},
+			"carrier_id":       {TargetModel: "delivery.carrier", SearchField: "name"},
 			"location_dest_id": {TargetModel: "stock.location", SearchField: "name"},
 			"location_id":      {TargetModel: "stock.location", SearchField: "name"},
 			"partner_id":       {TargetModel: "res.partner", SearchField: "name"},
@@ -749,14 +775,12 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "structure.warehouse.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "structure.warehouse.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.warehouse",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "code", "partner_id", "company_id", "delivery_steps", "lot_stock_id", "manufacture_steps", "reception_steps", "view_location_id"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "lot_stock_id": "reference", "partner_id": "reference", "view_location_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "code", "partner_id", "company_id", "delivery_steps", "manufacture_steps", "reception_steps"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "partner_id": "reference"},
 		InputEnums: map[string][]string{"delivery_steps": []string{"ship_only", "pick_ship", "pick_pack_ship"}, "manufacture_steps": []string{"mrp_one_step", "pbm", "pbm_sam"}, "reception_steps": []string{"one_step", "two_steps", "three_steps"}},
 		Relations: map[string]RelationSpec{
-			"company_id":       {TargetModel: "res.company", SearchField: "name"},
-			"lot_stock_id":     {TargetModel: "stock.location", SearchField: "name"},
-			"partner_id":       {TargetModel: "res.partner", SearchField: "name"},
-			"view_location_id": {TargetModel: "stock.location", SearchField: "name"},
+			"company_id": {TargetModel: "res.company", SearchField: "name"},
+			"partner_id": {TargetModel: "res.partner", SearchField: "name"},
 		},
 	},
 	// stock.warehouse (Warehouse)
@@ -764,14 +788,12 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "structure.warehouse.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "structure.warehouse.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.warehouse",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "code", "partner_id", "company_id", "delivery_steps", "lot_stock_id", "manufacture_steps", "reception_steps", "view_location_id"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "lot_stock_id": "reference", "partner_id": "reference", "view_location_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "code", "partner_id", "company_id", "delivery_steps", "manufacture_steps", "reception_steps"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "partner_id": "reference"},
 		InputEnums: map[string][]string{"delivery_steps": []string{"ship_only", "pick_ship", "pick_pack_ship"}, "manufacture_steps": []string{"mrp_one_step", "pbm", "pbm_sam"}, "reception_steps": []string{"one_step", "two_steps", "three_steps"}},
 		Relations: map[string]RelationSpec{
-			"company_id":       {TargetModel: "res.company", SearchField: "name"},
-			"lot_stock_id":     {TargetModel: "stock.location", SearchField: "name"},
-			"partner_id":       {TargetModel: "res.partner", SearchField: "name"},
-			"view_location_id": {TargetModel: "stock.location", SearchField: "name"},
+			"company_id": {TargetModel: "res.company", SearchField: "name"},
+			"partner_id": {TargetModel: "res.partner", SearchField: "name"},
 		},
 	},
 	// uom.uom (Product Unit of Measure)
@@ -2687,13 +2709,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active"},
 		InputTypes: map[string]string{"active": "boolean"},
 	},
-	// crm.lost.reason (Opp. Lost Reason): action_lost_leads
-	{
-		SemanticID: "crm.lost_reason.lost_leads", Kind: KindAction, Strategy: StrategyMethodCall,
-		RequiredModules: []string{"crm"}, RequiredCapability: "crm.lostreason.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "crm.lost.reason",
-		Method: "action_lost_leads",
-	},
 	// crm.recurring.plan (CRM Recurring revenue plans)
 	{
 		SemanticID: "crm.recurring_plan.list", Kind: KindRead, Strategy: StrategyRead,
@@ -2875,6 +2890,1392 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Relations: map[string]RelationSpec{
 			"crm_team_id": {TargetModel: "crm.team", SearchField: "name"},
 			"user_id":     {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// delivery.carrier (Shipping Methods)
+	{
+		SemanticID: "inventory.shipping_method.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "delivery_type", "country_ids", "max_weight", "max_volume", "must_have_tag_ids", "excluded_tag_ids"},
+	},
+	// delivery.carrier (Shipping Methods)
+	{
+		SemanticID: "inventory.shipping_method.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "currency_id", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "supports_shipping_insurance", "shipping_insurance", "price_rule_ids", "country_ids", "state_ids", "zip_prefix_ids", "max_weight", "weight_uom_name", "max_volume", "volume_uom_name", "must_have_tag_ids", "excluded_tag_ids", "carrier_description"},
+	},
+	// delivery.carrier (Shipping Methods)
+	{
+		SemanticID: "inventory.shipping_method.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "shipping_insurance", "max_weight", "max_volume", "carrier_description"},
+		InputTypes: map[string]string{"active": "boolean", "allow_cash_on_delivery": "boolean", "amount": "number", "company_id": "reference", "debug_logging": "boolean", "fixed_margin": "number", "fixed_price": "number", "free_over": "boolean", "margin": "number", "max_volume": "number", "max_weight": "number", "prod_environment": "boolean", "product_id": "reference", "shipping_insurance": "integer"},
+		InputEnums: map[string][]string{"delivery_type": []string{"base_on_rule", "fixed"}, "integration_level": []string{"rate", "rate_and_ship"}, "invoice_policy": []string{"estimated", "real"}},
+		Relations: map[string]RelationSpec{
+			"company_id": {TargetModel: "res.company", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// delivery.carrier (Shipping Methods)
+	{
+		SemanticID: "inventory.shipping_method.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "shipping_insurance", "max_weight", "max_volume", "carrier_description"},
+		InputTypes: map[string]string{"active": "boolean", "allow_cash_on_delivery": "boolean", "amount": "number", "company_id": "reference", "debug_logging": "boolean", "fixed_margin": "number", "fixed_price": "number", "free_over": "boolean", "margin": "number", "max_volume": "number", "max_weight": "number", "prod_environment": "boolean", "product_id": "reference", "shipping_insurance": "integer"},
+		InputEnums: map[string][]string{"delivery_type": []string{"base_on_rule", "fixed"}, "integration_level": []string{"rate", "rate_and_ship"}, "invoice_policy": []string{"estimated", "real"}},
+		Relations: map[string]RelationSpec{
+			"company_id": {TargetModel: "res.company", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// delivery.carrier (Shipping Methods): toggle_prod_environment
+	{
+		SemanticID: "inventory.shipping_method.toggle_prod_environment", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		Method: "toggle_prod_environment",
+	},
+	// delivery.carrier (Shipping Methods): toggle_debug
+	{
+		SemanticID: "inventory.shipping_method.toggle_debug", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		Method: "toggle_debug",
+	},
+	// delivery.price.rule (Delivery Price Rules)
+	{
+		SemanticID: "inventory.shipping_price_rule.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingpricerule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.price.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name"},
+	},
+	// delivery.price.rule (Delivery Price Rules)
+	{
+		SemanticID: "inventory.shipping_price_rule.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingpricerule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.price.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "variable", "operator", "max_value", "currency_id", "list_base_price", "list_price", "variable_factor"},
+	},
+	// delivery.price.rule (Delivery Price Rules)
+	{
+		SemanticID: "inventory.shipping_price_rule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingpricerule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.price.rule",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"variable", "operator", "max_value", "list_base_price", "list_price", "variable_factor", "carrier_id", "sequence"},
+		InputTypes: map[string]string{"carrier_id": "reference", "list_base_price": "number", "list_price": "number", "max_value": "number", "sequence": "integer"},
+		InputEnums: map[string][]string{"operator": []string{"==", "<=", "<", ">=", ">"}, "variable": []string{"weight", "volume", "wv", "price", "quantity"}, "variable_factor": []string{"weight", "volume", "wv", "price", "quantity"}},
+		Relations: map[string]RelationSpec{
+			"carrier_id": {TargetModel: "delivery.carrier", SearchField: "name"},
+		},
+	},
+	// delivery.price.rule (Delivery Price Rules)
+	{
+		SemanticID: "inventory.shipping_price_rule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingpricerule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.price.rule",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"variable", "operator", "max_value", "list_base_price", "list_price", "variable_factor", "carrier_id", "sequence"},
+		InputTypes: map[string]string{"carrier_id": "reference", "list_base_price": "number", "list_price": "number", "max_value": "number", "sequence": "integer"},
+		InputEnums: map[string][]string{"operator": []string{"==", "<=", "<", ">=", ">"}, "variable": []string{"weight", "volume", "wv", "price", "quantity"}, "variable_factor": []string{"weight", "volume", "wv", "price", "quantity"}},
+		Relations: map[string]RelationSpec{
+			"carrier_id": {TargetModel: "delivery.carrier", SearchField: "name"},
+		},
+	},
+	// delivery.zip.prefix (Delivery Zip Prefix)
+	{
+		SemanticID: "inventory.shipping_zip_prefix.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingzipprefix.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.zip.prefix",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// delivery.zip.prefix (Delivery Zip Prefix)
+	{
+		SemanticID: "inventory.shipping_zip_prefix.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingzipprefix.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.zip.prefix",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// delivery.zip.prefix (Delivery Zip Prefix)
+	{
+		SemanticID: "inventory.shipping_zip_prefix.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingzipprefix.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.zip.prefix",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// delivery.zip.prefix (Delivery Zip Prefix)
+	{
+		SemanticID: "inventory.shipping_zip_prefix.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingzipprefix.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.zip.prefix",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
+	// event.event (Event)
+	{
+		SemanticID: "event.event.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.event.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "address_id", "organizer_id", "user_id", "lead_count", "date_begin", "date_end", "tag_ids", "seats_taken", "seats_used", "seats_max", "seats_reserved", "stage_id"},
+	},
+	// event.event (Event)
+	{
+		SemanticID: "event.event.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.event.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"stage_id", "seats_taken", "lead_count", "currency_id", "sale_price_total", "active", "company_id", "kanban_state", "name", "date_begin", "date_end", "date_tz", "is_multi_slots", "event_slot_count", "lang", "event_type_id", "tag_ids", "organizer_id", "user_id", "address_id", "event_url", "seats_limited", "seats_max", "event_ticket_ids", "event_mail_ids", "question_ids", "badge_format", "ticket_instructions", "note"},
+	},
+	// event.event (Event)
+	{
+		SemanticID: "event.event.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.event.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"stage_id", "active", "company_id", "kanban_state", "name", "date_begin", "date_end", "date_tz", "is_multi_slots", "lang", "event_type_id", "organizer_id", "user_id", "address_id", "event_url", "seats_limited", "seats_max", "badge_format"},
+		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "company_id": "reference", "event_type_id": "reference", "is_multi_slots": "boolean", "organizer_id": "reference", "seats_limited": "boolean", "seats_max": "integer", "stage_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"badge_format": []string{"A4_french_fold", "A6", "four_per_sheet"}, "date_tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}, "kanban_state": []string{"normal", "done", "blocked", "cancel"}, "lang": []string{"en_US"}},
+		Relations: map[string]RelationSpec{
+			"address_id":    {TargetModel: "res.partner", SearchField: "name"},
+			"company_id":    {TargetModel: "res.company", SearchField: "name"},
+			"event_type_id": {TargetModel: "event.type", SearchField: "name"},
+			"organizer_id":  {TargetModel: "res.partner", SearchField: "name"},
+			"stage_id":      {TargetModel: "event.stage", SearchField: "name"},
+			"user_id":       {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// event.event (Event)
+	{
+		SemanticID: "event.event.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.event.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"stage_id", "active", "company_id", "kanban_state", "name", "date_begin", "date_end", "date_tz", "is_multi_slots", "lang", "event_type_id", "organizer_id", "user_id", "address_id", "event_url", "seats_limited", "seats_max", "badge_format"},
+		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "company_id": "reference", "event_type_id": "reference", "is_multi_slots": "boolean", "organizer_id": "reference", "seats_limited": "boolean", "seats_max": "integer", "stage_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"badge_format": []string{"A4_french_fold", "A6", "four_per_sheet"}, "date_tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}, "kanban_state": []string{"normal", "done", "blocked", "cancel"}, "lang": []string{"en_US"}},
+		Relations: map[string]RelationSpec{
+			"address_id":    {TargetModel: "res.partner", SearchField: "name"},
+			"company_id":    {TargetModel: "res.company", SearchField: "name"},
+			"event_type_id": {TargetModel: "event.type", SearchField: "name"},
+			"organizer_id":  {TargetModel: "res.partner", SearchField: "name"},
+			"stage_id":      {TargetModel: "event.stage", SearchField: "name"},
+			"user_id":       {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// event.event.ticket (Event Ticket)
+	{
+		SemanticID: "event.ticket.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.ticket.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event.ticket",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "product_id", "name", "event_id", "description", "currency_id", "price", "start_sale_datetime", "end_sale_datetime", "seats_max", "seats_taken", "limit_max_per_order", "color"},
+	},
+	// event.event.ticket (Event Ticket)
+	{
+		SemanticID: "event.ticket.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.ticket.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event.ticket",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "event_id", "seats_limited", "seats_available", "start_sale_datetime", "end_sale_datetime", "price", "price_reduce", "seats_max", "seats_reserved", "seats_used", "product_id", "is_expired"},
+	},
+	// event.event.ticket (Event Ticket)
+	{
+		SemanticID: "event.ticket.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.ticket.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event.ticket",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "event_id", "start_sale_datetime", "end_sale_datetime", "price", "seats_max", "product_id"},
+		InputTypes: map[string]string{"event_id": "reference", "price": "number", "product_id": "reference", "seats_max": "integer"},
+		Relations: map[string]RelationSpec{
+			"event_id":   {TargetModel: "event.event", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// event.event.ticket (Event Ticket)
+	{
+		SemanticID: "event.ticket.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.ticket.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event.ticket",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "event_id", "start_sale_datetime", "end_sale_datetime", "price", "seats_max", "product_id"},
+		InputTypes: map[string]string{"event_id": "reference", "price": "number", "product_id": "reference", "seats_max": "integer"},
+		Relations: map[string]RelationSpec{
+			"event_id":   {TargetModel: "event.event", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// event.lead.rule (Event Lead Rules)
+	{
+		SemanticID: "event.lead_rule.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event_crm"}, RequiredCapability: "event.leadrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.lead.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "lead_creation_basis", "lead_creation_trigger", "event_type_ids", "event_id"},
+	},
+	// event.lead.rule (Event Lead Rules)
+	{
+		SemanticID: "event.lead_rule.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event_crm"}, RequiredCapability: "event.leadrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.lead.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "active", "company_id", "lead_creation_basis", "lead_creation_trigger", "event_type_ids", "event_id", "event_registration_filter", "lead_sales_team_id", "lead_user_id", "lead_tag_ids"},
+	},
+	// event.lead.rule (Event Lead Rules)
+	{
+		SemanticID: "event.lead_rule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event_crm"}, RequiredCapability: "event.leadrule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.lead.rule",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "company_id", "lead_creation_basis", "lead_creation_trigger", "event_id", "event_registration_filter", "lead_sales_team_id", "lead_user_id", "lead_type"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "event_id": "reference", "lead_sales_team_id": "reference", "lead_user_id": "reference"},
+		InputEnums: map[string][]string{"lead_creation_basis": []string{"attendee", "order"}, "lead_creation_trigger": []string{"create", "confirm", "done"}, "lead_type": []string{"lead", "opportunity"}},
+		Relations: map[string]RelationSpec{
+			"company_id":         {TargetModel: "res.company", SearchField: "name"},
+			"event_id":           {TargetModel: "event.event", SearchField: "name"},
+			"lead_sales_team_id": {TargetModel: "crm.team", SearchField: "name"},
+			"lead_user_id":       {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// event.lead.rule (Event Lead Rules)
+	{
+		SemanticID: "event.lead_rule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event_crm"}, RequiredCapability: "event.leadrule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.lead.rule",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "company_id", "lead_creation_basis", "lead_creation_trigger", "event_id", "event_registration_filter", "lead_sales_team_id", "lead_user_id", "lead_type"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "event_id": "reference", "lead_sales_team_id": "reference", "lead_user_id": "reference"},
+		InputEnums: map[string][]string{"lead_creation_basis": []string{"attendee", "order"}, "lead_creation_trigger": []string{"create", "confirm", "done"}, "lead_type": []string{"lead", "opportunity"}},
+		Relations: map[string]RelationSpec{
+			"company_id":         {TargetModel: "res.company", SearchField: "name"},
+			"event_id":           {TargetModel: "event.event", SearchField: "name"},
+			"lead_sales_team_id": {TargetModel: "crm.team", SearchField: "name"},
+			"lead_user_id":       {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// event.lead.rule (Event Lead Rules): action_execute_rule "Execute Rule"
+	{
+		SemanticID: "event.lead_rule.execute_rule", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"event_crm"}, RequiredCapability: "event.leadrule.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.lead.rule",
+		Method: "action_execute_rule",
+	},
+	// event.mail (Event Automated Mailing)
+	{
+		SemanticID: "event.mail_schedule.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.mailschedule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.mail",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"event_id", "template_ref", "scheduled_date", "mail_count_done", "mail_state"},
+	},
+	// event.mail (Event Automated Mailing)
+	{
+		SemanticID: "event.mail_schedule.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.mailschedule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.mail",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"event_id", "template_ref", "mail_state", "interval_nbr", "interval_unit", "interval_type", "scheduled_date", "mail_registration_ids"},
+	},
+	// event.mail (Event Automated Mailing)
+	{
+		SemanticID: "event.mail_schedule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.mailschedule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.mail",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"event_id", "template_ref", "interval_nbr", "interval_unit", "interval_type"},
+		InputTypes: map[string]string{"event_id": "reference", "interval_nbr": "integer"},
+		InputEnums: map[string][]string{"interval_type": []string{"after_sub", "before_event", "after_event_start", "after_event", "before_event_end"}, "interval_unit": []string{"now", "hours", "days", "weeks", "months"}},
+		Relations: map[string]RelationSpec{
+			"event_id": {TargetModel: "event.event", SearchField: "name"},
+		},
+	},
+	// event.mail (Event Automated Mailing)
+	{
+		SemanticID: "event.mail_schedule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.mailschedule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.mail",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"event_id", "template_ref", "interval_nbr", "interval_unit", "interval_type"},
+		InputTypes: map[string]string{"event_id": "reference", "interval_nbr": "integer"},
+		InputEnums: map[string][]string{"interval_type": []string{"after_sub", "before_event", "after_event_start", "after_event", "before_event_end"}, "interval_unit": []string{"now", "hours", "days", "weeks", "months"}},
+		Relations: map[string]RelationSpec{
+			"event_id": {TargetModel: "event.event", SearchField: "name"},
+		},
+	},
+	// event.question (Event Question)
+	{
+		SemanticID: "event.question.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.question.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "title", "is_mandatory_answer", "once_per_order", "question_type", "answer_ids", "is_default", "is_reusable"},
+	},
+	// event.question (Event Question)
+	{
+		SemanticID: "event.question.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.question.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"event_count", "title", "is_mandatory_answer", "question_type", "once_per_order", "is_default", "event_type_ids", "is_reusable", "answer_ids"},
+	},
+	// event.question (Event Question)
+	{
+		SemanticID: "event.question.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.question.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"title", "is_mandatory_answer", "question_type", "once_per_order", "is_default"},
+		InputTypes: map[string]string{"is_default": "boolean", "is_mandatory_answer": "boolean", "once_per_order": "boolean"},
+		InputEnums: map[string][]string{"question_type": []string{"simple_choice", "text_box", "name", "email", "phone", "company_name"}},
+	},
+	// event.question (Event Question)
+	{
+		SemanticID: "event.question.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.question.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"title", "is_mandatory_answer", "question_type", "once_per_order", "is_default"},
+		InputTypes: map[string]string{"is_default": "boolean", "is_mandatory_answer": "boolean", "once_per_order": "boolean"},
+		InputEnums: map[string][]string{"question_type": []string{"simple_choice", "text_box", "name", "email", "phone", "company_name"}},
+	},
+	// event.question.answer (Event Question Answer)
+	{
+		SemanticID: "event.question_answer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.questionanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// event.question.answer (Event Question Answer)
+	{
+		SemanticID: "event.question_answer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.questionanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "sequence", "question_id"},
+	},
+	// event.question.answer (Event Question Answer)
+	{
+		SemanticID: "event.question_answer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.questionanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question.answer",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "sequence", "question_id"},
+		InputTypes: map[string]string{"question_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"question_id": {TargetModel: "event.question"},
+		},
+	},
+	// event.question.answer (Event Question Answer)
+	{
+		SemanticID: "event.question_answer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.questionanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.question.answer",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "sequence", "question_id"},
+		InputTypes: map[string]string{"question_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"question_id": {TargetModel: "event.question"},
+		},
+	},
+	// event.registration (Event Registration)
+	{
+		SemanticID: "event.registration.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"barcode", "active", "create_date", "name", "partner_id", "email", "phone", "company_name", "event_id", "sale_order_id", "event_slot_id", "event_ticket_id", "state", "sale_status"},
+	},
+	// event.registration (Event Registration)
+	{
+		SemanticID: "event.registration.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "state", "lead_count", "name", "email", "phone", "company_name", "event_id", "event_slot_id", "event_ticket_id", "barcode", "partner_id", "create_date", "date_closed", "pos_order_id", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id", "registration_answer_ids", "sale_status", "is_multi_slots"},
+	},
+	// event.registration (Event Registration)
+	{
+		SemanticID: "event.registration.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "state", "name", "email", "phone", "company_name", "event_id", "event_slot_id", "event_ticket_id", "partner_id", "date_closed", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id"},
+		InputTypes: map[string]string{"active": "boolean", "event_id": "reference", "event_slot_id": "reference", "event_ticket_id": "reference", "partner_id": "reference", "sale_order_id": "reference", "sale_order_line_id": "reference", "utm_campaign_id": "reference", "utm_medium_id": "reference", "utm_source_id": "reference"},
+		InputEnums: map[string][]string{"state": []string{"draft", "open", "done", "cancel"}},
+		Relations: map[string]RelationSpec{
+			"event_id":           {TargetModel: "event.event", SearchField: "name"},
+			"event_slot_id":      {TargetModel: "event.slot"},
+			"event_ticket_id":    {TargetModel: "event.event.ticket", SearchField: "name"},
+			"partner_id":         {TargetModel: "res.partner", SearchField: "name"},
+			"sale_order_id":      {TargetModel: "sale.order", SearchField: "name"},
+			"sale_order_line_id": {TargetModel: "sale.order.line"},
+		},
+	},
+	// event.registration (Event Registration)
+	{
+		SemanticID: "event.registration.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "state", "name", "email", "phone", "company_name", "event_id", "event_slot_id", "event_ticket_id", "partner_id", "date_closed", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id"},
+		InputTypes: map[string]string{"active": "boolean", "event_id": "reference", "event_slot_id": "reference", "event_ticket_id": "reference", "partner_id": "reference", "sale_order_id": "reference", "sale_order_line_id": "reference", "utm_campaign_id": "reference", "utm_medium_id": "reference", "utm_source_id": "reference"},
+		InputEnums: map[string][]string{"state": []string{"draft", "open", "done", "cancel"}},
+		Relations: map[string]RelationSpec{
+			"event_id":           {TargetModel: "event.event", SearchField: "name"},
+			"event_slot_id":      {TargetModel: "event.slot"},
+			"event_ticket_id":    {TargetModel: "event.event.ticket", SearchField: "name"},
+			"partner_id":         {TargetModel: "res.partner", SearchField: "name"},
+			"sale_order_id":      {TargetModel: "sale.order", SearchField: "name"},
+			"sale_order_line_id": {TargetModel: "sale.order.line"},
+		},
+	},
+	// event.registration (Event Registration): action_confirm "Registered"
+	{
+		SemanticID: "event.registration.confirm", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		Method: "action_confirm",
+	},
+	// event.registration (Event Registration): action_set_done "Attended"
+	{
+		SemanticID: "event.registration.set_done", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		Method: "action_set_done",
+	},
+	// event.registration (Event Registration): action_cancel "Cancel Registration"
+	{
+		SemanticID: "event.registration.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
+		Method: "action_cancel",
+	},
+	// event.registration.answer (Event Registration Answer)
+	{
+		SemanticID: "event.registration_answer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registrationanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"registration_id", "partner_id", "question_id", "value_text_box", "value_answer_id", "event_id"},
+	},
+	// event.registration.answer (Event Registration Answer)
+	{
+		SemanticID: "event.registration_answer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registrationanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"question_id", "partner_id", "question_type", "registration_id", "event_id", "value_answer_id", "value_text_box"},
+	},
+	// event.registration.answer (Event Registration Answer)
+	{
+		SemanticID: "event.registration_answer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registrationanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration.answer",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"question_id", "registration_id", "value_answer_id", "value_text_box"},
+		InputTypes: map[string]string{"question_id": "reference", "registration_id": "reference", "value_answer_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"question_id":     {TargetModel: "event.question"},
+			"registration_id": {TargetModel: "event.registration", SearchField: "name"},
+			"value_answer_id": {TargetModel: "event.question.answer", SearchField: "name"},
+		},
+	},
+	// event.registration.answer (Event Registration Answer)
+	{
+		SemanticID: "event.registration_answer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.registrationanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration.answer",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"question_id", "registration_id", "value_answer_id", "value_text_box"},
+		InputTypes: map[string]string{"question_id": "reference", "registration_id": "reference", "value_answer_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"question_id":     {TargetModel: "event.question"},
+			"registration_id": {TargetModel: "event.registration", SearchField: "name"},
+			"value_answer_id": {TargetModel: "event.question.answer", SearchField: "name"},
+		},
+	},
+	// event.slot (Event Slot)
+	{
+		SemanticID: "event.slot.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.slot.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.slot",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"date", "start_hour", "end_hour", "color"},
+	},
+	// event.slot (Event Slot)
+	{
+		SemanticID: "event.slot.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.slot.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.slot",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"event_id", "start_hour", "end_hour", "date_tz", "color"},
+	},
+	// event.slot (Event Slot)
+	{
+		SemanticID: "event.slot.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.slot.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.slot",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"event_id", "start_hour", "end_hour", "color", "date"},
+		InputTypes: map[string]string{"color": "integer", "end_hour": "number", "event_id": "reference", "start_hour": "number"},
+		Relations: map[string]RelationSpec{
+			"event_id": {TargetModel: "event.event", SearchField: "name"},
+		},
+	},
+	// event.slot (Event Slot)
+	{
+		SemanticID: "event.slot.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.slot.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.slot",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"event_id", "start_hour", "end_hour", "color", "date"},
+		InputTypes: map[string]string{"color": "integer", "end_hour": "number", "event_id": "reference", "start_hour": "number"},
+		Relations: map[string]RelationSpec{
+			"event_id": {TargetModel: "event.event", SearchField: "name"},
+		},
+	},
+	// event.stage (Event Stage)
+	{
+		SemanticID: "event.stage.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.stage.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.stage",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name"},
+	},
+	// event.stage (Event Stage)
+	{
+		SemanticID: "event.stage.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.stage.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.stage",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "pipe_end", "fold", "sequence", "description"},
+	},
+	// event.stage (Event Stage)
+	{
+		SemanticID: "event.stage.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.stage.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.stage",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "pipe_end", "fold", "sequence", "description"},
+		InputTypes: map[string]string{"fold": "boolean", "pipe_end": "boolean", "sequence": "integer"},
+	},
+	// event.stage (Event Stage)
+	{
+		SemanticID: "event.stage.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.stage.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.stage",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "pipe_end", "fold", "sequence", "description"},
+		InputTypes: map[string]string{"fold": "boolean", "pipe_end": "boolean", "sequence": "integer"},
+	},
+	// event.tag (Event Tag)
+	{
+		SemanticID: "event.tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "category_id", "color"},
+	},
+	// event.tag (Event Tag)
+	{
+		SemanticID: "event.tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "category_id", "color"},
+	},
+	// event.tag (Event Tag)
+	{
+		SemanticID: "event.tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "category_id", "color"},
+		InputTypes: map[string]string{"category_id": "reference", "color": "integer"},
+		Relations: map[string]RelationSpec{
+			"category_id": {TargetModel: "event.tag.category", SearchField: "name"},
+		},
+	},
+	// event.tag (Event Tag)
+	{
+		SemanticID: "event.tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "category_id", "color"},
+		InputTypes: map[string]string{"category_id": "reference", "color": "integer"},
+		Relations: map[string]RelationSpec{
+			"category_id": {TargetModel: "event.tag.category", SearchField: "name"},
+		},
+	},
+	// event.tag.category (Event Tag Category)
+	{
+		SemanticID: "event.tag_category.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "tag_ids"},
+	},
+	// event.tag.category (Event Tag Category)
+	{
+		SemanticID: "event.tag_category.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "tag_ids"},
+	},
+	// event.tag.category (Event Tag Category)
+	{
+		SemanticID: "event.tag_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// event.tag.category (Event Tag Category)
+	{
+		SemanticID: "event.tag_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
+	// event.type (Event Template)
+	{
+		SemanticID: "event.template.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.template.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name"},
+	},
+	// event.type (Event Template)
+	{
+		SemanticID: "event.template.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.template.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "default_timezone", "tag_ids", "has_seats_limitation", "seats_max", "event_type_ticket_ids", "event_type_mail_ids", "question_ids", "note", "ticket_instructions"},
+	},
+	// event.type (Event Template)
+	{
+		SemanticID: "event.template.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.template.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "default_timezone", "has_seats_limitation", "seats_max"},
+		InputTypes: map[string]string{"has_seats_limitation": "boolean", "seats_max": "integer"},
+		InputEnums: map[string][]string{"default_timezone": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
+	},
+	// event.type (Event Template)
+	{
+		SemanticID: "event.template.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.template.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "default_timezone", "has_seats_limitation", "seats_max"},
+		InputTypes: map[string]string{"has_seats_limitation": "boolean", "seats_max": "integer"},
+		InputEnums: map[string][]string{"default_timezone": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
+	},
+	// event.type.mail (Mail Scheduling on Event Category)
+	{
+		SemanticID: "event.template_mail.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templatemail.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.mail",
+		ReadFields: []string{"id", "display_name"},
+	},
+	// event.type.mail (Mail Scheduling on Event Category)
+	{
+		SemanticID: "event.template_mail.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templatemail.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.mail",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"event_type_id", "interval_unit", "notification_type", "interval_nbr", "interval_type", "template_ref"},
+	},
+	// event.type.mail (Mail Scheduling on Event Category)
+	{
+		SemanticID: "event.template_mail.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templatemail.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.mail",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"event_type_id", "interval_unit", "interval_nbr", "interval_type", "template_ref"},
+		InputTypes: map[string]string{"event_type_id": "reference", "interval_nbr": "integer"},
+		InputEnums: map[string][]string{"interval_type": []string{"after_sub", "before_event", "after_event_start", "after_event", "before_event_end"}, "interval_unit": []string{"now", "hours", "days", "weeks", "months"}},
+		Relations: map[string]RelationSpec{
+			"event_type_id": {TargetModel: "event.type", SearchField: "name"},
+		},
+	},
+	// event.type.mail (Mail Scheduling on Event Category)
+	{
+		SemanticID: "event.template_mail.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templatemail.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.mail",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"event_type_id", "interval_unit", "interval_nbr", "interval_type", "template_ref"},
+		InputTypes: map[string]string{"event_type_id": "reference", "interval_nbr": "integer"},
+		InputEnums: map[string][]string{"interval_type": []string{"after_sub", "before_event", "after_event_start", "after_event", "before_event_end"}, "interval_unit": []string{"now", "hours", "days", "weeks", "months"}},
+		Relations: map[string]RelationSpec{
+			"event_type_id": {TargetModel: "event.type", SearchField: "name"},
+		},
+	},
+	// event.type.ticket (Event Template Ticket)
+	{
+		SemanticID: "event.template_ticket.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templateticket.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.ticket",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "product_id", "name", "event_type_id", "description", "price", "seats_max", "seats_limited"},
+	},
+	// event.type.ticket (Event Template Ticket)
+	{
+		SemanticID: "event.template_ticket.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templateticket.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.ticket",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"product_id", "name", "event_type_id", "description", "price", "seats_limited", "seats_max"},
+	},
+	// event.type.ticket (Event Template Ticket)
+	{
+		SemanticID: "event.template_ticket.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templateticket.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.ticket",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"product_id", "name", "event_type_id", "description", "price", "seats_max"},
+		InputTypes: map[string]string{"event_type_id": "reference", "price": "number", "product_id": "reference", "seats_max": "integer"},
+		Relations: map[string]RelationSpec{
+			"event_type_id": {TargetModel: "event.type", SearchField: "name"},
+			"product_id":    {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// event.type.ticket (Event Template Ticket)
+	{
+		SemanticID: "event.template_ticket.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.templateticket.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type.ticket",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"product_id", "name", "event_type_id", "description", "price", "seats_max"},
+		InputTypes: map[string]string{"event_type_id": "reference", "price": "number", "product_id": "reference", "seats_max": "integer"},
+		Relations: map[string]RelationSpec{
+			"event_type_id": {TargetModel: "event.type", SearchField: "name"},
+			"product_id":    {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// fleet.service.type (Fleet Service Type)
+	{
+		SemanticID: "fleet.service_type.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.servicetype.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.service.type",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "category"},
+	},
+	// fleet.service.type (Fleet Service Type)
+	{
+		SemanticID: "fleet.service_type.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.servicetype.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.service.type",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "category"},
+	},
+	// fleet.service.type (Fleet Service Type)
+	{
+		SemanticID: "fleet.service_type.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.servicetype.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.service.type",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "category"},
+		InputEnums: map[string][]string{"category": []string{"contract", "service"}},
+	},
+	// fleet.service.type (Fleet Service Type)
+	{
+		SemanticID: "fleet.service_type.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.servicetype.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.service.type",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "category"},
+		InputEnums: map[string][]string{"category": []string{"contract", "service"}},
+	},
+	// fleet.vehicle (Vehicle)
+	{
+		SemanticID: "fleet.vehicle.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "license_plate", "model_id", "category_id", "manager_id", "driver_id", "driver_employee_id", "future_driver_id", "future_driver_employee_id", "log_drivers", "vin_sn", "co2", "acquisition_date", "tag_ids", "state_id", "contract_renewal_due_soon", "contract_renewal_overdue", "contract_state", "company_id"},
+	},
+	// fleet.vehicle (Vehicle)
+	{
+		SemanticID: "fleet.vehicle.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"service_activity", "state_id", "company_id", "currency_id", "country_code", "bill_count", "history_count", "contract_count", "service_count", "odometer_count", "model_id", "license_plate", "tag_ids", "active", "vehicle_type", "driver_id", "driver_employee_id", "mobility_card", "future_driver_id", "future_driver_employee_id", "next_assignation_date", "category_id", "order_date", "acquisition_date", "write_off_date", "vin_sn", "odometer", "odometer_unit", "manager_id", "location", "plan_to_change_car", "plan_to_change_bike", "horsepower_tax", "contract_date_start", "car_value", "net_car_value", "residual_value", "model_year", "seats", "doors", "color", "trailer_hook", "frame_type", "frame_size", "electric_assistance", "fuel_type", "transmission", "power", "power_unit", "horsepower", "vehicle_range", "range_unit", "co2", "co2_emission_unit", "co2_standard", "description"},
+	},
+	// fleet.vehicle (Vehicle)
+	{
+		SemanticID: "fleet.vehicle.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"state_id", "company_id", "model_id", "license_plate", "active", "driver_id", "future_driver_id", "next_assignation_date", "category_id", "order_date", "acquisition_date", "write_off_date", "vin_sn", "odometer", "odometer_unit", "manager_id", "location", "plan_to_change_car", "plan_to_change_bike", "horsepower_tax", "contract_date_start", "car_value", "net_car_value", "residual_value", "model_year", "seats", "doors", "color", "trailer_hook", "frame_type", "frame_size", "electric_assistance", "fuel_type", "transmission", "power", "power_unit", "horsepower", "vehicle_range", "range_unit", "co2", "co2_standard", "co2_emission_unit"},
+		InputTypes: map[string]string{"active": "boolean", "car_value": "number", "category_id": "reference", "co2": "number", "company_id": "reference", "doors": "integer", "driver_id": "reference", "electric_assistance": "boolean", "frame_size": "number", "future_driver_id": "reference", "horsepower": "number", "horsepower_tax": "number", "manager_id": "reference", "model_id": "reference", "net_car_value": "number", "odometer": "number", "plan_to_change_bike": "boolean", "plan_to_change_car": "boolean", "power": "number", "residual_value": "number", "seats": "integer", "state_id": "reference", "trailer_hook": "boolean", "vehicle_range": "integer"},
+		InputEnums: map[string][]string{"co2_emission_unit": []string{"g/km", "g/mi"}, "frame_type": []string{"diamant", "trapez", "wave"}, "fuel_type": []string{"diesel", "gasoline", "full_hybrid", "plug_in_hybrid_diesel", "plug_in_hybrid_gasoline", "cng", "lpg", "hydrogen", "electric"}, "model_year": []string{"1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"}, "odometer_unit": []string{"kilometers", "miles"}, "power_unit": []string{"power", "horsepower"}, "range_unit": []string{"km", "mi"}, "transmission": []string{"manual", "automatic"}},
+		Relations: map[string]RelationSpec{
+			"category_id":      {TargetModel: "fleet.vehicle.model.category", SearchField: "name"},
+			"company_id":       {TargetModel: "res.company", SearchField: "name"},
+			"driver_id":        {TargetModel: "res.partner", SearchField: "name"},
+			"future_driver_id": {TargetModel: "res.partner", SearchField: "name"},
+			"manager_id":       {TargetModel: "res.users", SearchField: "name"},
+			"model_id":         {TargetModel: "fleet.vehicle.model", SearchField: "name"},
+			"state_id":         {TargetModel: "fleet.vehicle.state", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle (Vehicle)
+	{
+		SemanticID: "fleet.vehicle.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"state_id", "company_id", "model_id", "license_plate", "active", "driver_id", "future_driver_id", "next_assignation_date", "category_id", "order_date", "acquisition_date", "write_off_date", "vin_sn", "odometer", "odometer_unit", "manager_id", "location", "plan_to_change_car", "plan_to_change_bike", "horsepower_tax", "contract_date_start", "car_value", "net_car_value", "residual_value", "model_year", "seats", "doors", "color", "trailer_hook", "frame_type", "frame_size", "electric_assistance", "fuel_type", "transmission", "power", "power_unit", "horsepower", "vehicle_range", "range_unit", "co2", "co2_standard", "co2_emission_unit"},
+		InputTypes: map[string]string{"active": "boolean", "car_value": "number", "category_id": "reference", "co2": "number", "company_id": "reference", "doors": "integer", "driver_id": "reference", "electric_assistance": "boolean", "frame_size": "number", "future_driver_id": "reference", "horsepower": "number", "horsepower_tax": "number", "manager_id": "reference", "model_id": "reference", "net_car_value": "number", "odometer": "number", "plan_to_change_bike": "boolean", "plan_to_change_car": "boolean", "power": "number", "residual_value": "number", "seats": "integer", "state_id": "reference", "trailer_hook": "boolean", "vehicle_range": "integer"},
+		InputEnums: map[string][]string{"co2_emission_unit": []string{"g/km", "g/mi"}, "frame_type": []string{"diamant", "trapez", "wave"}, "fuel_type": []string{"diesel", "gasoline", "full_hybrid", "plug_in_hybrid_diesel", "plug_in_hybrid_gasoline", "cng", "lpg", "hydrogen", "electric"}, "model_year": []string{"1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"}, "odometer_unit": []string{"kilometers", "miles"}, "power_unit": []string{"power", "horsepower"}, "range_unit": []string{"km", "mi"}, "transmission": []string{"manual", "automatic"}},
+		Relations: map[string]RelationSpec{
+			"category_id":      {TargetModel: "fleet.vehicle.model.category", SearchField: "name"},
+			"company_id":       {TargetModel: "res.company", SearchField: "name"},
+			"driver_id":        {TargetModel: "res.partner", SearchField: "name"},
+			"future_driver_id": {TargetModel: "res.partner", SearchField: "name"},
+			"manager_id":       {TargetModel: "res.users", SearchField: "name"},
+			"model_id":         {TargetModel: "fleet.vehicle.model", SearchField: "name"},
+			"state_id":         {TargetModel: "fleet.vehicle.state", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle (Vehicle): action_accept_driver_change "Apply New Driver"
+	{
+		SemanticID: "fleet.vehicle.accept_driver_change", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
+		Method: "action_accept_driver_change",
+	},
+	// fleet.vehicle (Vehicle): return_action_to_open
+	{
+		SemanticID: "fleet.vehicle.return_action_to_open", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
+		Method: "return_action_to_open",
+	},
+	// fleet.vehicle.assignation.log (Drivers history on a vehicle)
+	{
+		SemanticID: "fleet.driver_history.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.driverhistory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.assignation.log",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"vehicle_id", "driver_id", "date_start", "date_end"},
+	},
+	// fleet.vehicle.assignation.log (Drivers history on a vehicle)
+	{
+		SemanticID: "fleet.driver_history.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.driverhistory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.assignation.log",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"vehicle_id", "date_start", "driver_employee_id", "driver_id", "date_end", "attachment_number"},
+	},
+	// fleet.vehicle.assignation.log (Drivers history on a vehicle)
+	{
+		SemanticID: "fleet.driver_history.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.driverhistory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.assignation.log",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"vehicle_id", "date_start", "driver_employee_id", "driver_id", "date_end"},
+		InputTypes: map[string]string{"driver_employee_id": "reference", "driver_id": "reference", "vehicle_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"driver_employee_id": {TargetModel: "hr.employee", SearchField: "name"},
+			"driver_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"vehicle_id":         {TargetModel: "fleet.vehicle", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.assignation.log (Drivers history on a vehicle)
+	{
+		SemanticID: "fleet.driver_history.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.driverhistory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.assignation.log",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"vehicle_id", "date_start", "driver_employee_id", "driver_id", "date_end"},
+		InputTypes: map[string]string{"driver_employee_id": "reference", "driver_id": "reference", "vehicle_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"driver_employee_id": {TargetModel: "hr.employee", SearchField: "name"},
+			"driver_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"vehicle_id":         {TargetModel: "fleet.vehicle", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.log.contract (Vehicle Contract)
+	{
+		SemanticID: "fleet.vehicle_contract.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecontract.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.contract",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "expires_today", "name", "start_date", "expiration_date", "days_left", "vehicle_id", "insurer_id", "purchaser_id", "purchaser_employee_id", "cost_generated", "currency_id", "cost_frequency", "state", "has_open_contract"},
+	},
+	// fleet.vehicle.log.contract (Vehicle Contract)
+	{
+		SemanticID: "fleet.vehicle_contract.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecontract.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.contract",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "state", "active", "currency_id", "name", "ins_ref", "cost_subtype_id", "insurer_id", "service_ids", "start_date", "expiration_date", "user_id", "purchaser_id", "purchaser_employee_id", "vehicle_id", "amount", "cost_generated", "cost_frequency", "date", "notes"},
+	},
+	// fleet.vehicle.log.contract (Vehicle Contract)
+	{
+		SemanticID: "fleet.vehicle_contract.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecontract.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.contract",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "state", "active", "name", "ins_ref", "cost_subtype_id", "insurer_id", "start_date", "expiration_date", "user_id", "vehicle_id", "amount", "cost_generated", "cost_frequency", "date"},
+		InputTypes: map[string]string{"active": "boolean", "amount": "number", "company_id": "reference", "cost_generated": "number", "cost_subtype_id": "reference", "insurer_id": "reference", "user_id": "reference", "vehicle_id": "reference"},
+		InputEnums: map[string][]string{"cost_frequency": []string{"no", "daily", "weekly", "monthly", "yearly"}, "state": []string{"futur", "open", "expired", "closed"}},
+		Relations: map[string]RelationSpec{
+			"company_id":      {TargetModel: "res.company", SearchField: "name"},
+			"cost_subtype_id": {TargetModel: "fleet.service.type", SearchField: "name"},
+			"insurer_id":      {TargetModel: "res.partner", SearchField: "name"},
+			"user_id":         {TargetModel: "res.users", SearchField: "name"},
+			"vehicle_id":      {TargetModel: "fleet.vehicle", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.log.contract (Vehicle Contract)
+	{
+		SemanticID: "fleet.vehicle_contract.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecontract.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.contract",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "state", "active", "name", "ins_ref", "cost_subtype_id", "insurer_id", "start_date", "expiration_date", "user_id", "vehicle_id", "amount", "cost_generated", "cost_frequency", "date"},
+		InputTypes: map[string]string{"active": "boolean", "amount": "number", "company_id": "reference", "cost_generated": "number", "cost_subtype_id": "reference", "insurer_id": "reference", "user_id": "reference", "vehicle_id": "reference"},
+		InputEnums: map[string][]string{"cost_frequency": []string{"no", "daily", "weekly", "monthly", "yearly"}, "state": []string{"futur", "open", "expired", "closed"}},
+		Relations: map[string]RelationSpec{
+			"company_id":      {TargetModel: "res.company", SearchField: "name"},
+			"cost_subtype_id": {TargetModel: "fleet.service.type", SearchField: "name"},
+			"insurer_id":      {TargetModel: "res.partner", SearchField: "name"},
+			"user_id":         {TargetModel: "res.users", SearchField: "name"},
+			"vehicle_id":      {TargetModel: "fleet.vehicle", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.log.services (Services for vehicles)
+	{
+		SemanticID: "fleet.vehicle_service.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicleservice.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.services",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"date", "description", "service_type_id", "vehicle_id", "purchaser_id", "purchaser_employee_id", "vendor_id", "inv_ref", "notes", "amount", "currency_id", "state"},
+	},
+	// fleet.vehicle.log.services (Services for vehicles)
+	{
+		SemanticID: "fleet.vehicle_service.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicleservice.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.services",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "currency_id", "state", "description", "service_type_id", "date", "amount", "vendor_id", "vehicle_id", "purchaser_id", "purchaser_employee_id", "odometer", "odometer_unit", "notes", "account_move_line_id", "account_move_state"},
+	},
+	// fleet.vehicle.log.services (Services for vehicles)
+	{
+		SemanticID: "fleet.vehicle_service.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicleservice.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.services",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "state", "description", "service_type_id", "date", "amount", "vendor_id", "vehicle_id", "purchaser_id", "purchaser_employee_id", "odometer", "notes", "account_move_line_id"},
+		InputTypes: map[string]string{"account_move_line_id": "reference", "active": "boolean", "amount": "number", "odometer": "number", "purchaser_employee_id": "reference", "purchaser_id": "reference", "service_type_id": "reference", "vehicle_id": "reference", "vendor_id": "reference"},
+		InputEnums: map[string][]string{"state": []string{"new", "running", "done", "cancelled"}},
+		Relations: map[string]RelationSpec{
+			"account_move_line_id":  {TargetModel: "account.move.line", SearchField: "name"},
+			"purchaser_employee_id": {TargetModel: "hr.employee", SearchField: "name"},
+			"purchaser_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"service_type_id":       {TargetModel: "fleet.service.type", SearchField: "name"},
+			"vehicle_id":            {TargetModel: "fleet.vehicle", SearchField: "name"},
+			"vendor_id":             {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.log.services (Services for vehicles)
+	{
+		SemanticID: "fleet.vehicle_service.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicleservice.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.log.services",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "state", "description", "service_type_id", "date", "amount", "vendor_id", "vehicle_id", "purchaser_id", "purchaser_employee_id", "odometer", "notes", "account_move_line_id"},
+		InputTypes: map[string]string{"account_move_line_id": "reference", "active": "boolean", "amount": "number", "odometer": "number", "purchaser_employee_id": "reference", "purchaser_id": "reference", "service_type_id": "reference", "vehicle_id": "reference", "vendor_id": "reference"},
+		InputEnums: map[string][]string{"state": []string{"new", "running", "done", "cancelled"}},
+		Relations: map[string]RelationSpec{
+			"account_move_line_id":  {TargetModel: "account.move.line", SearchField: "name"},
+			"purchaser_employee_id": {TargetModel: "hr.employee", SearchField: "name"},
+			"purchaser_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"service_type_id":       {TargetModel: "fleet.service.type", SearchField: "name"},
+			"vehicle_id":            {TargetModel: "fleet.vehicle", SearchField: "name"},
+			"vendor_id":             {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.model (Model of a vehicle)
+	{
+		SemanticID: "fleet.vehicle_model.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclemodel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"brand_id", "name", "vehicle_count", "category_id", "vehicle_type", "default_co2"},
+	},
+	// fleet.vehicle.model (Model of a vehicle)
+	{
+		SemanticID: "fleet.vehicle_model.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclemodel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"vehicle_count", "name", "brand_id", "active", "vehicle_type", "category_id", "model_year", "seats", "doors", "color", "trailer_hook", "electric_assistance", "default_fuel_type", "transmission", "drive_type", "power", "power_unit", "vehicle_range", "range_unit", "default_co2", "co2_emission_unit", "co2_standard", "horsepower", "horsepower_tax", "vendors"},
+	},
+	// fleet.vehicle.model (Model of a vehicle)
+	{
+		SemanticID: "fleet.vehicle_model.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclemodel.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "brand_id", "active", "vehicle_type", "category_id", "model_year", "seats", "doors", "color", "trailer_hook", "electric_assistance", "default_fuel_type", "transmission", "drive_type", "power", "power_unit", "vehicle_range", "range_unit", "default_co2", "co2_standard", "horsepower", "horsepower_tax"},
+		InputTypes: map[string]string{"active": "boolean", "brand_id": "reference", "category_id": "reference", "default_co2": "number", "doors": "integer", "electric_assistance": "boolean", "horsepower": "number", "horsepower_tax": "number", "power": "number", "seats": "integer", "trailer_hook": "boolean", "vehicle_range": "integer"},
+		InputEnums: map[string][]string{"default_fuel_type": []string{"diesel", "gasoline", "full_hybrid", "plug_in_hybrid_diesel", "plug_in_hybrid_gasoline", "cng", "lpg", "hydrogen", "electric"}, "drive_type": []string{"fwd", "awd", "rwd", "4wd"}, "model_year": []string{"1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"}, "power_unit": []string{"power", "horsepower"}, "range_unit": []string{"km", "mi"}, "transmission": []string{"manual", "automatic"}, "vehicle_type": []string{"car", "bike"}},
+		Relations: map[string]RelationSpec{
+			"brand_id":    {TargetModel: "fleet.vehicle.model.brand", SearchField: "name"},
+			"category_id": {TargetModel: "fleet.vehicle.model.category", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.model (Model of a vehicle)
+	{
+		SemanticID: "fleet.vehicle_model.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclemodel.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "brand_id", "active", "vehicle_type", "category_id", "model_year", "seats", "doors", "color", "trailer_hook", "electric_assistance", "default_fuel_type", "transmission", "drive_type", "power", "power_unit", "vehicle_range", "range_unit", "default_co2", "co2_standard", "horsepower", "horsepower_tax"},
+		InputTypes: map[string]string{"active": "boolean", "brand_id": "reference", "category_id": "reference", "default_co2": "number", "doors": "integer", "electric_assistance": "boolean", "horsepower": "number", "horsepower_tax": "number", "power": "number", "seats": "integer", "trailer_hook": "boolean", "vehicle_range": "integer"},
+		InputEnums: map[string][]string{"default_fuel_type": []string{"diesel", "gasoline", "full_hybrid", "plug_in_hybrid_diesel", "plug_in_hybrid_gasoline", "cng", "lpg", "hydrogen", "electric"}, "drive_type": []string{"fwd", "awd", "rwd", "4wd"}, "model_year": []string{"1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"}, "power_unit": []string{"power", "horsepower"}, "range_unit": []string{"km", "mi"}, "transmission": []string{"manual", "automatic"}, "vehicle_type": []string{"car", "bike"}},
+		Relations: map[string]RelationSpec{
+			"brand_id":    {TargetModel: "fleet.vehicle.model.brand", SearchField: "name"},
+			"category_id": {TargetModel: "fleet.vehicle.model.category", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.model.brand (Brand of the vehicle)
+	{
+		SemanticID: "fleet.vehicle_brand.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclebrand.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.brand",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "model_count"},
+	},
+	// fleet.vehicle.model.brand (Brand of the vehicle)
+	{
+		SemanticID: "fleet.vehicle_brand.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclebrand.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.brand",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"model_count", "name"},
+	},
+	// fleet.vehicle.model.brand (Brand of the vehicle)
+	{
+		SemanticID: "fleet.vehicle_brand.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclebrand.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.brand",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// fleet.vehicle.model.brand (Brand of the vehicle)
+	{
+		SemanticID: "fleet.vehicle_brand.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclebrand.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.brand",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
+	// fleet.vehicle.model.category (Category of the model)
+	{
+		SemanticID: "fleet.vehicle_category.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name"},
+	},
+	// fleet.vehicle.model.category (Category of the model)
+	{
+		SemanticID: "fleet.vehicle_category.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "sequence"},
+	},
+	// fleet.vehicle.model.category (Category of the model)
+	{
+		SemanticID: "fleet.vehicle_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "sequence"},
+		InputTypes: map[string]string{"sequence": "integer"},
+	},
+	// fleet.vehicle.model.category (Category of the model)
+	{
+		SemanticID: "fleet.vehicle_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclecategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.model.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "sequence"},
+		InputTypes: map[string]string{"sequence": "integer"},
+	},
+	// fleet.vehicle.odometer (Odometer log for a vehicle)
+	{
+		SemanticID: "fleet.odometer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.odometer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.odometer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"date", "vehicle_id", "driver_id", "driver_employee_id", "value", "unit"},
+	},
+	// fleet.vehicle.odometer (Odometer log for a vehicle)
+	{
+		SemanticID: "fleet.odometer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.odometer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.odometer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"vehicle_id", "value", "unit", "date"},
+	},
+	// fleet.vehicle.odometer (Odometer log for a vehicle)
+	{
+		SemanticID: "fleet.odometer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.odometer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.odometer",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"vehicle_id", "value", "date"},
+		InputTypes: map[string]string{"value": "number", "vehicle_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"vehicle_id": {TargetModel: "fleet.vehicle", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.odometer (Odometer log for a vehicle)
+	{
+		SemanticID: "fleet.odometer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.odometer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.odometer",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"vehicle_id", "value", "date"},
+		InputTypes: map[string]string{"value": "number", "vehicle_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"vehicle_id": {TargetModel: "fleet.vehicle", SearchField: "name"},
+		},
+	},
+	// fleet.vehicle.state (Vehicle Status)
+	{
+		SemanticID: "fleet.vehicle_status.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclestatus.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.state",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "fold"},
+	},
+	// fleet.vehicle.state (Vehicle Status)
+	{
+		SemanticID: "fleet.vehicle_status.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclestatus.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.state",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "sequence", "fold"},
+	},
+	// fleet.vehicle.state (Vehicle Status)
+	{
+		SemanticID: "fleet.vehicle_status.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclestatus.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.state",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "sequence", "fold"},
+		InputTypes: map[string]string{"fold": "boolean", "sequence": "integer"},
+	},
+	// fleet.vehicle.state (Vehicle Status)
+	{
+		SemanticID: "fleet.vehicle_status.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehiclestatus.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.state",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "sequence", "fold"},
+		InputTypes: map[string]string{"fold": "boolean", "sequence": "integer"},
+	},
+	// fleet.vehicle.tag (Vehicle Tag)
+	{
+		SemanticID: "fleet.vehicle_tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicletag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// fleet.vehicle.tag (Vehicle Tag)
+	{
+		SemanticID: "fleet.vehicle_tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicletag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// fleet.vehicle.tag (Vehicle Tag)
+	{
+		SemanticID: "fleet.vehicle_tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicletag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.tag",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// fleet.vehicle.tag (Vehicle Tag)
+	{
+		SemanticID: "fleet.vehicle_tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicletag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle.tag",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
+	// hr.applicant (Applicant)
+	{
+		SemanticID: "recruitment.applicant.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"last_stage_id", "date_last_stage_update", "partner_name", "create_date", "email_from", "partner_phone", "job_id", "stage_id", "matching_score", "priority", "categ_ids", "user_id", "is_rotting", "rotting_days", "type_id", "application_status", "refuse_reason_id", "interviewer_ids", "medium_id", "source_id", "salary_expected", "salary_proposed", "availability", "department_id", "company_id"},
+	},
+	// hr.applicant (Applicant)
+	{
+		SemanticID: "recruitment.applicant.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "application_status", "employee_id", "meeting_ids", "refuse_reason_id", "email_normalized", "partner_phone_sanitized", "emp_is_active", "is_rotting", "rotting_days", "stage_id", "employee_name", "application_count", "meeting_display_text", "meeting_display_date", "talent_pool_count", "active", "legend_normal", "legend_blocked", "legend_waiting", "legend_done", "kanban_state", "partner_name", "partner_id", "email_from", "partner_phone", "linkedin_profile", "priority", "job_id", "talent_pool_ids", "user_id", "interviewer_ids", "date_closed", "categ_ids", "applicant_notes", "type_id", "availability", "department_id", "salary_expected", "salary_expected_extra", "salary_proposed", "salary_proposed_extra", "source_id", "medium_id", "campaign_id", "current_applicant_skill_ids", "matching_score", "is_pool_applicant", "is_applicant_in_pool"},
+	},
+	// hr.applicant (Applicant)
+	{
+		SemanticID: "recruitment.applicant.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "employee_id", "refuse_reason_id", "stage_id", "employee_name", "active", "kanban_state", "partner_name", "partner_id", "email_from", "partner_phone", "linkedin_profile", "priority", "job_id", "user_id", "date_closed", "type_id", "availability", "department_id", "salary_expected", "salary_expected_extra", "salary_proposed", "salary_proposed_extra", "source_id", "medium_id", "campaign_id"},
+		InputTypes: map[string]string{"active": "boolean", "campaign_id": "reference", "company_id": "reference", "department_id": "reference", "employee_id": "reference", "job_id": "reference", "medium_id": "reference", "partner_id": "reference", "refuse_reason_id": "reference", "salary_expected": "number", "salary_proposed": "number", "source_id": "reference", "stage_id": "reference", "type_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"kanban_state": []string{"normal", "done", "waiting", "blocked"}, "priority": []string{"0", "1", "2", "3"}},
+		Relations: map[string]RelationSpec{
+			"company_id":       {TargetModel: "res.company", SearchField: "name"},
+			"department_id":    {TargetModel: "hr.department", SearchField: "name"},
+			"employee_id":      {TargetModel: "hr.employee", SearchField: "name"},
+			"job_id":           {TargetModel: "hr.job", SearchField: "name"},
+			"partner_id":       {TargetModel: "res.partner", SearchField: "name"},
+			"refuse_reason_id": {TargetModel: "hr.applicant.refuse.reason", SearchField: "name"},
+			"stage_id":         {TargetModel: "hr.recruitment.stage", SearchField: "name"},
+			"type_id":          {TargetModel: "hr.recruitment.degree", SearchField: "name"},
+			"user_id":          {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// hr.applicant (Applicant)
+	{
+		SemanticID: "recruitment.applicant.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "employee_id", "refuse_reason_id", "stage_id", "employee_name", "active", "kanban_state", "partner_name", "partner_id", "email_from", "partner_phone", "linkedin_profile", "priority", "job_id", "user_id", "date_closed", "type_id", "availability", "department_id", "salary_expected", "salary_expected_extra", "salary_proposed", "salary_proposed_extra", "source_id", "medium_id", "campaign_id"},
+		InputTypes: map[string]string{"active": "boolean", "campaign_id": "reference", "company_id": "reference", "department_id": "reference", "employee_id": "reference", "job_id": "reference", "medium_id": "reference", "partner_id": "reference", "refuse_reason_id": "reference", "salary_expected": "number", "salary_proposed": "number", "source_id": "reference", "stage_id": "reference", "type_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"kanban_state": []string{"normal", "done", "waiting", "blocked"}, "priority": []string{"0", "1", "2", "3"}},
+		Relations: map[string]RelationSpec{
+			"company_id":       {TargetModel: "res.company", SearchField: "name"},
+			"department_id":    {TargetModel: "hr.department", SearchField: "name"},
+			"employee_id":      {TargetModel: "hr.employee", SearchField: "name"},
+			"job_id":           {TargetModel: "hr.job", SearchField: "name"},
+			"partner_id":       {TargetModel: "res.partner", SearchField: "name"},
+			"refuse_reason_id": {TargetModel: "hr.applicant.refuse.reason", SearchField: "name"},
+			"stage_id":         {TargetModel: "hr.recruitment.stage", SearchField: "name"},
+			"type_id":          {TargetModel: "hr.recruitment.degree", SearchField: "name"},
+			"user_id":          {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// hr.applicant (Applicant): create_employee_from_applicant "Create Employee"
+	{
+		SemanticID: "recruitment.applicant.create_employee_from_applicant", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		Method: "create_employee_from_applicant",
+	},
+	// hr.applicant (Applicant): archive_applicant "Refuse"
+	{
+		SemanticID: "recruitment.applicant.archive_applicant", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		Method: "archive_applicant",
+	},
+	// hr.applicant (Applicant): action_unarchive "Restore"
+	{
+		SemanticID: "recruitment.applicant.unarchive", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		Method: "action_unarchive",
+	},
+	// hr.applicant (Applicant): action_job_add_applicants "Create Applications"
+	{
+		SemanticID: "recruitment.applicant.job_add_applicants", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		Method: "action_job_add_applicants",
+	},
+	// hr.applicant (Applicant): action_talent_pool_add_applicants "Add to Pool"
+	{
+		SemanticID: "recruitment.applicant.talent_pool_add_applicants", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicant.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant",
+		Method: "action_talent_pool_add_applicants",
+	},
+	// hr.applicant.category (Category of applicant)
+	{
+		SemanticID: "recruitment.applicant_tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicanttag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// hr.applicant.category (Category of applicant)
+	{
+		SemanticID: "recruitment.applicant_tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicanttag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// hr.applicant.category (Category of applicant)
+	{
+		SemanticID: "recruitment.applicant_tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicanttag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// hr.applicant.category (Category of applicant)
+	{
+		SemanticID: "recruitment.applicant_tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.applicanttag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// hr.applicant.refuse.reason (Refuse Reason of Applicant)
+	{
+		SemanticID: "recruitment.refuse_reason.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.refusereason.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.refuse.reason",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "template_id"},
+	},
+	// hr.applicant.refuse.reason (Refuse Reason of Applicant)
+	{
+		SemanticID: "recruitment.refuse_reason.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.refusereason.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.refuse.reason",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "active", "template_id"},
+	},
+	// hr.applicant.refuse.reason (Refuse Reason of Applicant)
+	{
+		SemanticID: "recruitment.refuse_reason.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.refusereason.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.refuse.reason",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "template_id"},
+		InputTypes: map[string]string{"active": "boolean", "template_id": "reference"},
+	},
+	// hr.applicant.refuse.reason (Refuse Reason of Applicant)
+	{
+		SemanticID: "recruitment.refuse_reason.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.refusereason.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.refuse.reason",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "template_id"},
+		InputTypes: map[string]string{"active": "boolean", "template_id": "reference"},
+	},
+	// hr.applicant.skill (Skill level for an applicant)
+	{
+		SemanticID: "recruitment.applicant_skill.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment_skills"}, RequiredCapability: "recruitment.applicantskill.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.skill",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"skill_id"},
+	},
+	// hr.applicant.skill (Skill level for an applicant)
+	{
+		SemanticID: "recruitment.applicant_skill.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment_skills"}, RequiredCapability: "recruitment.applicantskill.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.skill",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"applicant_id", "skill_type_id", "skill_id", "skill_level_id", "valid_from", "valid_to", "levels_count", "is_certification", "display_warning_message"},
+	},
+	// hr.applicant.skill (Skill level for an applicant)
+	{
+		SemanticID: "recruitment.applicant_skill.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment_skills"}, RequiredCapability: "recruitment.applicantskill.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.skill",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"applicant_id", "skill_type_id", "skill_id", "skill_level_id", "valid_from", "valid_to", "display_warning_message"},
+		InputTypes: map[string]string{"applicant_id": "reference", "display_warning_message": "boolean", "skill_id": "reference", "skill_level_id": "reference", "skill_type_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"applicant_id":   {TargetModel: "hr.applicant"},
+			"skill_id":       {TargetModel: "hr.skill", SearchField: "name"},
+			"skill_level_id": {TargetModel: "hr.skill.level", SearchField: "name"},
+			"skill_type_id":  {TargetModel: "hr.skill.type", SearchField: "name"},
+		},
+	},
+	// hr.applicant.skill (Skill level for an applicant)
+	{
+		SemanticID: "recruitment.applicant_skill.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment_skills"}, RequiredCapability: "recruitment.applicantskill.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.applicant.skill",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"applicant_id", "skill_type_id", "skill_id", "skill_level_id", "valid_from", "valid_to", "display_warning_message"},
+		InputTypes: map[string]string{"applicant_id": "reference", "display_warning_message": "boolean", "skill_id": "reference", "skill_level_id": "reference", "skill_type_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"applicant_id":   {TargetModel: "hr.applicant"},
+			"skill_id":       {TargetModel: "hr.skill", SearchField: "name"},
+			"skill_level_id": {TargetModel: "hr.skill.level", SearchField: "name"},
+			"skill_type_id":  {TargetModel: "hr.skill.type", SearchField: "name"},
 		},
 	},
 	// hr.attendance (Attendance)
@@ -3258,8 +4659,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "people.expense.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"hr_expense"}, RequiredCapability: "people.expense.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.expense",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"sale_order_id", "name", "currency_id", "total_amount", "product_id", "quantity", "total_amount_currency", "employee_id", "payment_mode", "date", "vendor_id", "payment_method_line_id", "description", "split_expense_origin_id", "company_id", "price_unit"},
-		InputTypes: map[string]string{"company_id": "reference", "currency_id": "reference", "employee_id": "reference", "payment_method_line_id": "reference", "price_unit": "number", "product_id": "reference", "quantity": "number", "sale_order_id": "reference", "split_expense_origin_id": "reference", "total_amount": "number", "total_amount_currency": "number", "vendor_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"sale_order_id", "name", "currency_id", "total_amount", "product_id", "quantity", "total_amount_currency", "employee_id", "payment_mode", "date", "vendor_id", "payment_method_line_id", "description", "split_expense_origin_id", "company_id"},
+		InputTypes: map[string]string{"company_id": "reference", "currency_id": "reference", "employee_id": "reference", "payment_method_line_id": "reference", "product_id": "reference", "quantity": "number", "sale_order_id": "reference", "split_expense_origin_id": "reference", "total_amount": "number", "total_amount_currency": "number", "vendor_id": "reference"},
 		InputEnums: map[string][]string{"payment_mode": []string{"own_account", "company_account"}},
 		Relations: map[string]RelationSpec{
 			"company_id":              {TargetModel: "res.company", SearchField: "name"},
@@ -3277,8 +4678,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "people.expense.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"hr_expense"}, RequiredCapability: "people.expense.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.expense",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"sale_order_id", "name", "currency_id", "total_amount", "product_id", "quantity", "total_amount_currency", "employee_id", "payment_mode", "date", "vendor_id", "payment_method_line_id", "description", "split_expense_origin_id", "company_id", "price_unit"},
-		InputTypes: map[string]string{"company_id": "reference", "currency_id": "reference", "employee_id": "reference", "payment_method_line_id": "reference", "price_unit": "number", "product_id": "reference", "quantity": "number", "sale_order_id": "reference", "split_expense_origin_id": "reference", "total_amount": "number", "total_amount_currency": "number", "vendor_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"sale_order_id", "name", "currency_id", "total_amount", "product_id", "quantity", "total_amount_currency", "employee_id", "payment_mode", "date", "vendor_id", "payment_method_line_id", "description", "split_expense_origin_id", "company_id"},
+		InputTypes: map[string]string{"company_id": "reference", "currency_id": "reference", "employee_id": "reference", "payment_method_line_id": "reference", "product_id": "reference", "quantity": "number", "sale_order_id": "reference", "split_expense_origin_id": "reference", "total_amount": "number", "total_amount_currency": "number", "vendor_id": "reference"},
 		InputEnums: map[string][]string{"payment_mode": []string{"own_account", "company_account"}},
 		Relations: map[string]RelationSpec{
 			"company_id":              {TargetModel: "res.company", SearchField: "name"},
@@ -3345,7 +4746,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"hr"}, RequiredCapability: "people.job.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "name", "no_of_employee"},
+		OptionalReadFields: []string{"sequence", "name", "department_id", "applicant_matching_score", "open_application_count", "no_of_recruitment", "no_of_employee", "expected_employees", "no_of_hired_employee", "company_id", "alias_name", "is_published", "alias_id", "user_id"},
 	},
 	// hr.job (Job Position)
 	{
@@ -3353,19 +4754,21 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"hr"}, RequiredCapability: "people.job.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"active", "name", "user_id", "no_of_recruitment", "current_job_skill_ids", "department_id", "contract_type_id", "description", "company_id"},
+		OptionalReadFields: []string{"active", "all_application_count", "documents_count", "employee_count", "is_published", "is_favorite", "name", "user_id", "interviewer_ids", "alias_name", "alias_domain_id", "website_published", "no_of_recruitment", "current_job_skill_ids", "expected_degree", "department_id", "address_id", "contract_type_id", "description", "job_details", "job_source_ids", "company_id"},
 	},
 	// hr.job (Job Position)
 	{
 		SemanticID: "people.job.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"hr"}, RequiredCapability: "people.job.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "name", "user_id", "no_of_recruitment", "department_id", "contract_type_id", "company_id"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "contract_type_id": "reference", "department_id": "reference", "no_of_recruitment": "integer", "user_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "is_published", "is_favorite", "name", "user_id", "alias_name", "alias_domain_id", "website_published", "no_of_recruitment", "expected_degree", "department_id", "address_id", "contract_type_id", "company_id", "alias_id"},
+		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "alias_domain_id": "reference", "alias_id": "reference", "company_id": "reference", "contract_type_id": "reference", "department_id": "reference", "expected_degree": "reference", "is_favorite": "boolean", "is_published": "boolean", "no_of_recruitment": "integer", "user_id": "reference", "website_published": "boolean"},
 		Relations: map[string]RelationSpec{
+			"address_id":       {TargetModel: "res.partner", SearchField: "name"},
 			"company_id":       {TargetModel: "res.company", SearchField: "name"},
 			"contract_type_id": {TargetModel: "hr.contract.type", SearchField: "name"},
 			"department_id":    {TargetModel: "hr.department", SearchField: "name"},
+			"expected_degree":  {TargetModel: "hr.recruitment.degree", SearchField: "name"},
 			"user_id":          {TargetModel: "res.users", SearchField: "name"},
 		},
 	},
@@ -3374,14 +4777,46 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "people.job.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"hr"}, RequiredCapability: "people.job.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "name", "user_id", "no_of_recruitment", "department_id", "contract_type_id", "company_id"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "contract_type_id": "reference", "department_id": "reference", "no_of_recruitment": "integer", "user_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "is_published", "is_favorite", "name", "user_id", "alias_name", "alias_domain_id", "website_published", "no_of_recruitment", "expected_degree", "department_id", "address_id", "contract_type_id", "company_id", "alias_id"},
+		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "alias_domain_id": "reference", "alias_id": "reference", "company_id": "reference", "contract_type_id": "reference", "department_id": "reference", "expected_degree": "reference", "is_favorite": "boolean", "is_published": "boolean", "no_of_recruitment": "integer", "user_id": "reference", "website_published": "boolean"},
 		Relations: map[string]RelationSpec{
+			"address_id":       {TargetModel: "res.partner", SearchField: "name"},
 			"company_id":       {TargetModel: "res.company", SearchField: "name"},
 			"contract_type_id": {TargetModel: "hr.contract.type", SearchField: "name"},
 			"department_id":    {TargetModel: "hr.department", SearchField: "name"},
+			"expected_degree":  {TargetModel: "hr.recruitment.degree", SearchField: "name"},
 			"user_id":          {TargetModel: "res.users", SearchField: "name"},
 		},
+	},
+	// hr.job.platform (Job Platforms)
+	{
+		SemanticID: "recruitment.job_platform.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.jobplatform.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job.platform",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "email", "regex"},
+	},
+	// hr.job.platform (Job Platforms)
+	{
+		SemanticID: "recruitment.job_platform.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.jobplatform.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job.platform",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "regex", "email"},
+	},
+	// hr.job.platform (Job Platforms)
+	{
+		SemanticID: "recruitment.job_platform.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.jobplatform.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job.platform",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "regex", "email"},
+	},
+	// hr.job.platform (Job Platforms)
+	{
+		SemanticID: "recruitment.job_platform.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.jobplatform.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.job.platform",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "regex", "email"},
 	},
 	// hr.job.skill (Skills for job positions)
 	{
@@ -3670,13 +5105,115 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"default_resource_calendar_id": {TargetModel: "resource.calendar", SearchField: "name"},
 		},
 	},
+	// hr.recruitment.degree (Applicant Degree)
+	{
+		SemanticID: "recruitment.degree.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.degree.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.degree",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "score"},
+	},
+	// hr.recruitment.degree (Applicant Degree)
+	{
+		SemanticID: "recruitment.degree.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.degree.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.degree",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "score", "sequence"},
+	},
+	// hr.recruitment.degree (Applicant Degree)
+	{
+		SemanticID: "recruitment.degree.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.degree.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.degree",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "score", "sequence"},
+		InputTypes: map[string]string{"score": "number", "sequence": "integer"},
+	},
+	// hr.recruitment.degree (Applicant Degree)
+	{
+		SemanticID: "recruitment.degree.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.degree.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.degree",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "score", "sequence"},
+		InputTypes: map[string]string{"score": "number", "sequence": "integer"},
+	},
+	// hr.recruitment.source (Source of Applicants)
+	{
+		SemanticID: "recruitment.source.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.source.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.source",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"has_domain", "campaign_id", "source_id", "medium_id", "url", "email"},
+	},
+	// hr.recruitment.source (Source of Applicants)
+	{
+		SemanticID: "recruitment.source.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.source.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.source",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "email", "job_id", "medium_id", "url", "source_id", "has_domain", "alias_id", "campaign_id"},
+	},
+	// hr.recruitment.source (Source of Applicants)
+	{
+		SemanticID: "recruitment.source.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.source.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.source",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"job_id", "medium_id", "source_id", "alias_id", "campaign_id"},
+		InputTypes: map[string]string{"alias_id": "reference", "campaign_id": "reference", "job_id": "reference", "medium_id": "reference", "source_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"job_id": {TargetModel: "hr.job", SearchField: "name"},
+		},
+	},
+	// hr.recruitment.source (Source of Applicants)
+	{
+		SemanticID: "recruitment.source.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.source.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.source",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"job_id", "medium_id", "source_id", "alias_id", "campaign_id"},
+		InputTypes: map[string]string{"alias_id": "reference", "campaign_id": "reference", "job_id": "reference", "medium_id": "reference", "source_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"job_id": {TargetModel: "hr.job", SearchField: "name"},
+		},
+	},
+	// hr.recruitment.stage (Recruitment Stages)
+	{
+		SemanticID: "recruitment.stage.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.stage.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.stage",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "rotting_threshold_days", "fold", "hired_stage"},
+	},
+	// hr.recruitment.stage (Recruitment Stages)
+	{
+		SemanticID: "recruitment.stage.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.stage.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.stage",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "sequence", "template_id", "fold", "hired_stage", "is_warning_visible", "job_ids", "rotting_threshold_days", "legend_normal", "legend_blocked", "legend_waiting", "legend_done", "requirements"},
+	},
+	// hr.recruitment.stage (Recruitment Stages)
+	{
+		SemanticID: "recruitment.stage.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.stage.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.stage",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "sequence", "template_id", "fold", "hired_stage", "rotting_threshold_days", "legend_normal", "legend_blocked", "legend_waiting", "legend_done", "requirements"},
+		InputTypes: map[string]string{"fold": "boolean", "hired_stage": "boolean", "rotting_threshold_days": "integer", "sequence": "integer", "template_id": "reference"},
+	},
+	// hr.recruitment.stage (Recruitment Stages)
+	{
+		SemanticID: "recruitment.stage.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.stage.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.recruitment.stage",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "sequence", "template_id", "fold", "hired_stage", "rotting_threshold_days", "legend_normal", "legend_blocked", "legend_waiting", "legend_done", "requirements"},
+		InputTypes: map[string]string{"fold": "boolean", "hired_stage": "boolean", "rotting_threshold_days": "integer", "sequence": "integer", "template_id": "reference"},
+	},
 	// hr.resume.line (Resume line of an employee)
 	{
 		SemanticID: "people.resume_line.list", Kind: KindRead, Strategy: StrategyRead,
 		RequiredModules: []string{"hr_skills"}, RequiredCapability: "people.resumeline.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"employee_id", "name", "date_start", "course_type", "line_type_id", "certificate_filename", "duration", "external_url", "description"},
+		OptionalReadFields: []string{"employee_id", "name", "date_start", "course_type", "line_type_id", "certificate_filename", "duration", "event_id", "external_url", "description"},
 	},
 	// hr.resume.line (Resume line of an employee)
 	{
@@ -3684,7 +5221,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"hr_skills"}, RequiredCapability: "people.resumeline.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"line_type_id", "name", "course_type", "external_url", "date_start", "date_end", "duration", "certificate_filename", "description", "is_course"},
+		OptionalReadFields: []string{"line_type_id", "name", "course_type", "event_id", "external_url", "date_start", "date_end", "duration", "certificate_filename", "survey_id", "description", "is_course"},
 	},
 	// hr.resume.line (Resume line of an employee)
 	{
@@ -3693,7 +5230,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"line_type_id", "name", "course_type", "external_url", "date_start", "date_end", "duration", "certificate_filename", "employee_id"},
 		InputTypes: map[string]string{"duration": "integer", "employee_id": "reference", "line_type_id": "reference"},
-		InputEnums: map[string][]string{"course_type": []string{"external"}},
+		InputEnums: map[string][]string{"course_type": []string{"external", "onsite"}},
 		Relations: map[string]RelationSpec{
 			"employee_id":  {TargetModel: "hr.employee", SearchField: "name"},
 			"line_type_id": {TargetModel: "hr.resume.line.type", SearchField: "name"},
@@ -3706,7 +5243,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"line_type_id", "name", "course_type", "external_url", "date_start", "date_end", "duration", "certificate_filename", "employee_id"},
 		InputTypes: map[string]string{"duration": "integer", "employee_id": "reference", "line_type_id": "reference"},
-		InputEnums: map[string][]string{"course_type": []string{"external"}},
+		InputEnums: map[string][]string{"course_type": []string{"external", "onsite"}},
 		Relations: map[string]RelationSpec{
 			"employee_id":  {TargetModel: "hr.employee", SearchField: "name"},
 			"line_type_id": {TargetModel: "hr.resume.line.type", SearchField: "name"},
@@ -3845,6 +5382,46 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.skill.type",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "color", "is_certification"},
 		InputTypes: map[string]string{"active": "boolean", "color": "integer", "is_certification": "boolean"},
+	},
+	// hr.talent.pool (Talent Pool)
+	{
+		SemanticID: "recruitment.talent_pool.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.talentpool.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.talent.pool",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "pool_manager", "no_of_talents", "categ_ids", "company_id"},
+	},
+	// hr.talent.pool (Talent Pool)
+	{
+		SemanticID: "recruitment.talent_pool.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.talentpool.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.talent.pool",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "pool_manager", "categ_ids", "color", "company_id", "description"},
+	},
+	// hr.talent.pool (Talent Pool)
+	{
+		SemanticID: "recruitment.talent_pool.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.talentpool.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.talent.pool",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "pool_manager", "color", "company_id"},
+		InputTypes: map[string]string{"color": "integer", "company_id": "reference", "pool_manager": "reference"},
+		Relations: map[string]RelationSpec{
+			"company_id":   {TargetModel: "res.company", SearchField: "name"},
+			"pool_manager": {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// hr.talent.pool (Talent Pool)
+	{
+		SemanticID: "recruitment.talent_pool.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"hr_recruitment"}, RequiredCapability: "recruitment.talentpool.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.talent.pool",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "pool_manager", "color", "company_id"},
+		InputTypes: map[string]string{"color": "integer", "company_id": "reference", "pool_manager": "reference"},
+		Relations: map[string]RelationSpec{
+			"company_id":   {TargetModel: "res.company", SearchField: "name"},
+			"pool_manager": {TargetModel: "res.users", SearchField: "name"},
+		},
 	},
 	// hr.version (Employee Contract)
 	{
@@ -4012,6 +5589,492 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "template_invoice_type"},
 		InputEnums: map[string][]string{"template_invoice_type": []string{"1", "2", "3", "4", "5", "6"}},
 	},
+	// loyalty.card (Loyalty Coupon)
+	{
+		SemanticID: "sales.loyalty_card.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"code", "create_date", "points_display", "expiration_date", "program_id", "partner_id"},
+	},
+	// loyalty.card (Loyalty Coupon)
+	{
+		SemanticID: "sales.loyalty_card.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"code", "expiration_date", "partner_id", "order_id", "source_pos_order_id", "points_display", "history_ids"},
+	},
+	// loyalty.card (Loyalty Coupon)
+	{
+		SemanticID: "sales.loyalty_card.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"code", "expiration_date", "partner_id", "source_pos_order_id"},
+		InputTypes: map[string]string{"partner_id": "reference", "source_pos_order_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"partner_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"source_pos_order_id": {TargetModel: "pos.order", SearchField: "name"},
+		},
+	},
+	// loyalty.card (Loyalty Coupon)
+	{
+		SemanticID: "sales.loyalty_card.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"code", "expiration_date", "partner_id", "source_pos_order_id"},
+		InputTypes: map[string]string{"partner_id": "reference", "source_pos_order_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"partner_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"source_pos_order_id": {TargetModel: "pos.order", SearchField: "name"},
+		},
+	},
+	// loyalty.card (Loyalty Coupon): action_loyalty_update_balance
+	{
+		SemanticID: "sales.loyalty_card.loyalty_update_balance", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
+		Method: "action_loyalty_update_balance",
+	},
+	// loyalty.card (Loyalty Coupon): action_coupon_send "Send"
+	{
+		SemanticID: "sales.loyalty_card.coupon_send", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
+		Method: "action_coupon_send",
+	},
+	// loyalty.history (History for Loyalty cards and Ewallets)
+	{
+		SemanticID: "sales.loyalty_history.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyhistory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.history",
+		ReadFields: []string{"id", "display_name"},
+	},
+	// loyalty.history (History for Loyalty cards and Ewallets)
+	{
+		SemanticID: "sales.loyalty_history.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyhistory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.history",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"card_id", "description", "order_id", "order_model", "issued", "used"},
+	},
+	// loyalty.history (History for Loyalty cards and Ewallets)
+	{
+		SemanticID: "sales.loyalty_history.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyhistory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.history",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"card_id", "description", "issued", "used"},
+		InputTypes: map[string]string{"card_id": "reference", "issued": "number", "used": "number"},
+		Relations: map[string]RelationSpec{
+			"card_id": {TargetModel: "loyalty.card"},
+		},
+	},
+	// loyalty.history (History for Loyalty cards and Ewallets)
+	{
+		SemanticID: "sales.loyalty_history.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyhistory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.history",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"card_id", "description", "issued", "used"},
+		InputTypes: map[string]string{"card_id": "reference", "issued": "number", "used": "number"},
+		Relations: map[string]RelationSpec{
+			"card_id": {TargetModel: "loyalty.card"},
+		},
+	},
+	// loyalty.mail (Loyalty Communication)
+	{
+		SemanticID: "sales.loyalty_mail.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltymail.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.mail",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"trigger", "points", "mail_template_id", "pos_report_print_id"},
+	},
+	// loyalty.mail (Loyalty Communication)
+	{
+		SemanticID: "sales.loyalty_mail.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltymail.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.mail",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "trigger", "mail_template_id", "program_id", "points", "pos_report_print_id"},
+	},
+	// loyalty.mail (Loyalty Communication)
+	{
+		SemanticID: "sales.loyalty_mail.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltymail.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.mail",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "trigger", "mail_template_id", "program_id", "points", "pos_report_print_id"},
+		InputTypes: map[string]string{"active": "boolean", "mail_template_id": "reference", "points": "number", "pos_report_print_id": "reference", "program_id": "reference"},
+		InputEnums: map[string][]string{"trigger": []string{"create", "points_reach"}},
+		Relations: map[string]RelationSpec{
+			"program_id": {TargetModel: "loyalty.program", SearchField: "name"},
+		},
+	},
+	// loyalty.mail (Loyalty Communication)
+	{
+		SemanticID: "sales.loyalty_mail.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltymail.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.mail",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "trigger", "mail_template_id", "program_id", "points", "pos_report_print_id"},
+		InputTypes: map[string]string{"active": "boolean", "mail_template_id": "reference", "points": "number", "pos_report_print_id": "reference", "program_id": "reference"},
+		InputEnums: map[string][]string{"trigger": []string{"create", "points_reach"}},
+		Relations: map[string]RelationSpec{
+			"program_id": {TargetModel: "loyalty.program", SearchField: "name"},
+		},
+	},
+	// loyalty.program (Loyalty Program)
+	{
+		SemanticID: "sales.loyalty_program.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "program_type", "coupon_count_display", "pos_config_ids"},
+	},
+	// loyalty.program (Loyalty Program)
+	{
+		SemanticID: "sales.loyalty_program.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"coupon_count", "active", "applies_on", "name", "program_type", "trigger_product_ids", "payment_program_discount_product_id", "mail_template_id", "pos_report_print_id", "currency_id", "currency_symbol", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "total_order_count", "company_id", "available_on", "pos_ok", "sale_ok", "pos_config_ids", "rule_ids", "reward_ids", "communication_plan_ids"},
+	},
+	// loyalty.program (Loyalty Program)
+	{
+		SemanticID: "sales.loyalty_program.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "applies_on", "name", "program_type", "mail_template_id", "pos_report_print_id", "currency_id", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "company_id", "available_on", "pos_ok", "sale_ok"},
+		InputTypes: map[string]string{"active": "boolean", "available_on": "boolean", "company_id": "reference", "currency_id": "reference", "limit_usage": "boolean", "mail_template_id": "reference", "max_usage": "integer", "portal_visible": "boolean", "pos_ok": "boolean", "pos_report_print_id": "reference", "sale_ok": "boolean"},
+		InputEnums: map[string][]string{"applies_on": []string{"current", "future", "both"}, "program_type": []string{"coupons", "gift_card", "loyalty", "promotion", "ewallet", "promo_code", "buy_x_get_y", "next_order_coupons"}, "trigger": []string{"auto", "with_code"}},
+		Relations: map[string]RelationSpec{
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
+			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
+		},
+	},
+	// loyalty.program (Loyalty Program)
+	{
+		SemanticID: "sales.loyalty_program.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "applies_on", "name", "program_type", "mail_template_id", "pos_report_print_id", "currency_id", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "company_id", "available_on", "pos_ok", "sale_ok"},
+		InputTypes: map[string]string{"active": "boolean", "available_on": "boolean", "company_id": "reference", "currency_id": "reference", "limit_usage": "boolean", "mail_template_id": "reference", "max_usage": "integer", "portal_visible": "boolean", "pos_ok": "boolean", "pos_report_print_id": "reference", "sale_ok": "boolean"},
+		InputEnums: map[string][]string{"applies_on": []string{"current", "future", "both"}, "program_type": []string{"coupons", "gift_card", "loyalty", "promotion", "ewallet", "promo_code", "buy_x_get_y", "next_order_coupons"}, "trigger": []string{"auto", "with_code"}},
+		Relations: map[string]RelationSpec{
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
+			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
+		},
+	},
+	// loyalty.reward (Loyalty Reward)
+	{
+		SemanticID: "sales.loyalty_reward.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyreward.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.reward",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"description"},
+	},
+	// loyalty.reward (Loyalty Reward)
+	{
+		SemanticID: "sales.loyalty_reward.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyreward.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.reward",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"program_type", "user_has_debug", "multi_product", "reward_product_uom_id", "reward_product_ids", "all_discount_product_ids", "reward_type", "discount", "discount_mode", "discount_applicability", "discount_max_amount", "reward_product_qty", "reward_product_id", "reward_product_tag_id", "discount_product_domain", "discount_product_ids", "discount_product_category_id", "discount_product_tag_id", "required_points", "point_name", "clear_wallet", "description", "discount_line_product_id"},
+	},
+	// loyalty.reward (Loyalty Reward)
+	{
+		SemanticID: "sales.loyalty_reward.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyreward.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.reward",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"reward_type", "discount", "discount_mode", "discount_applicability", "discount_max_amount", "reward_product_qty", "reward_product_id", "reward_product_tag_id", "discount_product_domain", "discount_product_category_id", "discount_product_tag_id", "required_points", "clear_wallet", "description", "discount_line_product_id", "program_id"},
+		InputTypes: map[string]string{"clear_wallet": "boolean", "discount": "number", "discount_line_product_id": "reference", "discount_max_amount": "number", "discount_product_category_id": "reference", "discount_product_tag_id": "reference", "program_id": "reference", "required_points": "number", "reward_product_id": "reference", "reward_product_qty": "integer", "reward_product_tag_id": "reference"},
+		InputEnums: map[string][]string{"discount_applicability": []string{"order", "cheapest", "specific"}, "discount_mode": []string{"percent", "per_order", "per_point"}, "reward_type": []string{"product", "discount", "shipping"}},
+		Relations: map[string]RelationSpec{
+			"discount_line_product_id":     {TargetModel: "product.product", SearchField: "name"},
+			"discount_product_category_id": {TargetModel: "product.category", SearchField: "name"},
+			"discount_product_tag_id":      {TargetModel: "product.tag", SearchField: "name"},
+			"program_id":                   {TargetModel: "loyalty.program", SearchField: "name"},
+			"reward_product_id":            {TargetModel: "product.product", SearchField: "name"},
+			"reward_product_tag_id":        {TargetModel: "product.tag", SearchField: "name"},
+		},
+	},
+	// loyalty.reward (Loyalty Reward)
+	{
+		SemanticID: "sales.loyalty_reward.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyreward.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.reward",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"reward_type", "discount", "discount_mode", "discount_applicability", "discount_max_amount", "reward_product_qty", "reward_product_id", "reward_product_tag_id", "discount_product_domain", "discount_product_category_id", "discount_product_tag_id", "required_points", "clear_wallet", "description", "discount_line_product_id", "program_id"},
+		InputTypes: map[string]string{"clear_wallet": "boolean", "discount": "number", "discount_line_product_id": "reference", "discount_max_amount": "number", "discount_product_category_id": "reference", "discount_product_tag_id": "reference", "program_id": "reference", "required_points": "number", "reward_product_id": "reference", "reward_product_qty": "integer", "reward_product_tag_id": "reference"},
+		InputEnums: map[string][]string{"discount_applicability": []string{"order", "cheapest", "specific"}, "discount_mode": []string{"percent", "per_order", "per_point"}, "reward_type": []string{"product", "discount", "shipping"}},
+		Relations: map[string]RelationSpec{
+			"discount_line_product_id":     {TargetModel: "product.product", SearchField: "name"},
+			"discount_product_category_id": {TargetModel: "product.category", SearchField: "name"},
+			"discount_product_tag_id":      {TargetModel: "product.tag", SearchField: "name"},
+			"program_id":                   {TargetModel: "loyalty.program", SearchField: "name"},
+			"reward_product_id":            {TargetModel: "product.product", SearchField: "name"},
+			"reward_product_tag_id":        {TargetModel: "product.tag", SearchField: "name"},
+		},
+	},
+	// loyalty.rule (Loyalty Rule)
+	{
+		SemanticID: "sales.loyalty_rule.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.rule",
+		ReadFields: []string{"id", "display_name"},
+	},
+	// loyalty.rule (Loyalty Rule)
+	{
+		SemanticID: "sales.loyalty_rule.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"program_type", "user_has_debug", "code", "minimum_qty", "minimum_amount", "minimum_amount_tax_mode", "product_domain", "product_ids", "product_category_id", "product_tag_id", "reward_point_amount", "reward_point_name", "reward_point_mode"},
+	},
+	// loyalty.rule (Loyalty Rule)
+	{
+		SemanticID: "sales.loyalty_rule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyrule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.rule",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"code", "minimum_qty", "minimum_amount", "minimum_amount_tax_mode", "product_domain", "product_category_id", "product_tag_id", "reward_point_amount", "reward_point_mode", "program_id"},
+		InputTypes: map[string]string{"minimum_amount": "number", "minimum_qty": "integer", "product_category_id": "reference", "product_tag_id": "reference", "program_id": "reference", "reward_point_amount": "number"},
+		InputEnums: map[string][]string{"minimum_amount_tax_mode": []string{"incl", "excl"}, "reward_point_mode": []string{"order", "money", "unit"}},
+		Relations: map[string]RelationSpec{
+			"product_category_id": {TargetModel: "product.category", SearchField: "name"},
+			"product_tag_id":      {TargetModel: "product.tag", SearchField: "name"},
+			"program_id":          {TargetModel: "loyalty.program", SearchField: "name"},
+		},
+	},
+	// loyalty.rule (Loyalty Rule)
+	{
+		SemanticID: "sales.loyalty_rule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyrule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.rule",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"code", "minimum_qty", "minimum_amount", "minimum_amount_tax_mode", "product_domain", "product_category_id", "product_tag_id", "reward_point_amount", "reward_point_mode", "program_id"},
+		InputTypes: map[string]string{"minimum_amount": "number", "minimum_qty": "integer", "product_category_id": "reference", "product_tag_id": "reference", "program_id": "reference", "reward_point_amount": "number"},
+		InputEnums: map[string][]string{"minimum_amount_tax_mode": []string{"incl", "excl"}, "reward_point_mode": []string{"order", "money", "unit"}},
+		Relations: map[string]RelationSpec{
+			"product_category_id": {TargetModel: "product.category", SearchField: "name"},
+			"product_tag_id":      {TargetModel: "product.tag", SearchField: "name"},
+			"program_id":          {TargetModel: "loyalty.program", SearchField: "name"},
+		},
+	},
+	// maintenance.equipment (Maintenance Equipment)
+	{
+		SemanticID: "maintenance.equipment.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipment.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "employee_id", "department_id", "assign_date", "serial_no", "technician_user_id", "category_id", "partner_id"},
+	},
+	// maintenance.equipment (Maintenance Equipment)
+	{
+		SemanticID: "maintenance.equipment.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipment.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "serial_no", "maintenance_open_count", "name", "active", "category_id", "equipment_assign_to", "employee_id", "department_id", "maintenance_team_id", "technician_user_id", "assign_date", "scrap_date", "location_id", "note", "partner_id", "partner_ref", "model", "effective_date", "cost", "warranty_date", "expected_mtbf", "mtbf", "estimated_next_failure", "latest_failure_date", "mttr", "match_serial"},
+	},
+	// maintenance.equipment (Maintenance Equipment)
+	{
+		SemanticID: "maintenance.equipment.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipment.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "serial_no", "name", "active", "category_id", "equipment_assign_to", "employee_id", "department_id", "maintenance_team_id", "technician_user_id", "assign_date", "scrap_date", "location_id", "partner_id", "partner_ref", "effective_date", "cost", "warranty_date", "expected_mtbf"},
+		InputTypes: map[string]string{"active": "boolean", "category_id": "reference", "company_id": "reference", "cost": "number", "department_id": "reference", "employee_id": "reference", "expected_mtbf": "integer", "location_id": "reference", "maintenance_team_id": "reference", "partner_id": "reference", "technician_user_id": "reference"},
+		InputEnums: map[string][]string{"equipment_assign_to": []string{"department", "employee", "other"}},
+		Relations: map[string]RelationSpec{
+			"category_id":         {TargetModel: "maintenance.equipment.category", SearchField: "name"},
+			"company_id":          {TargetModel: "res.company", SearchField: "name"},
+			"department_id":       {TargetModel: "hr.department", SearchField: "name"},
+			"employee_id":         {TargetModel: "hr.employee", SearchField: "name"},
+			"location_id":         {TargetModel: "stock.location", SearchField: "name"},
+			"maintenance_team_id": {TargetModel: "maintenance.team", SearchField: "name"},
+			"partner_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"technician_user_id":  {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// maintenance.equipment (Maintenance Equipment)
+	{
+		SemanticID: "maintenance.equipment.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipment.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "serial_no", "name", "active", "category_id", "equipment_assign_to", "employee_id", "department_id", "maintenance_team_id", "technician_user_id", "assign_date", "scrap_date", "location_id", "partner_id", "partner_ref", "effective_date", "cost", "warranty_date", "expected_mtbf"},
+		InputTypes: map[string]string{"active": "boolean", "category_id": "reference", "company_id": "reference", "cost": "number", "department_id": "reference", "employee_id": "reference", "expected_mtbf": "integer", "location_id": "reference", "maintenance_team_id": "reference", "partner_id": "reference", "technician_user_id": "reference"},
+		InputEnums: map[string][]string{"equipment_assign_to": []string{"department", "employee", "other"}},
+		Relations: map[string]RelationSpec{
+			"category_id":         {TargetModel: "maintenance.equipment.category", SearchField: "name"},
+			"company_id":          {TargetModel: "res.company", SearchField: "name"},
+			"department_id":       {TargetModel: "hr.department", SearchField: "name"},
+			"employee_id":         {TargetModel: "hr.employee", SearchField: "name"},
+			"location_id":         {TargetModel: "stock.location", SearchField: "name"},
+			"maintenance_team_id": {TargetModel: "maintenance.team", SearchField: "name"},
+			"partner_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"technician_user_id":  {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// maintenance.equipment.category (Maintenance Equipment Category)
+	{
+		SemanticID: "maintenance.equipment_category.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipmentcategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "technician_user_id"},
+	},
+	// maintenance.equipment.category (Maintenance Equipment Category)
+	{
+		SemanticID: "maintenance.equipment_category.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipmentcategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"equipment_count", "maintenance_open_count", "name", "technician_user_id", "note"},
+	},
+	// maintenance.equipment.category (Maintenance Equipment Category)
+	{
+		SemanticID: "maintenance.equipment_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipmentcategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "technician_user_id"},
+		InputTypes: map[string]string{"technician_user_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"technician_user_id": {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// maintenance.equipment.category (Maintenance Equipment Category)
+	{
+		SemanticID: "maintenance.equipment_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.equipmentcategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.equipment.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "technician_user_id"},
+		InputTypes: map[string]string{"technician_user_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"technician_user_id": {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// maintenance.request (Maintenance Request)
+	{
+		SemanticID: "maintenance.request.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.request.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.request",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "request_date", "employee_id", "user_id", "category_id", "stage_id"},
+	},
+	// maintenance.request (Maintenance Request)
+	{
+		SemanticID: "maintenance.request.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.request.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.request",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "category_id", "stage_id", "kanban_state", "name", "employee_id", "equipment_id", "request_date", "done", "close_date", "archive", "maintenance_type", "maintenance_team_id", "user_id", "schedule_date", "schedule_end", "recurring_maintenance", "repeat_interval", "repeat_unit", "repeat_type", "repeat_until", "priority", "email_cc", "description", "instruction_type", "instruction_google_slide", "instruction_text"},
+	},
+	// maintenance.request (Maintenance Request)
+	{
+		SemanticID: "maintenance.request.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.request.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.request",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "stage_id", "kanban_state", "name", "employee_id", "equipment_id", "request_date", "close_date", "archive", "maintenance_type", "maintenance_team_id", "user_id", "schedule_date", "schedule_end", "recurring_maintenance", "repeat_interval", "repeat_unit", "repeat_type", "repeat_until", "priority", "email_cc", "instruction_type", "instruction_google_slide"},
+		InputTypes: map[string]string{"archive": "boolean", "company_id": "reference", "employee_id": "reference", "equipment_id": "reference", "maintenance_team_id": "reference", "recurring_maintenance": "boolean", "repeat_interval": "integer", "stage_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"instruction_type": []string{"pdf", "google_slide", "text"}, "kanban_state": []string{"normal", "blocked", "done"}, "maintenance_type": []string{"corrective", "preventive"}, "priority": []string{"0", "1", "2", "3"}, "repeat_type": []string{"forever", "until"}, "repeat_unit": []string{"day", "week", "month", "year"}},
+		Relations: map[string]RelationSpec{
+			"company_id":          {TargetModel: "res.company", SearchField: "name"},
+			"employee_id":         {TargetModel: "hr.employee", SearchField: "name"},
+			"equipment_id":        {TargetModel: "maintenance.equipment", SearchField: "name"},
+			"maintenance_team_id": {TargetModel: "maintenance.team", SearchField: "name"},
+			"stage_id":            {TargetModel: "maintenance.stage", SearchField: "name"},
+			"user_id":             {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// maintenance.request (Maintenance Request)
+	{
+		SemanticID: "maintenance.request.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.request.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.request",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "stage_id", "kanban_state", "name", "employee_id", "equipment_id", "request_date", "close_date", "archive", "maintenance_type", "maintenance_team_id", "user_id", "schedule_date", "schedule_end", "recurring_maintenance", "repeat_interval", "repeat_unit", "repeat_type", "repeat_until", "priority", "email_cc", "instruction_type", "instruction_google_slide"},
+		InputTypes: map[string]string{"archive": "boolean", "company_id": "reference", "employee_id": "reference", "equipment_id": "reference", "maintenance_team_id": "reference", "recurring_maintenance": "boolean", "repeat_interval": "integer", "stage_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"instruction_type": []string{"pdf", "google_slide", "text"}, "kanban_state": []string{"normal", "blocked", "done"}, "maintenance_type": []string{"corrective", "preventive"}, "priority": []string{"0", "1", "2", "3"}, "repeat_type": []string{"forever", "until"}, "repeat_unit": []string{"day", "week", "month", "year"}},
+		Relations: map[string]RelationSpec{
+			"company_id":          {TargetModel: "res.company", SearchField: "name"},
+			"employee_id":         {TargetModel: "hr.employee", SearchField: "name"},
+			"equipment_id":        {TargetModel: "maintenance.equipment", SearchField: "name"},
+			"maintenance_team_id": {TargetModel: "maintenance.team", SearchField: "name"},
+			"stage_id":            {TargetModel: "maintenance.stage", SearchField: "name"},
+			"user_id":             {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// maintenance.request (Maintenance Request): archive_equipment_request "Cancel"
+	{
+		SemanticID: "maintenance.request.archive_equipment_request", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.request.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.request",
+		Method: "archive_equipment_request",
+	},
+	// maintenance.request (Maintenance Request): reset_equipment_request "Reopen Request"
+	{
+		SemanticID: "maintenance.request.reset_equipment_request", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.request.write",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.request",
+		Method: "reset_equipment_request",
+	},
+	// maintenance.stage (Maintenance Stage)
+	{
+		SemanticID: "maintenance.stage.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.stage.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.stage",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "fold", "done"},
+	},
+	// maintenance.stage (Maintenance Stage)
+	{
+		SemanticID: "maintenance.stage.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.stage.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.stage",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "fold", "sequence", "done"},
+	},
+	// maintenance.stage (Maintenance Stage)
+	{
+		SemanticID: "maintenance.stage.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.stage.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.stage",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "fold", "sequence", "done"},
+		InputTypes: map[string]string{"done": "boolean", "fold": "boolean", "sequence": "integer"},
+	},
+	// maintenance.stage (Maintenance Stage)
+	{
+		SemanticID: "maintenance.stage.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.stage.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.stage",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "fold", "sequence", "done"},
+		InputTypes: map[string]string{"done": "boolean", "fold": "boolean", "sequence": "integer"},
+	},
+	// maintenance.team (Maintenance Teams)
+	{
+		SemanticID: "maintenance.team.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.team.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.team",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "member_ids"},
+	},
+	// maintenance.team (Maintenance Teams)
+	{
+		SemanticID: "maintenance.team.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.team.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.team",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "active", "member_ids", "alias_id", "alias_name", "alias_domain_id"},
+	},
+	// maintenance.team (Maintenance Teams)
+	{
+		SemanticID: "maintenance.team.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.team.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.team",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "alias_id", "alias_name", "alias_domain_id"},
+		InputTypes: map[string]string{"active": "boolean", "alias_domain_id": "reference", "alias_id": "reference"},
+	},
+	// maintenance.team (Maintenance Teams)
+	{
+		SemanticID: "maintenance.team.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"maintenance"}, RequiredCapability: "maintenance.team.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "maintenance.team",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "alias_id", "alias_name", "alias_domain_id"},
+		InputTypes: map[string]string{"active": "boolean", "alias_domain_id": "reference", "alias_id": "reference"},
+	},
 	// mrp.bom (Bill of Material)
 	{
 		SemanticID: "manufacturing.bom.list", Kind: KindRead, Strategy: StrategyRead,
@@ -4026,7 +6089,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.bom.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.bom",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"active", "company_id", "product_tmpl_id", "allow_operation_dependencies", "product_id", "product_qty", "product_uom_id", "code", "type", "bom_line_ids", "consumption", "project_id", "produce_delay", "days_to_prepare_mo", "enable_batch_size", "batch_size"},
+		OptionalReadFields: []string{"active", "company_id", "product_tmpl_id", "allow_operation_dependencies", "product_id", "product_qty", "product_uom_id", "code", "type", "subcontractor_ids", "bom_line_ids", "consumption", "project_id", "produce_delay", "days_to_prepare_mo", "enable_batch_size", "batch_size"},
 	},
 	// mrp.bom (Bill of Material)
 	{
@@ -4035,7 +6098,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.bom",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "company_id", "product_tmpl_id", "allow_operation_dependencies", "product_id", "product_qty", "product_uom_id", "code", "type", "consumption", "project_id", "produce_delay", "days_to_prepare_mo", "enable_batch_size", "batch_size", "ready_to_produce"},
 		InputTypes: map[string]string{"active": "boolean", "allow_operation_dependencies": "boolean", "batch_size": "number", "company_id": "reference", "days_to_prepare_mo": "integer", "enable_batch_size": "boolean", "produce_delay": "integer", "product_id": "reference", "product_qty": "number", "product_tmpl_id": "reference", "product_uom_id": "reference", "project_id": "reference"},
-		InputEnums: map[string][]string{"consumption": []string{"flexible", "warning", "strict"}, "ready_to_produce": []string{"all_available", "asap"}, "type": []string{"normal", "phantom"}},
+		InputEnums: map[string][]string{"consumption": []string{"flexible", "warning", "strict"}, "ready_to_produce": []string{"all_available", "asap"}, "type": []string{"normal", "phantom", "subcontract"}},
 		Relations: map[string]RelationSpec{
 			"company_id":      {TargetModel: "res.company", SearchField: "name"},
 			"product_id":      {TargetModel: "product.product", SearchField: "name"},
@@ -4051,7 +6114,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.bom",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "company_id", "product_tmpl_id", "allow_operation_dependencies", "product_id", "product_qty", "product_uom_id", "code", "type", "consumption", "project_id", "produce_delay", "days_to_prepare_mo", "enable_batch_size", "batch_size", "ready_to_produce"},
 		InputTypes: map[string]string{"active": "boolean", "allow_operation_dependencies": "boolean", "batch_size": "number", "company_id": "reference", "days_to_prepare_mo": "integer", "enable_batch_size": "boolean", "produce_delay": "integer", "product_id": "reference", "product_qty": "number", "product_tmpl_id": "reference", "product_uom_id": "reference", "project_id": "reference"},
-		InputEnums: map[string][]string{"consumption": []string{"flexible", "warning", "strict"}, "ready_to_produce": []string{"all_available", "asap"}, "type": []string{"normal", "phantom"}},
+		InputEnums: map[string][]string{"consumption": []string{"flexible", "warning", "strict"}, "ready_to_produce": []string{"all_available", "asap"}, "type": []string{"normal", "phantom", "subcontract"}},
 		Relations: map[string]RelationSpec{
 			"company_id":      {TargetModel: "res.company", SearchField: "name"},
 			"product_id":      {TargetModel: "product.product", SearchField: "name"},
@@ -4163,7 +6226,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.order.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.production",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"show_lock", "show_produce", "show_produce_all", "state", "reservation_state", "date_finished", "is_locked", "qty_produced", "unreserve_visible", "reserve_visible", "consumption", "is_planned", "show_allocation", "workorder_ids", "purchase_order_count", "sale_order_count", "mrp_production_child_count", "mrp_production_source_count", "mrp_production_backorder_count", "unbuild_count", "scrap_count", "delivery_count", "serial_numbers_count", "priority", "name", "use_create_components_lots", "show_lot_ids", "product_tracking", "allow_workorder_dependencies", "show_valuation", "product_id", "product_tmpl_id", "forecasted_issue", "company_id", "product_description_variants", "qty_producing", "product_qty", "product_uom_id", "is_outdated_bom", "bom_id", "lot_producing_ids", "date_start", "delay_alert_date", "json_popover", "components_availability_state", "components_availability", "user_id", "show_final_lots", "production_location_id", "move_finished_ids", "move_raw_ids", "picking_type_id", "location_src_id", "warehouse_id", "location_dest_id", "origin", "date_deadline", "is_delayed", "project_id", "allowed_uom_ids", "show_generate_bom"},
+		OptionalReadFields: []string{"show_lock", "show_produce", "show_produce_all", "state", "reservation_state", "date_finished", "is_locked", "qty_produced", "unreserve_visible", "reserve_visible", "consumption", "is_planned", "show_allocation", "workorder_ids", "purchase_order_count", "sale_order_count", "mrp_production_child_count", "mrp_production_source_count", "mrp_production_backorder_count", "unbuild_count", "scrap_count", "delivery_count", "serial_numbers_count", "repair_count", "priority", "name", "use_create_components_lots", "show_lot_ids", "product_tracking", "allow_workorder_dependencies", "show_valuation", "product_id", "product_tmpl_id", "forecasted_issue", "company_id", "product_description_variants", "qty_producing", "product_qty", "product_uom_id", "is_outdated_bom", "bom_id", "lot_producing_ids", "date_start", "delay_alert_date", "json_popover", "components_availability_state", "components_availability", "user_id", "show_final_lots", "production_location_id", "move_finished_ids", "move_raw_ids", "picking_type_id", "location_src_id", "warehouse_id", "location_dest_id", "origin", "date_deadline", "is_delayed", "project_id", "allowed_uom_ids", "show_generate_bom"},
 	},
 	// mrp.production (Manufacturing Order)
 	{
@@ -4413,7 +6476,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.unbuild.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.unbuild",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "product_id", "bom_id", "mo_id", "product_qty", "product_uom_id", "state"},
+		OptionalReadFields: []string{"name", "product_id", "bom_id", "mo_id", "lot_id", "product_qty", "product_uom_id", "state"},
 	},
 	// mrp.unbuild (Unbuild Order)
 	{
@@ -4421,20 +6484,21 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.unbuild.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.unbuild",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"company_id", "state", "name", "product_id", "mo_bom_id", "bom_id", "product_qty", "product_uom_id", "mo_id", "has_tracking"},
+		OptionalReadFields: []string{"company_id", "state", "name", "product_id", "mo_bom_id", "bom_id", "product_qty", "product_uom_id", "mo_id", "has_tracking", "lot_id", "lot_producing_ids"},
 	},
 	// mrp.unbuild (Unbuild Order)
 	{
 		SemanticID: "manufacturing.unbuild.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.unbuild.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.unbuild",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "state", "product_id", "product_qty", "product_uom_id", "mo_id", "location_dest_id", "location_id"},
-		InputTypes: map[string]string{"company_id": "reference", "location_dest_id": "reference", "location_id": "reference", "mo_id": "reference", "product_id": "reference", "product_qty": "number", "product_uom_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "state", "product_id", "product_qty", "product_uom_id", "mo_id", "lot_id", "location_dest_id", "location_id"},
+		InputTypes: map[string]string{"company_id": "reference", "location_dest_id": "reference", "location_id": "reference", "lot_id": "reference", "mo_id": "reference", "product_id": "reference", "product_qty": "number", "product_uom_id": "reference"},
 		InputEnums: map[string][]string{"state": []string{"draft", "done"}},
 		Relations: map[string]RelationSpec{
 			"company_id":       {TargetModel: "res.company", SearchField: "name"},
 			"location_dest_id": {TargetModel: "stock.location", SearchField: "name"},
 			"location_id":      {TargetModel: "stock.location", SearchField: "name"},
+			"lot_id":           {TargetModel: "stock.lot", SearchField: "name"},
 			"mo_id":            {TargetModel: "mrp.production", SearchField: "name"},
 			"product_id":       {TargetModel: "product.product", SearchField: "name"},
 			"product_uom_id":   {TargetModel: "uom.uom", SearchField: "name"},
@@ -4445,13 +6509,14 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "manufacturing.unbuild.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.unbuild.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.unbuild",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "state", "product_id", "product_qty", "product_uom_id", "mo_id", "location_dest_id", "location_id"},
-		InputTypes: map[string]string{"company_id": "reference", "location_dest_id": "reference", "location_id": "reference", "mo_id": "reference", "product_id": "reference", "product_qty": "number", "product_uom_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "state", "product_id", "product_qty", "product_uom_id", "mo_id", "lot_id", "location_dest_id", "location_id"},
+		InputTypes: map[string]string{"company_id": "reference", "location_dest_id": "reference", "location_id": "reference", "lot_id": "reference", "mo_id": "reference", "product_id": "reference", "product_qty": "number", "product_uom_id": "reference"},
 		InputEnums: map[string][]string{"state": []string{"draft", "done"}},
 		Relations: map[string]RelationSpec{
 			"company_id":       {TargetModel: "res.company", SearchField: "name"},
 			"location_dest_id": {TargetModel: "stock.location", SearchField: "name"},
 			"location_id":      {TargetModel: "stock.location", SearchField: "name"},
+			"lot_id":           {TargetModel: "stock.lot", SearchField: "name"},
 			"mo_id":            {TargetModel: "mrp.production", SearchField: "name"},
 			"product_id":       {TargetModel: "product.product", SearchField: "name"},
 			"product_uom_id":   {TargetModel: "uom.uom", SearchField: "name"},
@@ -4812,16 +6877,16 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"is_published", "name", "code", "state", "payment_method_ids", "allow_tokenization", "capture_manually", "allow_express_checkout", "so_reference_type", "maximum_amount", "available_currency_ids", "available_country_ids", "journal_id", "support_refund", "pre_msg", "pending_msg", "auth_msg", "done_msg", "cancel_msg", "module_state", "module_id", "module_to_buy", "company_id", "support_tokenization", "support_manual_capture", "support_express_checkout"},
+		OptionalReadFields: []string{"is_published", "name", "code", "custom_mode", "state", "payment_method_ids", "allow_tokenization", "capture_manually", "qr_code", "allow_express_checkout", "so_reference_type", "maximum_amount", "available_currency_ids", "available_country_ids", "journal_id", "support_refund", "pre_msg", "pending_msg", "auth_msg", "done_msg", "cancel_msg", "module_state", "module_id", "module_to_buy", "company_id", "support_tokenization", "support_manual_capture", "support_express_checkout"},
 	},
 	// payment.provider (Payment Provider)
 	{
 		SemanticID: "finance.payment_provider.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"is_published", "name", "code", "state", "allow_tokenization", "capture_manually", "allow_express_checkout", "so_reference_type", "maximum_amount", "journal_id", "module_id", "company_id"},
-		InputTypes: map[string]string{"allow_express_checkout": "boolean", "allow_tokenization": "boolean", "capture_manually": "boolean", "company_id": "reference", "is_published": "boolean", "journal_id": "reference", "maximum_amount": "number", "module_id": "reference"},
-		InputEnums: map[string][]string{"code": []string{"none"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"is_published", "name", "code", "custom_mode", "state", "allow_tokenization", "capture_manually", "qr_code", "allow_express_checkout", "so_reference_type", "maximum_amount", "journal_id", "module_id", "company_id"},
+		InputTypes: map[string]string{"allow_express_checkout": "boolean", "allow_tokenization": "boolean", "capture_manually": "boolean", "company_id": "reference", "is_published": "boolean", "journal_id": "reference", "maximum_amount": "number", "module_id": "reference", "qr_code": "boolean"},
+		InputEnums: map[string][]string{"code": []string{"none", "custom"}, "custom_mode": []string{"wire_transfer", "cash_on_delivery"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"journal_id": {TargetModel: "account.journal", SearchField: "name"},
@@ -4832,9 +6897,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "finance.payment_provider.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_published", "name", "code", "state", "allow_tokenization", "capture_manually", "allow_express_checkout", "so_reference_type", "maximum_amount", "journal_id", "module_id", "company_id"},
-		InputTypes: map[string]string{"allow_express_checkout": "boolean", "allow_tokenization": "boolean", "capture_manually": "boolean", "company_id": "reference", "is_published": "boolean", "journal_id": "reference", "maximum_amount": "number", "module_id": "reference"},
-		InputEnums: map[string][]string{"code": []string{"none"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_published", "name", "code", "custom_mode", "state", "allow_tokenization", "capture_manually", "qr_code", "allow_express_checkout", "so_reference_type", "maximum_amount", "journal_id", "module_id", "company_id"},
+		InputTypes: map[string]string{"allow_express_checkout": "boolean", "allow_tokenization": "boolean", "capture_manually": "boolean", "company_id": "reference", "is_published": "boolean", "journal_id": "reference", "maximum_amount": "number", "module_id": "reference", "qr_code": "boolean"},
+		InputEnums: map[string][]string{"code": []string{"none", "custom"}, "custom_mode": []string{"wire_transfer", "cash_on_delivery"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"journal_id": {TargetModel: "account.journal", SearchField: "name"},
@@ -4846,6 +6911,13 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
 		Method: "action_toggle_is_published",
+	},
+	// payment.provider (Payment Provider): action_recompute_pending_msg " Reload Pending Message"
+	{
+		SemanticID: "finance.payment_provider.recompute_pending_msg", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
+		Method: "action_recompute_pending_msg",
 	},
 	// payment.token (Payment Token)
 	{
@@ -5036,7 +7108,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.config.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.config",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "last_session_closing_date", "currency_id", "last_session_closing_cash"},
+		OptionalReadFields: []string{"name", "last_session_closing_date", "currency_id", "last_session_closing_cash", "status"},
 	},
 	// pos.config (Point of Sale Configuration)
 	{
@@ -5051,9 +7123,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "pos.config.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.config.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.config",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "other_devices", "is_posbox", "module_pos_hr", "name", "module_pos_restaurant", "company_id", "epson_printer_ip", "iface_cashdrawer", "proxy_ip", "iface_scan_via_proxy", "iface_electronic_scale", "iface_print_via_proxy", "iface_tax_included", "picking_policy", "picking_type_id"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "other_devices", "is_posbox", "module_pos_hr", "name", "module_pos_restaurant", "company_id", "epson_printer_ip", "iface_cashdrawer", "proxy_ip", "iface_scan_via_proxy", "iface_electronic_scale", "iface_print_via_proxy", "iface_tax_included", "picking_policy", "picking_type_id", "self_ordering_mode", "self_ordering_pay_after", "self_ordering_service_mode"},
 		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "iface_cashdrawer": "boolean", "iface_electronic_scale": "boolean", "iface_print_via_proxy": "boolean", "iface_scan_via_proxy": "boolean", "is_posbox": "boolean", "module_pos_hr": "boolean", "module_pos_restaurant": "boolean", "other_devices": "boolean", "picking_type_id": "reference"},
-		InputEnums: map[string][]string{"iface_tax_included": []string{"subtotal", "total"}, "picking_policy": []string{"direct", "one"}},
+		InputEnums: map[string][]string{"iface_tax_included": []string{"subtotal", "total"}, "picking_policy": []string{"direct", "one"}, "self_ordering_mode": []string{"nothing", "consultation", "mobile", "kiosk"}, "self_ordering_pay_after": []string{"meal", "each"}, "self_ordering_service_mode": []string{"counter", "table"}},
 		Relations: map[string]RelationSpec{
 			"company_id":      {TargetModel: "res.company", SearchField: "name"},
 			"picking_type_id": {TargetModel: "stock.picking.type", SearchField: "name"},
@@ -5064,9 +7136,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "pos.config.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.config.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.config",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "other_devices", "is_posbox", "module_pos_hr", "name", "module_pos_restaurant", "company_id", "epson_printer_ip", "iface_cashdrawer", "proxy_ip", "iface_scan_via_proxy", "iface_electronic_scale", "iface_print_via_proxy", "iface_tax_included", "picking_policy", "picking_type_id"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "other_devices", "is_posbox", "module_pos_hr", "name", "module_pos_restaurant", "company_id", "epson_printer_ip", "iface_cashdrawer", "proxy_ip", "iface_scan_via_proxy", "iface_electronic_scale", "iface_print_via_proxy", "iface_tax_included", "picking_policy", "picking_type_id", "self_ordering_mode", "self_ordering_pay_after", "self_ordering_service_mode"},
 		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "iface_cashdrawer": "boolean", "iface_electronic_scale": "boolean", "iface_print_via_proxy": "boolean", "iface_scan_via_proxy": "boolean", "is_posbox": "boolean", "module_pos_hr": "boolean", "module_pos_restaurant": "boolean", "other_devices": "boolean", "picking_type_id": "reference"},
-		InputEnums: map[string][]string{"iface_tax_included": []string{"subtotal", "total"}, "picking_policy": []string{"direct", "one"}},
+		InputEnums: map[string][]string{"iface_tax_included": []string{"subtotal", "total"}, "picking_policy": []string{"direct", "one"}, "self_ordering_mode": []string{"nothing", "consultation", "mobile", "kiosk"}, "self_ordering_pay_after": []string{"meal", "each"}, "self_ordering_service_mode": []string{"counter", "table"}},
 		Relations: map[string]RelationSpec{
 			"company_id":      {TargetModel: "res.company", SearchField: "name"},
 			"picking_type_id": {TargetModel: "stock.picking.type", SearchField: "name"},
@@ -5086,7 +7158,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.order.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.order",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"state", "has_refundable_lines", "failed_pickings", "picking_count", "sale_order_count", "refund_orders_count", "refunded_order_id", "name", "source", "date_order", "session_id", "employee_id", "user_id", "order_edit_tracking", "is_edited", "partner_id", "fiscal_position_id", "lines", "amount_tax", "amount_total", "amount_paid", "margin", "margin_percent", "is_total_cost_computed", "currency_id", "payment_ids", "amount_difference", "session_move_id", "pos_reference", "tracking_number", "country_code", "preset_id", "preset_time", "floating_order_name", "email", "mobile", "general_customer_note", "account_move", "available_payment_method_ids", "nb_print"},
+		OptionalReadFields: []string{"state", "has_refundable_lines", "failed_pickings", "picking_count", "sale_order_count", "refund_orders_count", "refunded_order_id", "attendee_count", "name", "source", "date_order", "session_id", "employee_id", "user_id", "order_edit_tracking", "is_edited", "partner_id", "fiscal_position_id", "table_id", "customer_count", "lines", "amount_tax", "amount_total", "amount_paid", "margin", "margin_percent", "is_total_cost_computed", "currency_id", "payment_ids", "amount_difference", "session_move_id", "pos_reference", "tracking_number", "country_code", "preset_id", "preset_time", "floating_order_name", "email", "mobile", "general_customer_note", "account_move", "available_payment_method_ids", "nb_print"},
 	},
 	// pos.order (Point of Sale Orders)
 	{
@@ -5095,7 +7167,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.order",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"source", "session_id", "employee_id", "user_id", "partner_id", "fiscal_position_id", "amount_paid", "preset_id", "preset_time", "floating_order_name", "email", "mobile", "general_customer_note", "amount_return", "amount_tax", "amount_total", "company_id", "name"},
 		InputTypes: map[string]string{"amount_paid": "number", "amount_return": "number", "amount_tax": "number", "amount_total": "number", "company_id": "reference", "employee_id": "reference", "fiscal_position_id": "reference", "partner_id": "reference", "preset_id": "reference", "session_id": "reference", "user_id": "reference"},
-		InputEnums: map[string][]string{"source": []string{"pos"}},
+		InputEnums: map[string][]string{"source": []string{"pos", "mobile", "kiosk"}},
 		Relations: map[string]RelationSpec{
 			"company_id":         {TargetModel: "res.company", SearchField: "name"},
 			"employee_id":        {TargetModel: "hr.employee", SearchField: "name"},
@@ -5113,7 +7185,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.order",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"source", "session_id", "employee_id", "user_id", "partner_id", "fiscal_position_id", "amount_paid", "preset_id", "preset_time", "floating_order_name", "email", "mobile", "general_customer_note", "amount_return", "amount_tax", "amount_total", "company_id", "name"},
 		InputTypes: map[string]string{"amount_paid": "number", "amount_return": "number", "amount_tax": "number", "amount_total": "number", "company_id": "reference", "employee_id": "reference", "fiscal_position_id": "reference", "partner_id": "reference", "preset_id": "reference", "session_id": "reference", "user_id": "reference"},
-		InputEnums: map[string][]string{"source": []string{"pos"}},
+		InputEnums: map[string][]string{"source": []string{"pos", "mobile", "kiosk"}},
 		Relations: map[string]RelationSpec{
 			"company_id":         {TargetModel: "res.company", SearchField: "name"},
 			"employee_id":        {TargetModel: "hr.employee", SearchField: "name"},
@@ -5284,16 +7356,16 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.preset.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.preset",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"count_linked_orders", "count_linked_config", "name", "pricelist_id", "fiscal_position_id", "use_timing", "resource_calendar_id", "slots_per_interval", "interval_time", "identification", "is_return", "color", "attendance_ids"},
+		OptionalReadFields: []string{"count_linked_orders", "count_linked_config", "name", "pricelist_id", "fiscal_position_id", "use_timing", "resource_calendar_id", "slots_per_interval", "interval_time", "identification", "is_return", "color", "attendance_ids", "available_in_self", "service_at", "mail_template_id", "use_guest"},
 	},
 	// pos.preset (Easily load a set of configuration options)
 	{
 		SemanticID: "pos.preset.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.preset.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.preset",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "pricelist_id", "fiscal_position_id", "use_timing", "resource_calendar_id", "slots_per_interval", "interval_time", "identification", "is_return", "color"},
-		InputTypes: map[string]string{"color": "integer", "fiscal_position_id": "reference", "interval_time": "integer", "is_return": "boolean", "pricelist_id": "reference", "resource_calendar_id": "reference", "slots_per_interval": "integer", "use_timing": "boolean"},
-		InputEnums: map[string][]string{"identification": []string{"none", "address", "name"}},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "pricelist_id", "fiscal_position_id", "use_timing", "resource_calendar_id", "slots_per_interval", "interval_time", "identification", "is_return", "color", "available_in_self", "service_at", "mail_template_id", "use_guest"},
+		InputTypes: map[string]string{"available_in_self": "boolean", "color": "integer", "fiscal_position_id": "reference", "interval_time": "integer", "is_return": "boolean", "mail_template_id": "reference", "pricelist_id": "reference", "resource_calendar_id": "reference", "slots_per_interval": "integer", "use_guest": "boolean", "use_timing": "boolean"},
+		InputEnums: map[string][]string{"identification": []string{"none", "address", "name"}, "service_at": []string{"counter", "table", "delivery"}},
 		Relations: map[string]RelationSpec{
 			"fiscal_position_id":   {TargetModel: "account.fiscal.position", SearchField: "name"},
 			"pricelist_id":         {TargetModel: "product.pricelist", SearchField: "name"},
@@ -5305,9 +7377,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "pos.preset.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.preset.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.preset",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "pricelist_id", "fiscal_position_id", "use_timing", "resource_calendar_id", "slots_per_interval", "interval_time", "identification", "is_return", "color"},
-		InputTypes: map[string]string{"color": "integer", "fiscal_position_id": "reference", "interval_time": "integer", "is_return": "boolean", "pricelist_id": "reference", "resource_calendar_id": "reference", "slots_per_interval": "integer", "use_timing": "boolean"},
-		InputEnums: map[string][]string{"identification": []string{"none", "address", "name"}},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "pricelist_id", "fiscal_position_id", "use_timing", "resource_calendar_id", "slots_per_interval", "interval_time", "identification", "is_return", "color", "available_in_self", "service_at", "mail_template_id", "use_guest"},
+		InputTypes: map[string]string{"available_in_self": "boolean", "color": "integer", "fiscal_position_id": "reference", "interval_time": "integer", "is_return": "boolean", "mail_template_id": "reference", "pricelist_id": "reference", "resource_calendar_id": "reference", "slots_per_interval": "integer", "use_guest": "boolean", "use_timing": "boolean"},
+		InputEnums: map[string][]string{"identification": []string{"none", "address", "name"}, "service_at": []string{"counter", "table", "delivery"}},
 		Relations: map[string]RelationSpec{
 			"fiscal_position_id":   {TargetModel: "account.fiscal.position", SearchField: "name"},
 			"pricelist_id":         {TargetModel: "product.pricelist", SearchField: "name"},
@@ -5675,7 +7747,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.vendorprice.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.supplierinfo",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "partner_id", "product_tmpl_id", "product_name", "product_code", "date_start", "date_end", "min_qty", "product_uom_id", "price", "discount", "delay", "product_id"},
+		OptionalReadFields: []string{"sequence", "partner_id", "is_subcontractor", "purchase_requisition_id", "product_tmpl_id", "product_name", "product_code", "date_start", "date_end", "min_qty", "product_uom_id", "price", "discount", "delay", "product_id"},
 	},
 	// product.supplierinfo (Supplier Pricelist)
 	{
@@ -5683,7 +7755,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.vendorprice.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.supplierinfo",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"product_variant_count", "partner_id", "product_name", "product_code", "delay", "product_tmpl_id", "product_id", "min_qty", "product_uom_id", "price", "date_start", "date_end", "discount", "company_id"},
+		OptionalReadFields: []string{"product_variant_count", "partner_id", "product_name", "product_code", "purchase_requisition_id", "delay", "product_tmpl_id", "product_id", "min_qty", "product_uom_id", "price", "date_start", "date_end", "discount", "company_id"},
 	},
 	// product.supplierinfo (Supplier Pricelist)
 	{
@@ -6112,6 +8184,274 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"project_id": {TargetModel: "project.project", SearchField: "name"},
 			"user_id":    {TargetModel: "res.users", SearchField: "name"},
 		},
+	},
+	// purchase.requisition (Purchase Requisition)
+	{
+		SemanticID: "procurement.agreement.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "vendor_id", "requisition_type", "user_id", "date_start", "date_end", "reference", "state"},
+	},
+	// purchase.requisition (Purchase Requisition)
+	{
+		SemanticID: "procurement.agreement.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "currency_id", "active", "state", "order_count", "name", "vendor_id", "user_id", "requisition_type", "date_start", "date_end", "reference", "line_ids", "description"},
+	},
+	// purchase.requisition (Purchase Requisition)
+	{
+		SemanticID: "procurement.agreement.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "currency_id", "active", "state", "vendor_id", "user_id", "requisition_type", "date_start", "date_end", "reference", "picking_type_id"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "currency_id": "reference", "picking_type_id": "reference", "user_id": "reference", "vendor_id": "reference"},
+		InputEnums: map[string][]string{"requisition_type": []string{"blanket_order", "purchase_template"}, "state": []string{"draft", "confirmed", "done", "cancel"}},
+		Relations: map[string]RelationSpec{
+			"company_id":      {TargetModel: "res.company", SearchField: "name"},
+			"currency_id":     {TargetModel: "res.currency", SearchField: "name"},
+			"picking_type_id": {TargetModel: "stock.picking.type", SearchField: "name"},
+			"user_id":         {TargetModel: "res.users", SearchField: "name"},
+			"vendor_id":       {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// purchase.requisition (Purchase Requisition)
+	{
+		SemanticID: "procurement.agreement.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "currency_id", "active", "state", "vendor_id", "user_id", "requisition_type", "date_start", "date_end", "reference", "picking_type_id"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "currency_id": "reference", "picking_type_id": "reference", "user_id": "reference", "vendor_id": "reference"},
+		InputEnums: map[string][]string{"requisition_type": []string{"blanket_order", "purchase_template"}, "state": []string{"draft", "confirmed", "done", "cancel"}},
+		Relations: map[string]RelationSpec{
+			"company_id":      {TargetModel: "res.company", SearchField: "name"},
+			"currency_id":     {TargetModel: "res.currency", SearchField: "name"},
+			"picking_type_id": {TargetModel: "stock.picking.type", SearchField: "name"},
+			"user_id":         {TargetModel: "res.users", SearchField: "name"},
+			"vendor_id":       {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// purchase.requisition (Purchase Requisition): action_confirm "Confirm"
+	{
+		SemanticID: "procurement.agreement.confirm", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		Method: "action_confirm",
+	},
+	// purchase.requisition (Purchase Requisition): action_done "Close"
+	{
+		SemanticID: "procurement.agreement.done", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		Method: "action_done",
+	},
+	// purchase.requisition (Purchase Requisition): action_draft "Reset to Draft"
+	{
+		SemanticID: "procurement.agreement.draft", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		Method: "action_draft",
+	},
+	// purchase.requisition (Purchase Requisition): action_cancel "Cancel"
+	{
+		SemanticID: "procurement.agreement.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreement.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition",
+		Method: "action_cancel",
+	},
+	// purchase.requisition.line (Purchase Requisition Line)
+	{
+		SemanticID: "procurement.agreement_line.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreementline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition.line",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"product_id"},
+	},
+	// purchase.requisition.line (Purchase Requisition Line)
+	{
+		SemanticID: "procurement.agreement_line.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreementline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition.line",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"analytic_precision", "distribution_analytic_account_ids", "product_id", "product_qty", "price_unit", "requisition_id", "product_uom_id", "product_description_variants", "qty_ordered", "company_id", "supplier_info_ids", "move_dest_id"},
+	},
+	// purchase.requisition.line (Purchase Requisition Line)
+	{
+		SemanticID: "procurement.agreement_line.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreementline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition.line",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"analytic_precision", "product_id", "product_qty", "price_unit", "requisition_id", "product_uom_id", "product_description_variants", "move_dest_id"},
+		InputTypes: map[string]string{"analytic_precision": "integer", "move_dest_id": "reference", "price_unit": "number", "product_id": "reference", "product_qty": "number", "product_uom_id": "reference", "requisition_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"move_dest_id":   {TargetModel: "stock.move"},
+			"product_id":     {TargetModel: "product.product", SearchField: "name"},
+			"product_uom_id": {TargetModel: "uom.uom", SearchField: "name"},
+			"requisition_id": {TargetModel: "purchase.requisition", SearchField: "name"},
+		},
+	},
+	// purchase.requisition.line (Purchase Requisition Line)
+	{
+		SemanticID: "procurement.agreement_line.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"purchase_requisition"}, RequiredCapability: "procurement.agreementline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "purchase.requisition.line",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"analytic_precision", "product_id", "product_qty", "price_unit", "requisition_id", "product_uom_id", "product_description_variants", "move_dest_id"},
+		InputTypes: map[string]string{"analytic_precision": "integer", "move_dest_id": "reference", "price_unit": "number", "product_id": "reference", "product_qty": "number", "product_uom_id": "reference", "requisition_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"move_dest_id":   {TargetModel: "stock.move"},
+			"product_id":     {TargetModel: "product.product", SearchField: "name"},
+			"product_uom_id": {TargetModel: "uom.uom", SearchField: "name"},
+			"requisition_id": {TargetModel: "purchase.requisition", SearchField: "name"},
+		},
+	},
+	// repair.order (Repair Order)
+	{
+		SemanticID: "repair.order.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "priority", "name", "schedule_date", "product_id", "parts_availability_state", "parts_availability", "product_qty", "product_uom", "user_id", "partner_id", "picking_id", "sale_order_id", "location_id", "state"},
+	},
+	// repair.order (Repair Order)
+	{
+		SemanticID: "repair.order.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"has_uncomplete_moves", "unreserve_visible", "reserve_visible", "state", "sale_order_id", "purchase_count", "production_count", "priority", "name", "allowed_lot_ids", "repair_request", "partner_id", "product_id", "lot_id", "product_qty", "product_uom", "picking_id", "under_warranty", "schedule_date", "user_id", "tag_ids", "parts_availability_state", "parts_availability", "picking_type_id", "move_ids", "internal_notes", "sale_order_line_id", "company_id", "picking_product_ids", "picking_product_id", "tracking", "allowed_uom_ids", "picking_type_visible"},
+	},
+	// repair.order (Repair Order)
+	{
+		SemanticID: "repair.order.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"priority", "partner_id", "product_id", "product_qty", "product_uom", "picking_id", "under_warranty", "schedule_date", "user_id", "picking_type_id", "tracking", "company_id", "location_id", "name", "product_location_dest_id", "product_location_src_id", "recycle_location_id"},
+		InputTypes: map[string]string{"company_id": "reference", "location_id": "reference", "partner_id": "reference", "picking_id": "reference", "picking_type_id": "reference", "product_id": "reference", "product_location_dest_id": "reference", "product_location_src_id": "reference", "product_qty": "number", "product_uom": "reference", "recycle_location_id": "reference", "under_warranty": "boolean", "user_id": "reference"},
+		InputEnums: map[string][]string{"priority": []string{"0", "1"}, "tracking": []string{"serial", "lot", "none"}},
+		Relations: map[string]RelationSpec{
+			"company_id":               {TargetModel: "res.company", SearchField: "name"},
+			"location_id":              {TargetModel: "stock.location", SearchField: "name"},
+			"partner_id":               {TargetModel: "res.partner", SearchField: "name"},
+			"picking_id":               {TargetModel: "stock.picking", SearchField: "name"},
+			"picking_type_id":          {TargetModel: "stock.picking.type", SearchField: "name"},
+			"product_id":               {TargetModel: "product.product", SearchField: "name"},
+			"product_location_dest_id": {TargetModel: "stock.location", SearchField: "name"},
+			"product_location_src_id":  {TargetModel: "stock.location", SearchField: "name"},
+			"product_uom":              {TargetModel: "uom.uom", SearchField: "name"},
+			"recycle_location_id":      {TargetModel: "stock.location", SearchField: "name"},
+			"user_id":                  {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// repair.order (Repair Order)
+	{
+		SemanticID: "repair.order.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"priority", "partner_id", "product_id", "product_qty", "product_uom", "picking_id", "under_warranty", "schedule_date", "user_id", "picking_type_id", "tracking", "company_id", "location_id", "name", "product_location_dest_id", "product_location_src_id", "recycle_location_id"},
+		InputTypes: map[string]string{"company_id": "reference", "location_id": "reference", "partner_id": "reference", "picking_id": "reference", "picking_type_id": "reference", "product_id": "reference", "product_location_dest_id": "reference", "product_location_src_id": "reference", "product_qty": "number", "product_uom": "reference", "recycle_location_id": "reference", "under_warranty": "boolean", "user_id": "reference"},
+		InputEnums: map[string][]string{"priority": []string{"0", "1"}, "tracking": []string{"serial", "lot", "none"}},
+		Relations: map[string]RelationSpec{
+			"company_id":               {TargetModel: "res.company", SearchField: "name"},
+			"location_id":              {TargetModel: "stock.location", SearchField: "name"},
+			"partner_id":               {TargetModel: "res.partner", SearchField: "name"},
+			"picking_id":               {TargetModel: "stock.picking", SearchField: "name"},
+			"picking_type_id":          {TargetModel: "stock.picking.type", SearchField: "name"},
+			"product_id":               {TargetModel: "product.product", SearchField: "name"},
+			"product_location_dest_id": {TargetModel: "stock.location", SearchField: "name"},
+			"product_location_src_id":  {TargetModel: "stock.location", SearchField: "name"},
+			"product_uom":              {TargetModel: "uom.uom", SearchField: "name"},
+			"recycle_location_id":      {TargetModel: "stock.location", SearchField: "name"},
+			"user_id":                  {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// repair.order (Repair Order): action_validate "Confirm Repair"
+	{
+		SemanticID: "repair.order.validate", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_validate",
+	},
+	// repair.order (Repair Order): action_repair_start "Start Repair"
+	{
+		SemanticID: "repair.order.repair_start", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_repair_start",
+	},
+	// repair.order (Repair Order): action_repair_end "End Repair"
+	{
+		SemanticID: "repair.order.repair_end", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_repair_end",
+	},
+	// repair.order (Repair Order): action_assign "Check availability"
+	{
+		SemanticID: "repair.order.assign", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_assign",
+	},
+	// repair.order (Repair Order): action_unreserve "Unreserve"
+	{
+		SemanticID: "repair.order.unreserve", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_unreserve",
+	},
+	// repair.order (Repair Order): action_create_sale_order "Create Quotation"
+	{
+		SemanticID: "repair.order.create_sale_order", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_create_sale_order",
+	},
+	// repair.order (Repair Order): action_repair_cancel "Cancel Repair"
+	{
+		SemanticID: "repair.order.repair_cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_repair_cancel",
+	},
+	// repair.order (Repair Order): action_repair_cancel_draft "Set to Draft"
+	{
+		SemanticID: "repair.order.repair_cancel_draft", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.order",
+		Method: "action_repair_cancel_draft",
+	},
+	// repair.tags (Repair Tags)
+	{
+		SemanticID: "repair.tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.tag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.tags",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// repair.tags (Repair Tags)
+	{
+		SemanticID: "repair.tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.tag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.tags",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// repair.tags (Repair Tags)
+	{
+		SemanticID: "repair.tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.tag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.tags",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// repair.tags (Repair Tags)
+	{
+		SemanticID: "repair.tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"repair"}, RequiredCapability: "repair.tag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "repair.tags",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
 	},
 	// res.bank (Bank)
 	{
@@ -6544,6 +8884,71 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"user_id":     {TargetModel: "res.users", SearchField: "name"},
 		},
 	},
+	// restaurant.floor (Restaurant Floor)
+	{
+		SemanticID: "pos.floor.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.floor.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.floor",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "pos_config_ids"},
+	},
+	// restaurant.floor (Restaurant Floor)
+	{
+		SemanticID: "pos.floor.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.floor.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.floor",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "name", "pos_config_ids", "background_color", "table_ids"},
+	},
+	// restaurant.floor (Restaurant Floor)
+	{
+		SemanticID: "pos.floor.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.floor.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.floor",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "name", "background_color"},
+		InputTypes: map[string]string{"active": "boolean"},
+	},
+	// restaurant.floor (Restaurant Floor)
+	{
+		SemanticID: "pos.floor.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.floor.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.floor",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "name", "background_color"},
+		InputTypes: map[string]string{"active": "boolean"},
+	},
+	// restaurant.table (Restaurant Table)
+	{
+		SemanticID: "pos.table.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.table.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.table",
+		ReadFields: []string{"id", "display_name"},
+	},
+	// restaurant.table (Restaurant Table)
+	{
+		SemanticID: "pos.table.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.table.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.table",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"table_number", "seats", "identifier", "shape", "color", "position_h", "position_v", "width", "height"},
+	},
+	// restaurant.table (Restaurant Table)
+	{
+		SemanticID: "pos.table.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.table.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.table",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"table_number", "seats", "identifier", "shape", "color", "position_h", "position_v", "width", "height"},
+		InputTypes: map[string]string{"height": "number", "position_h": "number", "position_v": "number", "seats": "integer", "table_number": "integer", "width": "number"},
+		InputEnums: map[string][]string{"shape": []string{"square", "round"}},
+	},
+	// restaurant.table (Restaurant Table)
+	{
+		SemanticID: "pos.table.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"pos_restaurant"}, RequiredCapability: "pos.table.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "restaurant.table",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"table_number", "seats", "identifier", "shape", "color", "position_h", "position_v", "width", "height"},
+		InputTypes: map[string]string{"height": "number", "position_h": "number", "position_v": "number", "seats": "integer", "table_number": "integer", "width": "number"},
+		InputEnums: map[string][]string{"shape": []string{"square", "round"}},
+	},
 	// sale.order.template (Quotation Template)
 	{
 		SemanticID: "sales.quotation_template.list", Kind: KindRead, Strategy: StrategyRead,
@@ -6628,13 +9033,122 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"sale_order_template_id": {TargetModel: "sale.order.template", SearchField: "name"},
 		},
 	},
+	// stock.landed.cost (Stock Landed Cost)
+	{
+		SemanticID: "inventory.landed_cost.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "date", "state"},
+	},
+	// stock.landed.cost (Stock Landed Cost)
+	{
+		SemanticID: "inventory.landed_cost.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "state", "name", "date", "target_model", "picking_ids", "mrp_production_ids", "account_journal_id", "account_move_id", "vendor_bill_id", "cost_lines", "currency_id", "amount_total", "valuation_adjustment_lines"},
+	},
+	// stock.landed.cost (Stock Landed Cost)
+	{
+		SemanticID: "inventory.landed_cost.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "date", "target_model", "account_journal_id", "vendor_bill_id"},
+		InputTypes: map[string]string{"account_journal_id": "reference", "company_id": "reference", "vendor_bill_id": "reference"},
+		InputEnums: map[string][]string{"target_model": []string{"picking", "manufacturing"}},
+		Relations: map[string]RelationSpec{
+			"account_journal_id": {TargetModel: "account.journal", SearchField: "name"},
+			"company_id":         {TargetModel: "res.company", SearchField: "name"},
+			"vendor_bill_id":     {TargetModel: "account.move", SearchField: "name"},
+		},
+	},
+	// stock.landed.cost (Stock Landed Cost)
+	{
+		SemanticID: "inventory.landed_cost.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "date", "target_model", "account_journal_id", "vendor_bill_id"},
+		InputTypes: map[string]string{"account_journal_id": "reference", "company_id": "reference", "vendor_bill_id": "reference"},
+		InputEnums: map[string][]string{"target_model": []string{"picking", "manufacturing"}},
+		Relations: map[string]RelationSpec{
+			"account_journal_id": {TargetModel: "account.journal", SearchField: "name"},
+			"company_id":         {TargetModel: "res.company", SearchField: "name"},
+			"vendor_bill_id":     {TargetModel: "account.move", SearchField: "name"},
+		},
+	},
+	// stock.landed.cost (Stock Landed Cost): button_validate "Validate"
+	{
+		SemanticID: "inventory.landed_cost.validate", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		Method: "button_validate",
+	},
+	// stock.landed.cost (Stock Landed Cost): button_cancel "Cancel"
+	{
+		SemanticID: "inventory.landed_cost.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		Method: "button_cancel",
+	},
+	// stock.landed.cost (Stock Landed Cost): compute_landed_cost "Compute"
+	{
+		SemanticID: "inventory.landed_cost.compute_landed_cost", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		Method: "compute_landed_cost",
+	},
+	// stock.landed.cost.lines (Stock Landed Cost Line)
+	{
+		SemanticID: "inventory.landed_cost_line.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcostline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost.lines",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// stock.landed.cost.lines (Stock Landed Cost Line)
+	{
+		SemanticID: "inventory.landed_cost_line.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcostline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost.lines",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "product_id", "split_method", "currency_id", "cost_id", "price_unit", "account_id"},
+	},
+	// stock.landed.cost.lines (Stock Landed Cost Line)
+	{
+		SemanticID: "inventory.landed_cost_line.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcostline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost.lines",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "product_id", "split_method", "cost_id", "price_unit", "account_id"},
+		InputTypes: map[string]string{"account_id": "reference", "cost_id": "reference", "price_unit": "number", "product_id": "reference"},
+		InputEnums: map[string][]string{"split_method": []string{"equal", "by_quantity", "by_current_cost_price", "by_weight", "by_volume"}},
+		Relations: map[string]RelationSpec{
+			"account_id": {TargetModel: "account.account", SearchField: "name"},
+			"cost_id":    {TargetModel: "stock.landed.cost", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// stock.landed.cost.lines (Stock Landed Cost Line)
+	{
+		SemanticID: "inventory.landed_cost_line.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcostline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost.lines",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "product_id", "split_method", "cost_id", "price_unit", "account_id"},
+		InputTypes: map[string]string{"account_id": "reference", "cost_id": "reference", "price_unit": "number", "product_id": "reference"},
+		InputEnums: map[string][]string{"split_method": []string{"equal", "by_quantity", "by_current_cost_price", "by_weight", "by_volume"}},
+		Relations: map[string]RelationSpec{
+			"account_id": {TargetModel: "account.account", SearchField: "name"},
+			"cost_id":    {TargetModel: "stock.landed.cost", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
 	// stock.lot (Lot/Serial)
 	{
 		SemanticID: "inventory.lot.list", Kind: KindRead, Strategy: StrategyRead,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.lot.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.lot",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "product_id", "ref", "create_date", "partner_ids", "product_qty"},
+		OptionalReadFields: []string{"name", "product_id", "ref", "create_date", "product_qty", "alert_date", "use_date", "removal_date", "expiration_date", "partner_ids"},
 	},
 	// stock.lot (Lot/Serial)
 	{
@@ -6642,14 +9156,14 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.lot.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.lot",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"company_id", "display_complete", "sale_order_count", "purchase_order_count", "delivery_count", "name", "product_id", "ref", "partner_ids", "product_qty", "product_uom_id", "location_id", "company_currency_id", "total_value", "avg_cost", "standard_price", "note", "lot_valuated"},
+		OptionalReadFields: []string{"company_id", "display_complete", "repair_part_count", "in_repair_count", "repaired_count", "sale_order_count", "purchase_order_count", "delivery_count", "product_expiry_alert", "name", "product_id", "ref", "expiration_date", "partner_ids", "product_qty", "product_uom_id", "location_id", "company_currency_id", "total_value", "avg_cost", "standard_price", "use_expiration_date", "alert_date", "use_date", "removal_date", "note", "lot_valuated"},
 	},
 	// stock.lot (Lot/Serial)
 	{
 		SemanticID: "inventory.lot.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.lot.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.lot",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "name", "product_id", "ref", "location_id", "standard_price"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "name", "product_id", "ref", "expiration_date", "location_id", "standard_price", "alert_date", "use_date", "removal_date"},
 		InputTypes: map[string]string{"company_id": "reference", "location_id": "reference", "product_id": "reference", "standard_price": "number"},
 		Relations: map[string]RelationSpec{
 			"company_id":  {TargetModel: "res.company", SearchField: "name"},
@@ -6662,7 +9176,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.lot.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.lot.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.lot",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "name", "product_id", "ref", "location_id", "standard_price"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "name", "product_id", "ref", "expiration_date", "location_id", "standard_price", "alert_date", "use_date", "removal_date"},
 		InputTypes: map[string]string{"company_id": "reference", "location_id": "reference", "product_id": "reference", "standard_price": "number"},
 		Relations: map[string]RelationSpec{
 			"company_id":  {TargetModel: "res.company", SearchField: "name"},
@@ -6684,15 +9198,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.package.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "package_type_id", "location_id", "parent_package_id", "pack_date", "contained_quant_ids"},
+		OptionalReadFields: []string{"name", "package_type_id", "location_id", "parent_package_id", "shipping_weight", "weight_uom_name", "weight", "pack_date", "contained_quant_ids"},
 	},
 	// stock.package (Package)
 	{
 		SemanticID: "inventory.package.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.package.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "package_type_id", "location_id", "parent_package_id", "pack_date"},
-		InputTypes: map[string]string{"location_id": "reference", "package_type_id": "reference", "parent_package_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "package_type_id", "location_id", "parent_package_id", "shipping_weight", "pack_date"},
+		InputTypes: map[string]string{"location_id": "reference", "package_type_id": "reference", "parent_package_id": "reference", "shipping_weight": "number"},
 		Relations: map[string]RelationSpec{
 			"location_id":       {TargetModel: "stock.location", SearchField: "name"},
 			"package_type_id":   {TargetModel: "stock.package.type", SearchField: "name"},
@@ -6704,8 +9218,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.package.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.package.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "package_type_id", "location_id", "parent_package_id", "pack_date"},
-		InputTypes: map[string]string{"location_id": "reference", "package_type_id": "reference", "parent_package_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "package_type_id", "location_id", "parent_package_id", "shipping_weight", "pack_date"},
+		InputTypes: map[string]string{"location_id": "reference", "package_type_id": "reference", "parent_package_id": "reference", "shipping_weight": "number"},
 		Relations: map[string]RelationSpec{
 			"location_id":       {TargetModel: "stock.location", SearchField: "name"},
 			"package_type_id":   {TargetModel: "stock.package.type", SearchField: "name"},
@@ -6775,7 +9289,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.packagetype.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package.type",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "name", "height", "width", "packaging_length", "max_weight", "has_quants", "barcode"},
+		OptionalReadFields: []string{"sequence", "package_carrier_type", "name", "height", "width", "packaging_length", "max_weight", "shipper_package_code", "has_quants", "barcode"},
 	},
 	// stock.package.type (Stock package type)
 	{
@@ -6783,16 +9297,16 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.packagetype.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package.type",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "barcode", "sequence_id", "sequence_code", "packaging_length", "width", "height", "length_uom_name", "base_weight", "weight_uom_name", "max_weight", "company_id"},
+		OptionalReadFields: []string{"name", "barcode", "sequence_id", "sequence_code", "package_carrier_type", "shipper_package_code", "packaging_length", "width", "height", "length_uom_name", "base_weight", "weight_uom_name", "max_weight", "company_id"},
 	},
 	// stock.package.type (Stock package type)
 	{
 		SemanticID: "inventory.package_type.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.packagetype.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package.type",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "barcode", "sequence_id", "sequence_code", "packaging_length", "width", "height", "base_weight", "max_weight", "company_id", "package_use"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "barcode", "sequence_id", "sequence_code", "package_carrier_type", "shipper_package_code", "packaging_length", "width", "height", "base_weight", "max_weight", "company_id", "package_use"},
 		InputTypes: map[string]string{"base_weight": "number", "company_id": "reference", "height": "number", "max_weight": "number", "packaging_length": "number", "sequence_id": "reference", "width": "number"},
-		InputEnums: map[string][]string{"package_use": []string{"disposable", "reusable"}},
+		InputEnums: map[string][]string{"package_carrier_type": []string{"none"}, "package_use": []string{"disposable", "reusable"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 		},
@@ -6802,12 +9316,84 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.package_type.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.packagetype.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.package.type",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "barcode", "sequence_id", "sequence_code", "packaging_length", "width", "height", "base_weight", "max_weight", "company_id", "package_use"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "barcode", "sequence_id", "sequence_code", "package_carrier_type", "shipper_package_code", "packaging_length", "width", "height", "base_weight", "max_weight", "company_id", "package_use"},
 		InputTypes: map[string]string{"base_weight": "number", "company_id": "reference", "height": "number", "max_weight": "number", "packaging_length": "number", "sequence_id": "reference", "width": "number"},
-		InputEnums: map[string][]string{"package_use": []string{"disposable", "reusable"}},
+		InputEnums: map[string][]string{"package_carrier_type": []string{"none"}, "package_use": []string{"disposable", "reusable"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 		},
+	},
+	// stock.picking.batch (Batch Transfer)
+	{
+		SemanticID: "inventory.batch_transfer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "name", "description", "scheduled_date", "user_id", "picking_type_id", "state"},
+	},
+	// stock.picking.batch (Batch Transfer)
+	{
+		SemanticID: "inventory.batch_transfer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "show_check_availability", "show_allocation", "picking_type_code", "is_wave", "show_lots_text", "state", "name", "user_id", "picking_type_id", "scheduled_date", "description", "move_ids", "allowed_picking_ids", "picking_ids"},
+	},
+	// stock.picking.batch (Batch Transfer)
+	{
+		SemanticID: "inventory.batch_transfer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"is_wave", "user_id", "picking_type_id", "scheduled_date", "description", "company_id", "name", "state"},
+		InputTypes: map[string]string{"company_id": "reference", "is_wave": "boolean", "picking_type_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"state": []string{"draft", "in_progress", "done", "cancel"}},
+		Relations: map[string]RelationSpec{
+			"company_id":      {TargetModel: "res.company", SearchField: "name"},
+			"picking_type_id": {TargetModel: "stock.picking.type", SearchField: "name"},
+			"user_id":         {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// stock.picking.batch (Batch Transfer)
+	{
+		SemanticID: "inventory.batch_transfer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_wave", "user_id", "picking_type_id", "scheduled_date", "description", "company_id", "name", "state"},
+		InputTypes: map[string]string{"company_id": "reference", "is_wave": "boolean", "picking_type_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"state": []string{"draft", "in_progress", "done", "cancel"}},
+		Relations: map[string]RelationSpec{
+			"company_id":      {TargetModel: "res.company", SearchField: "name"},
+			"picking_type_id": {TargetModel: "stock.picking.type", SearchField: "name"},
+			"user_id":         {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// stock.picking.batch (Batch Transfer): action_confirm "Confirm"
+	{
+		SemanticID: "inventory.batch_transfer.confirm", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		Method: "action_confirm",
+	},
+	// stock.picking.batch (Batch Transfer): action_done "Validate"
+	{
+		SemanticID: "inventory.batch_transfer.done", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		Method: "action_done",
+	},
+	// stock.picking.batch (Batch Transfer): action_assign "Check Availability"
+	{
+		SemanticID: "inventory.batch_transfer.assign", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		Method: "action_assign",
+	},
+	// stock.picking.batch (Batch Transfer): action_cancel "Cancel"
+	{
+		SemanticID: "inventory.batch_transfer.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock_picking_batch"}, RequiredCapability: "inventory.batchtransfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking.batch",
+		Method: "action_cancel",
 	},
 	// stock.putaway.rule (Putaway Rule)
 	{
@@ -6873,15 +9459,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.route.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.route",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"company_id", "name", "sequence", "supplied_wh_id", "active", "product_categ_selectable", "product_selectable", "package_type_selectable", "warehouse_selectable", "warehouse_domain_ids", "warehouse_ids", "sale_selectable", "rule_ids"},
+		OptionalReadFields: []string{"company_id", "name", "sequence", "supplied_wh_id", "active", "product_categ_selectable", "product_selectable", "package_type_selectable", "shipping_selectable", "warehouse_selectable", "warehouse_domain_ids", "warehouse_ids", "sale_selectable", "rule_ids"},
 	},
 	// stock.route (Inventory Routes)
 	{
 		SemanticID: "inventory.route.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.route.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.route",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "name", "sequence", "supplied_wh_id", "active", "product_categ_selectable", "product_selectable", "package_type_selectable", "warehouse_selectable", "sale_selectable"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "package_type_selectable": "boolean", "product_categ_selectable": "boolean", "product_selectable": "boolean", "sale_selectable": "boolean", "sequence": "integer", "supplied_wh_id": "reference", "warehouse_selectable": "boolean"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "name", "sequence", "supplied_wh_id", "active", "product_categ_selectable", "product_selectable", "package_type_selectable", "shipping_selectable", "warehouse_selectable", "sale_selectable"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "package_type_selectable": "boolean", "product_categ_selectable": "boolean", "product_selectable": "boolean", "sale_selectable": "boolean", "sequence": "integer", "shipping_selectable": "boolean", "supplied_wh_id": "reference", "warehouse_selectable": "boolean"},
 		Relations: map[string]RelationSpec{
 			"company_id":     {TargetModel: "res.company", SearchField: "name"},
 			"supplied_wh_id": {TargetModel: "stock.warehouse", SearchField: "name"},
@@ -6892,8 +9478,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.route.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.route.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.route",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "name", "sequence", "supplied_wh_id", "active", "product_categ_selectable", "product_selectable", "package_type_selectable", "warehouse_selectable", "sale_selectable"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "package_type_selectable": "boolean", "product_categ_selectable": "boolean", "product_selectable": "boolean", "sale_selectable": "boolean", "sequence": "integer", "supplied_wh_id": "reference", "warehouse_selectable": "boolean"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "name", "sequence", "supplied_wh_id", "active", "product_categ_selectable", "product_selectable", "package_type_selectable", "shipping_selectable", "warehouse_selectable", "sale_selectable"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "package_type_selectable": "boolean", "product_categ_selectable": "boolean", "product_selectable": "boolean", "sale_selectable": "boolean", "sequence": "integer", "shipping_selectable": "boolean", "supplied_wh_id": "reference", "warehouse_selectable": "boolean"},
 		Relations: map[string]RelationSpec{
 			"company_id":     {TargetModel: "res.company", SearchField: "name"},
 			"supplied_wh_id": {TargetModel: "stock.warehouse", SearchField: "name"},
@@ -6913,15 +9499,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.rule.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.rule",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "active", "company_id", "action", "picking_type_id", "location_src_id", "location_dest_id", "location_dest_from_rule", "auto", "procure_method", "rule_message", "route_id", "warehouse_id", "route_company_id", "sequence", "partner_address_id", "propagate_cancel", "delay", "push_domain"},
+		OptionalReadFields: []string{"name", "active", "company_id", "action", "picking_type_id", "location_src_id", "location_dest_id", "location_dest_from_rule", "auto", "procure_method", "rule_message", "route_id", "warehouse_id", "route_company_id", "sequence", "partner_address_id", "propagate_cancel", "propagate_carrier", "delay", "push_domain"},
 	},
 	// stock.rule (Stock Rule)
 	{
 		SemanticID: "inventory.rule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.rule.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.rule",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "company_id", "action", "picking_type_id", "location_src_id", "location_dest_id", "location_dest_from_rule", "auto", "procure_method", "route_id", "warehouse_id", "sequence", "partner_address_id", "propagate_cancel", "delay", "push_domain"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "delay": "integer", "location_dest_from_rule": "boolean", "location_dest_id": "reference", "location_src_id": "reference", "partner_address_id": "reference", "picking_type_id": "reference", "propagate_cancel": "boolean", "route_id": "reference", "sequence": "integer", "warehouse_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "company_id", "action", "picking_type_id", "location_src_id", "location_dest_id", "location_dest_from_rule", "auto", "procure_method", "route_id", "warehouse_id", "sequence", "partner_address_id", "propagate_cancel", "propagate_carrier", "delay", "push_domain"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "delay": "integer", "location_dest_from_rule": "boolean", "location_dest_id": "reference", "location_src_id": "reference", "partner_address_id": "reference", "picking_type_id": "reference", "propagate_cancel": "boolean", "propagate_carrier": "boolean", "route_id": "reference", "sequence": "integer", "warehouse_id": "reference"},
 		InputEnums: map[string][]string{"action": []string{"pull", "push", "pull_push", "manufacture", "buy"}, "auto": []string{"manual", "transparent"}, "procure_method": []string{"make_to_stock", "make_to_order", "mts_else_mto"}},
 		Relations: map[string]RelationSpec{
 			"company_id":         {TargetModel: "res.company", SearchField: "name"},
@@ -6938,8 +9524,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.rule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.rule.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.rule",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "company_id", "action", "picking_type_id", "location_src_id", "location_dest_id", "location_dest_from_rule", "auto", "procure_method", "route_id", "warehouse_id", "sequence", "partner_address_id", "propagate_cancel", "delay", "push_domain"},
-		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "delay": "integer", "location_dest_from_rule": "boolean", "location_dest_id": "reference", "location_src_id": "reference", "partner_address_id": "reference", "picking_type_id": "reference", "propagate_cancel": "boolean", "route_id": "reference", "sequence": "integer", "warehouse_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "company_id", "action", "picking_type_id", "location_src_id", "location_dest_id", "location_dest_from_rule", "auto", "procure_method", "route_id", "warehouse_id", "sequence", "partner_address_id", "propagate_cancel", "propagate_carrier", "delay", "push_domain"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "delay": "integer", "location_dest_from_rule": "boolean", "location_dest_id": "reference", "location_src_id": "reference", "partner_address_id": "reference", "picking_type_id": "reference", "propagate_cancel": "boolean", "propagate_carrier": "boolean", "route_id": "reference", "sequence": "integer", "warehouse_id": "reference"},
 		InputEnums: map[string][]string{"action": []string{"pull", "push", "pull_push", "manufacture", "buy"}, "auto": []string{"manual", "transparent"}, "procure_method": []string{"make_to_stock", "make_to_order", "mts_else_mto"}},
 		Relations: map[string]RelationSpec{
 			"company_id":         {TargetModel: "res.company", SearchField: "name"},
@@ -6965,19 +9551,20 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.scrap.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.scrap",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"state", "picking_id", "move_ids", "name", "product_id", "tracking", "scrap_qty", "product_uom_id", "should_replenish", "scrap_reason_tag_ids", "company_id", "workorder_id", "production_id", "product_is_kit", "product_template", "bom_id", "origin", "date_done", "allowed_uom_ids"},
+		OptionalReadFields: []string{"state", "picking_id", "move_ids", "name", "product_id", "tracking", "scrap_qty", "product_uom_id", "lot_id", "should_replenish", "scrap_reason_tag_ids", "company_id", "workorder_id", "production_id", "product_is_kit", "product_template", "bom_id", "origin", "date_done", "allowed_uom_ids"},
 	},
 	// stock.scrap (Scrap)
 	{
 		SemanticID: "inventory.scrap.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.scrap.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.scrap",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"picking_id", "product_id", "scrap_qty", "product_uom_id", "should_replenish", "company_id", "workorder_id", "production_id", "bom_id", "origin", "location_id", "name", "scrap_location_id"},
-		InputTypes: map[string]string{"bom_id": "reference", "company_id": "reference", "location_id": "reference", "picking_id": "reference", "product_id": "reference", "product_uom_id": "reference", "production_id": "reference", "scrap_location_id": "reference", "scrap_qty": "number", "should_replenish": "boolean", "workorder_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"picking_id", "product_id", "scrap_qty", "product_uom_id", "lot_id", "should_replenish", "company_id", "workorder_id", "production_id", "bom_id", "origin", "location_id", "name", "scrap_location_id"},
+		InputTypes: map[string]string{"bom_id": "reference", "company_id": "reference", "location_id": "reference", "lot_id": "reference", "picking_id": "reference", "product_id": "reference", "product_uom_id": "reference", "production_id": "reference", "scrap_location_id": "reference", "scrap_qty": "number", "should_replenish": "boolean", "workorder_id": "reference"},
 		Relations: map[string]RelationSpec{
 			"bom_id":            {TargetModel: "mrp.bom"},
 			"company_id":        {TargetModel: "res.company", SearchField: "name"},
 			"location_id":       {TargetModel: "stock.location", SearchField: "name"},
+			"lot_id":            {TargetModel: "stock.lot", SearchField: "name"},
 			"picking_id":        {TargetModel: "stock.picking", SearchField: "name"},
 			"product_id":        {TargetModel: "product.product", SearchField: "name"},
 			"product_uom_id":    {TargetModel: "uom.uom", SearchField: "name"},
@@ -6991,12 +9578,13 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.scrap.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.scrap.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.scrap",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"picking_id", "product_id", "scrap_qty", "product_uom_id", "should_replenish", "company_id", "workorder_id", "production_id", "bom_id", "origin", "location_id", "name", "scrap_location_id"},
-		InputTypes: map[string]string{"bom_id": "reference", "company_id": "reference", "location_id": "reference", "picking_id": "reference", "product_id": "reference", "product_uom_id": "reference", "production_id": "reference", "scrap_location_id": "reference", "scrap_qty": "number", "should_replenish": "boolean", "workorder_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"picking_id", "product_id", "scrap_qty", "product_uom_id", "lot_id", "should_replenish", "company_id", "workorder_id", "production_id", "bom_id", "origin", "location_id", "name", "scrap_location_id"},
+		InputTypes: map[string]string{"bom_id": "reference", "company_id": "reference", "location_id": "reference", "lot_id": "reference", "picking_id": "reference", "product_id": "reference", "product_uom_id": "reference", "production_id": "reference", "scrap_location_id": "reference", "scrap_qty": "number", "should_replenish": "boolean", "workorder_id": "reference"},
 		Relations: map[string]RelationSpec{
 			"bom_id":            {TargetModel: "mrp.bom"},
 			"company_id":        {TargetModel: "res.company", SearchField: "name"},
 			"location_id":       {TargetModel: "stock.location", SearchField: "name"},
+			"lot_id":            {TargetModel: "stock.lot", SearchField: "name"},
 			"picking_id":        {TargetModel: "stock.picking", SearchField: "name"},
 			"product_id":        {TargetModel: "product.product", SearchField: "name"},
 			"product_uom_id":    {TargetModel: "uom.uom", SearchField: "name"},
@@ -7134,6 +9722,46 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"storage_category_id": {TargetModel: "stock.storage.category", SearchField: "name"},
 		},
 	},
+	// stock.valuation.adjustment.lines (Valuation Adjustment Lines)
+	{
+		SemanticID: "inventory.valuation_adjustment_line.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.valuationadjustmentline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.valuation.adjustment.lines",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// stock.valuation.adjustment.lines (Valuation Adjustment Lines)
+	{
+		SemanticID: "inventory.valuation_adjustment_line.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.valuationadjustmentline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.valuation.adjustment.lines",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "cost_line_id", "product_id", "weight", "former_cost", "final_cost", "cost_id", "move_id", "quantity", "volume", "additional_landed_cost", "currency_id"},
+	},
+	// stock.valuation.adjustment.lines (Valuation Adjustment Lines)
+	{
+		SemanticID: "inventory.valuation_adjustment_line.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.valuationadjustmentline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.valuation.adjustment.lines",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"product_id", "weight", "former_cost", "cost_id", "quantity", "volume", "additional_landed_cost"},
+		InputTypes: map[string]string{"additional_landed_cost": "number", "cost_id": "reference", "former_cost": "number", "product_id": "reference", "quantity": "number", "volume": "number", "weight": "number"},
+		Relations: map[string]RelationSpec{
+			"cost_id":    {TargetModel: "stock.landed.cost", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
+	// stock.valuation.adjustment.lines (Valuation Adjustment Lines)
+	{
+		SemanticID: "inventory.valuation_adjustment_line.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.valuationadjustmentline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.valuation.adjustment.lines",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"product_id", "weight", "former_cost", "cost_id", "quantity", "volume", "additional_landed_cost"},
+		InputTypes: map[string]string{"additional_landed_cost": "number", "cost_id": "reference", "former_cost": "number", "product_id": "reference", "quantity": "number", "volume": "number", "weight": "number"},
+		Relations: map[string]RelationSpec{
+			"cost_id":    {TargetModel: "stock.landed.cost", SearchField: "name"},
+			"product_id": {TargetModel: "product.product", SearchField: "name"},
+		},
+	},
 	// stock.warehouse.orderpoint (Minimum Inventory Rule)
 	{
 		SemanticID: "inventory.reorder_rule.list", Kind: KindRead, Strategy: StrategyRead,
@@ -7204,5 +9832,250 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.reorderrule.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.warehouse.orderpoint",
 		Method: "action_replenish_auto",
+	},
+	// survey.question (Survey Question)
+	{
+		SemanticID: "survey.question.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.question.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"title", "survey_id", "question_type", "constr_mandatory"},
+	},
+	// survey.question (Survey Question)
+	{
+		SemanticID: "survey.question.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.question.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"is_placed_before_trigger", "is_page", "page_id", "sequence", "scoring_type", "has_image_only_suggested_answer", "survey_id", "title", "questions_selection", "random_questions_count", "question_type", "scale_min", "scale_max", "scale_min_label", "scale_mid_label", "scale_max_label", "answer_numerical_box", "answer_date", "answer_datetime", "validation_email", "save_as_email", "save_as_nickname", "is_scored_question", "answer_score", "suggested_answer_ids", "matrix_row_ids", "description", "validation_required", "validation_length_min", "validation_min_float_value", "validation_min_date", "validation_min_datetime", "validation_length_max", "validation_max_float_value", "validation_max_date", "validation_max_datetime", "validation_error_msg", "matrix_subtype", "question_placeholder", "comments_allowed", "comments_message", "comment_count_as_answer", "allowed_triggering_question_ids", "triggering_answer_ids", "constr_mandatory", "constr_error_msg", "is_time_customized", "session_available", "is_time_limited", "time_limit", "survey_type", "survey_session_speed_rating", "survey_session_speed_rating_time_limit"},
+	},
+	// survey.question (Survey Question)
+	{
+		SemanticID: "survey.question.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.question.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"is_page", "sequence", "survey_id", "title", "random_questions_count", "question_type", "scale_min", "scale_max", "scale_min_label", "scale_mid_label", "scale_max_label", "answer_numerical_box", "answer_date", "answer_datetime", "validation_email", "save_as_email", "save_as_nickname", "is_scored_question", "answer_score", "validation_required", "validation_length_min", "validation_min_float_value", "validation_min_date", "validation_min_datetime", "validation_length_max", "validation_max_float_value", "validation_max_date", "validation_max_datetime", "validation_error_msg", "matrix_subtype", "question_placeholder", "comments_allowed", "comments_message", "comment_count_as_answer", "constr_mandatory", "constr_error_msg", "is_time_customized", "is_time_limited", "time_limit"},
+		InputTypes: map[string]string{"answer_numerical_box": "number", "answer_score": "number", "comment_count_as_answer": "boolean", "comments_allowed": "boolean", "constr_mandatory": "boolean", "is_page": "boolean", "is_scored_question": "boolean", "is_time_customized": "boolean", "is_time_limited": "boolean", "random_questions_count": "integer", "save_as_email": "boolean", "save_as_nickname": "boolean", "scale_max": "integer", "scale_min": "integer", "sequence": "integer", "survey_id": "reference", "time_limit": "integer", "validation_email": "boolean", "validation_length_max": "integer", "validation_length_min": "integer", "validation_max_float_value": "number", "validation_min_float_value": "number", "validation_required": "boolean"},
+		InputEnums: map[string][]string{"matrix_subtype": []string{"simple", "multiple"}, "question_type": []string{"simple_choice", "multiple_choice", "text_box", "char_box", "numerical_box", "scale", "date", "datetime", "matrix"}},
+		Relations: map[string]RelationSpec{
+			"survey_id": {TargetModel: "survey.survey"},
+		},
+	},
+	// survey.question (Survey Question)
+	{
+		SemanticID: "survey.question.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.question.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_page", "sequence", "survey_id", "title", "random_questions_count", "question_type", "scale_min", "scale_max", "scale_min_label", "scale_mid_label", "scale_max_label", "answer_numerical_box", "answer_date", "answer_datetime", "validation_email", "save_as_email", "save_as_nickname", "is_scored_question", "answer_score", "validation_required", "validation_length_min", "validation_min_float_value", "validation_min_date", "validation_min_datetime", "validation_length_max", "validation_max_float_value", "validation_max_date", "validation_max_datetime", "validation_error_msg", "matrix_subtype", "question_placeholder", "comments_allowed", "comments_message", "comment_count_as_answer", "constr_mandatory", "constr_error_msg", "is_time_customized", "is_time_limited", "time_limit"},
+		InputTypes: map[string]string{"answer_numerical_box": "number", "answer_score": "number", "comment_count_as_answer": "boolean", "comments_allowed": "boolean", "constr_mandatory": "boolean", "is_page": "boolean", "is_scored_question": "boolean", "is_time_customized": "boolean", "is_time_limited": "boolean", "random_questions_count": "integer", "save_as_email": "boolean", "save_as_nickname": "boolean", "scale_max": "integer", "scale_min": "integer", "sequence": "integer", "survey_id": "reference", "time_limit": "integer", "validation_email": "boolean", "validation_length_max": "integer", "validation_length_min": "integer", "validation_max_float_value": "number", "validation_min_float_value": "number", "validation_required": "boolean"},
+		InputEnums: map[string][]string{"matrix_subtype": []string{"simple", "multiple"}, "question_type": []string{"simple_choice", "multiple_choice", "text_box", "char_box", "numerical_box", "scale", "date", "datetime", "matrix"}},
+		Relations: map[string]RelationSpec{
+			"survey_id": {TargetModel: "survey.survey"},
+		},
+	},
+	// survey.question.answer (Survey Label)
+	{
+		SemanticID: "survey.question_answer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.questionanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "question_id", "value", "answer_score"},
+	},
+	// survey.question.answer (Survey Label)
+	{
+		SemanticID: "survey.question_answer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.questionanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"question_type", "scoring_type", "question_id", "is_correct", "answer_score", "value", "matrix_question_id", "sequence"},
+	},
+	// survey.question.answer (Survey Label)
+	{
+		SemanticID: "survey.question_answer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.questionanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question.answer",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"question_id", "is_correct", "answer_score", "value", "matrix_question_id", "sequence"},
+		InputTypes: map[string]string{"answer_score": "number", "is_correct": "boolean", "matrix_question_id": "reference", "question_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"matrix_question_id": {TargetModel: "survey.question"},
+			"question_id":        {TargetModel: "survey.question"},
+		},
+	},
+	// survey.question.answer (Survey Label)
+	{
+		SemanticID: "survey.question_answer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.questionanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.question.answer",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"question_id", "is_correct", "answer_score", "value", "matrix_question_id", "sequence"},
+		InputTypes: map[string]string{"answer_score": "number", "is_correct": "boolean", "matrix_question_id": "reference", "question_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"matrix_question_id": {TargetModel: "survey.question"},
+			"question_id":        {TargetModel: "survey.question"},
+		},
+	},
+	// survey.survey (Survey)
+	{
+		SemanticID: "survey.survey.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "certification", "title", "user_id", "answer_duration_avg", "answer_count", "answer_done_count", "success_count", "success_ratio", "answer_score_avg"},
+	},
+	// survey.survey (Survey)
+	{
+		SemanticID: "survey.survey.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"session_state", "question_ids", "session_available", "answer_count", "success_count", "answer_done_count", "lead_count", "survey_type", "title", "user_id", "active", "has_conditional_questions", "lang_ids", "restrict_user_ids", "team_id", "question_and_page_ids", "questions_layout", "progression_mode", "questions_selection", "users_can_go_back", "access_mode", "users_login_required", "is_attempts_limited", "attempts_limit", "is_time_limited", "time_limit", "scoring_type", "scoring_success_min", "certification", "certification_report_layout", "certification_validity_months", "certification_mail_template_id", "certification_give_badge", "certification_badge_id", "certification_badge_id_dummy", "access_token", "session_code", "session_link", "session_speed_rating", "session_speed_rating_time_limit", "description", "description_done", "generate_lead"},
+	},
+	// survey.survey (Survey)
+	{
+		SemanticID: "survey.survey.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"session_state", "survey_type", "title", "user_id", "active", "team_id", "questions_layout", "progression_mode", "questions_selection", "users_can_go_back", "access_mode", "users_login_required", "is_attempts_limited", "attempts_limit", "is_time_limited", "time_limit", "scoring_type", "scoring_success_min", "certification", "certification_report_layout", "certification_validity_months", "certification_mail_template_id", "certification_give_badge", "certification_badge_id", "access_token", "session_code", "session_speed_rating", "session_speed_rating_time_limit"},
+		InputTypes: map[string]string{"active": "boolean", "attempts_limit": "integer", "certification": "boolean", "certification_badge_id": "reference", "certification_give_badge": "boolean", "certification_mail_template_id": "reference", "certification_validity_months": "integer", "is_attempts_limited": "boolean", "is_time_limited": "boolean", "scoring_success_min": "number", "session_speed_rating": "boolean", "session_speed_rating_time_limit": "integer", "team_id": "reference", "time_limit": "number", "user_id": "reference", "users_can_go_back": "boolean", "users_login_required": "boolean"},
+		InputEnums: map[string][]string{"access_mode": []string{"public", "token"}, "certification_report_layout": []string{"modern_purple", "modern_blue", "modern_gold", "classic_purple", "classic_blue", "classic_gold"}, "progression_mode": []string{"percent", "number"}, "questions_layout": []string{"page_per_question", "page_per_section", "one_page"}, "questions_selection": []string{"all", "random"}, "scoring_type": []string{"no_scoring", "scoring_with_answers_after_page", "scoring_with_answers", "scoring_without_answers"}, "session_state": []string{"ready", "in_progress"}, "survey_type": []string{"survey", "live_session", "assessment", "custom"}},
+		Relations: map[string]RelationSpec{
+			"certification_badge_id": {TargetModel: "gamification.badge", SearchField: "name"},
+			"team_id":                {TargetModel: "crm.team", SearchField: "name"},
+			"user_id":                {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// survey.survey (Survey)
+	{
+		SemanticID: "survey.survey.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"session_state", "survey_type", "title", "user_id", "active", "team_id", "questions_layout", "progression_mode", "questions_selection", "users_can_go_back", "access_mode", "users_login_required", "is_attempts_limited", "attempts_limit", "is_time_limited", "time_limit", "scoring_type", "scoring_success_min", "certification", "certification_report_layout", "certification_validity_months", "certification_mail_template_id", "certification_give_badge", "certification_badge_id", "access_token", "session_code", "session_speed_rating", "session_speed_rating_time_limit"},
+		InputTypes: map[string]string{"active": "boolean", "attempts_limit": "integer", "certification": "boolean", "certification_badge_id": "reference", "certification_give_badge": "boolean", "certification_mail_template_id": "reference", "certification_validity_months": "integer", "is_attempts_limited": "boolean", "is_time_limited": "boolean", "scoring_success_min": "number", "session_speed_rating": "boolean", "session_speed_rating_time_limit": "integer", "team_id": "reference", "time_limit": "number", "user_id": "reference", "users_can_go_back": "boolean", "users_login_required": "boolean"},
+		InputEnums: map[string][]string{"access_mode": []string{"public", "token"}, "certification_report_layout": []string{"modern_purple", "modern_blue", "modern_gold", "classic_purple", "classic_blue", "classic_gold"}, "progression_mode": []string{"percent", "number"}, "questions_layout": []string{"page_per_question", "page_per_section", "one_page"}, "questions_selection": []string{"all", "random"}, "scoring_type": []string{"no_scoring", "scoring_with_answers_after_page", "scoring_with_answers", "scoring_without_answers"}, "session_state": []string{"ready", "in_progress"}, "survey_type": []string{"survey", "live_session", "assessment", "custom"}},
+		Relations: map[string]RelationSpec{
+			"certification_badge_id": {TargetModel: "gamification.badge", SearchField: "name"},
+			"team_id":                {TargetModel: "crm.team", SearchField: "name"},
+			"user_id":                {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// survey.survey (Survey): action_start_session "Create Live Session"
+	{
+		SemanticID: "survey.survey.start_session", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		Method: "action_start_session",
+	},
+	// survey.survey (Survey): action_end_session "Close Live Session"
+	{
+		SemanticID: "survey.survey.end_session", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		Method: "action_end_session",
+	},
+	// survey.survey (Survey): action_unarchive "Reopen"
+	{
+		SemanticID: "survey.survey.unarchive", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		Method: "action_unarchive",
+	},
+	// survey.survey (Survey): action_archive "Close"
+	{
+		SemanticID: "survey.survey.archive", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
+		Method: "action_archive",
+	},
+	// survey.user_input (Survey User Input)
+	{
+		SemanticID: "survey.response.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.response.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "survey_id", "nickname", "partner_id", "email", "attempts_number", "deadline", "test_entry", "scoring_success", "scoring_percentage", "state"},
+	},
+	// survey.user_input (Survey User Input)
+	{
+		SemanticID: "survey.response.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.response.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"state", "attempts_count", "test_entry", "survey_id", "create_date", "deadline", "is_attempts_limited", "attempts_number", "attempts_limit", "scoring_type", "scoring_success", "scoring_percentage", "partner_id", "email", "access_token", "user_input_line_ids", "lead_id"},
+	},
+	// survey.user_input (Survey User Input)
+	{
+		SemanticID: "survey.response.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.response.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"deadline", "lead_id", "access_token", "survey_id"},
+		InputTypes: map[string]string{"lead_id": "reference", "survey_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"lead_id":   {TargetModel: "crm.lead", SearchField: "name"},
+			"survey_id": {TargetModel: "survey.survey"},
+		},
+	},
+	// survey.user_input (Survey User Input)
+	{
+		SemanticID: "survey.response.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.response.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"deadline", "lead_id", "access_token", "survey_id"},
+		InputTypes: map[string]string{"lead_id": "reference", "survey_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"lead_id":   {TargetModel: "crm.lead", SearchField: "name"},
+			"survey_id": {TargetModel: "survey.survey"},
+		},
+	},
+	// survey.user_input (Survey User Input): action_resend "Resend Invitation"
+	{
+		SemanticID: "survey.response.resend", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.response.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input",
+		Method: "action_resend",
+	},
+	// survey.user_input.line (Survey User Input Line)
+	{
+		SemanticID: "survey.response_line.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.responseline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input.line",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"survey_id", "user_input_id", "question_id", "create_date", "answer_type", "skipped", "answer_score"},
+	},
+	// survey.user_input.line (Survey User Input Line)
+	{
+		SemanticID: "survey.response_line.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.responseline.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input.line",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"question_id", "create_date", "answer_type", "skipped", "answer_score", "value_char_box", "value_numerical_box", "value_date", "value_datetime", "value_text_box", "matrix_row_id", "suggested_answer_id"},
+	},
+	// survey.user_input.line (Survey User Input Line)
+	{
+		SemanticID: "survey.response_line.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.responseline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input.line",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"question_id", "answer_type", "skipped", "value_char_box", "value_numerical_box", "value_date", "value_datetime", "value_text_box", "matrix_row_id", "suggested_answer_id", "user_input_id"},
+		InputTypes: map[string]string{"matrix_row_id": "reference", "question_id": "reference", "skipped": "boolean", "suggested_answer_id": "reference", "user_input_id": "reference", "value_numerical_box": "number"},
+		InputEnums: map[string][]string{"answer_type": []string{"text_box", "char_box", "numerical_box", "scale", "date", "datetime", "suggestion"}},
+		Relations: map[string]RelationSpec{
+			"matrix_row_id":       {TargetModel: "survey.question.answer"},
+			"question_id":         {TargetModel: "survey.question"},
+			"suggested_answer_id": {TargetModel: "survey.question.answer"},
+			"user_input_id":       {TargetModel: "survey.user_input"},
+		},
+	},
+	// survey.user_input.line (Survey User Input Line)
+	{
+		SemanticID: "survey.response_line.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"survey"}, RequiredCapability: "survey.responseline.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input.line",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"question_id", "answer_type", "skipped", "value_char_box", "value_numerical_box", "value_date", "value_datetime", "value_text_box", "matrix_row_id", "suggested_answer_id", "user_input_id"},
+		InputTypes: map[string]string{"matrix_row_id": "reference", "question_id": "reference", "skipped": "boolean", "suggested_answer_id": "reference", "user_input_id": "reference", "value_numerical_box": "number"},
+		InputEnums: map[string][]string{"answer_type": []string{"text_box", "char_box", "numerical_box", "scale", "date", "datetime", "suggestion"}},
+		Relations: map[string]RelationSpec{
+			"matrix_row_id":       {TargetModel: "survey.question.answer"},
+			"question_id":         {TargetModel: "survey.question"},
+			"suggested_answer_id": {TargetModel: "survey.question.answer"},
+			"user_input_id":       {TargetModel: "survey.user_input"},
+		},
 	},
 }

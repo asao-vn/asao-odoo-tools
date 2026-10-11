@@ -52,7 +52,12 @@ const AcceptedCatalogSize = 105
 // (report.url, which a containerised Odoo needs for printed reports to keep their header and style).
 // 727 -> 734: the business buttons of list views: work order start/pause/finish, unreserve a
 // transfer, and reorder rules' Order Once, Automate and clearing a quantity set by hand.
-const AcceptedSurfaceSize = 734
+// 734 -> 1050: the 19 parked Community apps (fleet, maintenance, recruitment, surveys, repairs,
+// events, restaurant, purchase agreements, batches, loyalty, expiry, delivery, dropship,
+// subcontracting, landed costs, margins) from a fresh lab19 inventory.
+// 1050 -> 1034: sixteen navigation buttons left out (they open another list or a URL and change
+// nothing).
+const AcceptedSurfaceSize = 1034
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -72,7 +77,11 @@ var acceptedUnverifiedOperations = []string{}
 // whose PDFs matched the browser's download page for page and word for word. + 6: the guarded deletes.
 // Actions 70 -> 77: the list views' work order start/pause/finish, unreserve and reorder rules'
 // replenish/automate/clear, on fresh twins.
-const AcceptedSurfaceCurrent = 291 + 219 + 77 + 7 + 6
+// 2026-10-11, the parked apps: reads 291 -> 401, writes 219 -> 317, actions and wizards 77 -> 88,
+// after the 51 operations their forms changed ran again.
+// Then seeded models, updates on existing records and no overridden inputs: reads 419, writes 346.
+// Then twelve actions of the parked apps on fixtures: actions and wizards 88 -> 100.
+const AcceptedSurfaceCurrent = 419 + 346 + 100 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

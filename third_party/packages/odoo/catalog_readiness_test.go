@@ -26,8 +26,15 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// ten kinds of record, posting and resetting journal entries, applying and clearing counts) and the
 	// 7 prints (scripts/dev/odoo-report-conformance.py), and 6 guarded deletes. Then 7 list-view actions
 	// (work order start/pause/finish, unreserve, reorder rules' replenish/automate/clear), on fresh twins.
-	if len(report.Records) != 103+291+219+77+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 600 surface", len(report.Records))
+	// The 19 parked Community apps joined on 2026-10-11 (fleet, maintenance, recruitment, surveys,
+	// repairs, events, restaurant and their kin): their new reads, writes and actions, and the 51
+	// operations whose forms they changed, run again. 401 reads, 317 creates/updates, 88 actions and
+	// wizards, 7 prints and 6 deletes. Then the empty models seeded (scripts/dev/odoo-lab-seed.py),
+	// updates run on an existing record when their create makes none, and inputs Odoo overrides no
+	// longer offered: 419 reads, 346 creates/updates. Then 12 actions on fixtures for the parked apps
+	// (blanket orders, repairs, batches, registrations, vehicles, live surveys): 100 actions and wizards.
+	if len(report.Records) != 103+419+346+100+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 878 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}

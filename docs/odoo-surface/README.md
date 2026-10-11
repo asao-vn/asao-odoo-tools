@@ -914,6 +914,33 @@ in one of these states:
 - covered under another name, such as `crm.opportunity.win` for Won and
   `manufacturing.unbuild.create` for Unbuild.
 
+## The parked apps join (2026-10-11)
+
+The 19 Community apps parked on 2026-10-10 are in the catalog now. A fresh `lab19` inventory found
+307 business models, 82 of them new. The catalog grew to 1139 operations, of which 981 are verified.
+
+**Re-verified.** The apps changed the forms of 51 verified operations. Their records were dropped
+(`--drop-stale`), along with 36 more from the 20.0 manifest, and those operations ran again.
+
+**What made the rest verifiable:**
+- **Lab data.** `scripts/dev/odoo-lab-seed.py` fills the models the demo leaves empty. It goes through
+  the oracle, using the model's defaults and generic required values, plus a few hand-written seeds
+  (event slots, answers and tickets, repair tags).
+- **Updates without a create.** The write runner updates the newest existing record when an update's
+  create made none. It also tries a create whose missing required fields the catalog does not offer.
+- **Inputs Odoo overrides.** The generator no longer offers fields Odoo sets itself on create
+  (`OVERRIDDEN_INPUTS`): a warehouse's locations, a repair's locations, an agreement's reference, a
+  recruitment source's name and an expense's unit price. The warehouse and expense creates, which had
+  disagreed since 2026-10-10, now agree.
+- **Navigation.** Sixteen buttons that only open another list or a URL are left out (`SKIP_METHODS`).
+  Each one was called on the lab, and each returns an act_window or act_url.
+- **Fixtures** for blanket orders, repairs, batch transfers, event registrations, vehicles changing
+  driver and live-session surveys.
+
+**Still unverified: 156 operations.** They are mostly writes that Odoo's business rules refuse with
+generic values, models the demo cannot hold twice in a button's state, and payments that need a
+provider which authorises.
+
 ## Not yet done
 
 - **Actions and wizards still UNVERIFIED on 19.0:** 39 actions and 7 wizards.
@@ -933,15 +960,6 @@ in one of these states:
   - Neither are fields 20.0 made required (`document_tax_mode`).
   - 20.0-only models and buttons are not in the catalog, for example SInvoice symbol sync and
     `l10n_vn_edi_viettel_stock`.
-- **19 more Community apps: parked on 2026-10-10.** The apps are purchase agreements, batch
-  transfers, loyalty, expiry, delivery, dropship, subcontracting, landed costs, repair,
-  maintenance, fleet, recruitment, restaurant, events, margin and surveys.
-  - They are installed on `lab19` and `lab19demo`, and the generator names their 82 new models.
-  - Generated from a fresh `lab19` inventory, the catalog would have 914 operations.
-  - Generation waits for their evidence runs: the apps also change existing forms, which voids
-    those operations' evidence until they run again. `odoo-promote-conformance.py --drop-stale`
-    removes such records.
-  - Until then the committed inventory and catalog predate the apps.
 - **Dialogs not answered yet** are reported, not answered:
   - `confirm.stock.sms` and `pos.close.session.wizard`.
   - The partial capture `payment.capture.wizard`.

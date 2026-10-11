@@ -1,0 +1,352 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-11T12:53:42Z",
+ "records": {
+  "event.registration.confirm": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ba8210e6e57531ffc26bd926ecb4800f4fafcbf653b6dec00f28e24f96e4f6b0",
+   "kind": "action",
+   "modules": [
+    "event"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4cb60f21c2d87f231b117e6ecf4f706c005975d17ea53a0344bfecdd9609a798",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "open"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "fleet.vehicle.accept_driver_change": {
+   "changedFields": [
+    "future_driver_employee_id",
+    "future_driver_id",
+    "log_drivers"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "log_drivers": 1
+   },
+   "definitionHash": "sha256:8a9e7c640512304714204a982b89cc8056cfe01ee63fc9f1a29ae177ff726c49",
+   "differingFields": [
+    "driver_employee_id",
+    "driver_id"
+   ],
+   "kind": "action",
+   "modules": [
+    "fleet"
+   ],
+   "oracleChangedFields": [
+    "driver_employee_id",
+    "driver_id",
+    "future_driver_employee_id",
+    "future_driver_id",
+    "log_drivers"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:def4fe4f74f38325f2f5e330fcb0e51d476035250b64f6158662026485f0e557",
+   "status": "DISAGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.batch_transfer.assign": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:552cb324a97ec70716ac1ab45eb06141f67bcb5da04a50ce8ad8f39bc19d6f75",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:d4c7a98da55490b0a5a65cc5057db99aa708a436609b177748505342d569457b",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.batch_transfer.confirm": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:55a6e21184081c50f0adff5459556d4d6fc9b2e70efe8bafa038b656ea93507d",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:946ec11a25d8ec678f5b4ed3ceb77c3f2ff2fbabe01e03070c3cc2f60dc619cb",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "in_progress"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.batch_transfer.done": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:0b564744e241733d40ac062a7abab959bcf153fbdd260ff48fa7f56b2d498c29",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:02d6e7b63835ccb6bd8c452eba73b83100c5af80bb9c94fafe03f27e1892eb6c",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "in_progress",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.cancel": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:d5f4f34af55d3bb8807780b977ede8d022333046d0dd5dd53db6520408e176f2",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:def4fe4f74f38325f2f5e330fcb0e51d476035250b64f6158662026485f0e557",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "confirmed",
+     "cancel"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.confirm": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:4cdd942626e2a9ed98e39e7f0f0ac4e6a95faafd8dabd164b6ccf2a92c0cf65c",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:11e07e7bb591992307e25655831247578120a67b9436b172b61a4df9ba743557",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.done": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:f06e2eb5d8df0f06f7a79070822f80a312f9b4c38d415619bd63ba48ed398171",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2e96afc0e9b31d97254a398e034dd89ae673b8958ef903ee31144c9742fd63be",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "confirmed",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.draft": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:a44f8528627df66afcbccdd90e43e5dfb1761a656a8157f2734120040bea2ea3",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eb18eeb3c385eb89930335264dc8ded657169ecd0251918ea0382c465e8975a5",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "cancel",
+     "draft"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "repair.order.assign": {
+   "definitionHash": "sha256:d7f2e6e4333d2c013822e2ca1f8ccf2c8a1a8e0bfe8d722e137687b17c89054d",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  },
+  "repair.order.repair_end": {
+   "changedFields": [
+    "is_parts_available",
+    "move_id",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:bb4cca3cf86a65359fe64d4abc1330d85a371c5cab54af6706420ec09e87bb4b",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "is_parts_available",
+    "move_id",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:43a2d66e5f850f64677fc2fae986fcdbdf190e6b6f026167f70b21d8860826b3",
+   "status": "AGREE",
+   "transitions": {
+    "is_parts_available": [
+     true,
+     false
+    ],
+    "state": [
+     "under_repair",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "repair.order.repair_start": {
+   "definitionHash": "sha256:fa47eb53905e65f365568edc551d70e18840b4b25faae57c291f56ab4d15de45",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  },
+  "repair.order.unreserve": {
+   "definitionHash": "sha256:75d38c601cde15b57a8590bdf432c6479c3c5369b77cae75c97bb96c88cb5541",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  },
+  "survey.survey.end_session": {
+   "changedFields": [
+    "session_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:aa5184e898165c532de4f7d30860c258ab6b4b4e1934b44f2871d1362701fdb4",
+   "kind": "action",
+   "modules": [
+    "survey"
+   ],
+   "oracleChangedFields": [
+    "session_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:def4fe4f74f38325f2f5e330fcb0e51d476035250b64f6158662026485f0e557",
+   "status": "AGREE",
+   "transitions": {
+    "session_state": [
+     "ready",
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "survey.survey.start_session": {
+   "changedFields": [
+    "session_start_time",
+    "session_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:17803ff240bf9ffd300108d5e2d1ab58aea90e323722a546447dbf5deee09fa4",
+   "kind": "action",
+   "modules": [
+    "survey"
+   ],
+   "oracleChangedFields": [
+    "session_start_time",
+    "session_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:11e07e7bb591992307e25655831247578120a67b9436b172b61a4df9ba743557",
+   "status": "AGREE",
+   "transitions": {
+    "session_state": [
+     false,
+     "ready"
+    ]
+   },
+   "twinBasis": "fixture"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}
