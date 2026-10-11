@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 (2026-10-11)
+
+- `odoo-cli version` reports the release (`releaseVersion`) next to the command contract
+  (`cliVersion`).
+- The release and CI workflows run on the current GitHub Actions (Node 24).
+
 ## 0.2.0 (2026-10-11)
 
 The first release of `odoo-cli` from this repository. 0.1.0 was an earlier conformance toolkit.

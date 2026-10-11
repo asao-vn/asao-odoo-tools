@@ -48,10 +48,13 @@ const Program = "aerp"
 const Version = clicore.CLIVersion
 
 // buildCommit and buildDate are ldflags-injectable build provenance, exactly as the governed binary
-// has. They default to "unknown" for a plain `go build` and for this module's tests.
+// has. They default to "unknown" for a plain `go build` and for this module's tests. releaseVersion is
+// the published release this binary is (the public repository's tag, e.g. 0.2.1); cliVersion is the
+// command contract it speaks, shared with the governed CLI.
 var (
-	buildCommit = "unknown"
-	buildDate   = "unknown"
+	buildCommit    = "unknown"
+	buildDate      = "unknown"
+	releaseVersion = "dev"
 )
 
 // localAuthority is the authority declaration EVERY standalone leaf carries, and it is one shared
@@ -274,6 +277,7 @@ func versionCommand(config programConfig) *clicore.Command {
 				// and public odoo binaries, ensuring canonical semantic compatibility across both entry points.
 				"product":                  "STANDALONE_AERP",
 				"governance":               "NONE",
+				"releaseVersion":           releaseVersion,
 				"cliVersion":               Version,
 				"apiVersion":               clicore.APIVersion,
 				"configSchema":             localprofile.SchemaVersion,

@@ -15,6 +15,7 @@ builds:
       - -s -w
       - -X github.com/asao-platform/atoc/packages/cli/internal/standalone.buildCommit={{ .ShortCommit }}
       - -X github.com/asao-platform/atoc/packages/cli/internal/standalone.buildDate={{ .Date }}
+      - -X github.com/asao-platform/atoc/packages/cli/internal/standalone.releaseVersion={{ .Version }}
     goos:
       - linux
       - darwin
