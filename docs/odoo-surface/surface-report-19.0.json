@@ -1,0 +1,2556 @@
+{
+ "by_strategy": {
+  "StrategyDestructiveGuarded": 6,
+  "StrategyFieldWrite": 303,
+  "StrategyMethodCall": 92,
+  "StrategyRead": 295,
+  "StrategyReport": 7,
+  "StrategyWizard": 24
+ },
+ "dialogs": [
+  {
+   "dialog": "account.autopost.bills.wizard",
+   "module": "account",
+   "operation": "finance.journal_entry.post",
+   "resolveWith": [],
+   "via": "action_post->_show_autopost_bills_wizard"
+  },
+  {
+   "dialog": "validate.account.move",
+   "module": "account",
+   "operation": "finance.journal_entry.post",
+   "resolveWith": [],
+   "via": "action_post"
+  },
+  {
+   "dialog": "hr.expense.approve.duplicate",
+   "module": "hr_expense",
+   "operation": "people.expense.approve",
+   "resolveWith": [
+    "people.expense.approve_despite_duplicate"
+   ],
+   "via": "action_approve"
+  },
+  {
+   "dialog": "mrp.consumption.warning",
+   "module": "mrp",
+   "operation": "manufacturing.order.mark_done",
+   "resolveWith": [
+    "manufacturing.order.mark_done_confirm_consumption",
+    "manufacturing.order.mark_done_confirm_consumption_with_backorder",
+    "manufacturing.order.mark_done_confirm_consumption_without_backorder"
+   ],
+   "via": "button_mark_done->pre_button_mark_done->_action_generate_consumption_wizard"
+  },
+  {
+   "dialog": "mrp.production.backorder",
+   "module": "mrp",
+   "operation": "manufacturing.order.mark_done",
+   "resolveWith": [
+    "manufacturing.order.mark_done_confirm_consumption_with_backorder",
+    "manufacturing.order.mark_done_confirm_consumption_without_backorder",
+    "manufacturing.order.mark_done_with_backorder",
+    "manufacturing.order.mark_done_without_backorder"
+   ],
+   "via": "button_mark_done->pre_button_mark_done->_action_generate_backorder_wizard"
+  },
+  {
+   "dialog": "mrp.production.serials",
+   "module": "mrp",
+   "operation": "manufacturing.order.mark_done",
+   "resolveWith": [],
+   "via": "button_mark_done->pre_button_mark_done->action_generate_serial"
+  },
+  {
+   "dialog": "stock.warn.insufficient.qty.unbuild",
+   "module": "mrp",
+   "operation": "manufacturing.unbuild.validate",
+   "resolveWith": [],
+   "via": "action_validate"
+  },
+  {
+   "dialog": "payment.capture.wizard",
+   "module": "payment",
+   "operation": "finance.payment_transaction.capture",
+   "resolveWith": [],
+   "via": "action_capture"
+  },
+  {
+   "dialog": "pos.close.session.wizard",
+   "module": "point_of_sale",
+   "operation": "pos.session.pos_session_closing_control",
+   "resolveWith": [],
+   "via": "action_pos_session_closing_control->action_pos_session_close->_validate_session->_close_session_action"
+  },
+  {
+   "dialog": "confirm.stock.sms",
+   "module": "stock_sms",
+   "operation": "curated stock.picking.button_validate",
+   "resolveWith": [],
+   "via": "button_validate->_pre_action_done_hook->_action_generate_warn_sms_wizard"
+  },
+  {
+   "dialog": "stock.backorder.confirmation",
+   "module": "stock",
+   "operation": "curated stock.picking.button_validate",
+   "resolveWith": [
+    "inventory.transfer.validate_with_backorder",
+    "inventory.transfer.validate_without_backorder"
+   ],
+   "via": "button_validate->_pre_action_done_hook->_action_generate_backorder_wizard"
+  },
+  {
+   "dialog": "stock.warn.insufficient.qty.scrap",
+   "module": "stock",
+   "operation": "inventory.scrap.validate",
+   "resolveWith": [
+    "inventory.scrap.validate_despite_shortage"
+   ],
+   "via": "action_validate"
+  }
+ ],
+ "models": [
+  {
+   "curated_entity": "finance.invoice",
+   "model": "account.move",
+   "operations": [
+    "finance.invoice.payment_capture",
+    "finance.invoice.payment_void",
+    "finance.invoice.hash",
+    "finance.invoice.einvoice_send_payment_status",
+    "finance.invoice.activate_currency",
+    "finance.invoice.update_fpos_values",
+    "finance.invoice.reverse",
+    "finance.invoice.reverse_and_replace",
+    "finance.invoice.request_cancel",
+    "finance.invoice.send_einvoice"
+   ]
+  },
+  {
+   "curated_entity": "finance.payment",
+   "model": "account.payment",
+   "operations": [
+    "finance.payment.post",
+    "finance.payment.validate",
+    "finance.payment.reject",
+    "finance.payment.draft",
+    "finance.payment.request_cancel",
+    "finance.payment.mark_as_sent",
+    "finance.payment.unmark_as_sent",
+    "finance.payment.cancel"
+   ]
+  },
+  {
+   "curated_entity": "crm.lead",
+   "model": "crm.lead",
+   "operations": [
+    "crm.lead.restore",
+    "crm.lead.mark_lost"
+   ]
+  },
+  {
+   "curated_entity": "people.employee",
+   "model": "hr.employee",
+   "operations": [
+    "people.employee.generate_random_barcode",
+    "people.employee.load_contract_template"
+   ]
+  },
+  {
+   "curated_entity": "workforce.leave",
+   "model": "hr.leave",
+   "operations": [
+    "workforce.leave.approve",
+    "workforce.leave.back_to_approval",
+    "workforce.leave.refuse",
+    "workforce.leave.cancel"
+   ]
+  },
+  {
+   "curated_entity": "catalog.product_variant",
+   "model": "product.product",
+   "operations": [
+    "catalog.product_variant.bom_cost"
+   ]
+  },
+  {
+   "curated_entity": "catalog.product",
+   "model": "product.template",
+   "operations": [
+    "catalog.product.bom_cost"
+   ]
+  },
+  {
+   "curated_entity": "procurement.order",
+   "model": "purchase.order",
+   "operations": [
+    "procurement.order.approve",
+    "procurement.order.acknowledge",
+    "procurement.order.lock",
+    "procurement.order.unlock"
+   ]
+  },
+  {
+   "curated_entity": "workforce.calendar",
+   "model": "resource.calendar",
+   "operations": [
+    "workforce.calendar.switch_based_on_duration",
+    "workforce.calendar.switch_calendar_type"
+   ]
+  },
+  {
+   "curated_entity": "sales.order",
+   "model": "sale.order",
+   "operations": [
+    "sales.order.payment_capture",
+    "sales.order.payment_void",
+    "sales.order.unlock",
+    "sales.order.update_taxes"
+   ]
+  },
+  {
+   "curated_entity": "inventory.transfer",
+   "model": "stock.picking",
+   "operations": [
+    "inventory.transfer.confirm",
+    "inventory.transfer.return",
+    "inventory.transfer.return_all",
+    "inventory.transfer.return_for_exchange",
+    "inventory.transfer.validate_with_backorder",
+    "inventory.transfer.validate_without_backorder"
+   ]
+  },
+  {
+   "curated_entity": "finance.account.chart",
+   "model": "account.account",
+   "operations": [
+    "finance.account.chart.describe",
+    "finance.account.chart.create",
+    "finance.account.chart.update"
+   ]
+  },
+  {
+   "curated_entity": "finance.journal",
+   "model": "account.journal",
+   "operations": [
+    "finance.journal.describe",
+    "finance.journal.create",
+    "finance.journal.update"
+   ]
+  },
+  {
+   "curated_entity": "finance.payment",
+   "model": "account.payment",
+   "operations": [
+    "finance.payment.create",
+    "finance.payment.update"
+   ]
+  },
+  {
+   "curated_entity": "finance.payment_term",
+   "model": "account.payment.term",
+   "operations": [
+    "finance.payment_term.describe",
+    "finance.payment_term.create",
+    "finance.payment_term.update"
+   ]
+  },
+  {
+   "curated_entity": "finance.tax",
+   "model": "account.tax",
+   "operations": [
+    "finance.tax.describe",
+    "finance.tax.create",
+    "finance.tax.update"
+   ]
+  },
+  {
+   "curated_entity": "people.department",
+   "model": "hr.department",
+   "operations": [
+    "people.department.update"
+   ]
+  },
+  {
+   "curated_entity": "workforce.leave",
+   "model": "hr.leave",
+   "operations": [
+    "workforce.leave.describe",
+    "workforce.leave.create",
+    "workforce.leave.update"
+   ]
+  },
+  {
+   "curated_entity": "catalog.product_variant",
+   "model": "product.product",
+   "operations": [
+    "catalog.product_variant.update"
+   ]
+  },
+  {
+   "curated_entity": "work.milestone",
+   "model": "project.milestone",
+   "operations": [
+    "work.milestone.update"
+   ]
+  },
+  {
+   "curated_entity": "structure.company",
+   "model": "res.company",
+   "operations": [
+    "structure.company.describe",
+    "structure.company.update"
+   ]
+  },
+  {
+   "curated_entity": "workforce.calendar",
+   "model": "resource.calendar",
+   "operations": [
+    "workforce.calendar.describe",
+    "workforce.calendar.create",
+    "workforce.calendar.update"
+   ]
+  },
+  {
+   "curated_entity": "inventory.location",
+   "model": "stock.location",
+   "operations": [
+    "inventory.location.describe",
+    "inventory.location.create",
+    "inventory.location.update"
+   ]
+  },
+  {
+   "curated_entity": "inventory.transfer",
+   "model": "stock.picking",
+   "operations": [
+    "inventory.transfer.create",
+    "inventory.transfer.update"
+   ]
+  },
+  {
+   "curated_entity": "structure.warehouse",
+   "model": "stock.warehouse",
+   "operations": [
+    "structure.warehouse.describe",
+    "structure.warehouse.create",
+    "structure.warehouse.update"
+   ]
+  },
+  {
+   "curated_entity": "catalog.uom",
+   "model": "uom.uom",
+   "operations": [
+    "catalog.uom.create",
+    "catalog.uom.update"
+   ]
+  },
+  {
+   "curated_entity": "website.site",
+   "model": "website",
+   "operations": [
+    "website.site.update"
+   ]
+  },
+  {
+   "curated_entity": "website.menu",
+   "model": "website.menu",
+   "operations": [
+    "website.menu.describe",
+    "website.menu.create",
+    "website.menu.update"
+   ]
+  },
+  {
+   "curated_entity": "website.page",
+   "model": "website.page",
+   "operations": [
+    "website.page.describe",
+    "website.page.create",
+    "website.page.update"
+   ]
+  },
+  {
+   "model": "ir.ui.view",
+   "operations": [
+    "website.layout.list",
+    "website.layout.describe",
+    "website.layout.update"
+   ],
+   "scope": [
+    "website.header_call_to_action",
+    "website.header_text_element",
+    "website.header_search_box",
+    "portal.user_sign_in",
+    "website.footer_custom",
+    "website.footer_copyright_company_name",
+    "website.brand_promotion"
+   ]
+  },
+  {
+   "model": "ir.attachment",
+   "operations": [
+    "website.media.list",
+    "website.media.describe",
+    "website.media.create",
+    "website.media.update"
+   ],
+   "scope": "/media/"
+  },
+  {
+   "model": "res.config.settings",
+   "operations": [
+    "structure.settings.describe",
+    "structure.settings.update"
+   ],
+   "settings": [
+    "account_price_include",
+    "auth_signup_reset_password",
+    "auth_signup_uninvited",
+    "auth_totp_policy",
+    "crm_use_auto_assignment",
+    "default_invoice_policy",
+    "digest_emails",
+    "display_invoice_amount_total_words",
+    "group_analytic_accounting",
+    "group_auto_done_setting",
+    "group_cash_rounding",
+    "group_discount_per_so_line",
+    "group_multi_currency",
+    "group_product_pricelist",
+    "group_product_variant",
+    "group_proforma_sales",
+    "group_project_stages",
+    "group_sale_delivery_address",
+    "group_sale_order_template",
+    "group_send_reminder",
+    "group_uom",
+    "group_use_lead",
+    "group_use_recurring_revenues",
+    "group_warning_purchase",
+    "group_warning_sale",
+    "hr_presence_control_login",
+    "lock_confirmed_po",
+    "pay_invoices_online",
+    "po_order_approval",
+    "portal_confirmation_pay",
+    "portal_confirmation_sign",
+    "qr_code",
+    "quotation_validity_days",
+    "reminder_allow",
+    "reminder_user_allow",
+    "restrict_template_rendering",
+    "tax_calculation_rounding_method",
+    "timesheet_encode_method"
+   ]
+  },
+  {
+   "dependents": [
+    "crm.lead.lost_reason_id"
+   ],
+   "guarded_delete": "crm.lost_reason.delete",
+   "model": "crm.lost.reason"
+  },
+  {
+   "dependents": [
+    "crm.lead.stage_id"
+   ],
+   "guarded_delete": "crm.stage.delete",
+   "model": "crm.stage"
+  },
+  {
+   "dependents": [
+    "hr.employee.job_id"
+   ],
+   "guarded_delete": "people.job.delete",
+   "model": "hr.job"
+  },
+  {
+   "dependents": [],
+   "guarded_delete": "website.media.delete",
+   "model": "ir.attachment"
+  },
+  {
+   "dependents": [
+    "website.menu.parent_id"
+   ],
+   "guarded_delete": "website.menu.delete",
+   "model": "website.menu"
+  },
+  {
+   "dependents": [
+    "project.task.stage_id"
+   ],
+   "guarded_delete": "work.task_stage.delete",
+   "model": "project.task.type"
+  },
+  {
+   "model": "account.move",
+   "operations": [
+    "finance.journal_entry.list",
+    "finance.journal_entry.describe",
+    "finance.journal_entry.create",
+    "finance.journal_entry.update",
+    "finance.journal_entry.post",
+    "finance.journal_entry.reset_to_draft"
+   ],
+   "scope": "journal entries"
+  },
+  {
+   "model": "stock.quant",
+   "operations": [
+    "inventory.count.list",
+    "inventory.count.set",
+    "inventory.count.apply",
+    "inventory.count.clear"
+   ],
+   "scope": "inventory counts"
+  },
+  {
+   "model": "ir.config_parameter",
+   "operations": [
+    "structure.system_parameter.list",
+    "structure.system_parameter.describe",
+    "structure.system_parameter.create",
+    "structure.system_parameter.update"
+   ],
+   "scope": [
+    "report.url",
+    "web.base.url",
+    "web.base.url.freeze"
+   ]
+  },
+  {
+   "model": "account.move",
+   "print": "finance.invoice.print",
+   "report": "account.report_invoice_with_payments"
+  },
+  {
+   "model": "account.payment",
+   "print": "finance.payment.print",
+   "report": "account.report_payment_receipt"
+  },
+  {
+   "model": "stock.picking",
+   "print": "inventory.transfer.print",
+   "report": "stock.report_deliveryslip"
+  },
+  {
+   "model": "mrp.production",
+   "print": "manufacturing.order.print",
+   "report": "mrp.report_mrporder"
+  },
+  {
+   "model": "purchase.order",
+   "print": "procurement.order.print",
+   "report": "purchase.report_purchaseorder"
+  },
+  {
+   "model": "purchase.order",
+   "print": "procurement.rfq.print",
+   "report": "purchase.report_purchasequotation"
+  },
+  {
+   "model": "sale.order",
+   "print": "sales.order.print",
+   "report": "sale.report_saleorder"
+  },
+  {
+   "collaboration": "crm.lead",
+   "model": "crm.lead",
+   "operations": [
+    "crm.lead.log_note",
+    "crm.lead.schedule_activity",
+    "crm.lead.attachment.list",
+    "crm.lead.attachment.describe",
+    "crm.lead.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "finance.invoice",
+   "model": "account.move",
+   "operations": [
+    "finance.invoice.log_note",
+    "finance.invoice.schedule_activity",
+    "finance.invoice.attachment.list",
+    "finance.invoice.attachment.describe",
+    "finance.invoice.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "finance.journal_entry",
+   "model": "account.move",
+   "operations": [
+    "finance.journal_entry.log_note",
+    "finance.journal_entry.schedule_activity",
+    "finance.journal_entry.attachment.list",
+    "finance.journal_entry.attachment.describe",
+    "finance.journal_entry.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "identity.contact",
+   "model": "res.partner",
+   "operations": [
+    "identity.contact.log_note",
+    "identity.contact.schedule_activity",
+    "identity.contact.attachment.list",
+    "identity.contact.attachment.describe",
+    "identity.contact.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "inventory.transfer",
+   "model": "stock.picking",
+   "operations": [
+    "inventory.transfer.log_note",
+    "inventory.transfer.schedule_activity",
+    "inventory.transfer.attachment.list",
+    "inventory.transfer.attachment.describe",
+    "inventory.transfer.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "people.expense",
+   "model": "hr.expense",
+   "operations": [
+    "people.expense.log_note",
+    "people.expense.schedule_activity",
+    "people.expense.attachment.list",
+    "people.expense.attachment.describe",
+    "people.expense.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "procurement.order",
+   "model": "purchase.order",
+   "operations": [
+    "procurement.order.log_note",
+    "procurement.order.schedule_activity",
+    "procurement.order.attachment.list",
+    "procurement.order.attachment.describe",
+    "procurement.order.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "sales.order",
+   "model": "sale.order",
+   "operations": [
+    "sales.order.log_note",
+    "sales.order.schedule_activity",
+    "sales.order.attachment.list",
+    "sales.order.attachment.describe",
+    "sales.order.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "work.project",
+   "model": "project.project",
+   "operations": [
+    "work.project.log_note",
+    "work.project.schedule_activity",
+    "work.project.attachment.list",
+    "work.project.attachment.describe",
+    "work.project.attachment.create"
+   ]
+  },
+  {
+   "collaboration": "work.task",
+   "model": "project.task",
+   "operations": [
+    "work.task.log_note",
+    "work.task.schedule_activity",
+    "work.task.attachment.list",
+    "work.task.attachment.describe",
+    "work.task.attachment.create"
+   ]
+  },
+  {
+   "model": "account.account.tag",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.account_tag.list",
+    "finance.account_tag.describe",
+    "finance.account_tag.create",
+    "finance.account_tag.update"
+   ]
+  },
+  {
+   "model": "account.analytic.account",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.analytic_account.list",
+    "finance.analytic_account.describe",
+    "finance.analytic_account.create",
+    "finance.analytic_account.update"
+   ]
+  },
+  {
+   "model": "account.analytic.distribution.model",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.analytic_distribution_model.list",
+    "finance.analytic_distribution_model.describe",
+    "finance.analytic_distribution_model.create",
+    "finance.analytic_distribution_model.update"
+   ]
+  },
+  {
+   "model": "account.analytic.line",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.analytic_line.list",
+    "finance.analytic_line.describe",
+    "finance.analytic_line.create",
+    "finance.analytic_line.update"
+   ]
+  },
+  {
+   "model": "account.bank.statement",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.bank_statement.list",
+    "finance.bank_statement.describe",
+    "finance.bank_statement.create",
+    "finance.bank_statement.update"
+   ]
+  },
+  {
+   "model": "account.bank.statement.line",
+   "next_series": {
+    "missing_fields": [
+     "checked",
+     "journal_line_ids"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.bank_statement_line.list",
+    "finance.bank_statement_line.describe",
+    "finance.bank_statement_line.create",
+    "finance.bank_statement_line.update"
+   ]
+  },
+  {
+   "model": "account.cash.rounding",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.cash_rounding.list",
+    "finance.cash_rounding.describe",
+    "finance.cash_rounding.create",
+    "finance.cash_rounding.update"
+   ]
+  },
+  {
+   "model": "account.fiscal.position",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.fiscal_position.list",
+    "finance.fiscal_position.describe",
+    "finance.fiscal_position.create",
+    "finance.fiscal_position.update",
+    "finance.fiscal_position.create_foreign_taxes"
+   ]
+  },
+  {
+   "model": "account.fiscal.position.account",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.fiscal_position_account.list",
+    "finance.fiscal_position_account.describe",
+    "finance.fiscal_position_account.create",
+    "finance.fiscal_position_account.update"
+   ]
+  },
+  {
+   "model": "account.group",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "finance.account_group.list",
+    "finance.account_group.describe",
+    "finance.account_group.create",
+    "finance.account_group.update"
+   ]
+  },
+  {
+   "model": "account.incoterms",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.incoterms.list",
+    "finance.incoterms.describe",
+    "finance.incoterms.create",
+    "finance.incoterms.update"
+   ]
+  },
+  {
+   "model": "account.journal.group",
+   "next_series": {
+    "missing_fields": [
+     "company_id",
+     "excluded_journal_ids"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.journal_group.list",
+    "finance.journal_group.describe",
+    "finance.journal_group.create",
+    "finance.journal_group.update"
+   ]
+  },
+  {
+   "model": "account.payment.method",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.payment_method.list",
+    "finance.payment_method.describe",
+    "finance.payment_method.create",
+    "finance.payment_method.update"
+   ]
+  },
+  {
+   "model": "account.payment.method.line",
+   "next_series": {
+    "missing_fields": [
+     "payment_provider_state"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.payment_method_line.list",
+    "finance.payment_method_line.describe",
+    "finance.payment_method_line.create",
+    "finance.payment_method_line.update"
+   ]
+  },
+  {
+   "model": "account.payment.term.line",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.payment_term_line.list",
+    "finance.payment_term_line.describe",
+    "finance.payment_term_line.create",
+    "finance.payment_term_line.update"
+   ]
+  },
+  {
+   "model": "account.reconcile.model",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.reconcile_model.list",
+    "finance.reconcile_model.describe",
+    "finance.reconcile_model.create",
+    "finance.reconcile_model.update",
+    "finance.reconcile_model.set_manual",
+    "finance.reconcile_model.set_auto_reconcile"
+   ]
+  },
+  {
+   "model": "account.reconcile.model.line",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.reconcile_model_line.list",
+    "finance.reconcile_model_line.describe",
+    "finance.reconcile_model_line.create",
+    "finance.reconcile_model_line.update"
+   ]
+  },
+  {
+   "model": "account.tax.group",
+   "next_series": {
+    "missing_fields": [
+     "advance_tax_payment_account_id",
+     "tax_payable_account_id",
+     "tax_receivable_account_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.tax_group.list",
+    "finance.tax_group.describe",
+    "finance.tax_group.create",
+    "finance.tax_group.update"
+   ]
+  },
+  {
+   "model": "calendar.alarm",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "schedule.alarm.list",
+    "schedule.alarm.describe",
+    "schedule.alarm.create",
+    "schedule.alarm.update"
+   ]
+  },
+  {
+   "model": "calendar.attendee",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "schedule.attendee.list",
+    "schedule.attendee.describe",
+    "schedule.attendee.create",
+    "schedule.attendee.update"
+   ]
+  },
+  {
+   "model": "calendar.event.type",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "schedule.event_type.list",
+    "schedule.event_type.describe",
+    "schedule.event_type.create",
+    "schedule.event_type.update"
+   ]
+  },
+  {
+   "model": "calendar.recurrence",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "schedule.recurrence.list",
+    "schedule.recurrence.describe",
+    "schedule.recurrence.create",
+    "schedule.recurrence.update"
+   ]
+  },
+  {
+   "model": "crm.lost.reason",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "crm.lost_reason.list",
+    "crm.lost_reason.describe",
+    "crm.lost_reason.create",
+    "crm.lost_reason.update",
+    "crm.lost_reason.lost_leads"
+   ]
+  },
+  {
+   "model": "crm.recurring.plan",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "crm.recurring_plan.list",
+    "crm.recurring_plan.describe",
+    "crm.recurring_plan.create",
+    "crm.recurring_plan.update"
+   ]
+  },
+  {
+   "model": "crm.stage",
+   "next_series": {
+    "missing_fields": [
+     "color"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "crm.stage.list",
+    "crm.stage.describe",
+    "crm.stage.create",
+    "crm.stage.update"
+   ]
+  },
+  {
+   "model": "crm.tag",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "crm.tag.list",
+    "crm.tag.describe",
+    "crm.tag.create",
+    "crm.tag.update"
+   ]
+  },
+  {
+   "model": "crm.team",
+   "next_series": {
+    "missing_fields": [
+     "invoiced_target"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "crm.team.list",
+    "crm.team.describe",
+    "crm.team.create",
+    "crm.team.update",
+    "crm.team.assign_leads"
+   ]
+  },
+  {
+   "model": "crm.team.member",
+   "next_series": {
+    "missing_fields": [
+     "assignment_optout"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "crm.team_member.list",
+    "crm.team_member.describe",
+    "crm.team_member.create",
+    "crm.team_member.update"
+   ]
+  },
+  {
+   "model": "hr.attendance",
+   "next_series": {
+    "missing_fields": [
+     "linked_overtime_ids",
+     "overtime_hours",
+     "overtime_status",
+     "validated_overtime_hours"
+    ],
+    "missing_methods": [
+     "action_approve_overtime",
+     "action_refuse_overtime"
+    ]
+   },
+   "operations": [
+    "workforce.attendance_log.list",
+    "workforce.attendance_log.describe",
+    "workforce.attendance_log.create",
+    "workforce.attendance_log.update",
+    "workforce.attendance_log.approve_overtime",
+    "workforce.attendance_log.refuse_overtime"
+   ]
+  },
+  {
+   "model": "hr.attendance.overtime.line",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "workforce.overtime_line.list",
+    "workforce.overtime_line.describe",
+    "workforce.overtime_line.create",
+    "workforce.overtime_line.update"
+   ]
+  },
+  {
+   "model": "hr.attendance.overtime.rule",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "workforce.overtime_rule.list",
+    "workforce.overtime_rule.describe",
+    "workforce.overtime_rule.create",
+    "workforce.overtime_rule.update"
+   ]
+  },
+  {
+   "model": "hr.attendance.overtime.ruleset",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "workforce.overtime_ruleset.list",
+    "workforce.overtime_ruleset.describe",
+    "workforce.overtime_ruleset.create",
+    "workforce.overtime_ruleset.update",
+    "workforce.overtime_ruleset.regenerate_overtimes"
+   ]
+  },
+  {
+   "model": "hr.contract.type",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "people.contract_type.list",
+    "people.contract_type.describe",
+    "people.contract_type.create",
+    "people.contract_type.update"
+   ]
+  },
+  {
+   "model": "hr.departure.reason",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.departure_reason.list",
+    "people.departure_reason.describe",
+    "people.departure_reason.create",
+    "people.departure_reason.update"
+   ]
+  },
+  {
+   "model": "hr.employee.category",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.employee_tag.list",
+    "people.employee_tag.describe",
+    "people.employee_tag.create",
+    "people.employee_tag.update"
+   ]
+  },
+  {
+   "model": "hr.employee.location",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.employee_location.list",
+    "people.employee_location.describe",
+    "people.employee_location.create",
+    "people.employee_location.update"
+   ]
+  },
+  {
+   "model": "hr.employee.skill",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.employee_skill.list",
+    "people.employee_skill.describe",
+    "people.employee_skill.create",
+    "people.employee_skill.update"
+   ]
+  },
+  {
+   "model": "hr.expense",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": [
+     "action_post"
+    ]
+   },
+   "operations": [
+    "people.expense.list",
+    "people.expense.describe",
+    "people.expense.create",
+    "people.expense.update",
+    "people.expense.submit",
+    "people.expense.approve",
+    "people.expense.reset",
+    "people.expense.refuse",
+    "people.expense.post",
+    "people.expense.approve_despite_duplicate"
+   ]
+  },
+  {
+   "model": "hr.job",
+   "next_series": {
+    "missing_fields": [
+     "contract_type_id",
+     "user_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.job.list",
+    "people.job.describe",
+    "people.job.create",
+    "people.job.update"
+   ]
+  },
+  {
+   "model": "hr.job.skill",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.job_skill.list",
+    "people.job_skill.describe",
+    "people.job_skill.create",
+    "people.job_skill.update"
+   ]
+  },
+  {
+   "model": "hr.leave.accrual.level",
+   "next_series": {
+    "missing_fields": [
+     "postpone_max_days"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "workforce.accrual_level.list",
+    "workforce.accrual_level.describe",
+    "workforce.accrual_level.create",
+    "workforce.accrual_level.update"
+   ]
+  },
+  {
+   "model": "hr.leave.accrual.plan",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "workforce.accrual_plan.list",
+    "workforce.accrual_plan.describe",
+    "workforce.accrual_plan.create",
+    "workforce.accrual_plan.update"
+   ]
+  },
+  {
+   "model": "hr.leave.allocation",
+   "next_series": {
+    "missing_fields": [
+     "allocation_type",
+     "already_accrued",
+     "employee_overtime",
+     "expiring_carryover_days",
+     "holiday_status_id",
+     "number_of_hours_display",
+     "overtime_deductible"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "workforce.leave_allocation.list",
+    "workforce.leave_allocation.describe",
+    "workforce.leave_allocation.create",
+    "workforce.leave_allocation.update",
+    "workforce.leave_allocation.approve",
+    "workforce.leave_allocation.refuse"
+   ]
+  },
+  {
+   "model": "hr.leave.mandatory.day",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "workforce.mandatory_day.list",
+    "workforce.mandatory_day.describe",
+    "workforce.mandatory_day.create",
+    "workforce.mandatory_day.update"
+   ]
+  },
+  {
+   "model": "hr.leave.type",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "workforce.leave_type.list",
+    "workforce.leave_type.describe",
+    "workforce.leave_type.create",
+    "workforce.leave_type.update"
+   ]
+  },
+  {
+   "model": "hr.payroll.structure.type",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.payroll_structure_type.list",
+    "people.payroll_structure_type.describe",
+    "people.payroll_structure_type.create",
+    "people.payroll_structure_type.update"
+   ]
+  },
+  {
+   "model": "hr.resume.line",
+   "next_series": {
+    "missing_fields": [
+     "certificate_filename"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.resume_line.list",
+    "people.resume_line.describe",
+    "people.resume_line.create",
+    "people.resume_line.update"
+   ]
+  },
+  {
+   "model": "hr.resume.line.type",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.resume_line_type.list",
+    "people.resume_line_type.describe",
+    "people.resume_line_type.create",
+    "people.resume_line_type.update"
+   ]
+  },
+  {
+   "model": "hr.skill",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.skill.list",
+    "people.skill.describe",
+    "people.skill.create",
+    "people.skill.update"
+   ]
+  },
+  {
+   "model": "hr.skill.level",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.skill_level.list",
+    "people.skill_level.describe",
+    "people.skill_level.create",
+    "people.skill_level.update"
+   ]
+  },
+  {
+   "model": "hr.skill.type",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.skill_type.list",
+    "people.skill_type.describe",
+    "people.skill_type.create",
+    "people.skill_type.update"
+   ]
+  },
+  {
+   "model": "hr.version",
+   "next_series": {
+    "missing_fields": [
+     "contract_type_id",
+     "employee_type"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.employee_version.list",
+    "people.employee_version.describe",
+    "people.employee_version.create",
+    "people.employee_version.update"
+   ]
+  },
+  {
+   "model": "hr.work.location",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "people.work_location.list",
+    "people.work_location.describe",
+    "people.work_location.create",
+    "people.work_location.update"
+   ]
+  },
+  {
+   "model": "l10n_vn_edi_viettel.sinvoice.symbol",
+   "next_series": {
+    "missing_fields": [
+     "invoice_template_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.einvoice_symbol.list",
+    "finance.einvoice_symbol.describe",
+    "finance.einvoice_symbol.create",
+    "finance.einvoice_symbol.update"
+   ]
+  },
+  {
+   "model": "l10n_vn_edi_viettel.sinvoice.template",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "finance.einvoice_template.list",
+    "finance.einvoice_template.describe",
+    "finance.einvoice_template.create",
+    "finance.einvoice_template.update"
+   ]
+  },
+  {
+   "model": "mrp.bom",
+   "next_series": {
+    "missing_fields": [
+     "consumption",
+     "product_uom_id"
+    ],
+    "missing_methods": [
+     "action_compute_bom_days"
+    ]
+   },
+   "operations": [
+    "manufacturing.bom.list",
+    "manufacturing.bom.describe",
+    "manufacturing.bom.create",
+    "manufacturing.bom.update",
+    "manufacturing.bom.compute_bom_days"
+   ]
+  },
+  {
+   "model": "mrp.bom.byproduct",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.bom_byproduct.list",
+    "manufacturing.bom_byproduct.describe",
+    "manufacturing.bom_byproduct.create",
+    "manufacturing.bom_byproduct.update"
+   ]
+  },
+  {
+   "model": "mrp.bom.line",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.bom_line.list",
+    "manufacturing.bom_line.describe",
+    "manufacturing.bom_line.create",
+    "manufacturing.bom_line.update"
+   ]
+  },
+  {
+   "model": "mrp.production",
+   "next_series": {
+    "missing_fields": [
+     "consumption",
+     "product_uom_id",
+     "show_produce",
+     "show_produce_all"
+    ],
+    "missing_methods": [
+     "action_assign",
+     "action_view_mrp_production_childs",
+     "button_plan",
+     "button_unbuild",
+     "button_unplan",
+     "do_unreserve"
+    ]
+   },
+   "operations": [
+    "manufacturing.order.list",
+    "manufacturing.order.describe",
+    "manufacturing.order.create",
+    "manufacturing.order.update",
+    "manufacturing.order.mark_done",
+    "manufacturing.order.confirm",
+    "manufacturing.order.plan",
+    "manufacturing.order.unplan",
+    "manufacturing.order.start",
+    "manufacturing.order.assign",
+    "manufacturing.order.unreserve",
+    "manufacturing.order.cancel",
+    "manufacturing.order.generate_bom",
+    "manufacturing.order.update_bom",
+    "manufacturing.order.clear_lot_producing_ids",
+    "manufacturing.order.change_quantity",
+    "manufacturing.order.mark_done_with_backorder",
+    "manufacturing.order.mark_done_without_backorder",
+    "manufacturing.order.mark_done_confirm_consumption",
+    "manufacturing.order.mark_done_confirm_consumption_with_backorder",
+    "manufacturing.order.mark_done_confirm_consumption_without_backorder"
+   ]
+  },
+  {
+   "model": "mrp.production.group",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.production_group.list",
+    "manufacturing.production_group.describe",
+    "manufacturing.production_group.create",
+    "manufacturing.production_group.update"
+   ]
+  },
+  {
+   "model": "mrp.routing.workcenter",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.operation.list",
+    "manufacturing.operation.describe",
+    "manufacturing.operation.create",
+    "manufacturing.operation.update"
+   ]
+  },
+  {
+   "model": "mrp.unbuild",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.unbuild.list",
+    "manufacturing.unbuild.describe",
+    "manufacturing.unbuild.create",
+    "manufacturing.unbuild.update",
+    "manufacturing.unbuild.validate"
+   ]
+  },
+  {
+   "model": "mrp.workcenter",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.workcenter.list",
+    "manufacturing.workcenter.describe",
+    "manufacturing.workcenter.create",
+    "manufacturing.workcenter.update"
+   ]
+  },
+  {
+   "model": "mrp.workcenter.capacity",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.workcenter_capacity.list",
+    "manufacturing.workcenter_capacity.describe",
+    "manufacturing.workcenter_capacity.create",
+    "manufacturing.workcenter_capacity.update"
+   ]
+  },
+  {
+   "model": "mrp.workcenter.productivity",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.workcenter_productivity.list",
+    "manufacturing.workcenter_productivity.describe",
+    "manufacturing.workcenter_productivity.create",
+    "manufacturing.workcenter_productivity.update"
+   ]
+  },
+  {
+   "model": "mrp.workcenter.productivity.loss",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.workcenter_productivity_loss.list",
+    "manufacturing.workcenter_productivity_loss.describe",
+    "manufacturing.workcenter_productivity_loss.create",
+    "manufacturing.workcenter_productivity_loss.update"
+   ]
+  },
+  {
+   "model": "mrp.workcenter.productivity.loss.type",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.workcenter_productivity_loss_type.list",
+    "manufacturing.workcenter_productivity_loss_type.describe",
+    "manufacturing.workcenter_productivity_loss_type.create",
+    "manufacturing.workcenter_productivity_loss_type.update"
+   ]
+  },
+  {
+   "model": "mrp.workcenter.tag",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "manufacturing.workcenter_tag.list",
+    "manufacturing.workcenter_tag.describe",
+    "manufacturing.workcenter_tag.create",
+    "manufacturing.workcenter_tag.update"
+   ]
+  },
+  {
+   "model": "mrp.workorder",
+   "next_series": {
+    "missing_fields": [
+     "consumption",
+     "finished_lot_ids",
+     "json_popover",
+     "product_uom_id",
+     "scrap_count",
+     "show_json_popover"
+    ],
+    "missing_methods": [
+     "action_see_move_scrap"
+    ]
+   },
+   "operations": [
+    "manufacturing.workorder.list",
+    "manufacturing.workorder.describe",
+    "manufacturing.workorder.create",
+    "manufacturing.workorder.update"
+   ]
+  },
+  {
+   "model": "payment.method",
+   "next_series": {
+    "missing_fields": [
+     "provider_ids"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.online_payment_method.list",
+    "finance.online_payment_method.describe",
+    "finance.online_payment_method.create",
+    "finance.online_payment_method.update"
+   ]
+  },
+  {
+   "model": "payment.provider",
+   "next_series": {
+    "missing_fields": [
+     "state"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.payment_provider.list",
+    "finance.payment_provider.describe",
+    "finance.payment_provider.create",
+    "finance.payment_provider.update",
+    "finance.payment_provider.toggle_is_published"
+   ]
+  },
+  {
+   "model": "payment.token",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.payment_token.list",
+    "finance.payment_token.describe",
+    "finance.payment_token.create",
+    "finance.payment_token.update"
+   ]
+  },
+  {
+   "model": "payment.transaction",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.payment_transaction.list",
+    "finance.payment_transaction.describe",
+    "finance.payment_transaction.create",
+    "finance.payment_transaction.update",
+    "finance.payment_transaction.capture",
+    "finance.payment_transaction.void",
+    "finance.payment_transaction.post_process"
+   ]
+  },
+  {
+   "model": "phone.blacklist",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "identity.phone_blacklist.list",
+    "identity.phone_blacklist.describe",
+    "identity.phone_blacklist.create",
+    "identity.phone_blacklist.update"
+   ]
+  },
+  {
+   "model": "pos.category",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.category.list",
+    "pos.category.describe",
+    "pos.category.create",
+    "pos.category.update"
+   ]
+  },
+  {
+   "model": "pos.config",
+   "next_series": {
+    "missing_fields": [
+     "advanced_employee_ids",
+     "basic_employee_ids",
+     "epson_printer_ip",
+     "iface_cashdrawer",
+     "iface_electronic_scale",
+     "iface_print_via_proxy",
+     "iface_scan_via_proxy",
+     "is_posbox",
+     "last_session_closing_cash",
+     "minimal_employee_ids",
+     "proxy_ip"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.config.list",
+    "pos.config.describe",
+    "pos.config.create",
+    "pos.config.update"
+   ]
+  },
+  {
+   "model": "pos.order",
+   "next_series": {
+    "missing_fields": [
+     "order_edit_tracking",
+     "session_move_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.order.list",
+    "pos.order.describe",
+    "pos.order.create",
+    "pos.order.update",
+    "pos.order.pos_order_invoice",
+    "pos.order.refund",
+    "pos.order.pay"
+   ]
+  },
+  {
+   "model": "pos.order.line",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.order_line.list",
+    "pos.order_line.describe",
+    "pos.order_line.create",
+    "pos.order_line.update"
+   ]
+  },
+  {
+   "model": "pos.payment",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.payment.list",
+    "pos.payment.describe",
+    "pos.payment.create",
+    "pos.payment.update"
+   ]
+  },
+  {
+   "model": "pos.payment.method",
+   "next_series": {
+    "missing_fields": [
+     "hide_use_payment_terminal",
+     "is_online_payment",
+     "split_transactions",
+     "use_payment_terminal"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.payment_method.list",
+    "pos.payment_method.describe",
+    "pos.payment_method.create",
+    "pos.payment_method.update"
+   ]
+  },
+  {
+   "model": "pos.preset",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "pos.preset.list",
+    "pos.preset.describe",
+    "pos.preset.create",
+    "pos.preset.update"
+   ]
+  },
+  {
+   "model": "pos.session",
+   "next_series": {
+    "missing_fields": [
+     "cash_control",
+     "cash_register_balance_end",
+     "cash_register_balance_end_real",
+     "cash_register_balance_start",
+     "rescue"
+    ],
+    "missing_methods": [
+     "action_pos_session_closing_control",
+     "open_frontend_cb"
+    ]
+   },
+   "operations": [
+    "pos.session.list",
+    "pos.session.describe",
+    "pos.session.create",
+    "pos.session.update",
+    "pos.session.pos_session_closing_control"
+   ]
+  },
+  {
+   "model": "product.attribute",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.attribute.list",
+    "catalog.attribute.describe",
+    "catalog.attribute.create",
+    "catalog.attribute.update"
+   ]
+  },
+  {
+   "model": "product.attribute.value",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.attribute_value.list",
+    "catalog.attribute_value.describe",
+    "catalog.attribute_value.create",
+    "catalog.attribute_value.update"
+   ]
+  },
+  {
+   "model": "product.category",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.category.list",
+    "catalog.category.describe",
+    "catalog.category.create",
+    "catalog.category.update"
+   ]
+  },
+  {
+   "model": "product.combo",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.combo.list",
+    "catalog.combo.describe",
+    "catalog.combo.create",
+    "catalog.combo.update"
+   ]
+  },
+  {
+   "model": "product.combo.item",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.combo_item.list",
+    "catalog.combo_item.describe",
+    "catalog.combo_item.create",
+    "catalog.combo_item.update"
+   ]
+  },
+  {
+   "model": "product.document",
+   "next_series": {
+    "missing_fields": [
+     "attached_on_mrp"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.document.list",
+    "catalog.document.describe",
+    "catalog.document.create",
+    "catalog.document.update"
+   ]
+  },
+  {
+   "model": "product.pricelist",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.pricelist.list",
+    "catalog.pricelist.describe",
+    "catalog.pricelist.create",
+    "catalog.pricelist.update"
+   ]
+  },
+  {
+   "model": "product.pricelist.item",
+   "next_series": {
+    "missing_fields": [
+     "display_applied_on",
+     "percent_price"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.pricelist_item.list",
+    "catalog.pricelist_item.describe",
+    "catalog.pricelist_item.create",
+    "catalog.pricelist_item.update"
+   ]
+  },
+  {
+   "model": "product.supplierinfo",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.vendor_price.list",
+    "catalog.vendor_price.describe",
+    "catalog.vendor_price.create",
+    "catalog.vendor_price.update"
+   ]
+  },
+  {
+   "model": "product.tag",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.tag.list",
+    "catalog.tag.describe",
+    "catalog.tag.create",
+    "catalog.tag.update"
+   ]
+  },
+  {
+   "model": "product.template.attribute.line",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.template_attribute_line.list",
+    "catalog.template_attribute_line.describe",
+    "catalog.template_attribute_line.create",
+    "catalog.template_attribute_line.update"
+   ]
+  },
+  {
+   "model": "product.template.attribute.value",
+   "next_series": {
+    "missing_fields": [
+     "exclude_for"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.template_attribute_value.list",
+    "catalog.template_attribute_value.describe",
+    "catalog.template_attribute_value.create",
+    "catalog.template_attribute_value.update"
+   ]
+  },
+  {
+   "model": "product.uom",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "catalog.product_uom.list",
+    "catalog.product_uom.describe",
+    "catalog.product_uom.create",
+    "catalog.product_uom.update"
+   ]
+  },
+  {
+   "model": "project.collaborator",
+   "next_series": {
+    "missing_fields": [
+     "limited_access"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.collaborator.list",
+    "work.collaborator.describe",
+    "work.collaborator.create",
+    "work.collaborator.update"
+   ]
+  },
+  {
+   "model": "project.project.stage",
+   "next_series": {
+    "missing_fields": [
+     "color"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.project_stage.list",
+    "work.project_stage.describe",
+    "work.project_stage.create",
+    "work.project_stage.update"
+   ]
+  },
+  {
+   "model": "project.role",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.role.list",
+    "work.role.describe",
+    "work.role.create",
+    "work.role.update"
+   ]
+  },
+  {
+   "model": "project.tags",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.tag.list",
+    "work.tag.describe",
+    "work.tag.create",
+    "work.tag.update"
+   ]
+  },
+  {
+   "model": "project.task.recurrence",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.task_recurrence.list",
+    "work.task_recurrence.describe",
+    "work.task_recurrence.create",
+    "work.task_recurrence.update"
+   ]
+  },
+  {
+   "model": "project.task.type",
+   "next_series": {
+    "missing_fields": [
+     "color"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.task_stage.list",
+    "work.task_stage.describe",
+    "work.task_stage.create",
+    "work.task_stage.update"
+   ]
+  },
+  {
+   "model": "project.update",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "work.project_update.list",
+    "work.project_update.describe",
+    "work.project_update.create",
+    "work.project_update.update"
+   ]
+  },
+  {
+   "model": "res.bank",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "finance.bank.list",
+    "finance.bank.describe",
+    "finance.bank.create",
+    "finance.bank.update"
+   ]
+  },
+  {
+   "model": "res.country",
+   "next_series": {
+    "missing_fields": [
+     "zip_required"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "structure.country.list",
+    "structure.country.describe",
+    "structure.country.create",
+    "structure.country.update"
+   ]
+  },
+  {
+   "model": "res.country.group",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "structure.country_group.list",
+    "structure.country_group.describe",
+    "structure.country_group.create",
+    "structure.country_group.update"
+   ]
+  },
+  {
+   "model": "res.country.state",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "structure.country_state.list",
+    "structure.country_state.describe",
+    "structure.country_state.create",
+    "structure.country_state.update"
+   ]
+  },
+  {
+   "model": "res.currency",
+   "next_series": {
+    "missing_fields": [
+     "date"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.currency.list",
+    "finance.currency.describe",
+    "finance.currency.create",
+    "finance.currency.update"
+   ]
+  },
+  {
+   "model": "res.currency.rate",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "finance.currency_rate.list",
+    "finance.currency_rate.describe",
+    "finance.currency_rate.create",
+    "finance.currency_rate.update"
+   ]
+  },
+  {
+   "model": "res.partner.bank",
+   "next_series": {
+    "missing_fields": [
+     "acc_holder_name",
+     "acc_number",
+     "bank_city",
+     "bank_country",
+     "bank_email",
+     "bank_id",
+     "bank_phone",
+     "bank_state",
+     "bank_street",
+     "bank_street2",
+     "bank_zip",
+     "currency_id",
+     "has_iban_warning",
+     "has_money_transfer_warning",
+     "money_transfer_service",
+     "partner_country_name",
+     "sanitized_acc_number"
+    ],
+    "missing_methods": [
+     "action_archive_bank"
+    ]
+   },
+   "operations": [
+    "identity.bank_account.list",
+    "identity.bank_account.describe",
+    "identity.bank_account.create",
+    "identity.bank_account.update",
+    "identity.bank_account.archive_bank"
+   ]
+  },
+  {
+   "model": "res.partner.category",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "identity.tag.list",
+    "identity.tag.describe",
+    "identity.tag.create",
+    "identity.tag.update"
+   ]
+  },
+  {
+   "model": "res.partner.industry",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "identity.industry.list",
+    "identity.industry.describe",
+    "identity.industry.create",
+    "identity.industry.update"
+   ]
+  },
+  {
+   "model": "resource.calendar.leaves",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "workforce.calendar_leave.list",
+    "workforce.calendar_leave.describe",
+    "workforce.calendar_leave.create",
+    "workforce.calendar_leave.update"
+   ]
+  },
+  {
+   "model": "resource.resource",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "workforce.resource.list",
+    "workforce.resource.describe",
+    "workforce.resource.create",
+    "workforce.resource.update"
+   ]
+  },
+  {
+   "model": "sale.order.template",
+   "next_series": {
+    "missing_fields": [
+     "require_payment"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "sales.quotation_template.list",
+    "sales.quotation_template.describe",
+    "sales.quotation_template.create",
+    "sales.quotation_template.update"
+   ]
+  },
+  {
+   "model": "sale.order.template.line",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "sales.quotation_template_line.list",
+    "sales.quotation_template_line.describe",
+    "sales.quotation_template_line.create",
+    "sales.quotation_template_line.update"
+   ]
+  },
+  {
+   "model": "stock.lot",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.lot.list",
+    "inventory.lot.describe",
+    "inventory.lot.create",
+    "inventory.lot.update"
+   ]
+  },
+  {
+   "model": "stock.package",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.package.list",
+    "inventory.package.describe",
+    "inventory.package.create",
+    "inventory.package.update",
+    "inventory.package.unpack"
+   ]
+  },
+  {
+   "model": "stock.package.history",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.package_history.list",
+    "inventory.package_history.describe",
+    "inventory.package_history.create",
+    "inventory.package_history.update"
+   ]
+  },
+  {
+   "model": "stock.package.type",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.package_type.list",
+    "inventory.package_type.describe",
+    "inventory.package_type.create",
+    "inventory.package_type.update"
+   ]
+  },
+  {
+   "model": "stock.putaway.rule",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.putaway_rule.list",
+    "inventory.putaway_rule.describe",
+    "inventory.putaway_rule.create",
+    "inventory.putaway_rule.update"
+   ]
+  },
+  {
+   "model": "stock.route",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.route.list",
+    "inventory.route.describe",
+    "inventory.route.create",
+    "inventory.route.update"
+   ]
+  },
+  {
+   "model": "stock.rule",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.rule.list",
+    "inventory.rule.describe",
+    "inventory.rule.create",
+    "inventory.rule.update"
+   ]
+  },
+  {
+   "model": "stock.scrap",
+   "next_series": "MODEL_ABSENT",
+   "operations": [
+    "inventory.scrap.list",
+    "inventory.scrap.describe",
+    "inventory.scrap.create",
+    "inventory.scrap.update",
+    "inventory.scrap.validate",
+    "inventory.scrap.validate_despite_shortage"
+   ]
+  },
+  {
+   "model": "stock.scrap.reason.tag",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.scrap_reason.list",
+    "inventory.scrap_reason.describe",
+    "inventory.scrap_reason.create",
+    "inventory.scrap_reason.update"
+   ]
+  },
+  {
+   "model": "stock.storage.category",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.storage_category.list",
+    "inventory.storage_category.describe",
+    "inventory.storage_category.create",
+    "inventory.storage_category.update"
+   ]
+  },
+  {
+   "model": "stock.storage.category.capacity",
+   "next_series": {
+    "missing_fields": [
+     "product_uom_id"
+    ],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.storage_category_capacity.list",
+    "inventory.storage_category_capacity.describe",
+    "inventory.storage_category_capacity.create",
+    "inventory.storage_category_capacity.update"
+   ]
+  },
+  {
+   "model": "stock.warehouse.orderpoint",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
+   "operations": [
+    "inventory.reorder_rule.list",
+    "inventory.reorder_rule.describe",
+    "inventory.reorder_rule.create",
+    "inventory.reorder_rule.update"
+   ]
+  }
+ ],
+ "operations": 727,
+ "series": {
+  "server_serie": "19.0",
+  "server_version": "19.0-20260803"
+ },
+ "skipped": [
+  "account.analytic.line.calendar.employee",
+  "account.full.reconcile",
+  "account.partial.reconcile",
+  "account.tax.repartition.line",
+  "calendar.filters",
+  "crm.iap.lead.industry",
+  "crm.iap.lead.mining.request",
+  "crm.iap.lead.role",
+  "crm.iap.lead.seniority",
+  "crm.lead.scoring.frequency",
+  "crm.lead.scoring.frequency.field",
+  "event.lead.request",
+  "event.mail.registration",
+  "event.mail.slot",
+  "gamification.badge",
+  "gamification.badge.user",
+  "gamification.challenge",
+  "gamification.challenge.line",
+  "gamification.goal",
+  "gamification.goal.definition",
+  "gamification.karma.rank",
+  "gamification.karma.tracking",
+  "hr.employee.public",
+  "hr.leave.report.calendar",
+  "link.tracker",
+  "link.tracker.click",
+  "link.tracker.code",
+  "pos.bill",
+  "pos.note",
+  "pos.pack.operation.lot",
+  "pos.printer",
+  "pos_self_order.custom_link",
+  "product.attribute.custom.value",
+  "product.removal",
+  "product.template.attribute.exclusion",
+  "product.value",
+  "project.sale.line.employee.map",
+  "project.task.stage.personal",
+  "purchase.bill.line.match",
+  "purchase.bill.union",
+  "purchase.order.group",
+  "quotation.document",
+  "res.role",
+  "res.users",
+  "restaurant.order.course",
+  "sale.order.coupon.points",
+  "sale.pdf.form.field",
+  "stock.reference",
+  "website.technical.page"
+ ]
+}

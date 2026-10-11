@@ -1,0 +1,153 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T19:50:24Z",
+ "records": {
+  "crm.lost_reason.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:8132c612357efd05c1e98dcac5f635a0c50b346a84a7e52528101c7f7c195c9b",
+   "kind": "delete",
+   "modules": [
+    "crm"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:11e07e7bb591992307e25655831247578120a67b9436b172b61a4df9ba743557",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "crm.stage.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:6ecea16e7b30b350f8962ced1253d28d9f8d266b2bea7ff9071542b63d8aab37",
+   "kind": "delete",
+   "modules": [
+    "crm"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:43a2d66e5f850f64677fc2fae986fcdbdf190e6b6f026167f70b21d8860826b3",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "people.department.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:464a7b385dd246a11a57dc51b2e44c6137d5782a4280d813c20f4522fa535add",
+   "kind": "delete",
+   "modules": [
+    "hr"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2e96afc0e9b31d97254a398e034dd89ae673b8958ef903ee31144c9742fd63be",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "people.job.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:308b7cf598a2fcffc0fe6b8b5ce5259216f59e4d0a00599a63493371f9247781",
+   "kind": "delete",
+   "modules": [
+    "hr"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:997b69fed31304e29beaf757fcc3a13d6e5a3d03c27e0bdb6633a5a90411baa4",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "website.media.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:a6dc8b5257678974a9d268ef14e0c45614cf05104f988206621eebad9fab6ab0",
+   "kind": "delete",
+   "modules": [
+    "website"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:83a7579cdd1fec2855bad0ee02722e98c80149d9b201a9d9dccec4d77424756f",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "website.menu.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:a42580d6b81ac433193e3fc98641d55e41cd5691a9c7eb8c2f99431838574b63",
+   "kind": "delete",
+   "modules": [
+    "website"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:fc3aed8c092c89d4faefff1d81efa375ccdc69d3987941cdffafb72476a8c26c",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "work.project.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:9d9c342a852f4f3e42f484524e9c621de1c1688867143c3447f2209ca7a88edc",
+   "kind": "delete",
+   "modules": [
+    "project"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b5d949c101870e7f1cba45239e8c5e03e73133270edb703dfd4b20f76e6928da",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "work.task_stage.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:e95c89a79a41b3589a689172fcdeb9e9a6893dfbad8f13ff795bf8b1c9552dc8",
+   "kind": "delete",
+   "modules": [
+    "project"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:44ca12ff7e811c7f09514d225fdf22043aa0a9e57f40358d2dee37babd14e5ec",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

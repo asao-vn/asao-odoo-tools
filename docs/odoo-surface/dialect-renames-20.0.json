@@ -1,0 +1,2992 @@
+{
+ "baseline": {
+  "server_serie": "19.0",
+  "server_version": "19.0-20260803"
+ },
+ "droppedWithoutCounterpart": [
+  {
+   "field": "group_id",
+   "model": "account.account"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.account"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.analytic.account"
+  },
+  {
+   "field": "journal_line_ids",
+   "model": "account.bank.statement.line"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.bank.statement.line"
+  },
+  {
+   "field": "bank_id",
+   "model": "account.journal"
+  },
+  {
+   "field": "journal_group_ids",
+   "model": "account.journal"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.journal"
+  },
+  {
+   "field": "company_id",
+   "model": "account.journal.group"
+  },
+  {
+   "field": "excluded_journal_ids",
+   "model": "account.journal.group"
+  },
+  {
+   "field": "journal_line_ids",
+   "model": "account.move"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.move"
+  },
+  {
+   "field": "is_donation",
+   "model": "account.payment"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.payment"
+  },
+  {
+   "field": "payment_provider_state",
+   "model": "account.payment.method.line"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.reconcile.model"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "account.tax"
+  },
+  {
+   "field": "advance_tax_payment_account_id",
+   "model": "account.tax.group"
+  },
+  {
+   "field": "tax_payable_account_id",
+   "model": "account.tax.group"
+  },
+  {
+   "field": "tax_receivable_account_id",
+   "model": "account.tax.group"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "calendar.event"
+  },
+  {
+   "field": "commercial_partner_id",
+   "model": "crm.lead"
+  },
+  {
+   "field": "is_partner_visible",
+   "model": "crm.lead"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "crm.lead"
+  },
+  {
+   "field": "color",
+   "model": "crm.stage"
+  },
+  {
+   "field": "invoiced",
+   "model": "crm.team"
+  },
+  {
+   "field": "invoiced_target",
+   "model": "crm.team"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "crm.team"
+  },
+  {
+   "field": "assignment_optout",
+   "model": "crm.team.member"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "crm.team.member"
+  },
+  {
+   "field": "linked_overtime_ids",
+   "model": "hr.attendance"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.attendance"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.department"
+  },
+  {
+   "field": "contract_type_id",
+   "model": "hr.employee"
+  },
+  {
+   "field": "contract_wage",
+   "model": "hr.employee"
+  },
+  {
+   "field": "current_leave_id",
+   "model": "hr.employee"
+  },
+  {
+   "field": "overtime_ids",
+   "model": "hr.employee"
+  },
+  {
+   "field": "ruleset_id",
+   "model": "hr.employee"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.employee"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.expense"
+  },
+  {
+   "field": "allowed_user_ids",
+   "model": "hr.job"
+  },
+  {
+   "field": "contract_type_id",
+   "model": "hr.job"
+  },
+  {
+   "field": "user_id",
+   "model": "hr.job"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.job"
+  },
+  {
+   "field": "employee_overtime",
+   "model": "hr.leave"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.leave"
+  },
+  {
+   "field": "time_off_type_id",
+   "model": "hr.leave.accrual.plan"
+  },
+  {
+   "field": "allocation_type",
+   "model": "hr.leave.allocation"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.leave.allocation"
+  },
+  {
+   "field": "certificate_filename",
+   "model": "hr.resume.line"
+  },
+  {
+   "field": "additional_note",
+   "model": "hr.version"
+  },
+  {
+   "field": "contract_type_id",
+   "model": "hr.version"
+  },
+  {
+   "field": "contract_wage",
+   "model": "hr.version"
+  },
+  {
+   "field": "employee_type",
+   "model": "hr.version"
+  },
+  {
+   "field": "ruleset_id",
+   "model": "hr.version"
+  },
+  {
+   "field": "ssnid",
+   "model": "hr.version"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "hr.version"
+  },
+  {
+   "field": "invoice_template_id",
+   "model": "l10n_vn_edi_viettel.sinvoice.symbol"
+  },
+  {
+   "field": "consumption",
+   "model": "mrp.bom"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mrp.bom"
+  },
+  {
+   "field": "attachments_count",
+   "model": "mrp.bom.line"
+  },
+  {
+   "field": "scrap_ids",
+   "model": "mrp.production"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mrp.production"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mrp.routing.workcenter"
+  },
+  {
+   "field": "lot_id",
+   "model": "mrp.unbuild"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mrp.unbuild"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mrp.workcenter"
+  },
+  {
+   "field": "scrap_ids",
+   "model": "mrp.workorder"
+  },
+  {
+   "field": "provider_ids",
+   "model": "payment.method"
+  },
+  {
+   "field": "state",
+   "model": "payment.provider"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "phone.blacklist"
+  },
+  {
+   "field": "last_order_preparation_change",
+   "model": "pos.order"
+  },
+  {
+   "field": "session_move_id",
+   "model": "pos.order"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "pos.order"
+  },
+  {
+   "field": "bank_payment_ids",
+   "model": "pos.session"
+  },
+  {
+   "field": "cash_control",
+   "model": "pos.session"
+  },
+  {
+   "field": "cash_journal_id",
+   "model": "pos.session"
+  },
+  {
+   "field": "move_id",
+   "model": "pos.session"
+  },
+  {
+   "field": "rescue",
+   "model": "pos.session"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "pos.session"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "product.category"
+  },
+  {
+   "field": "attached_on_mrp",
+   "model": "product.document"
+  },
+  {
+   "field": "datas",
+   "model": "product.document"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "product.pricelist"
+  },
+  {
+   "field": "display_applied_on",
+   "model": "product.pricelist.item"
+  },
+  {
+   "field": "percent_price",
+   "model": "product.pricelist.item"
+  },
+  {
+   "field": "property_price_difference_account_id",
+   "model": "product.product"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "product.product"
+  },
+  {
+   "field": "property_price_difference_account_id",
+   "model": "product.template"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "product.template"
+  },
+  {
+   "field": "exclude_for",
+   "model": "product.template.attribute.value"
+  },
+  {
+   "field": "limited_access",
+   "model": "project.collaborator"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "project.milestone"
+  },
+  {
+   "field": "is_rotting",
+   "model": "project.project"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "project.project"
+  },
+  {
+   "field": "email_cc",
+   "model": "project.task"
+  },
+  {
+   "field": "stage_id_color",
+   "model": "project.task"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "project.task"
+  },
+  {
+   "field": "color",
+   "model": "project.task.type"
+  },
+  {
+   "field": "email_cc",
+   "model": "project.update"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "project.update"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "purchase.order"
+  },
+  {
+   "field": "layout_background_image",
+   "model": "res.company"
+  },
+  {
+   "field": "sale_order_template_id",
+   "model": "res.company"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "res.company"
+  },
+  {
+   "field": "l10n_vn_edi_symbol",
+   "model": "res.partner"
+  },
+  {
+   "field": "same_company_registry_partner_id",
+   "model": "res.partner"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "res.partner"
+  },
+  {
+   "field": "bank_id",
+   "model": "res.partner.bank"
+  },
+  {
+   "field": "currency_id",
+   "model": "res.partner.bank"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "res.partner.bank"
+  },
+  {
+   "field": "attendance_ids_1st_week",
+   "model": "resource.calendar"
+  },
+  {
+   "field": "attendance_ids_2nd_week",
+   "model": "resource.calendar"
+  },
+  {
+   "field": "duration_based",
+   "model": "resource.calendar"
+  },
+  {
+   "field": "flexible_hours",
+   "model": "resource.calendar"
+  },
+  {
+   "field": "two_weeks_calendar",
+   "model": "resource.calendar"
+  },
+  {
+   "field": "duration_days",
+   "model": "resource.calendar.attendance"
+  },
+  {
+   "field": "im_status",
+   "model": "resource.resource"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "sale.order"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "stock.lot"
+  },
+  {
+   "field": "order_finished_lot_ids",
+   "model": "stock.move"
+  },
+  {
+   "field": "scrap_id",
+   "model": "stock.move"
+  },
+  {
+   "field": "scheduled_date",
+   "model": "stock.move.line"
+  },
+  {
+   "field": "scrap_id",
+   "model": "stock.move.line"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "stock.picking"
+  },
+  {
+   "field": "rounding",
+   "model": "uom.uom"
+  }
+ ],
+ "rejected": [
+  {
+   "baseline": "timesheet_invoice_type",
+   "candidates": [
+    "billable_type"
+   ],
+   "model": "account.analytic.line",
+   "reason": "selection values changed: ['billable_fixed', 'billable_manual', 'billable_milestones', 'billable_time', 'non_billable', 'other_costs', 'other_revenues', 'service_revenues', 'timesheet_revenues'] -> ['01_revenues_fixed', '02_billable_fixed', '04_billable_time', '05_revenues_milestones', '06_billable_milestones', '07_revenues_manual', '08_billable_manual', '09_non_billable', '10_service_revenues', '11_other_revenues', '12_vendor_bill', '13_expense', '14_manufacturing_order', '15_picking_entry_positive', '16_picking_entry_negative', '18_expense_revenues', '19_materials', '20_purchase_order', '30_other_costs']"
+  },
+  {
+   "baseline": "checked",
+   "candidates": [
+    "bill_paid_by_employee",
+    "company_vat_disabled",
+    "display_auto_complete_field",
+    "document_sequence_editable",
+    "has_draft_move_duplicate",
+    "has_grouped_lines"
+   ],
+   "model": "account.bank.statement.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_draft_duplicated_ref_ids",
+   "candidates": [
+    "bill_paid_by_employee",
+    "company_vat_disabled",
+    "display_auto_complete_field",
+    "document_sequence_editable",
+    "has_draft_move_duplicate",
+    "has_grouped_lines"
+   ],
+   "model": "account.bank.statement.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_sale_installed",
+   "candidates": [
+    "bill_paid_by_employee",
+    "company_vat_disabled",
+    "display_auto_complete_field",
+    "document_sequence_editable",
+    "has_draft_move_duplicate",
+    "has_grouped_lines"
+   ],
+   "model": "account.bank.statement.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "checked",
+   "candidates": [
+    "bill_paid_by_employee",
+    "company_vat_disabled",
+    "display_auto_complete_field",
+    "document_sequence_editable",
+    "has_draft_move_duplicate",
+    "has_grouped_lines"
+   ],
+   "model": "account.move",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_draft_duplicated_ref_ids",
+   "candidates": [
+    "bill_paid_by_employee",
+    "company_vat_disabled",
+    "display_auto_complete_field",
+    "document_sequence_editable",
+    "has_draft_move_duplicate",
+    "has_grouped_lines"
+   ],
+   "model": "account.move",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_sale_installed",
+   "candidates": [
+    "bill_paid_by_employee",
+    "company_vat_disabled",
+    "display_auto_complete_field",
+    "document_sequence_editable",
+    "has_draft_move_duplicate",
+    "has_grouped_lines"
+   ],
+   "model": "account.move",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "deductible_amount",
+   "candidates": [
+    "consolidation_rate",
+    "deductible_percentage"
+   ],
+   "model": "account.move.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "translated_product_name",
+   "candidates": [
+    "label"
+   ],
+   "model": "account.move.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "email_cc",
+   "candidates": [
+    "phone_formatted"
+   ],
+   "model": "crm.lead",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "stage_id_color",
+   "candidates": [
+    "project_count",
+    "task_count"
+   ],
+   "model": "crm.lead",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "expected_hours",
+   "candidates": [
+    "break_duration"
+   ],
+   "model": "hr.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "overtime_hours",
+   "candidates": [
+    "break_duration"
+   ],
+   "model": "hr.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "overtime_status",
+   "candidates": [
+    "day_of_date",
+    "state"
+   ],
+   "model": "hr.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "validated_overtime_hours",
+   "candidates": [
+    "break_duration"
+   ],
+   "model": "hr.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "display_extra_hours",
+   "candidates": [
+    "attendance_based",
+    "departure_apply_immediately",
+    "display_attendances",
+    "fixed_term",
+    "phone_blacklisted",
+    "phone_sanitized_blacklisted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "employee_type",
+   "candidates": [
+    "birthday_month",
+    "user_state"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "im_status",
+   "candidates": [
+    "driving_license_name",
+    "emergency_phone_formatted",
+    "emergency_phone_sanitized",
+    "external_code",
+    "id_card_name",
+    "mobile_phone_formatted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_flexible",
+   "candidates": [
+    "attendance_based",
+    "departure_apply_immediately",
+    "display_attendances",
+    "fixed_term",
+    "phone_blacklisted",
+    "phone_sanitized_blacklisted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_fully_flexible",
+   "candidates": [
+    "attendance_based",
+    "departure_apply_immediately",
+    "display_attendances",
+    "fixed_term",
+    "phone_blacklisted",
+    "phone_sanitized_blacklisted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_user_active",
+   "candidates": [
+    "attendance_based",
+    "departure_apply_immediately",
+    "display_attendances",
+    "fixed_term",
+    "phone_blacklisted",
+    "phone_sanitized_blacklisted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "private_car_plate",
+   "candidates": [
+    "driving_license_name",
+    "emergency_phone_formatted",
+    "emergency_phone_sanitized",
+    "external_code",
+    "id_card_name",
+    "mobile_phone_formatted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "ssnid",
+   "candidates": [
+    "driving_license_name",
+    "emergency_phone_formatted",
+    "emergency_phone_sanitized",
+    "external_code",
+    "id_card_name",
+    "mobile_phone_formatted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "study_school",
+   "candidates": [
+    "driving_license_name",
+    "emergency_phone_formatted",
+    "emergency_phone_sanitized",
+    "external_code",
+    "id_card_name",
+    "mobile_phone_formatted"
+   ],
+   "model": "hr.employee",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "overtime_deductible",
+   "candidates": [
+    "attachment_is_visible",
+    "can_reschedule",
+    "is_time_rule_trimmed",
+    "work_entry_type_requires_allocation",
+    "work_entry_type_support_document"
+   ],
+   "model": "hr.leave",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "request_unit_half",
+   "candidates": [
+    "attachment_is_visible",
+    "can_reschedule",
+    "is_time_rule_trimmed",
+    "work_entry_type_requires_allocation",
+    "work_entry_type_support_document"
+   ],
+   "model": "hr.leave",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "request_unit_hours",
+   "candidates": [
+    "attachment_is_visible",
+    "can_reschedule",
+    "is_time_rule_trimmed",
+    "work_entry_type_requires_allocation",
+    "work_entry_type_support_document"
+   ],
+   "model": "hr.leave",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "postpone_max_days",
+   "candidates": [
+    "max_carriedover_duration"
+   ],
+   "model": "hr.leave.accrual.level",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "actual_lastcall",
+   "candidates": [
+    "last_accrual"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "already_accrued",
+   "candidates": [
+    "hide_accrual_plan_id"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "employee_overtime",
+   "candidates": [
+    "number_of_hours",
+    "previous_carryover_number_of_days",
+    "yearly_accrued_days"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "expiring_carryover_days",
+   "candidates": [
+    "number_of_hours",
+    "previous_carryover_number_of_days",
+    "yearly_accrued_days"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "last_executed_carryover_date",
+   "candidates": [
+    "last_accrual"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "number_of_hours_display",
+   "candidates": [
+    "number_of_hours"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "readonly changed: a write through the new name would not do what it did"
+  },
+  {
+   "baseline": "overtime_deductible",
+   "candidates": [
+    "hide_accrual_plan_id"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "yearly_accrued_amount",
+   "candidates": [
+    "number_of_hours",
+    "previous_carryover_number_of_days",
+    "yearly_accrued_days"
+   ],
+   "model": "hr.leave.allocation",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_flexible",
+   "candidates": [
+    "attendance_based",
+    "departure_apply_immediately",
+    "fixed_term"
+   ],
+   "model": "hr.version",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_fully_flexible",
+   "candidates": [
+    "attendance_based",
+    "departure_apply_immediately",
+    "fixed_term"
+   ],
+   "model": "hr.version",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "consumption",
+   "candidates": [
+    "validate_button_style"
+   ],
+   "model": "mrp.production",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "location_final_id",
+   "candidates": [
+    "forecasted_location_id"
+   ],
+   "model": "mrp.production",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_produce",
+   "candidates": [
+    "is_due_today"
+   ],
+   "model": "mrp.production",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_produce_all",
+   "candidates": [
+    "is_due_today"
+   ],
+   "model": "mrp.production",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "consumption",
+   "candidates": [
+    "activity_exception_decoration",
+    "activity_state",
+    "priority"
+   ],
+   "model": "mrp.workorder",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "finished_lot_ids",
+   "candidates": [
+    "production_lot_producing_id"
+   ],
+   "model": "mrp.workorder",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "json_popover",
+   "candidates": [
+    "activity_exception_icon",
+    "activity_summary",
+    "activity_type_icon",
+    "decoration_dates"
+   ],
+   "model": "mrp.workorder",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "scrap_count",
+   "candidates": [
+    "backorder_count",
+    "color",
+    "message_attachment_count",
+    "message_has_error_counter",
+    "message_needaction_counter"
+   ],
+   "model": "mrp.workorder",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_json_popover",
+   "candidates": [
+    "has_conflicts",
+    "has_message",
+    "has_planning_issues",
+    "message_has_error",
+    "message_has_sms_error",
+    "message_is_follower"
+   ],
+   "model": "mrp.workorder",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "color",
+   "candidates": [
+    "token_count",
+    "transaction_count"
+   ],
+   "model": "payment.provider",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_donation",
+   "candidates": [
+    "capture_manually"
+   ],
+   "model": "payment.transaction",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "advanced_employee_ids",
+   "candidates": [
+    "cashier_employee_ids",
+    "logged_employee_ids",
+    "manager_employee_ids",
+    "restrictive_employee_ids",
+    "supervised_employee_ids"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "auto_validate_terminal_payment",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "basic_employee_ids",
+   "candidates": [
+    "cashier_employee_ids",
+    "logged_employee_ids",
+    "manager_employee_ids",
+    "restrictive_employee_ids",
+    "supervised_employee_ids"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "epson_printer_ip",
+   "candidates": [
+    "custom_email",
+    "custom_logo_name",
+    "custom_phone",
+    "custom_receipt_address",
+    "custom_website",
+    "email"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "iface_cashdrawer",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "iface_electronic_scale",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "iface_print_skip_screen",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "iface_print_via_proxy",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "iface_scan_via_proxy",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "invoice_journal_id",
+   "candidates": [
+    "closing_journal_id"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_posbox",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "last_session_closing_cash",
+   "candidates": [
+    "current_cash_register_balance",
+    "session_closing_daily_hour"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "minimal_employee_ids",
+   "candidates": [
+    "cashier_employee_ids",
+    "logged_employee_ids",
+    "manager_employee_ids",
+    "restrictive_employee_ids",
+    "supervised_employee_ids"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "number_of_rescue_session",
+   "candidates": [
+    "tip_percentage_1",
+    "tip_percentage_2",
+    "tip_percentage_3"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "order_edit_tracking",
+   "candidates": [
+    "auto_validate_electronic_payment",
+    "iface_printbill",
+    "preparation_devices",
+    "set_tip_after_payment",
+    "use_closing_entry_by_product",
+    "use_custom_receipt_info"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "printer_ids",
+   "candidates": [
+    "preparation_printer_ids",
+    "receipt_printer_ids"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "proxy_ip",
+   "candidates": [
+    "custom_email",
+    "custom_logo_name",
+    "custom_phone",
+    "custom_receipt_address",
+    "custom_website",
+    "email"
+   ],
+   "model": "pos.config",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_invoiced",
+   "candidates": [
+    "defer_invoice_pdf",
+    "is_globally_invoiced",
+    "is_singly_invoiced"
+   ],
+   "model": "pos.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "order_edit_tracking",
+   "candidates": [
+    "defer_invoice_pdf",
+    "is_globally_invoiced",
+    "is_singly_invoiced"
+   ],
+   "model": "pos.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "hide_use_payment_terminal",
+   "candidates": [
+    "all_providers_installed"
+   ],
+   "model": "pos.payment.method",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_cash_count",
+   "candidates": [
+    "all_providers_installed"
+   ],
+   "model": "pos.payment.method",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_online_payment",
+   "candidates": [
+    "all_providers_installed"
+   ],
+   "model": "pos.payment.method",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "split_transactions",
+   "candidates": [
+    "all_providers_installed"
+   ],
+   "model": "pos.payment.method",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "use_payment_terminal",
+   "candidates": [
+    "payment_provider"
+   ],
+   "model": "pos.payment.method",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "cash_real_transaction",
+   "candidates": [
+    "closing_balance",
+    "closing_difference",
+    "opening_balance"
+   ],
+   "model": "pos.session",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "cash_register_balance_end",
+   "candidates": [
+    "closing_balance",
+    "closing_difference",
+    "opening_balance"
+   ],
+   "model": "pos.session",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "cash_register_balance_end_real",
+   "candidates": [
+    "closing_balance",
+    "closing_difference",
+    "opening_balance"
+   ],
+   "model": "pos.session",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "cash_register_balance_start",
+   "candidates": [
+    "closing_balance",
+    "closing_difference",
+    "opening_balance"
+   ],
+   "model": "pos.session",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "cash_register_difference",
+   "candidates": [
+    "closing_balance",
+    "closing_difference",
+    "opening_balance"
+   ],
+   "model": "pos.session",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "statement_line_ids",
+   "candidates": [
+    "bank_statement_line_ids"
+   ],
+   "model": "pos.session",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_in_purchase_order",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_in_selected_section_of_order",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "product_catalog_product_is_in_bom",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "product_catalog_product_is_in_mo",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "product_catalog_product_is_in_sale_order",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "service_to_purchase",
+   "candidates": [
+    "catalog_is_in_order",
+    "catalog_is_in_selected_section",
+    "previously_bought_by_customer",
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "standard_price_update_warning",
+   "candidates": [
+    "base_unit_name"
+   ],
+   "model": "product.product",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "service_to_purchase",
+   "candidates": [
+    "property_account_expense_active",
+    "property_account_income_active",
+    "show_sales_price_page",
+    "visible_reinvoice_policy"
+   ],
+   "model": "product.template",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "privacy_visibility_warning",
+   "candidates": [
+    "next_milestone_status",
+    "partner_email",
+    "partner_phone",
+    "stat_extra_time_value",
+    "stat_timesheet_value"
+   ],
+   "model": "project.project",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "rotting_days",
+   "candidates": [
+    "milestone_count",
+    "milestone_count_reached",
+    "milestone_progress"
+   ],
+   "model": "project.project",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "stage_id_color",
+   "candidates": [
+    "milestone_count",
+    "milestone_count_reached",
+    "milestone_progress"
+   ],
+   "model": "project.project",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "color",
+   "candidates": [
+    "rotting_threshold_days"
+   ],
+   "model": "project.project.stage",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "current_user_same_company_partner",
+   "candidates": [
+    "show_portal_timesheets"
+   ],
+   "model": "project.task",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "location_final_id",
+   "candidates": [
+    "forecasted_location_id"
+   ],
+   "model": "purchase.order.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "translated_product_name",
+   "candidates": [
+    "label"
+   ],
+   "model": "purchase.order.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "attendance_overtime_validation",
+   "candidates": [
+    "attendance_validation",
+    "auto_check_out_mode",
+    "onboarding_payment_module",
+    "picking_policy",
+    "report_tables_id",
+    "routing_scheme"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_registry",
+   "candidates": [
+    "external_code",
+    "pay_later_label",
+    "pay_now_label",
+    "receipt_address",
+    "routing_endpoint",
+    "routing_identifier"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_registry_placeholder",
+   "candidates": [
+    "external_code",
+    "pay_later_label",
+    "pay_now_label",
+    "receipt_address",
+    "routing_endpoint",
+    "routing_identifier"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "hr_attendance_display_overtime",
+   "candidates": [
+    "allow_spontaneous_returns",
+    "attendance_based",
+    "attendance_break_management",
+    "attendance_capture_check_in",
+    "display_product_images_on_so",
+    "document_sequence_editable"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "layout_background",
+   "candidates": [
+    "attendance_validation",
+    "auto_check_out_mode",
+    "onboarding_payment_module",
+    "picking_policy",
+    "report_tables_id",
+    "routing_scheme"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "overtime_company_threshold",
+   "candidates": [
+    "return_validity_days"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "overtime_employee_threshold",
+   "candidates": [
+    "return_validity_days"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "snailmail_color",
+   "candidates": [
+    "allow_spontaneous_returns",
+    "attendance_based",
+    "attendance_break_management",
+    "attendance_capture_check_in",
+    "display_product_images_on_so",
+    "document_sequence_editable"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "snailmail_cover",
+   "candidates": [
+    "allow_spontaneous_returns",
+    "attendance_based",
+    "attendance_break_management",
+    "attendance_capture_check_in",
+    "display_product_images_on_so",
+    "document_sequence_editable"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "snailmail_duplex",
+   "candidates": [
+    "allow_spontaneous_returns",
+    "attendance_based",
+    "attendance_break_management",
+    "attendance_capture_check_in",
+    "display_product_images_on_so",
+    "document_sequence_editable"
+   ],
+   "model": "res.company",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "zip_required",
+   "candidates": [
+    "enforce_cities"
+   ],
+   "model": "res.country",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "date",
+   "candidates": [
+    "rate_date"
+   ],
+   "model": "res.currency",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "available_peppol_eas",
+   "candidates": [
+    "additional_identifiers",
+    "available_additional_identifiers_metadata",
+    "available_routing_schemes"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_name",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_registry",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_registry_label",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_registry_placeholder",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "company_type",
+   "candidates": [
+    "qr_code_method",
+    "routing_scheme"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "im_status",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_peppol_edi_format",
+   "candidates": [
+    "country_enforce_cities",
+    "has_vat",
+    "is_pricelist_manually_set",
+    "property_account_payable_active",
+    "property_account_receivable_active",
+    "should_be_geolocalized"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "offline_since",
+   "candidates": [
+    "publish_on",
+    "published_date"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "partner_company_registry_placeholder",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "peppol_eas",
+   "candidates": [
+    "qr_code_method",
+    "routing_scheme"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "peppol_endpoint",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "pos_contact_address",
+   "candidates": [
+    "address",
+    "address_inline",
+    "incoterm_location",
+    "meeting_display_label",
+    "phone_formatted",
+    "purchase_incoterm_location"
+   ],
+   "model": "res.partner",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "acc_holder_name",
+   "candidates": [
+    "account_number",
+    "city",
+    "holder_name",
+    "sanitized_account_number",
+    "street",
+    "street2"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "acc_type",
+   "candidates": [
+    "account_type"
+   ],
+   "model": "res.partner.bank",
+   "reason": "selection values changed: ['bank', 'iban'] -> ['bank', 'clabe', 'iban']"
+  },
+  {
+   "baseline": "bank_email",
+   "candidates": [
+    "account_number",
+    "city",
+    "holder_name",
+    "sanitized_account_number",
+    "street",
+    "street2"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "bank_phone",
+   "candidates": [
+    "account_number",
+    "city",
+    "holder_name",
+    "sanitized_account_number",
+    "street",
+    "street2"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "has_iban_warning",
+   "candidates": [
+    "company_qr_code",
+    "has_phishing_warnings",
+    "show_clearing_number"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "has_money_transfer_warning",
+   "candidates": [
+    "company_qr_code",
+    "has_phishing_warnings",
+    "show_clearing_number"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "money_transfer_service",
+   "candidates": [
+    "account_number",
+    "city",
+    "holder_name",
+    "sanitized_account_number",
+    "street",
+    "street2"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "partner_country_name",
+   "candidates": [
+    "account_number",
+    "city",
+    "holder_name",
+    "sanitized_account_number",
+    "street",
+    "street2"
+   ],
+   "model": "res.partner.bank",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "schedule_type",
+   "candidates": [
+    "calendar_type"
+   ],
+   "model": "resource.calendar",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "two_weeks_explanation",
+   "candidates": [
+    "country_code"
+   ],
+   "model": "resource.calendar",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "tz",
+   "candidates": [
+    "calendar_type"
+   ],
+   "model": "resource.calendar",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "tz_offset",
+   "candidates": [
+    "country_code"
+   ],
+   "model": "resource.calendar",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "display_type",
+   "candidates": [
+    "calendar_type",
+    "recurrency_end_type",
+    "recurrency_type"
+   ],
+   "model": "resource.calendar.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "name",
+   "candidates": [
+    "display_code"
+   ],
+   "model": "resource.calendar.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "two_weeks_calendar",
+   "candidates": [
+    "recurrency"
+   ],
+   "model": "resource.calendar.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "week_type",
+   "candidates": [
+    "calendar_type",
+    "recurrency_end_type",
+    "recurrency_type"
+   ],
+   "model": "resource.calendar.attendance",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "time_type",
+   "candidates": [
+    "count_as"
+   ],
+   "model": "resource.calendar.leaves",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "amount_undiscounted",
+   "candidates": [
+    "margin_percent"
+   ],
+   "model": "sale.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "require_payment",
+   "candidates": [
+    "has_overages",
+    "invoice_overages",
+    "invoicing_closed",
+    "is_linked_to_expense_with_attachment",
+    "is_unfulfilled",
+    "project_required"
+   ],
+   "model": "sale.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_update_fpos",
+   "candidates": [
+    "has_overages",
+    "invoice_overages",
+    "invoicing_closed",
+    "is_linked_to_expense_with_attachment",
+    "is_unfulfilled",
+    "project_required"
+   ],
+   "model": "sale.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_update_pricelist",
+   "candidates": [
+    "has_overages",
+    "invoice_overages",
+    "invoicing_closed",
+    "is_linked_to_expense_with_attachment",
+    "is_unfulfilled",
+    "project_required"
+   ],
+   "model": "sale.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "translated_product_name",
+   "candidates": [
+    "label"
+   ],
+   "model": "sale.order.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "require_payment",
+   "candidates": [
+    "has_productless_lines",
+    "share_template",
+    "user_has_access"
+   ],
+   "model": "sale.order.template",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "is_valued_external",
+   "candidates": [
+    "is_valued"
+   ],
+   "model": "stock.location",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "location_final_id",
+   "candidates": [
+    "forecasted_location_id"
+   ],
+   "model": "stock.move",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "manual_consumption",
+   "candidates": [
+    "is_scrap",
+    "should_replenish_scrapped"
+   ],
+   "model": "stock.move",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_operations",
+   "candidates": [
+    "is_scrap",
+    "should_replenish_scrapped"
+   ],
+   "model": "stock.move",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "product_category_name",
+   "candidates": [
+    "visual_lot_name"
+   ],
+   "model": "stock.move.line",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_operations",
+   "candidates": [
+    "allow_spontaneous_returns",
+    "l10n_vn_edi_is_sent",
+    "l10n_vn_edi_show_send_button",
+    "show_return"
+   ],
+   "model": "stock.picking",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "auto_show_reception_report",
+   "candidates": [
+    "auto_batch",
+    "auto_confirm_production",
+    "auto_show_allocation_report",
+    "batch_auto_confirm",
+    "batch_group_by_dest_loc",
+    "batch_group_by_destination"
+   ],
+   "model": "stock.picking.type",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "count_move_ready",
+   "candidates": [
+    "batch_max_lines",
+    "batch_max_pickings",
+    "count_picking_batch"
+   ],
+   "model": "stock.picking.type",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_operations",
+   "candidates": [
+    "auto_batch",
+    "auto_confirm_production",
+    "auto_show_allocation_report",
+    "batch_auto_confirm",
+    "batch_group_by_dest_loc",
+    "batch_group_by_destination"
+   ],
+   "model": "stock.picking.type",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_discord",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_facebook",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_github",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_instagram",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_linkedin",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_tiktok",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_twitter",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "social_youtube",
+   "candidates": [
+    "google_places_api_key",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "date_publish",
+   "candidates": [
+    "publish_on",
+    "published_date"
+   ],
+   "model": "website.page",
+   "reason": "no candidate with the same label"
+  }
+ ],
+ "renames": [
+  {
+   "baseline": "timesheet_invoice_id",
+   "baselineField": {
+    "label": "Invoice",
+    "readonly": true,
+    "relation": "account.move",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "account.analytic.line",
+   "series": "reinvoice_move_id",
+   "seriesField": {
+    "label": "Invoice",
+    "readonly": true,
+    "relation": "account.move",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "bank_acc_number",
+   "baselineField": {
+    "label": "Account Number",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "account.journal",
+   "series": "bank_account_number",
+   "seriesField": {
+    "label": "Account Number",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "holiday_status_id",
+   "baselineField": {
+    "label": "Time Off Type",
+    "readonly": false,
+    "relation": "hr.leave.type",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "REVIEWED",
+   "model": "hr.leave",
+   "reason": "the leave type became the work entry type (relation hr.leave.type -> hr.work.entry.type)",
+   "series": "work_entry_type_id",
+   "seriesField": {
+    "label": "Time Type",
+    "readonly": false,
+    "relation": "hr.work.entry.type",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "holiday_status_requires_allocation",
+   "baselineField": {
+    "label": "Requires allocation",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "hr.leave",
+   "series": "work_entry_type_requires_allocation",
+   "seriesField": {
+    "label": "Requires Allocation",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "leave_type_increases_duration",
+   "baselineField": {
+    "label": "Leave Type Increases Duration",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "REVIEWED",
+   "model": "hr.leave",
+   "reason": "related to the leave type's increases_duration, now the work entry type's",
+   "series": "work_entry_type_increases_duration",
+   "seriesField": {
+    "label": "Work Entry Type Increases Duration",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "leave_type_request_unit",
+   "baselineField": {
+    "label": "Duration Type",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "selection"
+   },
+   "basis": "DERIVED",
+   "model": "hr.leave",
+   "series": "work_entry_type_request_unit",
+   "seriesField": {
+    "label": "Duration Type",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "selection"
+   }
+  },
+  {
+   "baseline": "leave_type_support_document",
+   "baselineField": {
+    "label": "Supporting Document",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   },
+   "basis": "REVIEWED",
+   "model": "hr.leave",
+   "reason": "related to the leave type's support_document, now the work entry type's",
+   "series": "work_entry_type_support_document",
+   "seriesField": {
+    "label": "Supporting Document Expected",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "holiday_status_id",
+   "baselineField": {
+    "label": "Time Off Type",
+    "readonly": false,
+    "relation": "hr.leave.type",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "REVIEWED",
+   "model": "hr.leave.allocation",
+   "reason": "the leave type became the work entry type (relation hr.leave.type -> hr.work.entry.type)",
+   "series": "work_entry_type_id",
+   "seriesField": {
+    "label": "Time Type",
+    "readonly": false,
+    "relation": "hr.work.entry.type",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.bom",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.bom.byproduct",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.bom.line",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.production",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.unbuild",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.workcenter.capacity",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "mrp.workorder",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "is_closing_entry_by_product",
+   "baselineField": {
+    "label": "Closing Entry by product",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "pos.config",
+   "series": "use_closing_entry_by_product",
+   "seriesField": {
+    "label": "Closing Entry by product",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "is_header_or_footer",
+   "baselineField": {
+    "label": "Custom Header & Footer",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "pos.config",
+   "series": "use_header_or_footer",
+   "seriesField": {
+    "label": "Custom Header & Footer",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "is_order_printer",
+   "baselineField": {
+    "label": "Order Printer",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "pos.config",
+   "series": "use_order_printer",
+   "seriesField": {
+    "label": "Order Printer",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "expense_policy",
+   "baselineField": {
+    "label": "Re-Invoice Costs",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "selection"
+   },
+   "basis": "DERIVED",
+   "model": "product.product",
+   "series": "reinvoice_policy",
+   "seriesField": {
+    "label": "Re-Invoice Costs",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "selection"
+   }
+  },
+  {
+   "baseline": "visible_expense_policy",
+   "baselineField": {
+    "label": "Re-Invoice Policy visible",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "product.product",
+   "series": "visible_reinvoice_policy",
+   "seriesField": {
+    "label": "Re-Invoice Policy visible",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "product.supplierinfo",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "expense_policy",
+   "baselineField": {
+    "label": "Re-Invoice Costs",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "selection"
+   },
+   "basis": "DERIVED",
+   "model": "product.template",
+   "series": "reinvoice_policy",
+   "seriesField": {
+    "label": "Re-Invoice Costs",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "selection"
+   }
+  },
+  {
+   "baseline": "visible_expense_policy",
+   "baselineField": {
+    "label": "Re-Invoice Policy visible",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "product.template",
+   "series": "visible_reinvoice_policy",
+   "seriesField": {
+    "label": "Re-Invoice Policy visible",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "purchase.order.line",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "acc_number",
+   "baselineField": {
+    "label": "Account Number",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "account_number",
+   "seriesField": {
+    "label": "Account Number",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "bank_city",
+   "baselineField": {
+    "label": "City",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "city",
+   "seriesField": {
+    "label": "City",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "bank_country",
+   "baselineField": {
+    "label": "Country",
+    "readonly": false,
+    "relation": "res.country",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "country_id",
+   "seriesField": {
+    "label": "Country",
+    "readonly": false,
+    "relation": "res.country",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "bank_state",
+   "baselineField": {
+    "label": "Fed. State",
+    "readonly": false,
+    "relation": "res.country.state",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "state_id",
+   "seriesField": {
+    "label": "Fed. State",
+    "readonly": false,
+    "relation": "res.country.state",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "bank_street",
+   "baselineField": {
+    "label": "Street",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "street",
+   "seriesField": {
+    "label": "Street",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "bank_street2",
+   "baselineField": {
+    "label": "Street2",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "street2",
+   "seriesField": {
+    "label": "Street2",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "bank_zip",
+   "baselineField": {
+    "label": "Zip",
+    "readonly": false,
+    "relation": "",
+    "store": false,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "zip",
+   "seriesField": {
+    "label": "Zip",
+    "readonly": false,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "sanitized_acc_number",
+   "baselineField": {
+    "label": "Sanitized Account Number",
+    "readonly": true,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   },
+   "basis": "DERIVED",
+   "model": "res.partner.bank",
+   "series": "sanitized_account_number",
+   "seriesField": {
+    "label": "Sanitized Account Number",
+    "readonly": true,
+    "relation": "",
+    "store": true,
+    "type": "char"
+   }
+  },
+  {
+   "baseline": "is_valued_internal",
+   "baselineField": {
+    "label": "Is valued inside the company",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   },
+   "basis": "DERIVED",
+   "model": "stock.location",
+   "series": "is_valued",
+   "seriesField": {
+    "label": "Is valued inside the company",
+    "readonly": true,
+    "relation": "",
+    "store": false,
+    "type": "boolean"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "stock.lot",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "stock.move",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "stock.move.line",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": false,
+    "relation": "uom.uom",
+    "store": true,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "stock.quant",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom_id",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "stock.storage.category.capacity",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   }
+  },
+  {
+   "baseline": "product_uom",
+   "baselineField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   },
+   "basis": "DERIVED",
+   "model": "stock.warehouse.orderpoint",
+   "series": "uom_id",
+   "seriesField": {
+    "label": "Unit",
+    "readonly": true,
+    "relation": "uom.uom",
+    "store": false,
+    "type": "many2one"
+   }
+  }
+ ],
+ "rule": "a vanished 19.0 field and exactly one added 20.0 field of the same model with the same type, relation, label, readonly flag and selection values, matching no other vanished field; or a REVIEWED pair",
+ "schemaVersion": "odoo.dialect-renames/v1",
+ "series": {
+  "server_serie": "20.0",
+  "server_version": "20.0-20260926"
+ }
+}

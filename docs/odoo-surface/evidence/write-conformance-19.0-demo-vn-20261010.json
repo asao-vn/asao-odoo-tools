@@ -1,0 +1,508 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T05:07:23Z",
+ "records": {
+  "catalog.pricelist_item.create": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "catalog.pricelist_item.update": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_line.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The attribute Brand must have at least one value for the product Restaurant Expenses.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_line.update": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_value.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The value Brand: Adidas is not defined for the attribute Legs on the product Customizable Desk.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_value.update": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "crm.team_member.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are trying to create duplicate membership(s). We found that Mitchell Admin (Sales) already exist(s).",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "crm.team_member.update": {
+   "modules": [
+    "sales_team"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.account_tag.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to create 'Account Tag' (account.account.tag) records.\n\nThis operation is allowed for the following groups:\n\t- Show Full Accounting Features\n\nContact your [REDACTED]istrator to req",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account_tag.update": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_account.create": {
+   "missingFields": [
+    "plan_id"
+   ],
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.analytic_account.update": {
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_distribution_model.create": {
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.analytic_distribution_model.update": {
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to create 'Bank Statement' (account.bank.statement) records.\n\nThis operation is allowed for the following groups:\n\t- Basic\n\nContact your [REDACTED]istrator to request access if nec",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement.update": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement_line.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You can't create a new statement line without a suspense account set on the Sales journal.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement_line.update": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.einvoice_symbol.create": {
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:08035434dc98113bbdd27c9a75784f20f9a4f236aa09245cbce9b366e522eeee",
+   "writtenFields": [
+    "invoice_template_id",
+    "name"
+   ]
+  },
+  "finance.einvoice_symbol.update": {
+   "kind": "update",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.einvoice_template.create": {
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:a054f7a81ef6ce6db2307aa3f4a007cc416035640adf153dbbf934e6dec120ed",
+   "writtenFields": [
+    "name",
+    "template_invoice_type"
+   ]
+  },
+  "finance.einvoice_template.update": {
+   "kind": "update",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.fiscal_position_account.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: An account fiscal position could be defined only one time on same accounts.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.fiscal_position_account.update": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.online_payment_method.create": {
+   "missingFields": [
+    "image"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.online_payment_method.update": {
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_method.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to create 'Payment Methods' (account.payment.method) records.\n\nNo group currently allows this operation.\n\nContact your [REDACTED]istrator to request access if necessary.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_method.update": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_token.create": {
+   "missingFields": [
+    "payment_method_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.payment_token.update": {
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_transaction.create": {
+   "missingFields": [
+    "payment_method_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.payment_transaction.update": {
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.reconcile_model_line.create": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.reconcile_model_line.update": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "identity.bank_account.create": {
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:bfeae0f6edce4740d01f39691410274846c4f8ebd1d3799a05745d36ad4c2cb5",
+   "writtenFields": [
+    "acc_number",
+    "partner_id"
+   ]
+  },
+  "identity.bank_account.update": {
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "acc_holder_name"
+   ]
+  },
+  "inventory.package_history.create": {
+   "missingFields": [
+    "move_line_ids"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "inventory.package_history.update": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.reorder_rule.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: A replenishment rule already exists for this product on this location.",
+   "modules": [
+    "stock"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "inventory.reorder_rule.update": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_capacity.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Product/Unit capacity should be unique for each workcenter.",
+   "modules": [
+    "mrp"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "manufacturing.workcenter_capacity.update": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_productivity_loss_type.create": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "manufacturing.workcenter_productivity_loss_type.update": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_skill.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'employee_id': 1, 'skill_id': 1, 'id': 114, 'valid_from': datetime.date(2026, 10, 10), 'valid_to': False, 'sk",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.employee_skill.update": {
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.expense.create": {
+   "kind": "create",
+   "mismatchedFields": [
+    "price_unit"
+   ],
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:47b3f63271c8fc1fd95d463d9a4a00abf96f51d6684acef8e3b85a003fbdbaa4",
+   "writtenFields": [
+    "name",
+    "price_unit"
+   ]
+  },
+  "people.job_skill.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'job_id': 1, 'skill_id': 1, 'id': 25, 'valid_from': datetime.date(2026, 10, 10), 'valid_to': False, 'skill_le",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.job_skill.update": {
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.order.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "session_id",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.order.update": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You cannot edit a payment for a posted order.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.payment.update": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment_method.create": {
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:d8357f4aa408fcd0ad52659c5d702e45b0eff8bfde01283e0f66fd6a74a31b6e",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.payment_method.update": {
+   "kind": "update",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.session.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Another session is already opened for this point of sale.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.session.update": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "sales.quotation_template_line.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Missing required product and UoM on accountable sale quote line.",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "sales.quotation_template_line.update": {
+   "modules": [
+    "sale_management"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.recurrence.create": {
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "schedule.recurrence.update": {
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.task_recurrence.create": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "work.task_recurrence.update": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.calendar_leave.create": {
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Two public holidays cannot overlap each other for the same working hours.",
+   "modules": [
+    "resource"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "workforce.calendar_leave.update": {
+   "modules": [
+    "resource"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  }
+ },
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

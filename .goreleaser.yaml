@@ -1,29 +1,20 @@
 version: 2
-project_name: asao-odoo-tools
+project_name: odoo-cli
+before:
+  hooks:
+    - go test ./...
 builds:
-  - id: odoo19-conformance
-    main: .
-    binary: odoo19-conformance
-    goos:
-      - linux
-      - darwin
-      - windows
-    goarch:
-      - amd64
-      - arm64
-  - id: minttoken
-    main: ./cmd/minttoken
-    binary: minttoken
-    goos:
-      - linux
-      - darwin
-      - windows
-    goarch:
-      - amd64
-      - arm64
-  - id: probetoken
-    main: ./cmd/probetoken
-    binary: probetoken
+  - id: odoo-cli
+    main: ./cmd/odoo-cli
+    binary: odoo-cli
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X github.com/asao-platform/atoc/packages/cli/internal/standalone.buildCommit={{ .ShortCommit }}
+      - -X github.com/asao-platform/atoc/packages/cli/internal/standalone.buildDate={{ .Date }}
     goos:
       - linux
       - darwin
@@ -32,10 +23,13 @@ builds:
       - amd64
       - arm64
 archives:
-  - format: tar.gz
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-    format_overrides:
-      - goos: windows
-        format: zip
+  # Bare binaries, as the installer downloads them: odoo-cli_<os>_<arch>[.exe].
+  - formats: [binary]
+    name_template: "{{ .Binary }}_{{ .Os }}_{{ .Arch }}"
 checksum:
-  name_template: 'checksums.txt'
+  name_template: checksums.txt
+changelog:
+  disable: true
+release:
+  footer: |
+    Install: `curl -fsSL https://raw.githubusercontent.com/asao-vn/asao-odoo-tools/main/scripts/install.sh | sh`

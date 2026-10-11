@@ -1,0 +1,758 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record, reads it back and restores it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T11:55:54Z",
+ "records": {
+  "catalog.combo_item.update": {
+   "definitionHash": "sha256:376261b2aff502869e1c87ded2f480b31120e1e25eb58722b9872040ea27b168",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "catalog.pricelist_item.create": {
+   "definitionHash": "sha256:4663865922ca87ff55faffce4f43ac5efa4feff8abfcb189b92d23d93f314408",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "catalog.pricelist_item.update": {
+   "definitionHash": "sha256:f8ae5841fbceef30c5e9c64271f5604aef45b408d6f21b6a51e865f13f3ab822",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_line.create": {
+   "definitionHash": "sha256:a0962222f2cc5d5c142cc09e5071a67d5eeabda4e19f9d247c345c20e0c7c7c0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The attribute Brand must have at least one value for the product Restaurant Expenses.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_line.update": {
+   "definitionHash": "sha256:c6407e7dcd5e365792bc3bc25f869e26ba6f220406c4ff7a2b4ba532f8cec955",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_value.create": {
+   "definitionHash": "sha256:60ee9a7c9ed0c679337f056f0b09afa1d8937207aeebd05f60c92fb2486e86ea",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The value Brand: Adidas is not defined for the attribute Legs on the product Customizable Desk.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_value.update": {
+   "definitionHash": "sha256:66612f3f60c221daf38fb61f6ceaa4b1d9648f95ed26a1bd2fb0dd2ecd7e7469",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "crm.team_member.create": {
+   "definitionHash": "sha256:6cea3559eb85421af1d8affb2c9ef886165078bb489d998e3984352c536c2745",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are trying to create duplicate membership(s). We found that Mitchell Admin (Sales) already exist(s).",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "crm.team_member.update": {
+   "definitionHash": "sha256:3df82f211f5f1243d996cf6b755d28055b761988417c71e7b78a053a29cea45f",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.account.chart.create": {
+   "definitionHash": "sha256:9fb8734b0e577577ed0778bc9f6e4e899551d76b65cf787933971a95c4f0bc56",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The code must be set for every company to which this account belongs.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account.chart.update": {
+   "definitionHash": "sha256:e35d96b8ee83a60263d9b570305bc189eb9ae2e61d1570eb0a4b16454c432c3b",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.account_tag.create": {
+   "definitionHash": "sha256:36f25e2993bcc3fdf6307c1d92ca84f753e7e785643937ec85fc5d63f3270668",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to create 'Account Tag' (account.account.tag) records.\n\nThis operation is allowed for the following groups:\n\t- Show Full Accounting Features\n\nContact your [REDACTED]istrator to req",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account_tag.update": {
+   "definitionHash": "sha256:41af55fd1fab59bc34e6952259a34790cc5475f0b0ce08948761628c96ed585b",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_account.create": {
+   "definitionHash": "sha256:faf67248e2551c6063b7d2535ac1d4671fe4778aff5e5bc6910a6b92ccbcdd29",
+   "missingFields": [
+    "plan_id"
+   ],
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.analytic_account.update": {
+   "definitionHash": "sha256:949af442f60be5190aa051de9dbaf256a1f11ad6f3f8c143127e2539ee2116f2",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_distribution_model.create": {
+   "definitionHash": "sha256:95ae8e8d5a75413ff942936b895463204872bcdfe387c7d7e61155f96088b545",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.analytic_distribution_model.update": {
+   "definitionHash": "sha256:3b9e3355425f9c75b4cda60fbb595a58bdcd812e52b529d41974e4a16bc202ed",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement.create": {
+   "definitionHash": "sha256:f6a1711f1376bf05aafcb2178bdb90b43224a46d3dfa03022c406435268fb33f",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to create 'Bank Statement' (account.bank.statement) records.\n\nThis operation is allowed for the following groups:\n\t- Basic\n\nContact your [REDACTED]istrator to request access if nec",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement.update": {
+   "definitionHash": "sha256:a1e2360edf4a03998a668f20afec3cc7d27c6ff7b50984e00401a5c773166341",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement_line.create": {
+   "definitionHash": "sha256:0444baca8aec19279d578c34129fdb16ac853e447cb218af52ccc306014c6947",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You can't create a new statement line without a suspense account set on the Sales journal.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement_line.update": {
+   "definitionHash": "sha256:e3478d403d0790d47e447461ebde05e0cd2dbcd44935b2ce946dc98387c6b6e9",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.currency.update": {
+   "definitionHash": "sha256:e9ed7f1f4b9ada05e9d936e4feae8d1ffc88c60fcda60fef3478861e4e87e99b",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: The currency code must be unique!",
+   "modules": [
+    "base"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.currency_rate.update": {
+   "definitionHash": "sha256:03c58dadb8c938d8cac156893f481b89ed6d94376d39bc01f138d370d6a58d66",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "finance.fiscal_position_account.create": {
+   "definitionHash": "sha256:77228e52aa8b29598339f86018e64c98b91775abe3047b34f341d5f72158739e",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: An account fiscal position could be defined only one time on same accounts.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.fiscal_position_account.update": {
+   "definitionHash": "sha256:9157a561eb7637a3d35ef49b4f939bd20582995a04090320493fcd310625c600",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.online_payment_method.create": {
+   "definitionHash": "sha256:2fe56e9f7ade5cdd779f7c0558d622dcb83bd5d5a0c7b0114fabb39633a7c2cd",
+   "missingFields": [
+    "image"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.online_payment_method.update": {
+   "definitionHash": "sha256:c58fc18f149fca2b0a04b664e1a7dd48ec77fd00609543f95b2ce28e982f0ca1",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment.create": {
+   "definitionHash": "sha256:a4ce63915b2a6502dcd0eee318f5f2b76d48e77a6770d48cd75f68e3b47e8a37",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Please define a payment method line on your payment.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment.update": {
+   "definitionHash": "sha256:f2624970efc1330a44b409ceee739feddd9c15b464997c49770e81a299d3de07",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_method.create": {
+   "definitionHash": "sha256:836301d374b86198e2337e4d9e36d67f70eeaf061dc9b0a6e57c5c43a3d7f697",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to create 'Payment Methods' (account.payment.method) records.\n\nNo group currently allows this operation.\n\nContact your [REDACTED]istrator to request access if necessary.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_method.update": {
+   "definitionHash": "sha256:f77ce2e6ac31f40e76ed0f2e50b0c4263d85b669f57e35c4db7918408601e7ae",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_term_line.update": {
+   "definitionHash": "sha256:2d297fc06f1e4dfe9f28b2073c04087604c0cc8d4995679274747b9966031cef",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The days added must be a number and has to be between 0 and 31.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_token.create": {
+   "definitionHash": "sha256:098af1f1ea0dc980f11a016ebf5cf51c5444cad8ed0a395fb43e6fde64463b97",
+   "missingFields": [
+    "payment_method_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.payment_token.update": {
+   "definitionHash": "sha256:4aa950a57822e8c4e43d442080c6a6587769a7f651ec02cc469a0c158d6d430f",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_transaction.create": {
+   "definitionHash": "sha256:b6776942a675ab4c03d3371499c76fdc518e8216f891f5151a95c4b593c5d424",
+   "missingFields": [
+    "payment_method_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.payment_transaction.update": {
+   "definitionHash": "sha256:49248cf589c8d03178b4a65a53917d18a7018f5da481903cf6367e634c273818",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.reconcile_model.update": {
+   "definitionHash": "sha256:014c0929f5405d3bc372e3d264dfa97ba17ddf153f606ed2f078dc18b826ddb4",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are not allowed to modify 'Preset to create journal entries during a invoices and payments matching' (account.reconcile.model) records.\n\nThis operation is allowed for the following groups:\n\t- Basi",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.reconcile_model_line.create": {
+   "definitionHash": "sha256:1459b3c912cc158295801346e1329f23118156c85fb30f1a26d690c1ae05d7d1",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.reconcile_model_line.update": {
+   "definitionHash": "sha256:e12583d766ff8d7dea8a2d4b1491edcab4d47b3c9b2e5adcb0baad3ccbd0052a",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.tax.create": {
+   "definitionHash": "sha256:7c6444b77a0b58aafd7717c6a7329de842684c52248604fd4eee480782f4736d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The tax group must have the same country_id as the tax using it.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.tax.update": {
+   "definitionHash": "sha256:727c2b3027a2ae6ccd5fafbd67d83d9c2403f5f9b9e6394df1447b8b6b7e7089",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "identity.phone_blacklist.update": {
+   "definitionHash": "sha256:70e05882d132f265a04f22c07b77b8ac8fb14dcc9cd7c277b531088389bec65c",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Impossible number Conformance update number 20261010115442: too many digits. Please correct the number and try again.",
+   "modules": [
+    "phone_validation"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "inventory.package_history.create": {
+   "definitionHash": "sha256:c672366db82f85f7560cbd8f3fb4156c52ee26076043c3877f903f94e3d243cd",
+   "missingFields": [
+    "move_line_ids"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "inventory.package_history.update": {
+   "definitionHash": "sha256:a9dad50dd7726cfd9dd35aa6eb5224ebcb4425374cea25324af4fbb55d4bc0cb",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.putaway_rule.update": {
+   "definitionHash": "sha256:971bcc12824072c7c53501eaf00261b6bc23fa07769adfbcfbe63b72a4cedd7c",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.reorder_rule.create": {
+   "definitionHash": "sha256:ae8716001a02775414882ddfced99712abe5c5fec38ac0c7f344193c2bc2e202",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: A replenishment rule already exists for this product on this location.",
+   "modules": [
+    "stock"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "inventory.reorder_rule.update": {
+   "definitionHash": "sha256:1db568ce615a5dfc44761ecb50a5481f9442c9e6f673b1b2c30d7f362156c64e",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.storage_category_capacity.update": {
+   "definitionHash": "sha256:67871d50a9b8214ec4097326fd5f487dd42efee03bf6c014e250b60fee9b2981",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.bom_byproduct.update": {
+   "definitionHash": "sha256:ee827d00b75bcf429a4fa0d88bb70272afb66bcb2e3ff5411a1115846d123d87",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.bom_line.update": {
+   "definitionHash": "sha256:343b56ac35c40c61a961b4480cc35e66f969508f287dd9cc68205dda6eeb6e45",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.unbuild.update": {
+   "definitionHash": "sha256:92ae5d4ff0437f58b1b08835df7048c883358b8b4c36d2222987f0df9d4b6bda",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.workcenter_capacity.create": {
+   "definitionHash": "sha256:4ab914093a5ae65a452573e8681628a2260c40135b3ce80c4ac1212decb9f2cd",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Product/Unit capacity should be unique for each workcenter.",
+   "modules": [
+    "mrp"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "manufacturing.workcenter_capacity.update": {
+   "definitionHash": "sha256:1f2939743a00bd86e8a8e07778e1ca4b8b4dfafa3ac52a9c651ccadc24484c11",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_productivity_loss_type.create": {
+   "definitionHash": "sha256:ff15c0281565b53ba9116cbf4d765c9997f5211f40388d562ceb033c0acacfb0",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "manufacturing.workcenter_productivity_loss_type.update": {
+   "definitionHash": "sha256:52fb62c46b157f12268a37ae4958b3acc736d963ad14c615cb44b2583d0cfac8",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_location.update": {
+   "definitionHash": "sha256:0ac28b5089944ad99598b3124b1cb0e49de3fa6e018ebf0a5b0d8001101d5284",
+   "modules": [
+    "hr_homeworking"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "people.employee_skill.create": {
+   "definitionHash": "sha256:fef74703f2db57a9dbae6d8c4e684da57cdd988080d4f86a345469efb433422d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'employee_id': 1, 'skill_id': 1, 'id': 118, 'valid_from': datetime.date(2026, 10, 10), 'valid_to': False, 'sk",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.employee_skill.update": {
+   "definitionHash": "sha256:fe083aa7bc6a99dac397e2dea15fe270b28035a5253058c07e4fdd2a91937f9b",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.expense.create": {
+   "definitionHash": "sha256:56f43efc78f06f0e2b8698ce3b49547dafaedaa1af4004b740f9cacc0eff3369",
+   "kind": "create",
+   "mismatchedFields": [
+    "price_unit"
+   ],
+   "modules": [
+    "hr_expense"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:bd0cb42167cd34163cd3331565c457cec5387973c9f0ec87e7086eb599a15f33",
+   "writtenFields": [
+    "name",
+    "price_unit"
+   ]
+  },
+  "people.job_skill.create": {
+   "definitionHash": "sha256:633320d7269e7f03b2969a8bc78301ce3c9b66fe277f00890547cfe9ade145c4",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'job_id': 1, 'skill_id': 1, 'id': 29, 'valid_from': datetime.date(2026, 10, 10), 'valid_to': False, 'skill_le",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.job_skill.update": {
+   "definitionHash": "sha256:14f251fcb6544298f7e7d99611632db9feff5d90d9de453d8f20583f81378d2c",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.order.create": {
+   "definitionHash": "sha256:7c8e0e172f24a6d0e013decc9f6f1bcaeae837a93c0d252c3020596a171bb108",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "session_id",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.order.update": {
+   "definitionHash": "sha256:01511c19959a22cdc55b32d4583a7ca133e29235bac355878f64935928befe94",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment.create": {
+   "definitionHash": "sha256:63f3f337892b2c2220314632d60bc04218307512dcfdcc698efab2215a526ad8",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You cannot edit a payment for a posted order.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.payment.update": {
+   "definitionHash": "sha256:a44232adc2ba2651c2778782ba2074eaa7bd808f2053874ceb134a665fe9a28c",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.session.create": {
+   "definitionHash": "sha256:9892bd66ab07b14796d2e44d76a1fbff59574794fba9a44e28f31ff875cca31d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Another session is already opened for this point of sale.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.session.update": {
+   "definitionHash": "sha256:134ac6d2da707342b07e43f749b52c064eab81262e93373dc2baafdd3143230b",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "sales.quotation_template_line.create": {
+   "definitionHash": "sha256:66b0029b57a55ec88c111ba3516903d2cb1fe06e483b3cb3a846c109c60f6862",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Missing required product and UoM on accountable sale quote line.",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "sales.quotation_template_line.update": {
+   "definitionHash": "sha256:5db7ca6e9af765ee87619180bd4b28ce3e9a88ec9d4bb53b1a7357a697efbe2f",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.recurrence.create": {
+   "definitionHash": "sha256:01fe9421a9bb76f258b66bdd3df0cd4318c8319d8a733ae089f66497259296b7",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "schedule.recurrence.update": {
+   "definitionHash": "sha256:4f63a0bf72544aab92f132e68552bf96922504b698156523cc0788df2be316aa",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "structure.company.update": {
+   "definitionHash": "sha256:5178cff9695d0987ef277c1fe12884b9ec73f234875c814c5fffd74cf742cf64",
+   "kind": "update-existing",
+   "modules": [
+    "base"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "structure.warehouse.create": {
+   "definitionHash": "sha256:968cfa13b08f794a649dd77823522666b51ee81a8543440521a6d32d453b39ca",
+   "kind": "create",
+   "mismatchedFields": [
+    "lot_stock_id",
+    "view_location_id"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:e842dda83151783adf2910fbdb75c14e4838ff5f311ba49553fdd1fa7ce79130",
+   "writtenFields": [
+    "code",
+    "lot_stock_id",
+    "name",
+    "view_location_id"
+   ]
+  },
+  "website.layout.update": {
+   "definitionHash": "sha256:670d517f1b6bd60b6197129042fb08a3cf25c22b3208f3dae06da114ff0adcc2",
+   "detail": "AERP_BUSINESS_PRECONDITION_FAILED",
+   "message": "website.layout.update: ir.ui.view(3713) is not eligible for this operation; operation is constrained to its declared business subset ([[key in [website.header_call_to_action website.header_text_elemen",
+   "modules": [
+    "website"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "website.menu.create": {
+   "definitionHash": "sha256:d537e61b61f86d4d2fbf8839533c630f559c790e3c45b8bc36d60c2e40f7e819",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "website"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:b4864573ee86cce9d46a570ced19030aedcb8f3e2456bb7cffa230d8423e86ee",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "website.menu.update": {
+   "definitionHash": "sha256:e45581a50fe3b605becdd410aabc4789c43aba2a9b4aced1fd9df802a45347b7",
+   "kind": "update",
+   "modules": [
+    "website"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "website.page.create": {
+   "definitionHash": "sha256:7ab9448486704e007f72249f6905aa20bcf5d76b48946dd580973f3a079217e1",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "website"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:b770ff2b16dcfa39adbba62e36926cf1e3e0af1c42dd74a06c649e9e0a9ff784",
+   "writtenFields": [
+    "name",
+    "url",
+    "view_id"
+   ]
+  },
+  "website.page.update": {
+   "definitionHash": "sha256:ae8d1065184e89c730b654a8494421c70b4b25a8e58ee354446165f4cb5e87e0",
+   "kind": "update",
+   "modules": [
+    "website"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "website.site.update": {
+   "definitionHash": "sha256:f94d16fe2fb2b6daf2f57bfb3d68e238cc600ba09b610537f6dd185210b4b484",
+   "kind": "update-existing",
+   "modules": [
+    "website"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.collaborator.update": {
+   "definitionHash": "sha256:ee35e880712b32217de7dc875f5e1052c6b88ddc77851c7e93a1c8274b3f85fc",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "work.task_recurrence.create": {
+   "definitionHash": "sha256:d31227303eda78420d96fb8ef26b6d9a0afb19627cf80ff7504221ad703a9e49",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "work.task_recurrence.update": {
+   "definitionHash": "sha256:98605e70bfb83fad42a62f1e052c3ed12be5ef92cb227d5719e4ece815abd0d6",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.accrual_level.update": {
+   "definitionHash": "sha256:a4851028254cac1ab328c3c3be65645d8eb4607b1a1550dedb71c0f414d07fbb",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "workforce.calendar_leave.create": {
+   "definitionHash": "sha256:03858ec8cc2f27c7dfbe1d9a3878c3a7dbf4fe3c950c2d0895ae5392d495e13e",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Two public holidays cannot overlap each other for the same working hours.",
+   "modules": [
+    "resource"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "workforce.calendar_leave.update": {
+   "definitionHash": "sha256:0653837eb0b0bc9c252e1217e4b14cf4c8836b29c0a143aa895f916424783e39",
+   "modules": [
+    "resource"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.leave.create": {
+   "definitionHash": "sha256:ff0033cdc4ea7a33f461ce1ba9bac6112b4b685675e186f89a558ca238c44ffe",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "None",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "workforce.leave.update": {
+   "definitionHash": "sha256:6c96ec8a782849395e0af22f48ae838fe134398d402b66355f73332344872568",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.overtime_line.update": {
+   "definitionHash": "sha256:3b69e6a0ca651a817665488cc067ff2a69cf14e005789b29680b176be93e4571",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

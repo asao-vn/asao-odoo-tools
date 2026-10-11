@@ -1,0 +1,9 @@
+odoo-cli
+Copyright 2026 The ASAO Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Odoo is a registered trademark of Odoo S.A. This product is not affiliated with, endorsed by or
+sponsored by Odoo S.A. It talks to Odoo through Odoo's public external API only and contains no
+Odoo source code. The catalog under third_party/packages/odoo records the names of Odoo models,
+fields, buttons and reports that Odoo Community (LGPL-3.0) exposes.

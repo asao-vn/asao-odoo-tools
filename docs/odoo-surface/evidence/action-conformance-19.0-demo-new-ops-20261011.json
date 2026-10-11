@@ -1,0 +1,679 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T19:21:48Z",
+ "records": {
+  "crm.lead.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:5cdb827ff16311ad3e7e7fc66653fe1875cb7b6bebb74f357765825e4151abc9",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "crm"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ce555f15d835eb2ec6f75225e2e0922957726f833f6c0176a80e1d933b6ede2b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "crm.lead.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:f82969aba5e1a9fcb05cc165bba26a9237e161354c7316d0bbd46c71ed71f789",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "crm"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ce555f15d835eb2ec6f75225e2e0922957726f833f6c0176a80e1d933b6ede2b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "finance.invoice.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:d7d4b0fd2793ff6917ecf51cbfdcd203b8985e3a573d0d4d61b0c0d118744649",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "account"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:482b39fc4d7aea3be708ccd2143afc9266783eb711c20280a6eac7c177cc080d",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "finance.invoice.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:e9109410e473d0774f90c4cdd095fc2a886f91ce59fe392d1c69934bb2e063f6",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "account"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:482b39fc4d7aea3be708ccd2143afc9266783eb711c20280a6eac7c177cc080d",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "finance.journal_entry.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:c4464241fef72e5de225b36eec8462cb317974c5b66bb5792da3501252621462",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "account"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:97191674c289f209d1c8d70f7e83b61b02b4dac434acf6212f17426bbefbc183",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "finance.journal_entry.post": {
+   "changedFields": [
+    "audit_trail_message_ids",
+    "checked",
+    "name",
+    "posted_before",
+    "sequence_number",
+    "sequence_prefix",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 1
+   },
+   "definitionHash": "sha256:4ee2eea0f6c756c54ba689c8aed395c8643dedaa5d3638811d5b840fac8fc5e7",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "audit_trail_message_ids",
+    "checked",
+    "name",
+    "posted_before",
+    "sequence_number",
+    "sequence_prefix",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4a5070a2b7fdd64b71771d64793202ed50221cf81ab8f8a09fd1c69c612800c2",
+   "status": "AGREE",
+   "transitions": {
+    "checked": [
+     false,
+     true
+    ],
+    "posted_before": [
+     false,
+     true
+    ],
+    "state": [
+     "draft",
+     "posted"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.journal_entry.reset_to_draft": {
+   "changedFields": [
+    "audit_trail_message_ids",
+    "checked",
+    "is_manually_modified",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 1
+   },
+   "definitionHash": "sha256:b99e5b440597dd48c8644f1f8f7b52f17f5a9ab53861dd9f5ad24f65e0c77a19",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "audit_trail_message_ids",
+    "checked",
+    "is_manually_modified",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:5c9240920a498fa56a4c7c2aa64fe51f2c11f70abe4437f17ca21f662852e0bb",
+   "status": "AGREE",
+   "transitions": {
+    "checked": [
+     true,
+     false
+    ],
+    "is_manually_modified": [
+     false,
+     true
+    ],
+    "state": [
+     "posted",
+     "draft"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.journal_entry.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:4bb5dab5ea5fdd089b548c427da634db2c122ae13dd2437895177b8ce6d82ed5",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "account"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:fcd9a88cfc7a8bf64b4f3284f24f8ad9afe417aa9bcaea45ac93d98dd1f61c18",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "identity.contact.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:02b43c3eac6cf02a2731288e929851c299a79f14f49d24dc19d0143e6e4db6e8",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "mail"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:fd281f908518fe44393fb4dec3c82e3def9f35f6be1042c3595e55eaf0a5c669",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "identity.contact.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:f15eb53cfa942a136c2a353619b10c422cec3e679091db631396d67aa7edd3ff",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "mail"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:fd281f908518fe44393fb4dec3c82e3def9f35f6be1042c3595e55eaf0a5c669",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "inventory.count.apply": {
+   "changedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:c0ba861dd03955a689852e8239a7c8921f7325d79416173ad65e43c36bd339fb",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "status": "AGREE",
+   "transitions": {
+    "inventory_quantity_set": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.count.clear": {
+   "changedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:0580cc9b0374f0b0e7c0a3e84021a7436e68ba9598c8c449f1bf290188859e0a",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "status": "AGREE",
+   "transitions": {
+    "inventory_quantity_set": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.transfer.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:56ac8a4c0e866458885868b70959df9f23a8cbf7aa6f6faab600f507f97c571d",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "stock"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4a9188d2af3b8281aa363c6322cc4f03b2242435cb0ccd1132872b09bfaa688b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "inventory.transfer.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:17177463efd982c5b08fbc99057f30400543dbf2199af52aaa43e3dddbfb8d56",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "stock"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4a9188d2af3b8281aa363c6322cc4f03b2242435cb0ccd1132872b09bfaa688b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "people.expense.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:fc6d4bfaeeba994031220b64355d4c3463358900631113a95f30fc77befd13c0",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "hr_expense"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ae32e0d9a07e7aa8dab5a46a8856b53b4cedd0e20a1c6d74fbce9fccf04b8ad0",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "people.expense.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:a2fb592907c3452cb8dc1aa55c34762b9de0be7b8c332c33f5ad35552a60c72e",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "hr_expense"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ae32e0d9a07e7aa8dab5a46a8856b53b4cedd0e20a1c6d74fbce9fccf04b8ad0",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "procurement.order.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:3c01dcfe8f37e3430125a0488f2eaf94f0bbeab141e2286ea468e75cb63384ca",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "purchase"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:cdeff54e827f7915bdd91fea863f1409b093e8f897a0f72466c4ae15c859ea29",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "procurement.order.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:dcb10b6633ff6b27caf287f6c4bcfb7f43e727c64c83082f20ae065058946714",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "purchase"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:cdeff54e827f7915bdd91fea863f1409b093e8f897a0f72466c4ae15c859ea29",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "sales.order.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:45caa248fca741b60ceea3af4e39d2a126bac0a213cdae690b7dbc2d79ed9adc",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "sale"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f19f712c691c3c4621769719e608d4bb164b51a079c4e1c2f63b90db711d4b0b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "sales.order.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:56bea71bce646eb2d9cef0add667187d9fb245354a9951563a6139298e3d4d77",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "sale"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f19f712c691c3c4621769719e608d4bb164b51a079c4e1c2f63b90db711d4b0b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.project.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:121b8795c100738e3814b4b1c4c942af288ceef9463bcaad5b1b4dc685ad0508",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f44f8e56fc1f98824882d6b49f7dd12c1588584f73eb11c1151fd560ffff7767",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.project.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:db1920ecbc34654d33202fc188bc1e49b697d6e97d62ba63803e13e38795ed1c",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f44f8e56fc1f98824882d6b49f7dd12c1588584f73eb11c1151fd560ffff7767",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.task.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:d621a1501059e8c1b42d3741bb9abf2e3359e29bdabf69b813fb9bb0b55658a4",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f4e35eba620ab0c9ad71cde83c88d45fd52d012c3f8d6d7922b3336ccfbf1d7d",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:63800ae4963a5b440cec5ed475e3ecf0691e006b113378301e698063d5093151",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.task.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:f4b3cf6155642e3666df80028227af18e066f476fe201c462489d39e36656e83",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:f88ff5bcf5466c0187c59618ee3b218092f8fdf14d8e592baf64378955fe5af5",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:63800ae4963a5b440cec5ed475e3ecf0691e006b113378301e698063d5093151",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

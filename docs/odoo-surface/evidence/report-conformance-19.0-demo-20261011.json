@@ -1,0 +1,123 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "documentContent": false,
+  "rawProviderResponses": false
+ },
+ "method": "the newest record inside the operation's provider domain, printed through the CLI and downloaded the way the browser does (web session, /report/pdf/<report>/<id>); both PDFs compared by page count and layout text (poppler). Statuses, page counts, sizes and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T19:27:51Z",
+ "records": {
+  "finance.invoice.print": {
+   "browserBytes": 16143,
+   "browserPages": 1,
+   "browserTextHash": "sha256:b2b0faff52be2e074bdf0185122092e544240ff2f94e6416173b7b5bbe584f96",
+   "cliBytes": 16143,
+   "cliPages": 1,
+   "cliTextHash": "sha256:b2b0faff52be2e074bdf0185122092e544240ff2f94e6416173b7b5bbe584f96",
+   "definitionHash": "sha256:cf8caccdbc336aa60058ad52b1866aed50d94f2bd970fc723422d79155b54f7d",
+   "kind": "report",
+   "modules": [
+    "account"
+   ],
+   "recordHash": "sha256:cb083f34fa8f96bae77d9f5ef9d5ac367cfa02b52999d6bcfd315c2435bbe3b8",
+   "status": "AGREE"
+  },
+  "finance.payment.print": {
+   "browserBytes": 15971,
+   "browserPages": 1,
+   "browserTextHash": "sha256:4eb61e4fb562501e3325526579cad26e423991992c5318a2a3c29c6e5cab0ec0",
+   "cliBytes": 15971,
+   "cliPages": 1,
+   "cliTextHash": "sha256:4eb61e4fb562501e3325526579cad26e423991992c5318a2a3c29c6e5cab0ec0",
+   "definitionHash": "sha256:9b447779fca2d99477ecc5bd31bc819426d3829cc71c19abadeec6f92badc3d1",
+   "kind": "report",
+   "modules": [
+    "account"
+   ],
+   "recordHash": "sha256:72f8306a88d1c3919d38a28f68fa3ef8a7dee9eed63265effc6323d7feac446a",
+   "status": "AGREE"
+  },
+  "inventory.transfer.print": {
+   "browserBytes": 19736,
+   "browserPages": 1,
+   "browserTextHash": "sha256:38ae1a90bb804abf0f02922fc95e874933b40c1cb4276232cb58d0deb2151ed7",
+   "cliBytes": 19736,
+   "cliPages": 1,
+   "cliTextHash": "sha256:38ae1a90bb804abf0f02922fc95e874933b40c1cb4276232cb58d0deb2151ed7",
+   "definitionHash": "sha256:76a4f8d74ccdac1912fe6f6feb1d2334273c87ea53ba3c22fbe55c60ee2c1d3f",
+   "kind": "report",
+   "modules": [
+    "stock"
+   ],
+   "recordHash": "sha256:13bbe40a813a82b108f2165b26559c9f92f758dcfececc4f548fc34cb9c42f0b",
+   "status": "AGREE"
+  },
+  "manufacturing.order.print": {
+   "browserBytes": 17409,
+   "browserPages": 1,
+   "browserTextHash": "sha256:e76b5c98bd55ad7f856f5b11ae48773174a80594b57beab079ad6332f654f8fd",
+   "cliBytes": 17409,
+   "cliPages": 1,
+   "cliTextHash": "sha256:e76b5c98bd55ad7f856f5b11ae48773174a80594b57beab079ad6332f654f8fd",
+   "definitionHash": "sha256:02ee4d470912b106dbf043bd0c0ef2b8d77305121c5283ca7d7dd89ff41eb351",
+   "kind": "report",
+   "modules": [
+    "mrp"
+   ],
+   "recordHash": "sha256:f4dbc7a1e292abc32d272603d3f4c03e4cd0ad66a51230f73230711ba3a69c9a",
+   "status": "AGREE"
+  },
+  "procurement.order.print": {
+   "browserBytes": 25575,
+   "browserPages": 1,
+   "browserTextHash": "sha256:27b028fa3668580681e90dafca4d0d52e96892f8d9e418aa3814be2e1130912c",
+   "cliBytes": 25575,
+   "cliPages": 1,
+   "cliTextHash": "sha256:27b028fa3668580681e90dafca4d0d52e96892f8d9e418aa3814be2e1130912c",
+   "definitionHash": "sha256:a0df2e9cd03b873d39c34140b894dfa1c2b10e49973107ce8b697c7171b0d9d9",
+   "kind": "report",
+   "modules": [
+    "purchase"
+   ],
+   "recordHash": "sha256:7aa3c5c1f7fc46c66cce6e173f2dc2b10d0b7c6f54f2f7f5349ad682a9fc11de",
+   "status": "AGREE"
+  },
+  "procurement.rfq.print": {
+   "browserBytes": 23627,
+   "browserPages": 1,
+   "browserTextHash": "sha256:22cef88d3e86bd039cd5cc9484a36cfcb4baac57fd0390c2bc58e094130c492c",
+   "cliBytes": 23627,
+   "cliPages": 1,
+   "cliTextHash": "sha256:22cef88d3e86bd039cd5cc9484a36cfcb4baac57fd0390c2bc58e094130c492c",
+   "definitionHash": "sha256:28a87d302161c7bac08f479f23fc57b7fab498acfa537fe12eda72464c6a7a84",
+   "kind": "report",
+   "modules": [
+    "purchase"
+   ],
+   "recordHash": "sha256:7aa3c5c1f7fc46c66cce6e173f2dc2b10d0b7c6f54f2f7f5349ad682a9fc11de",
+   "status": "AGREE"
+  },
+  "sales.order.print": {
+   "browserBytes": 20748,
+   "browserPages": 1,
+   "browserTextHash": "sha256:772cbaa3829e70c16f35e10dfefd2a96dfd8501258a7fc7c5f7e56ce4f1d4c70",
+   "cliBytes": 20748,
+   "cliPages": 1,
+   "cliTextHash": "sha256:772cbaa3829e70c16f35e10dfefd2a96dfd8501258a7fc7c5f7e56ce4f1d4c70",
+   "definitionHash": "sha256:b2922a62cac61ea67c8873416a0271da604d132598a1d2a2da74b217c504b2ce",
+   "kind": "report",
+   "modules": [
+    "sale"
+   ],
+   "recordHash": "sha256:62d6f5bfba2c400d37e4f1f356364994cf0ae795d11c9371724ceb761e415121",
+   "status": "AGREE"
+  }
+ },
+ "schemaVersion": "odoo.report-conformance-run/v1"
+}

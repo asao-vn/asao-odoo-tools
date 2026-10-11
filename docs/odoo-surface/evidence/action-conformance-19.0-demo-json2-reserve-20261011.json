@@ -1,0 +1,48 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T19:48:34Z",
+ "records": {
+  "inventory.transfer.reserve": {
+   "changedFields": [
+    "move_line_ids",
+    "shipping_weight",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "move_line_ids": 1
+   },
+   "definitionHash": "sha256:3f440b005d677d60104b6016b53f8a726b2b02d26ec89e6238c3fbcbd6985e41",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "move_line_ids",
+    "shipping_weight",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:d7b109bc499a2f4c5d5f4249dfa589bd0b55cb9e02c893bb60c45ad843b48716",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

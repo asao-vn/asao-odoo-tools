@@ -1,0 +1,191 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T11:54:42Z",
+ "records": {
+  "catalog.pricelist_item.describe": {
+   "definitionHash": "sha256:77653cdbabc28af19f7f13afd43dedca60f936241af3119abd9b0414bd06443c",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.pricelist_item.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:39ad8fe179603ddc19285669e9681520ad1bbaa4066f7342fbee5b21ed28d861",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.analytic_distribution_model.describe": {
+   "definitionHash": "sha256:24d6407d2d2764b4f40a86cc484108126987c7f5fdebd1208316f6aef7871b01",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_distribution_model.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:7b89b80352921072bf6f3558a2ec63fa5398b825fb5c4cb79e6bbed7c3b17fb7",
+   "kind": "list",
+   "modules": [
+    "analytic"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.online_payment_method.describe": {
+   "definitionHash": "sha256:d75731dad93175f0cdcbbf1513c6c49f14ea1f41813b832874804c6cec077c09",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.online_payment_method.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:5ee63b1048a997daefc220c61776b005e66a4be6e22efc5580cee37d33938476",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.payment_token.describe": {
+   "definitionHash": "sha256:bb353878cfe332ebd3bfeed0000e68c07db826c0db2350e615e07075b8d5a2b8",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_token.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:e0ce89b0522630c3450f43a31721b34ff95e37a1561207952c28d4bcd4d1a514",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.payment_transaction.describe": {
+   "definitionHash": "sha256:815a118d3a883ebe438f12a59fbb03785ef9f6f64fdba92ac8069bedd0222dd8",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_transaction.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:05c182eb56b1a7361c59a603b7f940f67dfd2f6c3ad659562cd04e15d7f0b11a",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.package_history.describe": {
+   "definitionHash": "sha256:0a21af413d75d27dbebe75d8aa571d25472e2f701f0273bcfbf48083830ca0dc",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.package_history.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:1515e9e63902300161f98458e28d89102c683f582d5e75efac43026ab52fade3",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "schedule.recurrence.describe": {
+   "definitionHash": "sha256:aae98674af00fdf8a9628a62c99e6954a8e953a7302cb1f9849d1f4313572fa4",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.recurrence.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:55c1e80fcd785d6062a65d20a30a59d78b5d0b6304be17fcfd935ae2602877ae",
+   "kind": "list",
+   "modules": [
+    "calendar"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "website.layout.describe": {
+   "definitionHash": "sha256:0c5ae30a4bb8c8a0f63a743c2e6141fcf04bd8273ab2cc3bec93d1aac598ada0",
+   "detail": null,
+   "modules": [
+    "website"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "website.layout.list": {
+   "cliHash": "sha256:699b1edaa361733fbdc2edaae89ec98a6b549cf5245b36fcc4bca9e51cb93327",
+   "definitionHash": "sha256:0c5ae30a4bb8c8a0f63a743c2e6141fcf04bd8273ab2cc3bec93d1aac598ada0",
+   "kind": "list",
+   "modules": [
+    "website"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "DISAGREE"
+  },
+  "website.menu.describe": {
+   "cliHash": "sha256:e866b5398c8afe192f2c6d7b1233950a2f155764c83611ddef2ca222ede6f021",
+   "definitionHash": "sha256:28b8b9a036caa9e911e9708b09eed59aea4e1567ab6e4df3b8e7bcced005dbe3",
+   "fieldCount": 12,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website"
+   ],
+   "oracleHash": "sha256:e866b5398c8afe192f2c6d7b1233950a2f155764c83611ddef2ca222ede6f021",
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "website.page.describe": {
+   "cliHash": "sha256:4ad7db71a4d3b985b5dec5f8f135663caa21043e2f076f45f074b59caf3e8030",
+   "definitionHash": "sha256:59b310a4187ea4fe9de299c8a4979ce098b54a22868deb6bf6d2d8d4307d68e2",
+   "fieldCount": 12,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website"
+   ],
+   "oracleHash": "sha256:4ad7db71a4d3b985b5dec5f8f135663caa21043e2f076f45f074b59caf3e8030",
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

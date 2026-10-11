@@ -1,0 +1,2269 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle; ids for lists (order id, limit 5), field-by-field values for describes. Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:2f0eb0d86c05a03ecf35785b22031b2d8711c970dfa36ca300aec2d5ff95cfbd",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-10T03:55:09Z",
+ "records": {
+  "catalog.attribute.describe": {
+   "cliHash": "sha256:c714f2ec5a581a34adcc4be50744a218f9c337cf86a27d1b7ed0c2b64c356b2f",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:c714f2ec5a581a34adcc4be50744a218f9c337cf86a27d1b7ed0c2b64c356b2f",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.attribute.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.attribute_value.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.attribute_value.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.category.describe": {
+   "cliHash": "sha256:c9f16244f4ca7c7dbfc0b5e85e0ffd54dfa38f4283e293caa20190d4b92570ee",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:c9f16244f4ca7c7dbfc0b5e85e0ffd54dfa38f4283e293caa20190d4b92570ee",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.category.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "catalog.combo.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.combo.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.combo_item.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.combo_item.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.document.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.document.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.pricelist.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.pricelist.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.pricelist_item.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.pricelist_item.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.product_uom.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.product_uom.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.tag.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.tag.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.template_attribute_line.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.template_attribute_value.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_value.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "catalog.uom.describe": {
+   "cliHash": "sha256:b310918a707e1bef5bfc1762ae8e580f33b7b57f47dacc1c21376f3cdbac1788",
+   "fieldCount": 3,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "uom"
+   ],
+   "oracleHash": "sha256:4481bf410a5d6299d0a4db7bffa02a9cae5b274cf0f6826b7d5f82099aebd984",
+   "status": "AGREE_WITH_UNCHECKED_FIELDS",
+   "uncheckedFields": [
+    "rounding"
+   ]
+  },
+  "catalog.vendor_price.describe": {
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.vendor_price.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "crm.lost_reason.describe": {
+   "cliHash": "sha256:78aa76da7b7659a8cbe952863f8e475c048ac98ec0dc7937588b1901f9a2055f",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "oracleHash": "sha256:78aa76da7b7659a8cbe952863f8e475c048ac98ec0dc7937588b1901f9a2055f",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "crm.lost_reason.list": {
+   "cliHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "kind": "list",
+   "modules": [
+    "crm"
+   ],
+   "oracleHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "recordCount": 3,
+   "status": "AGREE"
+  },
+  "crm.recurring_plan.describe": {
+   "cliHash": "sha256:692c05b710c34f589832c62cf70a4932db0def05777dade00e044262befb57de",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "oracleHash": "sha256:692c05b710c34f589832c62cf70a4932db0def05777dade00e044262befb57de",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "crm.recurring_plan.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "kind": "list",
+   "modules": [
+    "crm"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "crm.stage.describe": {
+   "cliHash": "sha256:5710f345207f9b9ed83739d7f3969c64cb53582950c75485872a5c7680defbf4",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "oracleHash": "sha256:5710f345207f9b9ed83739d7f3969c64cb53582950c75485872a5c7680defbf4",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "crm.stage.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "kind": "list",
+   "modules": [
+    "crm"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "crm.tag.describe": {
+   "modules": [
+    "sales_team"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "crm.tag.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "sales_team"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "crm.team.describe": {
+   "cliHash": "sha256:ff35ee66322c409d25466358430b2a28a61b399aee79b38f5c91214a656646f1",
+   "fieldCount": 25,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "sales_team"
+   ],
+   "oracleHash": "sha256:ff35ee66322c409d25466358430b2a28a61b399aee79b38f5c91214a656646f1",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "crm.team.list": {
+   "cliHash": "sha256:2335c54ffe3749ceafac20eea51040b4fa52beab7682f26d5d1bb75d1878478b",
+   "kind": "list",
+   "modules": [
+    "sales_team"
+   ],
+   "oracleHash": "sha256:2335c54ffe3749ceafac20eea51040b4fa52beab7682f26d5d1bb75d1878478b",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "crm.team_member.describe": {
+   "cliHash": "sha256:8db6ecae6fb8af79a4e5776bc4fa39885c02c2565ee4aa7a07f68a68e4d96355",
+   "fieldCount": 17,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "sales_team"
+   ],
+   "oracleHash": "sha256:8db6ecae6fb8af79a4e5776bc4fa39885c02c2565ee4aa7a07f68a68e4d96355",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "crm.team_member.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "kind": "list",
+   "modules": [
+    "sales_team"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "finance.account_group.describe": {
+   "detail": "Object account.group doesn't exist",
+   "modules": [
+    "account"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.account_group.list": {
+   "detail": "Object account.group doesn't exist",
+   "modules": [
+    "account"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.account_tag.describe": {
+   "cliHash": "sha256:c74087318d63ab2805c245c0e6ec16935946d649b6b58968547687fa75379325",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:c74087318d63ab2805c245c0e6ec16935946d649b6b58968547687fa75379325",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.account_tag.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.analytic_account.describe": {
+   "cliHash": "sha256:c42ddee4b36f09a7dba6ffa74d60af59d01624ff1ba429b1f0ccf62e35b24438",
+   "fieldCount": 15,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "analytic"
+   ],
+   "oracleHash": "sha256:d695622349ba970a89c2f4a4c292eca42dfd47f84b40e9c142046e85c9e76a80",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.analytic_account.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "kind": "list",
+   "modules": [
+    "analytic"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "finance.analytic_distribution_model.describe": {
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_distribution_model.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "analytic"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.analytic_line.describe": {
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "analytic"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.bank.describe": {
+   "detail": "Object res.bank doesn't exist",
+   "modules": [
+    "base"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.bank.list": {
+   "detail": "Object res.bank doesn't exist",
+   "modules": [
+    "base"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.bank_statement.describe": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.bank_statement_line.describe": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.cash_rounding.describe": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.cash_rounding.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.currency.describe": {
+   "cliHash": "sha256:a681f20bb31238540774c4a6aa06468e5d7664717524ae5f91f00b823bf83350",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:a681f20bb31238540774c4a6aa06468e5d7664717524ae5f91f00b823bf83350",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.currency.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "finance.currency_rate.describe": {
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.currency_rate.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.fiscal_position.describe": {
+   "cliHash": "sha256:b78ea28debb44f5692827706ce6da559f77e3e10d3c83575402ca78dc5225b35",
+   "fieldCount": 18,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:b78ea28debb44f5692827706ce6da559f77e3e10d3c83575402ca78dc5225b35",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.fiscal_position.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.fiscal_position_account.describe": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.fiscal_position_account.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.incoterms.describe": {
+   "cliHash": "sha256:0b7c1dab573b478fb62d1f0786f8b4e1bbc3999cb7aefd7f75f2113df5398df6",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:0b7c1dab573b478fb62d1f0786f8b4e1bbc3999cb7aefd7f75f2113df5398df6",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.incoterms.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.journal_group.describe": {
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.journal_group.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.online_payment_method.describe": {
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.online_payment_method.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.payment_method.describe": {
+   "cliHash": "sha256:9859511ba8e6c653b46129f346cc579ed0c91fecf5ac6fb7881e03fe272f7742",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:9859511ba8e6c653b46129f346cc579ed0c91fecf5ac6fb7881e03fe272f7742",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_method.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.payment_method_line.describe": {
+   "cliHash": "sha256:61f1ca86aec62ee0afe98c31c66421710fe542d9aa4d7f9cde650fa3645a4799",
+   "fieldCount": 13,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:61f1ca86aec62ee0afe98c31c66421710fe542d9aa4d7f9cde650fa3645a4799",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_method_line.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.payment_provider.describe": {
+   "cliHash": "sha256:65f545e0ab23ebd0558d93aec8502b0c98b7253a291732d5b03a4dca03ece2fc",
+   "fieldCount": 27,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4b23ace64f3b2036516fb14c1da121a87e2406f3454a8a5dd5af8523990a049d",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_provider.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.payment_term_line.describe": {
+   "cliHash": "sha256:0708192628b37da17432a07e42635aa6f9f0f1d7c3a81949de0fb3a73687baef",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:4b0f5134293932a44a5ef7139b6aa5c91ed74fb4d571aa92e479457a6c3d19e7",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_term_line.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.payment_token.describe": {
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_token.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.payment_transaction.describe": {
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_transaction.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "finance.reconcile_model.describe": {
+   "cliHash": "sha256:538a7a8d2357b373bf9b3a43b1f1f09ea4d9ea335d0b07c4a158c3a57b44685f",
+   "fieldCount": 15,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:3a83abee799ab01abfea7b413c6194c4c50fb150af4ab46a8c70a6cd4ec25dce",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.reconcile_model.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.reconcile_model_line.describe": {
+   "cliHash": "sha256:9da31ff6463d4e7dd8b7be631717b7dbd4e320bcd06b01128c6dea44123f0bff",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:c8f800388eb5bce8d41de843d55de770705116b5721380c84ecfa6db8119a4ee",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.reconcile_model_line.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.tax_group.describe": {
+   "cliHash": "sha256:79ffb2bdafd2b9dd5d89b46981f1fedc3660a9d002e56b0a7fd4ce7e7404987c",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:79ffb2bdafd2b9dd5d89b46981f1fedc3660a9d002e56b0a7fd4ce7e7404987c",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.tax_group.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "identity.bank_account.describe": {
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "identity.bank_account.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "identity.industry.describe": {
+   "cliHash": "sha256:5875dc4121dc3f1f61e195948c801152d3fbe63f30bc480f8557c1e78c3a59d7",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:5875dc4121dc3f1f61e195948c801152d3fbe63f30bc480f8557c1e78c3a59d7",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "identity.industry.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "identity.phone_blacklist.describe": {
+   "modules": [
+    "phone_validation"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "identity.phone_blacklist.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "phone_validation"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "identity.tag.describe": {
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "identity.tag.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.lot.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.lot.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.move_line.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "inventory.package.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.package.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.package_history.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.package_history.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.package_type.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.package_type.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.putaway_rule.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.putaway_rule.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.quant.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "inventory.reorder_rule.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.reorder_rule.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.route.describe": {
+   "cliHash": "sha256:7f3bba12792c6bdf6f3599b67d60cd39df33b9a458bd1f0d9ede40ef1cc65dee",
+   "fieldCount": 15,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:7f3bba12792c6bdf6f3599b67d60cd39df33b9a458bd1f0d9ede40ef1cc65dee",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.route.list": {
+   "cliHash": "sha256:dd5bfce513568c0f56f81d54628d06c8d0004525d638a989498068fc0478b3df",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:dd5bfce513568c0f56f81d54628d06c8d0004525d638a989498068fc0478b3df",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "inventory.rule.describe": {
+   "cliHash": "sha256:fabc212aa591fbc959f5f4c56e53a6ad40e77423b678a1ad4dbaf06759c99bae",
+   "fieldCount": 21,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:fabc212aa591fbc959f5f4c56e53a6ad40e77423b678a1ad4dbaf06759c99bae",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.rule.list": {
+   "cliHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "inventory.scrap.describe": {
+   "detail": "Object stock.scrap doesn't exist",
+   "modules": [
+    "stock"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "inventory.scrap.list": {
+   "detail": "Object stock.scrap doesn't exist",
+   "modules": [
+    "stock"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "inventory.scrap_reason.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.scrap_reason.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.storage_category.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.storage_category.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "inventory.storage_category_capacity.describe": {
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.storage_category_capacity.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.bom.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.bom.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.bom_byproduct.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.bom_byproduct.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.bom_line.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.bom_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.operation.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.operation.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.order.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.order.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.production_group.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.production_group.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.unbuild.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.unbuild.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.workcenter.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.workcenter_capacity.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_capacity.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.workcenter_productivity.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_productivity.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.workcenter_productivity_loss.describe": {
+   "cliHash": "sha256:38d11b9ec4f9bbf6ada3ea2f0a4117b8329ccc0311ef9315993db8b8928ef109",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:38d11b9ec4f9bbf6ada3ea2f0a4117b8329ccc0311ef9315993db8b8928ef109",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "manufacturing.workcenter_productivity_loss.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "manufacturing.workcenter_productivity_loss_type.describe": {
+   "cliHash": "sha256:ed634d77040c3b347745cfa87f1f40cba25f242ce5b3bb44a408b97f3569cad9",
+   "fieldCount": 3,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:ed634d77040c3b347745cfa87f1f40cba25f242ce5b3bb44a408b97f3569cad9",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "manufacturing.workcenter_productivity_loss_type.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "manufacturing.workcenter_tag.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_tag.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "manufacturing.workorder.describe": {
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workorder.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "mrp"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.contract_type.describe": {
+   "detail": "Object hr.contract.type doesn't exist",
+   "modules": [
+    "hr"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "people.contract_type.list": {
+   "detail": "Object hr.contract.type doesn't exist",
+   "modules": [
+    "hr"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "people.departure_reason.describe": {
+   "cliHash": "sha256:7aec753401301104b360d0ff12672caba89095e05fc10ec3be9862541ad1d879",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:7aec753401301104b360d0ff12672caba89095e05fc10ec3be9862541ad1d879",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.departure_reason.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "kind": "list",
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "people.employee_location.describe": {
+   "modules": [
+    "hr_homeworking"
+   ],
+   "status": "UNSUPPORTED_MODULE"
+  },
+  "people.employee_location.list": {
+   "modules": [
+    "hr_homeworking"
+   ],
+   "status": "UNSUPPORTED_MODULE"
+  },
+  "people.employee_skill.describe": {
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_skill.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.employee_tag.describe": {
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_tag.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.employee_version.describe": {
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_version.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.expense.describe": {
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.expense.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_expense"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.job.describe": {
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.job.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.job_skill.describe": {
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.job_skill.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.payroll_structure_type.describe": {
+   "cliHash": "sha256:d6a22a5ac697da695fa0370fb6c5176f22560d820ce6a8280ce78e248d311304",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:d6a22a5ac697da695fa0370fb6c5176f22560d820ce6a8280ce78e248d311304",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.payroll_structure_type.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "kind": "list",
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "people.resume_line.describe": {
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.resume_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "people.resume_line_type.describe": {
+   "cliHash": "sha256:1afe7d6399c16c46e8bf1d2e942f131dc05cf7382bee2388cb1c7b257752a89b",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:1afe7d6399c16c46e8bf1d2e942f131dc05cf7382bee2388cb1c7b257752a89b",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.resume_line_type.list": {
+   "cliHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "recordCount": 3,
+   "status": "AGREE"
+  },
+  "people.skill.describe": {
+   "cliHash": "sha256:ba1f8fbacdb89e6d5046d22e9c8eed40d777e03b026e2f45a4ac7c4352fe84f7",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:ba1f8fbacdb89e6d5046d22e9c8eed40d777e03b026e2f45a4ac7c4352fe84f7",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.skill.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "people.skill_level.describe": {
+   "cliHash": "sha256:af716b8921461cfb5bbc2340ef0a38ba26450791dc3f1e5efdf50349471a3053",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:af716b8921461cfb5bbc2340ef0a38ba26450791dc3f1e5efdf50349471a3053",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.skill_level.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "people.skill_type.describe": {
+   "cliHash": "sha256:0ee037c503d69ce85351ada448b631180585a78fcf5d52d9e2ba6e34af5f32c3",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:0ee037c503d69ce85351ada448b631180585a78fcf5d52d9e2ba6e34af5f32c3",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.skill_type.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "people.work_location.describe": {
+   "cliHash": "sha256:5f1cc5fdf6dd224da94b968b04363d3e66f6c5fe4d8d9b4831043503d7e372cc",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:5f1cc5fdf6dd224da94b968b04363d3e66f6c5fe4d8d9b4831043503d7e372cc",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.work_location.list": {
+   "cliHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "kind": "list",
+   "modules": [
+    "hr"
+   ],
+   "oracleHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "recordCount": 3,
+   "status": "AGREE"
+  },
+  "pos.category.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.category.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.config.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.config.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.order.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.order.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.order_line.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.order_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.payment.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.payment_method.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment_method.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.preset.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.preset.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "pos.session.describe": {
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.session.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "point_of_sale"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "sales.quotation_template.describe": {
+   "modules": [
+    "sale_management"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "sales.quotation_template.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "sale_management"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "sales.quotation_template_line.describe": {
+   "modules": [
+    "sale_management"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "sales.quotation_template_line.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "sale_management"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "schedule.alarm.describe": {
+   "cliHash": "sha256:8545aab6a0fe928084d31987209e51a78ea4d3710981acdb0bd54adfa83f014a",
+   "fieldCount": 10,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "calendar"
+   ],
+   "oracleHash": "sha256:8545aab6a0fe928084d31987209e51a78ea4d3710981acdb0bd54adfa83f014a",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "schedule.alarm.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "calendar"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "schedule.attendee.describe": {
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.attendee.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "calendar"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "schedule.event_type.describe": {
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.event_type.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "calendar"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "schedule.recurrence.describe": {
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.recurrence.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "calendar"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "structure.country.describe": {
+   "cliHash": "sha256:a4b9791dbae64759e920353c2999d890c19a31ad4b717aaf5945522ba27410e5",
+   "fieldCount": 13,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:a4b9791dbae64759e920353c2999d890c19a31ad4b717aaf5945522ba27410e5",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.country.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "structure.country_group.describe": {
+   "cliHash": "sha256:e41ad4070655a663ad469ec743e59bf303b0f2d2cd532cccc6b193aab4e90312",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:e41ad4070655a663ad469ec743e59bf303b0f2d2cd532cccc6b193aab4e90312",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.country_group.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "structure.country_state.describe": {
+   "cliHash": "sha256:cc8e839da3749b263512c075ac5019a2446e8500e5988452c210d91e99652eda",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:cc8e839da3749b263512c075ac5019a2446e8500e5988452c210d91e99652eda",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.country_state.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "structure.operation_type.list": {
+   "cliHash": "sha256:c1a80eacc8e2903268308e46edf49c432c20630ce5018503d09f393aa63eb33c",
+   "kind": "list",
+   "modules": [
+    "stock"
+   ],
+   "oracleHash": "sha256:c1a80eacc8e2903268308e46edf49c432c20630ce5018503d09f393aa63eb33c",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "work.collaborator.describe": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.collaborator.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "work.project_stage.describe": {
+   "cliHash": "sha256:b2c3be9b8d9cded386bc7a4ea872c950a9888746a8fd0b92b820b71681cd4c6b",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:b2c3be9b8d9cded386bc7a4ea872c950a9888746a8fd0b92b820b71681cd4c6b",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "work.project_stage.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "work.project_update.describe": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.project_update.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "work.role.describe": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.role.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "work.tag.describe": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.tag.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "work.task_recurrence.describe": {
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.task_recurrence.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "work.task_stage.describe": {
+   "cliHash": "sha256:f96cf5c4d23f10f7c2be750dfd497fd9b9d30dba835e07ded00009f8c3392379",
+   "fieldCount": 13,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:f96cf5c4d23f10f7c2be750dfd497fd9b9d30dba835e07ded00009f8c3392379",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "work.task_stage.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "project"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "workforce.accrual_level.describe": {
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.accrual_level.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "workforce.accrual_plan.describe": {
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.accrual_plan.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "workforce.attendance_log.describe": {
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.attendance_log.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_attendance"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "workforce.calendar_leave.describe": {
+   "cliHash": "sha256:576523f6d11668f4acd15a188cf2954287fd70207f3bb4dfd102f41bf8e57063",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "resource"
+   ],
+   "oracleHash": "sha256:576523f6d11668f4acd15a188cf2954287fd70207f3bb4dfd102f41bf8e57063",
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "workforce.calendar_leave.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "kind": "list",
+   "modules": [
+    "resource"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "workforce.leave_allocation.describe": {
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.leave_allocation.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "workforce.leave_type.describe": {
+   "detail": "Object hr.leave.type doesn't exist",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.leave_type.list": {
+   "detail": "Object hr.leave.type doesn't exist",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.mandatory_day.describe": {
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.mandatory_day.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "workforce.overtime_line.describe": {
+   "detail": "Object hr.attendance.overtime.line doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_line.list": {
+   "detail": "Object hr.attendance.overtime.line doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_rule.describe": {
+   "detail": "Object hr.attendance.overtime.rule doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_rule.list": {
+   "detail": "Object hr.attendance.overtime.rule doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_ruleset.describe": {
+   "detail": "Object hr.attendance.overtime.ruleset doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_ruleset.list": {
+   "detail": "Object hr.attendance.overtime.ruleset doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.resource.describe": {
+   "modules": [
+    "resource"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.resource.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "kind": "list",
+   "modules": [
+    "resource"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  }
+ },
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

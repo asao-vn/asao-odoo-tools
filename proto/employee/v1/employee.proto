@@ -1,6 +1,0 @@
-syntax = "proto3";
-
-package employee.v1;
-
-option go_package = "github.com/asao-platform/atoc/packages/proto/employee/v1;employeev1";
-

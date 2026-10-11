@@ -1,0 +1,369 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-10T17:00:30Z",
+ "records": {
+  "crm.opportunity.lose": {
+   "changedFields": [
+    "active",
+    "automated_probability",
+    "date_closed",
+    "probability",
+    "prorated_revenue",
+    "won_status"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:b16de3a3d9aa025504f1ff5658d22587241ad75a2151243548010a3cc29175b1",
+   "kind": "action",
+   "modules": [
+    "crm"
+   ],
+   "oracleChangedFields": [
+    "active",
+    "automated_probability",
+    "date_closed",
+    "probability",
+    "prorated_revenue",
+    "won_status"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:6a1c7b8e447da25dc5caa8739b2fac538e2a2e5c0a756eb2936cd60571622172",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     true,
+     false
+    ],
+    "won_status": [
+     "pending",
+     "lost"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "crm.opportunity.win": {
+   "changedFields": [
+    "automated_probability",
+    "date_closed",
+    "date_last_stage_update",
+    "probability",
+    "prorated_revenue",
+    "stage_id",
+    "won_status"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:a619ed4bd2fce0d609bff6b5198263c862e7a29db7c789812341e4bc6c72be44",
+   "kind": "action",
+   "modules": [
+    "crm"
+   ],
+   "oracleChangedFields": [
+    "automated_probability",
+    "date_closed",
+    "date_last_stage_update",
+    "probability",
+    "prorated_revenue",
+    "stage_id",
+    "won_status"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:6bd7cf177944cde1440735165106c09f74f6ef1924c3c84ce8ba4478508b04ef",
+   "status": "AGREE",
+   "transitions": {
+    "won_status": [
+     "pending",
+     "won"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.invoice.post": {
+   "changedFields": [
+    "audit_trail_message_ids",
+    "checked",
+    "invoice_date",
+    "name",
+    "payment_reference",
+    "posted_before",
+    "sequence_number",
+    "sequence_prefix",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 1
+   },
+   "definitionHash": "sha256:ab947f2695187aae52ba0734aa86a0631d96d920125164411887f93f11ee1028",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "audit_trail_message_ids",
+    "checked",
+    "invoice_date",
+    "name",
+    "payment_reference",
+    "posted_before",
+    "sequence_number",
+    "sequence_prefix",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b8ce02014af7affc656ed16d022e6d5bcc634cb18d314231fa83d37d553cb9b9",
+   "status": "AGREE",
+   "transitions": {
+    "checked": [
+     false,
+     true
+    ],
+    "posted_before": [
+     false,
+     true
+    ],
+    "state": [
+     "draft",
+     "posted"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment.register": {
+   "changedFields": [
+    "amount_residual",
+    "amount_residual_signed",
+    "audit_trail_message_ids",
+    "is_manually_modified",
+    "matched_payment_ids",
+    "payment_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 1,
+    "matched_payment_ids": 1
+   },
+   "definitionHash": "sha256:fbc639c52faeb3cc00ff5e39faacb538afb2881d385fd2170b353803576077b4",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "amount_residual",
+    "amount_residual_signed",
+    "audit_trail_message_ids",
+    "is_manually_modified",
+    "matched_payment_ids",
+    "payment_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2527626ef7ca2f32b4a829dd92b87ee0293712aa32d5799cdd0cafa3f6c61280",
+   "status": "AGREE",
+   "transitions": {
+    "is_manually_modified": [
+     false,
+     true
+    ],
+    "payment_state": [
+     "not_paid",
+     "paid"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.transfer.reserve": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:3f440b005d677d60104b6016b53f8a726b2b02d26ec89e6238c3fbcbd6985e41",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:6faa7591ad55dc2def4d2af3247823434067eb356619d123256f80ba76affe84",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "inventory.transfer.validate": {
+   "changedFields": [
+    "date_done",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:389be5fd4670f241aa9b9399994139ca2a2a72656b26bdb853409365c84c906e",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "date_done",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b149f0511b963ce54c6b7b62c469aed64f0346a01a735b5e130343820c4ce4e3",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "assigned",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.bill.create": {
+   "changedFields": [
+    "invoice_count",
+    "invoice_ids",
+    "invoice_status"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "invoice_ids": 1
+   },
+   "definitionHash": "sha256:544f3d7c2a69bdc725a22d6acca24925004e9412b3fdf591ed0bde9d29da5603",
+   "kind": "action",
+   "modules": [
+    "purchase"
+   ],
+   "oracleChangedFields": [
+    "invoice_count",
+    "invoice_ids",
+    "invoice_status"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:8195aa19b2860c12ecd1600d71b1464c7d78613b4732e54d1d8289d94d7e5956",
+   "status": "AGREE",
+   "transitions": {
+    "invoice_status": [
+     "to invoice",
+     "invoiced"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.order.confirm": {
+   "changedFields": [
+    "date_approve",
+    "date_calendar_start",
+    "picking_ids",
+    "receipt_status",
+    "reference_ids",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "picking_ids": 1,
+    "reference_ids": 1
+   },
+   "definitionHash": "sha256:6534b754eca629a1f78d6e265d2a3d7a55b75949f7c68adcab7555c2824eb75f",
+   "kind": "action",
+   "modules": [
+    "purchase"
+   ],
+   "oracleChangedFields": [
+    "date_approve",
+    "date_calendar_start",
+    "picking_ids",
+    "receipt_status",
+    "reference_ids",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:548e49f2adc8c7db5148842e7ce3ebd153854a45593caa8098fec884a076558c",
+   "status": "AGREE",
+   "transitions": {
+    "receipt_status": [
+     false,
+     "pending"
+    ],
+    "state": [
+     "draft",
+     "purchase"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "sales.invoice.create": {
+   "changedFields": [
+    "amount_unpaid",
+    "invoice_status"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:85a386a0c409203bc3f9878782576b49372f35fdc1b0b99c9f86271b63c214b1",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "oracleChangedFields": [
+    "amount_unpaid",
+    "invoice_status"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:6bd7cf177944cde1440735165106c09f74f6ef1924c3c84ce8ba4478508b04ef",
+   "status": "AGREE",
+   "transitions": {
+    "invoice_status": [
+     "to invoice",
+     "invoiced"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "sales.order.confirm": {
+   "changedFields": [
+    "applied_coupon_ids",
+    "coupon_point_ids",
+    "date_order",
+    "invoice_status",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "applied_coupon_ids": 1,
+    "coupon_point_ids": 1
+   },
+   "definitionHash": "sha256:0b93c0c3c1d81772e9681a0efd8b8b284ac7b437c678bef8916731dd40f389cf",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "oracleChangedFields": [
+    "applied_coupon_ids",
+    "coupon_point_ids",
+    "date_order",
+    "invoice_status",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:468bab6022e018a8bc6b0d5b38ffee186987ce01c9166538a24e83d464ecac03",
+   "status": "AGREE",
+   "transitions": {
+    "invoice_status": [
+     "no",
+     "to invoice"
+    ],
+    "state": [
+     "draft",
+     "sale"
+    ]
+   },
+   "twinBasis": "fixture"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

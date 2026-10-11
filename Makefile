@@ -1,14 +1,17 @@
-.PHONY: build test clean
+.PHONY: build test clean install
 
 build:
 	@mkdir -p bin
-	go build -o bin/odoo19-conformance .
-	go build -o bin/minttoken ./cmd/minttoken
-	go build -o bin/probetoken ./cmd/probetoken
-	@echo "Build completed! Binaries located in bin/"
+	CGO_ENABLED=0 go build -trimpath -o bin/odoo-cli ./cmd/odoo-cli
+	@echo "Built: bin/odoo-cli"
 
+# The command line, then the Odoo core (its own module under third_party/).
 test:
-	go test -v ./...
+	go test ./...
+	cd third_party/packages/odoo && go test ./...
+
+install:
+	./scripts/install.sh
 
 clean:
-	rm -rf bin/
+	rm -rf bin/ dist/

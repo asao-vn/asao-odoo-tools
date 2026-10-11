@@ -1,0 +1,677 @@
+{
+ "profile": "lab19",
+ "results": {
+  "catalog.attribute.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.attribute_value.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.category.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "catalog.category.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "catalog.combo.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.combo_item.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.document.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.pricelist.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.pricelist_item.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.product_uom.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.tag.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.template_attribute_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.template_attribute_value.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "catalog.vendor_price.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "crm.lost_reason.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "crm.lost_reason.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "crm.recurring_plan.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "crm.recurring_plan.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "crm.stage.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "crm.stage.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "crm.tag.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "crm.team.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "crm.team.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "crm.team_member.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "crm.team_member.list": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.account_group.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.account_tag.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.account_tag.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "finance.analytic_account.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.analytic_account.list": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.analytic_distribution_model.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.analytic_line.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.analytic_line.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "finance.bank.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.bank_statement.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.bank_statement_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.cash_rounding.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.currency.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.currency.list": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.currency_rate.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.fiscal_position.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.fiscal_position.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "finance.fiscal_position_account.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.incoterms.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.incoterms.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "finance.journal_group.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.online_payment_method.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.payment_method.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.payment_method.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "finance.payment_method_line.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.payment_method_line.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "finance.payment_provider.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.payment_provider.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "finance.payment_term_line.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.payment_term_line.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "finance.payment_token.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.payment_transaction.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "finance.reconcile_model.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.reconcile_model.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "finance.reconcile_model_line.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.reconcile_model_line.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "finance.tax_group.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "finance.tax_group.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "identity.bank_account.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "identity.industry.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "identity.industry.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "identity.phone_blacklist.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "identity.tag.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.lot.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.package.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.package_history.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.package_type.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.putaway_rule.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.reorder_rule.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.route.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "inventory.route.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "inventory.rule.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "inventory.rule.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "inventory.scrap.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.scrap_reason.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.storage_category.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "inventory.storage_category_capacity.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.bom.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.bom_byproduct.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.bom_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.operation.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.order.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.production_group.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.unbuild.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.workcenter.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_capacity.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_productivity.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_productivity_loss.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_productivity_loss.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_productivity_loss_type.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_productivity_loss_type.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "manufacturing.workcenter_tag.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "manufacturing.workorder.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.contract_type.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.contract_type.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "people.departure_reason.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.departure_reason.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "people.employee_location.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.employee_skill.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.employee_tag.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.employee_version.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.employee_version.list": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.expense.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.job.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.job_skill.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.payroll_structure_type.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.payroll_structure_type.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "people.resume_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "people.resume_line_type.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.resume_line_type.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "people.skill.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.skill.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "people.skill_level.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.skill_level.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "people.skill_type.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.skill_type.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "people.work_location.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "people.work_location.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "pos.category.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.config.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.order.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.order_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.payment.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.payment_method.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.preset.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "pos.session.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "sales.quotation_template.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "sales.quotation_template_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "schedule.alarm.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "schedule.alarm.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "schedule.attendee.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "schedule.event_type.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "schedule.recurrence.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "structure.country.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "structure.country.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "structure.country_group.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "structure.country_group.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "structure.country_state.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "structure.country_state.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "work.collaborator.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "work.project_stage.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "work.project_stage.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "work.project_update.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "work.role.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "work.tag.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "work.task_recurrence.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "work.task_stage.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "work.task_stage.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "workforce.accrual_level.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.accrual_plan.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.attendance_log.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.calendar_leave.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.leave_allocation.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.leave_type.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "workforce.leave_type.list": {
+   "records": 3,
+   "status": "OK"
+  },
+  "workforce.mandatory_day.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.overtime_line.list": {
+   "records": 0,
+   "status": "OK"
+  },
+  "workforce.overtime_rule.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "workforce.overtime_rule.list": {
+   "records": 2,
+   "status": "OK"
+  },
+  "workforce.overtime_ruleset.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "workforce.overtime_ruleset.list": {
+   "records": 1,
+   "status": "OK"
+  },
+  "workforce.resource.describe": {
+   "records": 1,
+   "status": "OK"
+  },
+  "workforce.resource.list": {
+   "records": 1,
+   "status": "OK"
+  }
+ }
+}

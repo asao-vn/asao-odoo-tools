@@ -1,4 +1,3 @@
-bin/
-*.exe
-*.test
-.DS_Store
+/bin/
+/dist/
+__pycache__/

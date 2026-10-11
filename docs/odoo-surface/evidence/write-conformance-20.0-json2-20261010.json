@@ -1,0 +1,3005 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:2f0eb0d86c05a03ecf35785b22031b2d8711c970dfa36ca300aec2d5ff95cfbd",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-10T10:06:08Z",
+ "records": {
+  "catalog.attribute.create": {
+   "definitionHash": "sha256:13f8f39f25d929faa5e971db1a2a64cef5c401960bad9120dc94673dc9c05e3e",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.attribute.update": {
+   "definitionHash": "sha256:57afadcbe4e8049b356fa815ffca9adf8183508e80bb65efa354e43ba44fc50a",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.attribute_value.create": {
+   "definitionHash": "sha256:2f75031fec8363694429e5c7cb5178ce3f95bd60948cf405cf1c23a5efa629ce",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:b1cd61c92d7cd5d7ed60cc7d2399d6a6ebb77fe3ae8b5db0bbd3501a0d46af55",
+   "writtenFields": [
+    "attribute_id",
+    "name"
+   ]
+  },
+  "catalog.attribute_value.update": {
+   "definitionHash": "sha256:038dcf97827b4e5fd7b8f6775410becef410230fa7beb9342af3138c79044828",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.category.create": {
+   "definitionHash": "sha256:3bf78e5c9bef097f74a64f3e32dd5ded740b9e9e608dc38f2caaa14085c59b80",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.category.update": {
+   "definitionHash": "sha256:5734bd61bf020222f2d1b4e27f9e7c1fb6513e5519b536295e2c165f7ec824fc",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.combo.create": {
+   "definitionHash": "sha256:cd57f8688914a2a7c839b3b365c1608c7b238c3245a2313b762e92d70d17ad5a",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.combo.update": {
+   "definitionHash": "sha256:3c667ddaa85a443e7aff266672c2d12c5d55a136d33926ed0c2cdb14ded59034",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.combo_item.create": {
+   "definitionHash": "sha256:cde35c8f5821466eee5f72c10a9d6ed617a69cf9077a4347737d33e8f0de9c6c",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:ae22e0e942adba13f65039f2ed13e830744f158c02fa3420ef3766643a1ac7c1",
+   "writtenFields": [
+    "combo_id",
+    "product_id"
+   ]
+  },
+  "catalog.combo_item.update": {
+   "definitionHash": "sha256:376261b2aff502869e1c87ded2f480b31120e1e25eb58722b9872040ea27b168",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "catalog.document.create": {
+   "definitionHash": "sha256:50535b1559496498cbe71b250a85cb7ae04bd93fb1008b39cfcc77e85ba3273a",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:a08649ecf3c3142ffa2bae7611813df7dd7de9eb1676ba32714e882396dbe5d5",
+   "writtenFields": [
+    "ir_attachment_id",
+    "name"
+   ]
+  },
+  "catalog.document.update": {
+   "definitionHash": "sha256:7d49ce658c7ad891bf0878a4e098b16e3d5150ac910a93f45a5ba15d7782547d",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.pricelist.create": {
+   "definitionHash": "sha256:e6ca421b2446ebd21b41d8594e096cfd969d3cbf916e74b0177a3f14157714fe",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.pricelist.update": {
+   "definitionHash": "sha256:657225f804bd96d12a96fb5ba8efa9f43fcda72ea470f9edf5320c1499bbc2c7",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.pricelist_item.create": {
+   "definitionHash": "sha256:4663865922ca87ff55faffce4f43ac5efa4feff8abfcb189b92d23d93f314408",
+   "kind": "create",
+   "mismatchedFields": [
+    "applied_on"
+   ],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:1b4a7229b311ac124038abc65617daba4db127780c23ad691912dc17e154fad9",
+   "writtenFields": [
+    "applied_on"
+   ]
+  },
+  "catalog.pricelist_item.update": {
+   "definitionHash": "sha256:f8ae5841fbceef30c5e9c64271f5604aef45b408d6f21b6a51e865f13f3ab822",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "catalog.product.create": {
+   "definitionHash": "sha256:14b8f33b5d3bb660f214369bf2455133acbc9a020022b424d4d34d72ecabf779",
+   "missingFields": [
+    "base_unit_count",
+    "invoice_policy",
+    "product_variant_ids"
+   ],
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "catalog.product.update": {
+   "definitionHash": "sha256:b57891dabd38a3eae31ff318c44ccd08e7cf3b71b82edfe1f8a56713544a6670",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.product_uom.create": {
+   "definitionHash": "sha256:a316378320d4552a97c5c4c3ed5af9b2e3d9515a97fe71856e964bc66f74d6dd",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:10accbc6006d85e17be85eaf6f042101f88b3d2dfef9b059eccd2ffb5a5777be",
+   "writtenFields": [
+    "barcode",
+    "product_id",
+    "uom_id"
+   ]
+  },
+  "catalog.product_uom.update": {
+   "definitionHash": "sha256:e3002a3b4b2b0fc213445570680da1a3ab41398f73742e35edb422a371e14570",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "barcode"
+   ]
+  },
+  "catalog.tag.create": {
+   "definitionHash": "sha256:3666a6033a4b6a8deca83a04bd1572e7a8407b75682868d54c9fb54fd3b0fb52",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.tag.update": {
+   "definitionHash": "sha256:73de4edc502286cba357070aee946251a0a92c89bce841b4ee6f62aaea7bf137",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "catalog.template_attribute_line.create": {
+   "definitionHash": "sha256:a0962222f2cc5d5c142cc09e5071a67d5eeabda4e19f9d247c345c20e0c7c7c0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The attribute Brand must have at least one value for the product Down Payment (POS).",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_line.update": {
+   "definitionHash": "sha256:c6407e7dcd5e365792bc3bc25f869e26ba6f220406c4ff7a2b4ba532f8cec955",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.template_attribute_value.create": {
+   "definitionHash": "sha256:60ee9a7c9ed0c679337f056f0b09afa1d8937207aeebd05f60c92fb2486e86ea",
+   "missingFields": [
+    "attribute_line_id"
+   ],
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "catalog.template_attribute_value.update": {
+   "definitionHash": "sha256:66612f3f60c221daf38fb61f6ceaa4b1d9648f95ed26a1bd2fb0dd2ecd7e7469",
+   "modules": [
+    "product"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "catalog.vendor_price.create": {
+   "definitionHash": "sha256:be93dc31c4ad7286ca16f17a58640aef9f48373443e1ecfe1468e2de4018167b",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [
+    "product_uom_id"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:06d1b92a4baeb590d781c0c0d0ea9c1686abf1f499e3bcf273bc1e2725a28026",
+   "writtenFields": [
+    "partner_id",
+    "product_tmpl_id",
+    "product_uom_id"
+   ]
+  },
+  "catalog.vendor_price.update": {
+   "definitionHash": "sha256:b0eb86e926088ce6ec6714d46671c08d20be4577a8407f94460a71b6cc1f2f0f",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "product_code"
+   ]
+  },
+  "crm.lead.create": {
+   "definitionHash": "sha256:3acffc70f9df3bbd115265fa4c5d28efc99a8ace23ca7aa85d799e2b8f3f806e",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.lead.update": {
+   "definitionHash": "sha256:e84098c1313a0c25c962cfee77cfdd3e4f67c66932ba41dfc15e950586319ba6",
+   "kind": "update",
+   "modules": [
+    "crm"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.lost_reason.create": {
+   "definitionHash": "sha256:9390a0067155592bd431b4a354997b30103550c219e9ddc8bfeea1051fa899d8",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.lost_reason.update": {
+   "definitionHash": "sha256:5fe5eab7a7d6cea4d4667a8d2bc8b0f676be92c5c8cd5fe1fb99e4e4fabb4cbf",
+   "kind": "update",
+   "modules": [
+    "crm"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.recurring_plan.create": {
+   "definitionHash": "sha256:0eca27fc31d3ee04a79f22b8fd4e5a6b3942914e8fdea8126a30ff32e1558072",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:4b358a852e64717831d4067284d8a1b98a9e4d89b35bfc234196993fdf15cf50",
+   "writtenFields": [
+    "name",
+    "number_of_months"
+   ]
+  },
+  "crm.recurring_plan.update": {
+   "definitionHash": "sha256:eb19feeab780a2085991976a05ca4db35ec5dcb3006434060975b4a2a76d9115",
+   "kind": "update",
+   "modules": [
+    "crm"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.stage.create": {
+   "definitionHash": "sha256:dc8e2142318dea13899e37137cca75e62e2fe84c7bd623de77e1aff339c1296a",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "crm"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.stage.update": {
+   "definitionHash": "sha256:f7fd7a9ad581b6e1bff9d87c10e0c65f8322c4123f6de0dda5574ed5c52c0fbb",
+   "kind": "update",
+   "modules": [
+    "crm"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.tag.create": {
+   "definitionHash": "sha256:fbc53f025f3a944ed21dd06c2d9c76258c91ad14d6dbb3c3c32c315a770f9717",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "sales_team"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.tag.update": {
+   "definitionHash": "sha256:7aef24830c468c7bf2677f91585e54b3e1863cd03a097c4840ba39c2abeacbe5",
+   "kind": "update",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.team.create": {
+   "definitionHash": "sha256:8a0adffe45096557d805ed1304a9dd4c220e8ebb86cf24d30363a45b7f7e9aa6",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "sales_team"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:d823447b1dd10a6f002104066620bf709ae0389807a51637932a787898cc98dd",
+   "writtenFields": [
+    "alias_id",
+    "name"
+   ]
+  },
+  "crm.team.update": {
+   "definitionHash": "sha256:36c64a19bc29ff8adb70cb0cdc5468b2ff9d26d041d141741d73a2d31bd1bf59",
+   "kind": "update",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "crm.team_member.create": {
+   "definitionHash": "sha256:6cea3559eb85421af1d8affb2c9ef886165078bb489d998e3984352c536c2745",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You are trying to create duplicate membership(s). We found that Administrator (Sales) already exist(s).",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "crm.team_member.update": {
+   "definitionHash": "sha256:3df82f211f5f1243d996cf6b755d28055b761988417c71e7b78a053a29cea45f",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.account_group.create": {
+   "definitionHash": "sha256:674b287bcc2e8e1c62d8d227df4e59b86c632ea5b5e1392a42847814a104fd83",
+   "detail": "Object account.group doesn't exist",
+   "modules": [
+    "account"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.account_group.update": {
+   "definitionHash": "sha256:94f18491ec6ce2d38fb667191842df699df7385c3f6729c281c241e7d8f2228d",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.account_tag.create": {
+   "definitionHash": "sha256:36f25e2993bcc3fdf6307c1d92ca84f753e7e785643937ec85fc5d63f3270668",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Account Tag' (account.account.tag) records.\n\nThis operation is allowed for the following groups:\n\t- Show Full Accounting Features\n\nContact your administra",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account_tag.update": {
+   "definitionHash": "sha256:41af55fd1fab59bc34e6952259a34790cc5475f0b0ce08948761628c96ed585b",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_account.create": {
+   "definitionHash": "sha256:faf67248e2551c6063b7d2535ac1d4671fe4778aff5e5bc6910a6b92ccbcdd29",
+   "missingFields": [
+    "plan_id"
+   ],
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.analytic_account.update": {
+   "definitionHash": "sha256:949af442f60be5190aa051de9dbaf256a1f11ad6f3f8c143127e2539ee2116f2",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_distribution_model.create": {
+   "definitionHash": "sha256:95ae8e8d5a75413ff942936b895463204872bcdfe387c7d7e61155f96088b545",
+   "missingFields": [
+    "analytic_distribution"
+   ],
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.analytic_distribution_model.update": {
+   "definitionHash": "sha256:3b9e3355425f9c75b4cda60fbb595a58bdcd812e52b529d41974e4a16bc202ed",
+   "modules": [
+    "analytic"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.analytic_line.create": {
+   "definitionHash": "sha256:bfc433a0ed1d7565ff15462e862660679ea653adba5f0290c8fe7fa2e35b3d12",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "analytic"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:00687368e7a94242b03531184c7066d7e4a0831db5867292769fb2d372ebfbd5",
+   "writtenFields": [
+    "amount",
+    "name"
+   ]
+  },
+  "finance.analytic_line.update": {
+   "definitionHash": "sha256:d337077a434348786f95cbaba93394350556d848fdde6b5cc7b0b98479720bb8",
+   "kind": "update",
+   "modules": [
+    "analytic"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.bank.create": {
+   "definitionHash": "sha256:9effc76d4c02e88a853f0bcbe1d425e35ea122fe5e8b8349fd6d4fe748f9a868",
+   "detail": "Object res.bank doesn't exist",
+   "modules": [
+    "base"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.bank.update": {
+   "definitionHash": "sha256:4975290bfe88bb4585fe26d0cfeca96da2972d779af405554285015cc88d4cf6",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.bank_statement.create": {
+   "definitionHash": "sha256:f6a1711f1376bf05aafcb2178bdb90b43224a46d3dfa03022c406435268fb33f",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.bank_statement.update": {
+   "definitionHash": "sha256:a1e2360edf4a03998a668f20afec3cc7d27c6ff7b50984e00401a5c773166341",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.bank_statement_line.create": {
+   "definitionHash": "sha256:0444baca8aec19279d578c34129fdb16ac853e447cb218af52ccc306014c6947",
+   "missingFields": [
+    "move_id"
+   ],
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.bank_statement_line.update": {
+   "definitionHash": "sha256:e3478d403d0790d47e447461ebde05e0cd2dbcd44935b2ce946dc98387c6b6e9",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.cash_rounding.create": {
+   "definitionHash": "sha256:9f32a40582b475e721939bf364b06bf151f88856e5a9d9046b9e62d702429bc7",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.cash_rounding.update": {
+   "definitionHash": "sha256:357b54d66a74df78e71155e574498e0467edfc415e78fe19863ab22e43354fca",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.currency.create": {
+   "definitionHash": "sha256:63b8197fc91561d7e4a2fa14612cbb151ad8d6683867aaaa09e74c144025534f",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:58dc474268f8c8f9a569a1398929553ec82814af889f46e84f1eece7954e6bf9",
+   "writtenFields": [
+    "name",
+    "symbol"
+   ]
+  },
+  "finance.currency.update": {
+   "definitionHash": "sha256:e9ed7f1f4b9ada05e9d936e4feae8d1ffc88c60fcda60fef3478861e4e87e99b",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.currency_rate.create": {
+   "definitionHash": "sha256:2ea6cb9a74dad6321238edc6a030ed5ca5ce58fa23fe3d83d5f684f4d3380103",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Only one currency rate per day allowed!",
+   "modules": [
+    "base"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.currency_rate.update": {
+   "definitionHash": "sha256:03c58dadb8c938d8cac156893f481b89ed6d94376d39bc01f138d370d6a58d66",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.einvoice_symbol.create": {
+   "definitionHash": "sha256:39faa061844c4fd6cb114620c86b4791470dfa447738e109fe3d8a58bdd6a421",
+   "missingFields": [
+    "invoice_template_code"
+   ],
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.einvoice_symbol.update": {
+   "definitionHash": "sha256:eedcdcbfb573147415ca7895201ad994ed549fe121e3e8ea5061fd29a47f0807",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.einvoice_template.create": {
+   "definitionHash": "sha256:3b6f00a5cba34caa93ea357e07a030568c37799f7aa7166576bf1863abb2a2b2",
+   "detail": "Object l10n_vn_edi_viettel.sinvoice.template doesn't exist",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.einvoice_template.update": {
+   "definitionHash": "sha256:bdc020f1454332cc3a2a75d572a49068907cb2553b585e47b87999da360a5b6e",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.fiscal_position.create": {
+   "definitionHash": "sha256:7ff92a0887ef7eebe00ae5261c60be5392d50d048dce9b34792d5929a476323a",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.fiscal_position.update": {
+   "definitionHash": "sha256:81b2a01fe009746e5b9f49e58f36e9b7db890a85dfc9f46c4c8ea8966dc212d8",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.fiscal_position_account.create": {
+   "definitionHash": "sha256:77228e52aa8b29598339f86018e64c98b91775abe3047b34f341d5f72158739e",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: An account fiscal position could be defined only one time on same accounts.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.fiscal_position_account.update": {
+   "definitionHash": "sha256:9157a561eb7637a3d35ef49b4f939bd20582995a04090320493fcd310625c600",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.incoterms.create": {
+   "definitionHash": "sha256:3d8f53320b913622233de3a54609aacb3b3f790c694f16d9cd19c63b7a3ff5d9",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:8577eaebf7e0019b1581c477edf6a9bfeaa9ba393247b6b0548dec542dad2060",
+   "writtenFields": [
+    "code",
+    "name"
+   ]
+  },
+  "finance.incoterms.update": {
+   "definitionHash": "sha256:e101cfa9b5d80354de4543db89816741c95ed711e6d35575a70308dee51f5261",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.journal_group.create": {
+   "definitionHash": "sha256:6ffa23e257c59973b3a7d43d0ab9e2ae0be3f6f5d7e2217464e8539835dd8591",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.journal_group.update": {
+   "definitionHash": "sha256:fdc84a27cca323f1c1154d72244a1ea476351d858c814bfab6037cbb3e4582b0",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.online_payment_method.create": {
+   "definitionHash": "sha256:2fe56e9f7ade5cdd779f7c0558d622dcb83bd5d5a0c7b0114fabb39633a7c2cd",
+   "missingFields": [
+    "image",
+    "provider_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.online_payment_method.update": {
+   "definitionHash": "sha256:c58fc18f149fca2b0a04b664e1a7dd48ec77fd00609543f95b2ce28e982f0ca1",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_method.create": {
+   "definitionHash": "sha256:836301d374b86198e2337e4d9e36d67f70eeaf061dc9b0a6e57c5c43a3d7f697",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Payment Method' (account.payment.method) records.\n\nNo group currently allows this operation.\n\nContact your administrator to request access if necessary.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_method.update": {
+   "definitionHash": "sha256:f77ce2e6ac31f40e76ed0f2e50b0c4263d85b669f57e35c4db7918408601e7ae",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_method_line.create": {
+   "definitionHash": "sha256:4ad9bdde4252421b25674dd7006e90a066ce04c6cb12da6356d2a5d7a54878c9",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9b9eee9a4c9dccf986e02cd98fb1a2ef8dcc9e4c3795ee394e8d97f3f3f14aad",
+   "writtenFields": [
+    "name",
+    "payment_method_id"
+   ]
+  },
+  "finance.payment_method_line.update": {
+   "definitionHash": "sha256:19188b8c9c862f2ab96d9645873b20ace81c03c45a5d537f9afd53599fca5be6",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment_provider.create": {
+   "definitionHash": "sha256:ca47c7e43cb54963bbd71ca2a773718f193ff0c929b1633dec6da9f58bb5f5ad",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment_provider.update": {
+   "definitionHash": "sha256:7b024279d0098de28cb1cc037b94d12ddc752f1fca304607818d45136637694a",
+   "kind": "update",
+   "modules": [
+    "payment"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment_term_line.create": {
+   "definitionHash": "sha256:5c9ca214bbceecd43e1d8ffe40ba15b73ce4aca314345bdf92f9439e5977d786",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:f0c8de7167ff8d9ffb4c486ead6bbdd4781c31dd0426a4d80ae56fb2b00c83e9",
+   "writtenFields": [
+    "payment_id"
+   ]
+  },
+  "finance.payment_term_line.update": {
+   "definitionHash": "sha256:2d297fc06f1e4dfe9f28b2073c04087604c0cc8d4995679274747b9966031cef",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The days added must be a number and has to be between 0 and 31.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_token.create": {
+   "definitionHash": "sha256:098af1f1ea0dc980f11a016ebf5cf51c5444cad8ed0a395fb43e6fde64463b97",
+   "missingFields": [
+    "payment_method_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.payment_token.update": {
+   "definitionHash": "sha256:4aa950a57822e8c4e43d442080c6a6587769a7f651ec02cc469a0c158d6d430f",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.payment_transaction.create": {
+   "definitionHash": "sha256:b6776942a675ab4c03d3371499c76fdc518e8216f891f5151a95c4b593c5d424",
+   "missingFields": [
+    "payment_method_id"
+   ],
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.payment_transaction.update": {
+   "definitionHash": "sha256:49248cf589c8d03178b4a65a53917d18a7018f5da481903cf6367e634c273818",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.reconcile_model.create": {
+   "definitionHash": "sha256:cebb31e88e8190640adc544cb4322a3ef2714b597c801ee47133b0015609b3ee",
+   "missingFields": [
+    "payment_tolerance"
+   ],
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "finance.reconcile_model.update": {
+   "definitionHash": "sha256:014c0929f5405d3bc372e3d264dfa97ba17ddf153f606ed2f078dc18b826ddb4",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.reconcile_model_line.create": {
+   "definitionHash": "sha256:1459b3c912cc158295801346e1329f23118156c85fb30f1a26d690c1ae05d7d1",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "finance.reconcile_model_line.update": {
+   "definitionHash": "sha256:e12583d766ff8d7dea8a2d4b1491edcab4d47b3c9b2e5adcb0baad3ccbd0052a",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "finance.tax_group.create": {
+   "definitionHash": "sha256:65e7cd3401458f8f6e4930f4b2819d6f46af074cde861f3fe6f1723450e90e8e",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.tax_group.update": {
+   "definitionHash": "sha256:5e361dd8df7137b2031b4870a1471ad69717a2062b5a58ebef0fe551b16bddda",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "identity.bank_account.create": {
+   "definitionHash": "sha256:71d1dc20f0f84c035869edbd32b80b389f46b97e5cb020c27e45b7304c9c9a21",
+   "missingFields": [
+    "clearing_label_id"
+   ],
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "identity.bank_account.update": {
+   "definitionHash": "sha256:951ffd2878f41bcf36f3fb4cd91d27f61bb011e02124cb3aa6ab9b698c4a374b",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "identity.contact.create": {
+   "definitionHash": "sha256:efb814538532b412f9b437e658038b9170d5a99d1a549e15d365baf437e5d89d",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "identity.contact.update": {
+   "definitionHash": "sha256:2c5439b404477d89cde2d974f9ca57286d4722921736c678c41c0a3662f064c5",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "identity.industry.create": {
+   "definitionHash": "sha256:a73399990b8fb3ffa4bd287c6318fdb53ba7b168f04d78d9ee5fcfecd8f3e7b5",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "identity.industry.update": {
+   "definitionHash": "sha256:6ee64fe6d319286fe2978adf09bebae87a0cb22b67b4dc776612673a0f8fbbc2",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "identity.phone_blacklist.create": {
+   "definitionHash": "sha256:78f355088af066dfc4f39d088c429db801df0e8f7d74a365077b9b006d1117de",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "phone_validation"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:32019a8a578df1970e9c53593968a5b827d5ff1911711e8a057f4d1de0eb830c",
+   "writtenFields": [
+    "number"
+   ]
+  },
+  "identity.phone_blacklist.update": {
+   "definitionHash": "sha256:70e05882d132f265a04f22c07b77b8ac8fb14dcc9cd7c277b531088389bec65c",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Impossible number Conformance update number 20261010100353: too many digits. Please correct the number and try again.",
+   "modules": [
+    "phone_validation"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "identity.tag.create": {
+   "definitionHash": "sha256:5584257dba2c2effc16d7e268b1e4574a28623f75052511bd4ccdb27170aca5b",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "identity.tag.update": {
+   "definitionHash": "sha256:ca22346cc8ec52e5b5821d3c530d99688eae3d3f00887af67d4d98737952dbd2",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.lot.create": {
+   "definitionHash": "sha256:cc8d3fc9a3c481cfaf8917ed7334a2571ce47711a7431dac665d86b07921ec15",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:7d5d3d3f04415d50542b4a4d70be7d5e47bd1d92307ff71677ea1c5437804d88",
+   "writtenFields": [
+    "name",
+    "product_id"
+   ]
+  },
+  "inventory.lot.update": {
+   "definitionHash": "sha256:ae02b216e045ba861f2a88a3e2885d1b5700ec15a51c73e15c6e53801066b933",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.package.create": {
+   "definitionHash": "sha256:db2a11622392cca187e611a53c3aedb87fa7cb9b635d2f379144e0d52c7b29d0",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.package.update": {
+   "definitionHash": "sha256:3649a5ab57686988b52c69c85ea3f6580f9f795055f79d5dc8a9a7f4fe9cea0b",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.package_history.create": {
+   "definitionHash": "sha256:c672366db82f85f7560cbd8f3fb4156c52ee26076043c3877f903f94e3d243cd",
+   "missingFields": [
+    "move_line_ids"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "inventory.package_history.update": {
+   "definitionHash": "sha256:a9dad50dd7726cfd9dd35aa6eb5224ebcb4425374cea25324af4fbb55d4bc0cb",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.package_type.create": {
+   "definitionHash": "sha256:7c2cd66518db19d9305e10220dbc6d17ff6a449b3ffae90afb1c37ea65ca58a4",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.package_type.update": {
+   "definitionHash": "sha256:09b3de05720fdc651ef3b2adfc128165cc2725bc6829ab3e0fae13bcf9c03a31",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.putaway_rule.create": {
+   "definitionHash": "sha256:fb35c77796bda35ff51c935b69fc2d8049fc691982030dc41583723d5eab63e3",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9d97462c64e4881586a1da567524549cd4f97ce835c38ee449ba8f459f566b79",
+   "writtenFields": [
+    "location_out_id"
+   ]
+  },
+  "inventory.putaway_rule.update": {
+   "definitionHash": "sha256:971bcc12824072c7c53501eaf00261b6bc23fa07769adfbcfbe63b72a4cedd7c",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "inventory.reorder_rule.create": {
+   "definitionHash": "sha256:ae8716001a02775414882ddfced99712abe5c5fec38ac0c7f344193c2bc2e202",
+   "missingFields": [
+    "daily_demand"
+   ],
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "inventory.reorder_rule.update": {
+   "definitionHash": "sha256:1db568ce615a5dfc44761ecb50a5481f9442c9e6f673b1b2c30d7f362156c64e",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.route.create": {
+   "definitionHash": "sha256:e06f1454f9fc701c0db68ae13f58c4b9083f49cdd2a4e3d97914d9989fb4bb76",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.route.update": {
+   "definitionHash": "sha256:01779d2284aaa2e8f8ad2d724bc4fe00ab7f1dbfe17aaa5e8803f2f754768a6a",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.rule.create": {
+   "definitionHash": "sha256:f01bdc2161f789f4e8bd6f1f49626aeb4db68ef9effc0918fc8c559fc4298b56",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:901bc826c93d4250e9e56c6b69ae6fdc95f37a78ed209d5efca9f7a556aa3ec8",
+   "writtenFields": [
+    "location_dest_id",
+    "name",
+    "picking_type_id",
+    "route_id"
+   ]
+  },
+  "inventory.rule.update": {
+   "definitionHash": "sha256:fc59352a04910d548682c2d0191378580fa17f61e7a94ceef990e1411d4d1143",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.scrap.create": {
+   "definitionHash": "sha256:0b4523a52f5f2a3320fe0a592a5af9ccee530f9df66c00fc930aaf381fc6bf4a",
+   "detail": "Object stock.scrap doesn't exist",
+   "modules": [
+    "stock"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "inventory.scrap.update": {
+   "definitionHash": "sha256:3890b9c8d3558a5c6f334b4a5532e0f1eeb6a5afb7c6cacfb848d5cb6116b852",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "inventory.scrap_reason.create": {
+   "definitionHash": "sha256:a50052e80a2ee98cc7de044d2ed0ca3b84553e4d8a621b2c76c4d1af000d6cea",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.scrap_reason.update": {
+   "definitionHash": "sha256:44335385a1170811d1e6a2e8c363406dfc9892fc48899513e81c75e1c8977f65",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.storage_category.create": {
+   "definitionHash": "sha256:3339d04f853ff3d1fcdb05594a08b42ba2b2b53102f7a33d51aa9338c4e05d8b",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.storage_category.update": {
+   "definitionHash": "sha256:ffecc9768cbb53f52eff6a7793b96b41cc03ad248895414cc964bbf52915573a",
+   "kind": "update",
+   "modules": [
+    "stock"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "inventory.storage_category_capacity.create": {
+   "definitionHash": "sha256:c60c6b090ba61ed3a7fd159deba8066491e912f5113284ba8d8566651da27484",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "stock"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:2b7fcedf0da996cda2d22e459156e5eff8957389931dcf702e2c678f98e905e1",
+   "writtenFields": [
+    "quantity",
+    "storage_category_id"
+   ]
+  },
+  "inventory.storage_category_capacity.update": {
+   "definitionHash": "sha256:67871d50a9b8214ec4097326fd5f487dd42efee03bf6c014e250b60fee9b2981",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.bom.create": {
+   "definitionHash": "sha256:0a69198df73259b32649a492bb12d3196f41b085209db1e90239bef95837713d",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:809742389df1cc06798ce356365a9b3b99f701a030852f804d05250a5c53ae24",
+   "writtenFields": [
+    "product_tmpl_id"
+   ]
+  },
+  "manufacturing.bom.update": {
+   "definitionHash": "sha256:1e2d36b843e169177d5f7ebc689fe22492e00f8f6a8e88135dc3a2d000197333",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "code"
+   ]
+  },
+  "manufacturing.bom_byproduct.create": {
+   "definitionHash": "sha256:d057378c9c5846af9d3b3f7fdd3b2a016a9652748446c07562652f51e853acce",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [
+    "product_uom_id"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:16d281ba310a135282f52234028c1adfa3bee0d409dae34d870a766c734d0ada",
+   "writtenFields": [
+    "product_id",
+    "product_uom_id"
+   ]
+  },
+  "manufacturing.bom_byproduct.update": {
+   "definitionHash": "sha256:ee827d00b75bcf429a4fa0d88bb70272afb66bcb2e3ff5411a1115846d123d87",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.bom_line.create": {
+   "definitionHash": "sha256:3d71e1f069d9dc13069daba1228d174f26ee062a3270e034f3b4a013c9c32d25",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:bbb324ffc3cf49ee669b2de499e08b13b6f610a1c04d86f8d75e8dc33e1f1a08",
+   "writtenFields": [
+    "bom_id",
+    "product_id"
+   ]
+  },
+  "manufacturing.bom_line.update": {
+   "definitionHash": "sha256:343b56ac35c40c61a961b4480cc35e66f969508f287dd9cc68205dda6eeb6e45",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.operation.create": {
+   "definitionHash": "sha256:a64a8af1f9f641fb49923bd6d806a621cab0403cd7a087250a16d88574a43832",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:def53d4fe52abb2022d728912fbcdf2ae11855790854fa597e03aed58a932a92",
+   "writtenFields": [
+    "bom_id",
+    "name",
+    "workcenter_id"
+   ]
+  },
+  "manufacturing.operation.update": {
+   "definitionHash": "sha256:5de7c0bb73cd8621a39522d2309be4f14328393376bf7b65a925c3c0dfdc2481",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.order.create": {
+   "definitionHash": "sha256:670c69d260a841ada47fa4c458de96c62145986544bed08e278ae0b64a304f49",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [
+    "product_uom_id"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:5cd4009776cb80674f1fa8fe0f9a493fb9dddeb04e13f8af61951e1ebd2edd64",
+   "writtenFields": [
+    "location_dest_id",
+    "location_src_id",
+    "picking_type_id",
+    "product_id",
+    "product_qty",
+    "product_uom_id"
+   ]
+  },
+  "manufacturing.order.update": {
+   "definitionHash": "sha256:932ad807e31fbe5e42acb29728eaf308d6c21e79662ec6a8d17b26dc995ea2bf",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "origin"
+   ]
+  },
+  "manufacturing.production_group.create": {
+   "definitionHash": "sha256:c91a304cd3fccd66e2dce3dc30c022e68b8574544f62d9e80267158b8eba8741",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.production_group.update": {
+   "definitionHash": "sha256:3d58175fc930ed0dfabaf5ee39b938cd95c674cadf3d5d934122ad20dab80b65",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.unbuild.create": {
+   "definitionHash": "sha256:97efe7f330980829fd6062f2d3611d2ae882906873632c4ae8a4d8f1a7dce299",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [
+    "product_uom_id"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:7c7880472cadbf1544d5a295820f03e4a38d78a55ad8542673cf2e4ed8e93bfa",
+   "writtenFields": [
+    "location_dest_id",
+    "location_id",
+    "product_id",
+    "product_uom_id"
+   ]
+  },
+  "manufacturing.unbuild.update": {
+   "definitionHash": "sha256:92ae5d4ff0437f58b1b08835df7048c883358b8b4c36d2222987f0df9d4b6bda",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.workcenter.create": {
+   "definitionHash": "sha256:5aec31d71a5731b8a74279901db5d17c04430fbd412ca64f94273b678302c18a",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:4306342fa64ce2c305fa9489bbaa16795765bd6faa7ff7527b5c48158a9b62ad",
+   "writtenFields": [
+    "name",
+    "resource_id"
+   ]
+  },
+  "manufacturing.workcenter.update": {
+   "definitionHash": "sha256:61c7b9af7ba4790fbbafd2115ab90bf14b45da241db3d3023b6368bfb2f195b6",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.workcenter_capacity.create": {
+   "definitionHash": "sha256:4ab914093a5ae65a452573e8681628a2260c40135b3ce80c4ac1212decb9f2cd",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [
+    "product_uom_id"
+   ],
+   "status": "AGREE",
+   "valuesHash": "sha256:5802d743a01ca780a86f14f27b656ac6c21d2d66fe5e2bec2eea9073cd0ebad3",
+   "writtenFields": [
+    "product_uom_id",
+    "workcenter_id"
+   ]
+  },
+  "manufacturing.workcenter_capacity.update": {
+   "definitionHash": "sha256:1f2939743a00bd86e8a8e07778e1ca4b8b4dfafa3ac52a9c651ccadc24484c11",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "manufacturing.workcenter_productivity.create": {
+   "definitionHash": "sha256:4ef52e703a0da01a59d2acfecf4f863ec5895dd75c5585e766b5570a6b792296",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:e829a70d01effef5af7f7773cb47e6c11403f921d0ec31a66cd80931ce43e3d7",
+   "writtenFields": [
+    "loss_id",
+    "workcenter_id"
+   ]
+  },
+  "manufacturing.workcenter_productivity.update": {
+   "definitionHash": "sha256:77ae430e9e1a98ef0cd65cb939e93585c0bc786f938d99accb19362d43b66d7c",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "description"
+   ]
+  },
+  "manufacturing.workcenter_productivity_loss.create": {
+   "definitionHash": "sha256:81559befe84c946e69b0ff05a605ced0462785df5a721e7f5579413b99d78ad6",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.workcenter_productivity_loss.update": {
+   "definitionHash": "sha256:e1eb30d0191f531ace933fad479c39c7b9a25d3edc539c2cb1887583c361b852",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.workcenter_productivity_loss_type.create": {
+   "definitionHash": "sha256:ff15c0281565b53ba9116cbf4d765c9997f5211f40388d562ceb033c0acacfb0",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "manufacturing.workcenter_productivity_loss_type.update": {
+   "definitionHash": "sha256:52fb62c46b157f12268a37ae4958b3acc736d963ad14c615cb44b2583d0cfac8",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "manufacturing.workcenter_tag.create": {
+   "definitionHash": "sha256:ff81fb8e737d6358fdcd7357dfdf68e3d4fb338ea33a67f616c424f04e2e9749",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.workcenter_tag.update": {
+   "definitionHash": "sha256:5e2b4ad5e0a57b373959434045f612ddbd8b9ad34be9675fa5dd1479a48d4675",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "manufacturing.workorder.create": {
+   "definitionHash": "sha256:62f5db72afb3c1b1b44282dc80e20db5f11b28fcda1b719f805604b3587067b3",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "mrp"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:c019f0985f5481403e445cd99f0f43450b2441091a924a489048f042ae9f5075",
+   "writtenFields": [
+    "name",
+    "production_id",
+    "workcenter_id"
+   ]
+  },
+  "manufacturing.workorder.update": {
+   "definitionHash": "sha256:fbc70360443292ed4d80c05cee126809bc12dd9e76a617d584e47613dff0eb8d",
+   "kind": "update",
+   "modules": [
+    "mrp"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.contract_type.create": {
+   "definitionHash": "sha256:9bc65e333a74d5c8313790a870ef852adcfc964e26531a9d1a1e0c55973c4b11",
+   "detail": "Object hr.contract.type doesn't exist",
+   "modules": [
+    "hr"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "people.contract_type.update": {
+   "definitionHash": "sha256:e09d1c6480f0f110cd6c2824483866f1db86fee2a07ea91291b1f27cba36e21f",
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.department.create": {
+   "definitionHash": "sha256:c77d6a43e40feb7ff59b2d3d46d7588aba6c9c2c04aa62fe10c4366d5fe5b42f",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.departure_reason.create": {
+   "definitionHash": "sha256:61d938dad36c7b3862d48e2c029a4828714cb2782d17c3f4cacff50e040679f3",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.departure_reason.update": {
+   "definitionHash": "sha256:26a66e96a8309a420618695d910d20b1bd1ae1f706fce42110021ddad553e273",
+   "kind": "update",
+   "modules": [
+    "hr"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.employee.create": {
+   "definitionHash": "sha256:6924c5cf389f527f47c18a389cae297a17f7627a9b5ccce733ba66b589d10bc5",
+   "missingFields": [
+    "resource_id",
+    "version_ids"
+   ],
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "people.employee.update": {
+   "definitionHash": "sha256:a7d9860000ce07321c7495b9fecb7ba70b8b38a863841b507b5170e62552c18a",
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_location.create": {
+   "definitionHash": "sha256:c4e303dbf4faf733c8554ce855bf6484f00f63409ff12d0f4042851f79daa9ca",
+   "missingFields": [
+    "employee_id"
+   ],
+   "modules": [
+    "hr_homeworking"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "people.employee_location.update": {
+   "definitionHash": "sha256:0ac28b5089944ad99598b3124b1cb0e49de3fa6e018ebf0a5b0d8001101d5284",
+   "modules": [
+    "hr_homeworking"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_skill.create": {
+   "definitionHash": "sha256:fef74703f2db57a9dbae6d8c4e684da57cdd988080d4f86a345469efb433422d",
+   "missingFields": [
+    "employee_id"
+   ],
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "people.employee_skill.update": {
+   "definitionHash": "sha256:fe083aa7bc6a99dac397e2dea15fe270b28035a5253058c07e4fdd2a91937f9b",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.employee_tag.create": {
+   "definitionHash": "sha256:467a391cda3883b436d75fb6dc318b0334672c3d22088145c17e91012a36367e",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.employee_tag.update": {
+   "definitionHash": "sha256:231c613b67c06ee1b7946b74aecccde4d3e98aaa78848a70bb90a514235c932d",
+   "kind": "update",
+   "modules": [
+    "hr"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.employee_version.create": {
+   "definitionHash": "sha256:6dafcc7f9f1acb4dd2d5d07cb04ae9adeb7cb4c127fdd9db2e8dac1e20c1bdd9",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.employee_version.update": {
+   "definitionHash": "sha256:399754639583ccd48da180406abf76a4326ddccaea69eb29571fe13676475281",
+   "kind": "update",
+   "modules": [
+    "hr"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.expense.create": {
+   "definitionHash": "sha256:56f43efc78f06f0e2b8698ce3b49547dafaedaa1af4004b740f9cacc0eff3369",
+   "kind": "create",
+   "mismatchedFields": [
+    "price_unit"
+   ],
+   "modules": [
+    "hr_expense"
+   ],
+   "renamedFields": [],
+   "status": "DISAGREE",
+   "valuesHash": "sha256:03ac11379c93568272189c87cf2754b2d82e398490db1b92d875e1be088a21c0",
+   "writtenFields": [
+    "name",
+    "price_unit"
+   ]
+  },
+  "people.expense.update": {
+   "definitionHash": "sha256:9bbb7609fbe05a45449e1f686fc38f63978e4e5aeeb2e20ddb1198e49028a5a7",
+   "kind": "update",
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.job.create": {
+   "definitionHash": "sha256:baa2efedc181c6fd4a35efe68f6b61d5f9e64e76f648c89090799773b1de83f1",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.job.update": {
+   "definitionHash": "sha256:cb3396fd0c537795e2482aabcfdeb7410f811fcb0ca7c2703871c1f8e662119a",
+   "kind": "update",
+   "modules": [
+    "hr"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.job_skill.create": {
+   "definitionHash": "sha256:633320d7269e7f03b2969a8bc78301ce3c9b66fe277f00890547cfe9ade145c4",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'job_id': 1, 'skill_id': 1, 'id': 3, 'valid_from': datetime.date(2026, 10, 10), 'valid_to': False, 'skill_lev",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "people.job_skill.update": {
+   "definitionHash": "sha256:14f251fcb6544298f7e7d99611632db9feff5d90d9de453d8f20583f81378d2c",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.payroll_structure_type.create": {
+   "definitionHash": "sha256:8063f2f9489dc756d8f841cb1f41ea1a53b32d6a3f09a86691934f74a99c5a4b",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.payroll_structure_type.update": {
+   "definitionHash": "sha256:c762add3a2e3fa551570e5986e83fbe0dc51beab1fa702267a68787b40807302",
+   "kind": "update",
+   "modules": [
+    "hr"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.resume_line.create": {
+   "definitionHash": "sha256:5b991498bcd28da6c7ace1b709e8c349f77dce26364af3158e0330c8e57bb868",
+   "missingFields": [
+    "employee_id"
+   ],
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "people.resume_line.update": {
+   "definitionHash": "sha256:a930a08f8e666786eff33a05eb2aaf66643d9fff3b524d802a860004da67b1a1",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "people.resume_line_type.create": {
+   "definitionHash": "sha256:132b67543fe3535386607d5b9ca1ddf6b7742becdb3761a1e087bad77d86797f",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.resume_line_type.update": {
+   "definitionHash": "sha256:8adde05e7d061089b4385fd9647dd2783dd5fffc2d148b46b56a39e5b37576cb",
+   "kind": "update",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.skill.create": {
+   "definitionHash": "sha256:0298e53e22903440e4a58203eb0e81c2b102d8e6a522b79915619c6c762eac9b",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:75590bad43b6e86f5f0f83eb98409dbb76e9c48375f3fd8e9e5b573feb690358",
+   "writtenFields": [
+    "name",
+    "skill_type_id"
+   ]
+  },
+  "people.skill.update": {
+   "definitionHash": "sha256:edf48aa074858f4d046ed90c6d4887825eedbfe3bdcf6f1a340c96e4ddc914c6",
+   "kind": "update",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.skill_level.create": {
+   "definitionHash": "sha256:11b1d57af93eb940532e4ddf1cb0ace98a7e47f09b0f86cbf75a1c49dd5c152c",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.skill_level.update": {
+   "definitionHash": "sha256:293712ec595a1b9ca4ae4bceec55bd19708d24b7f661fde3b44c544fd8565e2e",
+   "kind": "update",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.skill_type.create": {
+   "definitionHash": "sha256:676b006345b819aac5404fc02eaea7f29f771199a7703b0c73e3d7e03028cee6",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.skill_type.update": {
+   "definitionHash": "sha256:d0625a44aeac17c832586669dfc32b0e0a809cd47edf10cc5e68bb5b59353c52",
+   "kind": "update",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.work_location.create": {
+   "definitionHash": "sha256:00b84a0cc24b78ad8b5e7c1e439e1180a63bcff503f4432e6d5ae77e251d6cff",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "people.work_location.update": {
+   "definitionHash": "sha256:2dd69a3cd2b56708ad675907bfac5902143ebd495a816972f850a8328ec8060b",
+   "kind": "update",
+   "modules": [
+    "hr"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.category.create": {
+   "definitionHash": "sha256:c25826eb4ec1c80b1b3d7170003615e39653905356a15a94c5f9398f84991f3c",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "point_of_sale"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.category.update": {
+   "definitionHash": "sha256:523d1fcc39a374f97f67f72438cc102804abc1c839d31b33b86437a7ff57f50b",
+   "kind": "update",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.config.create": {
+   "definitionHash": "sha256:bc7038e2ba16fd064128251ea4d40f98ccf944d454e049b217f7dbbe6b574783",
+   "missingFields": [
+    "closing_journal_id"
+   ],
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "pos.config.update": {
+   "definitionHash": "sha256:cd21fdc279876d4c1e63a5b0564e063588a33703157102aed06a524e948872bb",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.order.create": {
+   "definitionHash": "sha256:7c8e0e172f24a6d0e013decc9f6f1bcaeae837a93c0d252c3020596a171bb108",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "session_id",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.order.update": {
+   "definitionHash": "sha256:01511c19959a22cdc55b32d4583a7ca133e29235bac355878f64935928befe94",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.order_line.create": {
+   "definitionHash": "sha256:4180f3ab04a6ae936a512136853d0f8ccba15bffdb464f183c86320c2ea7db48",
+   "missingFields": [
+    "order_id"
+   ],
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "pos.order_line.update": {
+   "definitionHash": "sha256:275dea5ab9e1fbd294f05ea3486331747b4ddd893277a78b96fbcf2b700ea11d",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment.create": {
+   "definitionHash": "sha256:63f3f337892b2c2220314632d60bc04218307512dcfdcc698efab2215a526ad8",
+   "missingFields": [
+    "pos_order_id"
+   ],
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "pos.payment.update": {
+   "definitionHash": "sha256:a44232adc2ba2651c2778782ba2074eaa7bd808f2053874ceb134a665fe9a28c",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.payment_method.create": {
+   "definitionHash": "sha256:6a718150a3b3c89c1565c7456363a26da1475dabe2a3ded13effc1d444692ab4",
+   "missingFields": [
+    "type"
+   ],
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "pos.payment_method.update": {
+   "definitionHash": "sha256:697310ec8341e234920d72149797152e3ced9591088469b31124d28d29568e83",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "pos.preset.create": {
+   "definitionHash": "sha256:caf5eac139142a25b8a425cbd1c9411040f82ad543ff9e037e5e1c0e73aec04d",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "point_of_sale"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.preset.update": {
+   "definitionHash": "sha256:93e200f2ab1ec6e5b3a5b5ae70e7fa5190484adb0a5d193247d58ba4e8dea859",
+   "kind": "update",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "pos.session.create": {
+   "definitionHash": "sha256:9892bd66ab07b14796d2e44d76a1fbff59574794fba9a44e28f31ff875cca31d",
+   "missingFields": [
+    "config_id"
+   ],
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "pos.session.update": {
+   "definitionHash": "sha256:134ac6d2da707342b07e43f749b52c064eab81262e93373dc2baafdd3143230b",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "procurement.rfq.create": {
+   "definitionHash": "sha256:6e70e7db5104c699e40ae00337991fe3caeadbe60aa9342f8fe9f0da23204d7d",
+   "missingFields": [
+    "currency_id",
+    "document_tax_mode",
+    "partner_id"
+   ],
+   "modules": [
+    "purchase"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "procurement.rfq.update": {
+   "definitionHash": "sha256:5715389f4fedc5f88c72adf57650d0844f15cd751a8100adb594180b474125b5",
+   "modules": [
+    "purchase"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "sales.quotation.create": {
+   "definitionHash": "sha256:d13de0a5951024f672e33948c3d9994276a9d6c24ac85e30eb6d1f54b8cdd63e",
+   "missingFields": [
+    "document_tax_mode",
+    "partner_id",
+    "partner_invoice_id",
+    "partner_shipping_id"
+   ],
+   "modules": [
+    "sale"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "sales.quotation.update": {
+   "definitionHash": "sha256:6ecaab1e85675a914bcbdf82adb5de4cc84b693d3f41c25a9de5e5248e878bdb",
+   "modules": [
+    "sale"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "sales.quotation_template.create": {
+   "definitionHash": "sha256:5ea35f0db1b446f9ed2358ddf2929a3b4ee3d59d6aa162b13fc76269247942f0",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "sale_management"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "sales.quotation_template.update": {
+   "definitionHash": "sha256:8f7860658b9f4ac3415151db84d8ddd39c7e5a5cdcc7606ddccf2c4a44a462be",
+   "kind": "update",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "sales.quotation_template_line.create": {
+   "definitionHash": "sha256:66b0029b57a55ec88c111ba3516903d2cb1fe06e483b3cb3a846c109c60f6862",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "sale_management"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:1c7267f9267444bb13aa0f0e41f429b5eb1b3b2bf7c857327d96fa019af7e910",
+   "writtenFields": [
+    "name",
+    "sale_order_template_id"
+   ]
+  },
+  "sales.quotation_template_line.update": {
+   "definitionHash": "sha256:5db7ca6e9af765ee87619180bd4b28ce3e9a88ec9d4bb53b1a7357a697efbe2f",
+   "kind": "update",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.alarm.create": {
+   "definitionHash": "sha256:127f0a9621370f9d3b24afb663cc305800518e414ecc03ab770b7708cd2bc86b",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "calendar"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.alarm.update": {
+   "definitionHash": "sha256:a9f49338bc6c7e9eb3424d48425a144c32d141eba6470e71fe502da384119461",
+   "kind": "update",
+   "modules": [
+    "calendar"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.attendee.create": {
+   "definitionHash": "sha256:b58c3f2425b38252bd8f1b26d5bb77c20b05996c20a551841e7740b04f63043c",
+   "missingFields": [
+    "event_id"
+   ],
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "schedule.attendee.update": {
+   "definitionHash": "sha256:3baaa3f201a42da7a478344caf8148021ddba5e534a36dbcb08c677d588b82ae",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.event.create": {
+   "definitionHash": "sha256:f883b64780b26a46ab3e5b6a581abac41ed9293f7dde55e0ff88217bfd1cd2c1",
+   "detail": "AERP_VALIDATION_FAILED",
+   "message": "schedule.event.create requires starts_at, ends_at on create",
+   "modules": [
+    "calendar"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "schedule.event.update": {
+   "definitionHash": "sha256:566a65c657124b4b561520f8b9eff07420b6b23ce9119a46c6290206d4684c18",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "schedule.event_type.create": {
+   "definitionHash": "sha256:173f91b52dbeec8963fd801b026b23b27f4fce0e979d2722cfb746f517acf8ae",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "calendar"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.event_type.update": {
+   "definitionHash": "sha256:99abe386b30eef89c4ba86f402367e3e5db33c2c098d25ab1e87aa97f861c3d6",
+   "kind": "update",
+   "modules": [
+    "calendar"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.recurrence.create": {
+   "definitionHash": "sha256:01fe9421a9bb76f258b66bdd3df0cd4318c8319d8a733ae089f66497259296b7",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "schedule.recurrence.update": {
+   "definitionHash": "sha256:4f63a0bf72544aab92f132e68552bf96922504b698156523cc0788df2be316aa",
+   "modules": [
+    "calendar"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "structure.country.create": {
+   "definitionHash": "sha256:83a444002531da174d3a6618b879c4454b9f09a968d01a7f41b9da4901f780cc",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:1bfec31890936113a07a189f048b4652640401980ffbc4a6ddab2548edbd0009",
+   "writtenFields": [
+    "code",
+    "name"
+   ]
+  },
+  "structure.country.update": {
+   "definitionHash": "sha256:f72cb9b9a2d49d7d80fbfcfe929fe65910d2d0117f615df2aed1b5aa20d82a07",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "structure.country_group.create": {
+   "definitionHash": "sha256:b2b1f91205eb1c2ce0ed01b6664f408a3ff57fdea86b9ad8ed1729a633fc0ec7",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "structure.country_group.update": {
+   "definitionHash": "sha256:1e9fa9e23c3973ab914771e130e90cebe85e79d157a0849277553e9ee70b92fc",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "structure.country_state.create": {
+   "definitionHash": "sha256:e9495bbf1794774ff14edc4253b9500c3df262152b214b24e7892ec79446ce89",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:79345797752a294d6e2f680f61db15e8a816b097f6c09b3fbf6b88a232854394",
+   "writtenFields": [
+    "code",
+    "country_id",
+    "name"
+   ]
+  },
+  "structure.country_state.update": {
+   "definitionHash": "sha256:5270c200473b1dc2b0c11dfb36c21189095044ba0ec50b9ec664dd54da2fb484",
+   "kind": "update",
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.collaborator.create": {
+   "definitionHash": "sha256:093705da1c3775eae4b8a2a704a39c660d38ad548331683966d5d573515387d7",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: A collaborator cannot be selected more than once in the project sharing access. Please remove duplicate(s) and try again.",
+   "modules": [
+    "project"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "work.collaborator.update": {
+   "definitionHash": "sha256:ee35e880712b32217de7dc875f5e1052c6b88ddc77851c7e93a1c8274b3f85fc",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.milestone.create": {
+   "definitionHash": "sha256:990402893080e3973dda454ed24dfcd27ca89b439cab671e6a365130c444fec4",
+   "missingFields": [
+    "project_id"
+   ],
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "work.project.create": {
+   "definitionHash": "sha256:bf15af3e983d91b4997381e9549b63593dab6a1af75e7e0654b9ecb470cab600",
+   "missingFields": [
+    "alias_id"
+   ],
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "work.project.update": {
+   "definitionHash": "sha256:8b216e178721ce2b65a8b853efc65d10bd1622fc47fabfcb5cd7cff43da8ffd4",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.project_stage.create": {
+   "definitionHash": "sha256:b03889e885edc9a65c0b2004114020d9b9253a6cc3d2e009ac81f3b64be374b5",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.project_stage.update": {
+   "definitionHash": "sha256:d82f6f8fb3f01d1af9b7932c23d9e5eb6b6e17c3234501a54f7a63938375ec8e",
+   "kind": "update",
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.project_update.create": {
+   "definitionHash": "sha256:726a4768a421eef8b40520ae1bfedda0b9a3fdd0bbe0d638f843a02d89f699b6",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:695718683fc8eeb63ee34d2eb6dab8bb6470d9d494bc2df929319594e95a09d9",
+   "writtenFields": [
+    "name",
+    "project_id",
+    "status"
+   ]
+  },
+  "work.project_update.update": {
+   "definitionHash": "sha256:34df1e3c614b0f77f6adc6e95f8732da73e3659d41f44aad00f0732520787e66",
+   "kind": "update",
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.role.create": {
+   "definitionHash": "sha256:e4c13d608b941b96d5fab63388a283e8b66fc84d1ae53d2d40765449c28165bd",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.role.update": {
+   "definitionHash": "sha256:ec239907d5f08f58318cbee66c4a0b71b774c324b940a4433fb72dece73dae0a",
+   "kind": "update",
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.tag.create": {
+   "definitionHash": "sha256:be0f2b015d04bf9d282d89bd726aae4581999fe2cf3f427103a5b4d76b4433e2",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.tag.update": {
+   "definitionHash": "sha256:22d46a3bad10301e0d3f19506b91ec08431340146ffb4459f0e11486de4744fd",
+   "kind": "update",
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.task.create": {
+   "definitionHash": "sha256:fd6e3c7b2d3f779848e7bc6576e7eeb2017ee77f02966929720181b447692ba9",
+   "detail": "AERP_VALIDATION_FAILED",
+   "message": "work.task.create requires project on create",
+   "modules": [
+    "project"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "work.task.update": {
+   "definitionHash": "sha256:ad1dc223132f55ecb9157dc42842b070d35a6f9aac7dfd3a2dcadde3f53ce95f",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.task_recurrence.create": {
+   "definitionHash": "sha256:d31227303eda78420d96fb8ef26b6d9a0afb19627cf80ff7504221ad703a9e49",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NOTHING_TO_WRITE"
+  },
+  "work.task_recurrence.update": {
+   "definitionHash": "sha256:98605e70bfb83fad42a62f1e052c3ed12be5ef92cb227d5719e4ece815abd0d6",
+   "modules": [
+    "project"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "work.task_stage.create": {
+   "definitionHash": "sha256:b21209ded9c2c8a84aaaf14fc12c372d8f6bb5ccc361b2354fcb8a65df091cf9",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "project"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "work.task_stage.update": {
+   "definitionHash": "sha256:077f111d12f60e0ca772d187d7e80b5d785f8e5fb93f12e5d28c708c50b6240f",
+   "kind": "update",
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "workforce.accrual_level.create": {
+   "definitionHash": "sha256:9f373c91f2c009cecae70857296890e1f7d6bec8a7a20b8b25967049d34877bb",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_holidays"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:267c95c47de34d54ef3449feacc54d50977255388a26099678f0e614a2e9e016",
+   "writtenFields": [
+    "accrual_plan_id",
+    "added_value_type"
+   ]
+  },
+  "workforce.accrual_level.update": {
+   "definitionHash": "sha256:a4851028254cac1ab328c3c3be65645d8eb4607b1a1550dedb71c0f414d07fbb",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_SIMPLE_FIELD"
+  },
+  "workforce.accrual_plan.create": {
+   "definitionHash": "sha256:8436af1b1015ec5bdfc3cdf5391f9a1a53eb9f5e762b44799697fcd5805a02e6",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_holidays"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "workforce.accrual_plan.update": {
+   "definitionHash": "sha256:e194330b88298a827c87fc02bba9e99166b50950f4979b99ed93e306e1398d91",
+   "kind": "update",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "workforce.attendance_log.create": {
+   "definitionHash": "sha256:85f200808af3f227e07479464ad76ff11a441beed43233a4004f78fe4667cfe7",
+   "missingFields": [
+    "employee_id"
+   ],
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "workforce.attendance_log.update": {
+   "definitionHash": "sha256:236c468352e195ff0094a77e660a5907f6db6c24fa18eeb3b1354811ba567ebf",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.calendar_leave.create": {
+   "definitionHash": "sha256:03858ec8cc2f27c7dfbe1d9a3878c3a7dbf4fe3c950c2d0895ae5392d495e13e",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Two public holidays cannot overlap each other for the same working hours.",
+   "modules": [
+    "resource"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "workforce.calendar_leave.update": {
+   "definitionHash": "sha256:0653837eb0b0bc9c252e1217e4b14cf4c8836b29c0a143aa895f916424783e39",
+   "modules": [
+    "resource"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.leave_allocation.create": {
+   "definitionHash": "sha256:fd61d8ac9441aad2ee371cb337236d5577b323ad9ec443b99da0cca060b592f2",
+   "missingFields": [
+    "employee_id"
+   ],
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "workforce.leave_allocation.update": {
+   "definitionHash": "sha256:21c24c3f02e1f3e0260832d8654fbc9a3014ebff76b1140da63fae3ee56c5f1e",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.leave_type.create": {
+   "definitionHash": "sha256:c508b8def0a4c5335fe99e652fd46dded29c984f4eecd53d668eecd5560e9961",
+   "detail": "Object hr.leave.type doesn't exist",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.leave_type.update": {
+   "definitionHash": "sha256:544193058706094b02b1ebcf408df5ec5cbee5126aab386d132b543900afc779",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.mandatory_day.create": {
+   "definitionHash": "sha256:d48fedac266cb9919a6d8fd8bca74e531cfbe76c4e3e31b7ad9a28068ff96d04",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_holidays"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:deec756a6df40c341a8140d44524658d1ec843d812fa04168ee57ca4478a4a62",
+   "writtenFields": [
+    "end_date",
+    "name",
+    "start_date"
+   ]
+  },
+  "workforce.mandatory_day.update": {
+   "definitionHash": "sha256:9c8c8864ec4796e7b8ed3569e09b03854af42ab74e6b0bb757f5ce51c3f7f58b",
+   "kind": "update",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "workforce.overtime_line.create": {
+   "definitionHash": "sha256:6d5cba226ca42315c2c6d86fa241cc5ec7f44dc03895da2ee85404e9e76c9ea8",
+   "detail": "Object hr.attendance.overtime.line doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_line.update": {
+   "definitionHash": "sha256:3b69e6a0ca651a817665488cc067ff2a69cf14e005789b29680b176be93e4571",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.overtime_rule.create": {
+   "definitionHash": "sha256:a877e6d00b8f5dd644a51a50c60e04cd0a6760f714d11c253ceb2ccdb74882f2",
+   "detail": "Object hr.attendance.overtime.rule doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_rule.update": {
+   "definitionHash": "sha256:30e68f67f066ae185ceb172057b2179ffbf0c0eb52ef11cd3c9d08669eb0fa89",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.overtime_ruleset.create": {
+   "definitionHash": "sha256:1b22ec162c9c65a28acffa0d2f51bbe40f7f4270bc3838b6c1b512458e09cc16",
+   "detail": "Object hr.attendance.overtime.ruleset doesn't exist",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.overtime_ruleset.update": {
+   "definitionHash": "sha256:9f56e98f1b78b58cba86a3b38e699b8be2521e372cbdba714946c272ff9f4d31",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "workforce.resource.create": {
+   "definitionHash": "sha256:c26c4007f9a71f1c289aeb42a20139cc5fb36d0680088958a7f55fdae6f97e20",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "resource"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:9a2867fe018ccfda936ec73243e4583bdea1ff5872c0f8168b0462c094cbde94",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "workforce.resource.update": {
+   "definitionHash": "sha256:3a2767dd2ff34b8350c13989ed2dd2decef843d8565ae62c18d60d1841434547",
+   "kind": "update",
+   "modules": [
+    "resource"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  }
+ },
+ "renames": "docs/architecture/provider-research/odoo-surface/dialect-renames-20.0.json",
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

@@ -1,0 +1,3973 @@
+{
+ "buttons": {
+  "account.move|action_invoice_sent": {
+   "dialogs": {
+    "account.move.send.wizard": {
+     "module": "account",
+     "transient": true,
+     "via": "action_invoice_sent->action_send_and_print"
+    }
+   }
+  },
+  "account.move|action_post": {
+   "dialogs": {
+    "account.autopost.bills.wizard": {
+     "module": "account",
+     "transient": true,
+     "via": "action_post->_show_autopost_bills_wizard"
+    },
+    "validate.account.move": {
+     "module": "account",
+     "transient": true,
+     "via": "action_post"
+    }
+   }
+  },
+  "account.move|action_reverse": {
+   "dialogs": {
+    "account.move.reversal": {
+     "action": "account.action_view_account_move_reversal",
+     "module": "account",
+     "transient": true,
+     "via": "action_reverse"
+    }
+   }
+  },
+  "account.move|button_request_cancel": {
+   "dialogs": {
+    "l10n_vn_edi_viettel.cancellation": {
+     "module": "l10n_vn_edi_viettel",
+     "transient": true,
+     "via": "button_request_cancel"
+    }
+   }
+  },
+  "account.payment|action_refund_wizard": {
+   "dialogs": {
+    "payment.refund.wizard": {
+     "module": "account_payment",
+     "transient": true,
+     "via": "action_refund_wizard"
+    }
+   }
+  },
+  "calendar.event|action_open_composer": {
+   "dialogs": {
+    "mail.compose.message": {
+     "module": "calendar",
+     "transient": true,
+     "via": "action_open_composer"
+    }
+   }
+  },
+  "calendar.event|action_send_sms": {
+   "dialogs": {
+    "sms.composer": {
+     "module": "calendar_sms",
+     "transient": true,
+     "via": "action_send_sms"
+    }
+   }
+  },
+  "crm.iap.lead.mining.request|action_submit": {
+   "dialogs": {
+    "crm.iap.lead.mining.request": {
+     "module": "crm_iap_mine",
+     "transient": false,
+     "via": "action_submit"
+    }
+   }
+  },
+  "crm.lead|action_sale_quotations_new": {
+   "dialogs": {
+    "crm.quotation.partner": {
+     "action": "sale_crm.crm_quotation_partner_action",
+     "module": "sale_crm",
+     "transient": true,
+     "via": "action_sale_quotations_new"
+    }
+   }
+  },
+  "hr.employee|action_create_user": {
+   "dialogs": {
+    "res.users": {
+     "module": "hr",
+     "transient": false,
+     "via": "action_create_user"
+    }
+   }
+  },
+  "hr.employee|action_open_allocation_wizard": {
+   "dialogs": {
+    "hr.bank.account.allocation.wizard": {
+     "module": "hr",
+     "transient": true,
+     "via": "action_open_allocation_wizard"
+    }
+   }
+  },
+  "hr.expense|action_approve": {
+   "dialogs": {
+    "hr.expense.approve.duplicate": {
+     "action": "hr_expense.hr_expense_approve_duplicate_action",
+     "module": "hr_expense",
+     "transient": true,
+     "via": "action_approve"
+    }
+   }
+  },
+  "hr.expense|action_post": {
+   "dialogs": {
+    "hr.expense.post.wizard": {
+     "module": "hr_expense",
+     "transient": true,
+     "via": "action_post->_post_wizard"
+    }
+   }
+  },
+  "hr.expense|action_refuse": {
+   "dialogs": {
+    "hr.expense.refuse.wizard": {
+     "action": "hr_expense.hr_expense_refuse_wizard_action",
+     "module": "hr_expense",
+     "transient": true,
+     "via": "action_refuse"
+    }
+   }
+  },
+  "hr.expense|action_split_wizard": {
+   "dialogs": {
+    "hr.expense.split.wizard": {
+     "module": "hr_expense",
+     "transient": true,
+     "via": "action_split_wizard"
+    }
+   }
+  },
+  "hr.leave.accrual.plan|action_create_accrual_plan_level": {
+   "dialogs": {
+    "hr.leave.accrual.level": {
+     "module": "hr_holidays",
+     "transient": false,
+     "via": "action_create_accrual_plan_level"
+    }
+   }
+  },
+  "hr.leave|action_cancel": {
+   "dialogs": {
+    "hr.holidays.cancel.leave": {
+     "module": "hr_holidays",
+     "transient": true,
+     "via": "action_cancel"
+    }
+   }
+  },
+  "mrp.production|action_generate_serial": {
+   "dialogs": {
+    "mrp.production.serials": {
+     "action": "mrp.action_assign_serial_numbers",
+     "module": "mrp",
+     "transient": true,
+     "via": "action_generate_serial"
+    }
+   }
+  },
+  "mrp.production|button_mark_done": {
+   "dialogs": {
+    "mrp.consumption.warning": {
+     "action": "mrp.action_mrp_consumption_warning",
+     "module": "mrp",
+     "transient": true,
+     "via": "button_mark_done->pre_button_mark_done->_action_generate_consumption_wizard"
+    },
+    "mrp.production.backorder": {
+     "action": "mrp.action_mrp_production_backorder",
+     "module": "mrp",
+     "transient": true,
+     "via": "button_mark_done->pre_button_mark_done->_action_generate_backorder_wizard"
+    },
+    "mrp.production.serials": {
+     "action": "mrp.action_assign_serial_numbers",
+     "module": "mrp",
+     "transient": true,
+     "via": "button_mark_done->pre_button_mark_done->action_generate_serial"
+    }
+   }
+  },
+  "mrp.production|button_unbuild": {
+   "dialogs": {
+    "mrp.unbuild": {
+     "module": "mrp",
+     "transient": false,
+     "via": "button_unbuild"
+    }
+   }
+  },
+  "mrp.unbuild|action_validate": {
+   "dialogs": {
+    "stock.warn.insufficient.qty.unbuild": {
+     "module": "mrp",
+     "transient": true,
+     "via": "action_validate"
+    }
+   }
+  },
+  "payment.transaction|action_capture": {
+   "dialogs": {
+    "payment.capture.wizard": {
+     "module": "payment",
+     "transient": true,
+     "via": "action_capture"
+    }
+   }
+  },
+  "phone.blacklist|phone_action_blacklist_remove": {
+   "dialogs": {
+    "phone.blacklist.remove": {
+     "module": "phone_validation",
+     "transient": true,
+     "via": "phone_action_blacklist_remove"
+    }
+   }
+  },
+  "pos.order|action_send_mail": {
+   "dialogs": {
+    "mail.compose.message": {
+     "module": "point_of_sale",
+     "transient": true,
+     "via": "action_send_mail"
+    }
+   }
+  },
+  "pos.session|action_pos_session_closing_control": {
+   "dialogs": {
+    "pos.close.session.wizard": {
+     "module": "point_of_sale",
+     "transient": true,
+     "via": "action_pos_session_closing_control->action_pos_session_close->_validate_session->_close_session_action"
+    }
+   }
+  },
+  "project.project|action_open_share_project_wizard": {
+   "dialogs": {
+    "project.share.wizard": {
+     "action": "project.project_share_wizard_action",
+     "module": "project",
+     "transient": true,
+     "via": "action_open_share_project_wizard"
+    }
+   }
+  },
+  "purchase.order|action_rfq_send": {
+   "dialogs": {
+    "mail.compose.message": {
+     "module": "purchase",
+     "transient": true,
+     "via": "action_rfq_send"
+    }
+   }
+  },
+  "sale.order|action_quotation_send": {
+   "dialogs": {
+    "mail.compose.message": {
+     "module": "sale",
+     "transient": true,
+     "via": "action_quotation_send"
+    }
+   }
+  },
+  "stock.picking|button_validate": {
+   "dialogs": {
+    "confirm.stock.sms": {
+     "module": "stock_sms",
+     "transient": true,
+     "via": "button_validate->_pre_action_done_hook->_action_generate_warn_sms_wizard"
+    },
+    "stock.backorder.confirmation": {
+     "module": "stock",
+     "transient": true,
+     "via": "button_validate->_pre_action_done_hook->_action_generate_backorder_wizard"
+    }
+   }
+  },
+  "stock.scrap|action_validate": {
+   "dialogs": {
+    "stock.warn.insufficient.qty.scrap": {
+     "module": "stock",
+     "transient": true,
+     "via": "action_validate"
+    }
+   }
+  }
+ },
+ "dialogs": {
+  "account.autopost.bills.wizard": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "nb_unmodified_bills": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Number of bills previously unmodified from this partner",
+     "type": "integer"
+    },
+    "partner_id": {
+     "readonly": false,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Partner",
+     "type": "many2one"
+    },
+    "partner_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Name",
+     "type": "char"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_automate_partner",
+      "string": "",
+      "type": "object"
+     },
+     {
+      "name": "action_ask_later",
+      "string": "",
+      "type": "object"
+     },
+     {
+      "name": "action_never_automate_partner",
+      "string": "",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "nb_unmodified_bills",
+     "partner_name"
+    ]
+   }
+  },
+  "account.move.reversal": {
+   "fields": {
+    "available_journal_ids": {
+     "readonly": true,
+     "relation": "account.journal",
+     "required": false,
+     "selection": [],
+     "string": "Available Journal",
+     "type": "many2many"
+    },
+    "company_id": {
+     "readonly": true,
+     "relation": "res.company",
+     "required": true,
+     "selection": [],
+     "string": "Company",
+     "type": "many2one"
+    },
+    "country_code": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Country Code",
+     "type": "char"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "currency_id": {
+     "readonly": true,
+     "relation": "res.currency",
+     "required": false,
+     "selection": [],
+     "string": "Currency",
+     "type": "many2one"
+    },
+    "date": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Reversal date",
+     "type": "date"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "journal_id": {
+     "readonly": false,
+     "relation": "account.journal",
+     "required": true,
+     "selection": [],
+     "string": "Journal",
+     "type": "many2one"
+    },
+    "l10n_vn_edi_adjustment_type": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [
+      "1",
+      "2"
+     ],
+     "string": "Adjustment type",
+     "type": "selection"
+    },
+    "l10n_vn_edi_agreement_document_date": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Agreement Date",
+     "type": "datetime"
+    },
+    "l10n_vn_edi_agreement_document_name": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Agreement Name",
+     "type": "char"
+    },
+    "move_ids": {
+     "readonly": false,
+     "relation": "account.move",
+     "required": false,
+     "selection": [],
+     "string": "Move",
+     "type": "many2many"
+    },
+    "move_type": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Move Type",
+     "type": "char"
+    },
+    "new_move_ids": {
+     "readonly": false,
+     "relation": "account.move",
+     "required": false,
+     "selection": [],
+     "string": "New Move",
+     "type": "many2many"
+    },
+    "reason": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Reason displayed on Credit Note",
+     "type": "char"
+    },
+    "residual": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Residual",
+     "type": "monetary"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "refund_moves",
+      "string": "Reverse",
+      "type": "object"
+     },
+     {
+      "name": "modify_moves",
+      "string": "Reverse and Create Invoice",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "residual",
+     "company_id",
+     "move_ids",
+     "move_type",
+     "available_journal_ids",
+     "reason",
+     "l10n_vn_edi_adjustment_type",
+     "l10n_vn_edi_agreement_document_name",
+     "l10n_vn_edi_agreement_document_date",
+     "journal_id",
+     "date",
+     "country_code"
+    ]
+   }
+  },
+  "account.move.send.wizard": {
+   "fields": {
+    "alerts": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Alerts",
+     "type": "json"
+    },
+    "attachments_not_supported": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Attachments Not Supported",
+     "type": "json"
+    },
+    "available_pdf_report_ids": {
+     "readonly": true,
+     "relation": "ir.actions.report",
+     "required": false,
+     "selection": [],
+     "string": "Available Pdf Report",
+     "type": "one2many"
+    },
+    "body": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Contents",
+     "type": "html"
+    },
+    "body_has_template_value": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Body content is the same as the template",
+     "type": "boolean"
+    },
+    "can_edit_body": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Can Edit Body",
+     "type": "boolean"
+    },
+    "company_id": {
+     "readonly": true,
+     "relation": "res.company",
+     "required": false,
+     "selection": [],
+     "string": "Company",
+     "type": "many2one"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_attachments_widget": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Attachments Widget",
+     "type": "boolean"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "display_pdf_report_id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Pdf Report",
+     "type": "boolean"
+    },
+    "extra_edi_checkboxes": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Extra Edi Checkboxes",
+     "type": "json"
+    },
+    "extra_edis": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Extra Edis",
+     "type": "json"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "invoice_edi_format": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "facturx",
+      "ubl_bis3",
+      "zugferd",
+      "xrechnung",
+      "nlcius",
+      "ubl_a_nz",
+      "ubl_sg",
+      "vn_sinvoice"
+     ],
+     "string": "Invoice Edi Format",
+     "type": "selection"
+    },
+    "is_mail_template_editor": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is Editor",
+     "type": "boolean"
+    },
+    "lang": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Language",
+     "type": "char"
+    },
+    "mail_attachments_widget": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Mail Attachments Widget",
+     "type": "json"
+    },
+    "mail_partner_ids": {
+     "readonly": false,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "To",
+     "type": "many2many"
+    },
+    "model": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Related Document Model",
+     "type": "char"
+    },
+    "move_id": {
+     "readonly": false,
+     "relation": "account.move",
+     "required": true,
+     "selection": [],
+     "string": "Move",
+     "type": "many2one"
+    },
+    "pdf_report_id": {
+     "readonly": false,
+     "relation": "ir.actions.report",
+     "required": false,
+     "selection": [],
+     "string": "Invoice report",
+     "type": "many2one"
+    },
+    "render_model": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Rendering Model",
+     "type": "char"
+    },
+    "res_ids": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Related Document IDs",
+     "type": "text"
+    },
+    "sending_method_checkboxes": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Sending Method Checkboxes",
+     "type": "json"
+    },
+    "sending_methods": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Sending Methods",
+     "type": "json"
+    },
+    "subject": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Subject",
+     "type": "char"
+    },
+    "template_id": {
+     "readonly": false,
+     "relation": "mail.template",
+     "required": false,
+     "selection": [],
+     "string": "Mail Template",
+     "type": "many2one"
+    },
+    "template_name": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Template Name",
+     "type": "char"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_send_and_print",
+      "string": "Send",
+      "type": "object"
+     },
+     {
+      "name": "action_send_and_print",
+      "string": "Generate",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "move_id",
+     "attachments_not_supported",
+     "alerts",
+     "extra_edi_checkboxes",
+     "sending_method_checkboxes",
+     "pdf_report_id",
+     "model",
+     "res_ids",
+     "render_model",
+     "mail_partner_ids",
+     "subject",
+     "body",
+     "mail_attachments_widget",
+     "template_id",
+     "available_pdf_report_ids",
+     "sending_methods",
+     "display_pdf_report_id",
+     "display_attachments_widget"
+    ]
+   }
+  },
+  "confirm.stock.sms": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "pick_ids": {
+     "readonly": false,
+     "relation": "stock.picking",
+     "required": false,
+     "selection": [],
+     "string": "Pick",
+     "type": "many2many"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "send_sms",
+      "string": "Confirm",
+      "type": "object"
+     },
+     {
+      "name": "dont_send_sms",
+      "string": "Disable SMS",
+      "type": "object"
+     }
+    ],
+    "own_fields": []
+   }
+  },
+  "crm.quotation.partner": {
+   "fields": {
+    "action": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [
+      "create",
+      "exist",
+      "nothing"
+     ],
+     "string": "Quotation Customer",
+     "type": "selection"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "lead_id": {
+     "readonly": false,
+     "relation": "crm.lead",
+     "required": true,
+     "selection": [],
+     "string": "Associated Lead",
+     "type": "many2one"
+    },
+    "partner_id": {
+     "readonly": false,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Customer",
+     "type": "many2one"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_apply",
+      "string": "Confirm",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "action",
+     "lead_id",
+     "partner_id"
+    ]
+   }
+  },
+  "hr.bank.account.allocation.wizard": {
+   "fields": {
+    "allocation_ids": {
+     "readonly": false,
+     "relation": "hr.bank.account.allocation.wizard.line",
+     "required": false,
+     "selection": [],
+     "string": "Allocations",
+     "type": "one2many"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "employee_id": {
+     "readonly": false,
+     "relation": "hr.employee",
+     "required": true,
+     "selection": [],
+     "string": "Employee",
+     "type": "many2one"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_save",
+      "string": "Save",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "employee_id",
+     "allocation_ids",
+     "sequence",
+     "acc_number",
+     "amount",
+     "symbol",
+     "amount_type",
+     "trusted"
+    ]
+   }
+  },
+  "hr.expense.approve.duplicate": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "expense_ids": {
+     "readonly": true,
+     "relation": "hr.expense",
+     "required": false,
+     "selection": [],
+     "string": "Expense",
+     "type": "many2many"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_refuse",
+      "string": "Refuse",
+      "type": "object"
+     },
+     {
+      "name": "action_approve",
+      "string": "Approve",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "expense_ids",
+     "date",
+     "employee_id",
+     "product_id",
+     "total_amount",
+     "name",
+     "manager_id",
+     "approval_date"
+    ]
+   }
+  },
+  "hr.expense.post.wizard": {
+   "fields": {
+    "accounting_date": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Accounting Date",
+     "type": "date"
+    },
+    "company_id": {
+     "readonly": true,
+     "relation": "res.company",
+     "required": false,
+     "selection": [],
+     "string": "Company",
+     "type": "many2one"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "employee_journal_id": {
+     "readonly": false,
+     "relation": "account.journal",
+     "required": false,
+     "selection": [],
+     "string": "Journal",
+     "type": "many2one"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_post_entry",
+      "string": "Post Expenses",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "employee_journal_id",
+     "accounting_date",
+     "company_id"
+    ]
+   }
+  },
+  "hr.expense.refuse.wizard": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "expense_ids": {
+     "readonly": false,
+     "relation": "hr.expense",
+     "required": false,
+     "selection": [],
+     "string": "Expense",
+     "type": "many2many"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "reason": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Reason",
+     "type": "char"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_refuse",
+      "string": "Refuse",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "expense_ids",
+     "reason"
+    ]
+   }
+  },
+  "hr.expense.split.wizard": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "currency_id": {
+     "readonly": true,
+     "relation": "res.currency",
+     "required": false,
+     "selection": [],
+     "string": "Currency",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "expense_id": {
+     "readonly": false,
+     "relation": "hr.expense",
+     "required": true,
+     "selection": [],
+     "string": "Expense",
+     "type": "many2one"
+    },
+    "expense_split_line_ids": {
+     "readonly": false,
+     "relation": "hr.expense.split",
+     "required": false,
+     "selection": [],
+     "string": "Expense Split Line",
+     "type": "one2many"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "split_possible": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Split Possible",
+     "type": "boolean"
+    },
+    "tax_amount_currency": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Taxes",
+     "type": "monetary"
+    },
+    "total_amount_currency": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Total Amount",
+     "type": "monetary"
+    },
+    "total_amount_currency_original": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Total amount original",
+     "type": "monetary"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_split_expense",
+      "string": "Split Expense",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "total_amount_currency_original",
+     "expense_id",
+     "expense_split_line_ids",
+     "currency_id",
+     "company_id",
+     "product_has_cost",
+     "name",
+     "product_id",
+     "employee_id",
+     "can_be_reinvoiced",
+     "sale_order_id",
+     "tax_ids",
+     "tax_amount_currency",
+     "total_amount_currency",
+     "split_possible"
+    ]
+   }
+  },
+  "hr.holidays.cancel.leave": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "leave_id": {
+     "readonly": false,
+     "relation": "hr.leave",
+     "required": true,
+     "selection": [],
+     "string": "Time Off Request",
+     "type": "many2one"
+    },
+    "reason": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Reason",
+     "type": "text"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_cancel_leave",
+      "string": "Cancel Time Off",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "leave_id",
+     "reason"
+    ]
+   }
+  },
+  "l10n_vn_edi_viettel.cancellation": {
+   "fields": {
+    "agreement_document_date": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Agreement Date",
+     "type": "datetime"
+    },
+    "agreement_document_name": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Agreement Name",
+     "type": "char"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "invoice_id": {
+     "readonly": false,
+     "relation": "account.move",
+     "required": false,
+     "selection": [],
+     "string": "Invoice to cancel",
+     "type": "many2one"
+    },
+    "reason": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Reason",
+     "type": "char"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "button_request_cancel",
+      "string": "Request Cancellation",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "reason",
+     "agreement_document_name",
+     "agreement_document_date"
+    ]
+   }
+  },
+  "mail.compose.message": {
+   "fields": {
+    "attachment_ids": {
+     "readonly": false,
+     "relation": "ir.attachment",
+     "required": false,
+     "selection": [],
+     "string": "Attachments",
+     "type": "many2many"
+    },
+    "author_id": {
+     "readonly": false,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Author",
+     "type": "many2one"
+    },
+    "auto_delete": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Delete Emails",
+     "type": "boolean"
+    },
+    "auto_delete_keep_log": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Keep Message Copy",
+     "type": "boolean"
+    },
+    "body": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Contents",
+     "type": "html"
+    },
+    "body_has_template_value": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Body content is the same as the template",
+     "type": "boolean"
+    },
+    "can_edit_body": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Can Edit Body",
+     "type": "boolean"
+    },
+    "composition_batch": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Batch composition",
+     "type": "boolean"
+    },
+    "composition_comment_option": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "reply_all",
+      "forward"
+     ],
+     "string": "Comment Options",
+     "type": "selection"
+    },
+    "composition_mode": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "comment",
+      "mass_mail"
+     ],
+     "string": "Composition mode",
+     "type": "selection"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "email_add_signature": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Add signature",
+     "type": "boolean"
+    },
+    "email_from": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "From",
+     "type": "char"
+    },
+    "email_layout_xmlid": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Email Notification Layout",
+     "type": "char"
+    },
+    "force_send": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Send mailing or notifications directly",
+     "type": "boolean"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "is_mail_template_editor": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is Editor",
+     "type": "boolean"
+    },
+    "lang": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Language",
+     "type": "char"
+    },
+    "mail_activity_type_id": {
+     "readonly": false,
+     "relation": "mail.activity.type",
+     "required": false,
+     "selection": [],
+     "string": "Mail Activity Type",
+     "type": "many2one"
+    },
+    "mail_server_id": {
+     "readonly": false,
+     "relation": "ir.mail_server",
+     "required": false,
+     "selection": [],
+     "string": "Outgoing mail server",
+     "type": "many2one"
+    },
+    "message_type": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [
+      "auto_comment",
+      "comment",
+      "notification"
+     ],
+     "string": "Type",
+     "type": "selection"
+    },
+    "model": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Related Document Model",
+     "type": "char"
+    },
+    "model_is_thread": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Thread-Enabled",
+     "type": "boolean"
+    },
+    "notified_bcc_contains_share": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is an external partner follower of the document?",
+     "type": "boolean"
+    },
+    "notify_author": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Notify Author",
+     "type": "boolean"
+    },
+    "notify_author_mention": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Notify Author Mention",
+     "type": "boolean"
+    },
+    "notify_skip_followers": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Notify Skip Followers",
+     "type": "boolean"
+    },
+    "parent_id": {
+     "readonly": false,
+     "relation": "mail.message",
+     "required": false,
+     "selection": [],
+     "string": "Parent Message",
+     "type": "many2one"
+    },
+    "partner_ids": {
+     "readonly": false,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Additional Contacts",
+     "type": "many2many"
+    },
+    "partner_ids_all_have_email": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Partner Ids All Have Email",
+     "type": "boolean"
+    },
+    "record_alias_domain_id": {
+     "readonly": false,
+     "relation": "mail.alias.domain",
+     "required": false,
+     "selection": [],
+     "string": "Alias Domain",
+     "type": "many2one"
+    },
+    "record_company_id": {
+     "readonly": false,
+     "relation": "res.company",
+     "required": false,
+     "selection": [],
+     "string": "Company",
+     "type": "many2one"
+    },
+    "render_model": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Rendering Model",
+     "type": "char"
+    },
+    "reply_to": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Reply To",
+     "type": "char"
+    },
+    "reply_to_force_new": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Considers answers as new thread",
+     "type": "boolean"
+    },
+    "reply_to_mode": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "update",
+      "new"
+     ],
+     "string": "Replies",
+     "type": "selection"
+    },
+    "res_domain": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Active domain",
+     "type": "text"
+    },
+    "res_domain_user_id": {
+     "readonly": false,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Responsible",
+     "type": "many2one"
+    },
+    "res_ids": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Related Document IDs",
+     "type": "text"
+    },
+    "scheduled_date": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Scheduled Date",
+     "type": "char"
+    },
+    "subject": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Subject",
+     "type": "char"
+    },
+    "subtype_id": {
+     "readonly": false,
+     "relation": "mail.message.subtype",
+     "required": false,
+     "selection": [],
+     "string": "Subtype",
+     "type": "many2one"
+    },
+    "subtype_is_log": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is a log",
+     "type": "boolean"
+    },
+    "template_id": {
+     "readonly": false,
+     "relation": "mail.template",
+     "required": false,
+     "selection": [],
+     "string": "Use template",
+     "type": "many2one"
+    },
+    "template_name": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Template Name",
+     "type": "char"
+    },
+    "use_exclusion_list": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Use Exclusion List",
+     "type": "boolean"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_send_mail",
+      "string": "Send",
+      "type": "object"
+     },
+     {
+      "name": "action_send_mail",
+      "string": "Log",
+      "type": "object"
+     },
+     {
+      "name": "action_schedule_message",
+      "string": "Schedule",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "author_id",
+     "auto_delete",
+     "auto_delete_keep_log",
+     "composition_batch",
+     "composition_comment_option",
+     "composition_mode",
+     "email_layout_xmlid",
+     "force_send",
+     "lang",
+     "mail_server_id",
+     "model",
+     "model_is_thread",
+     "notified_bcc_contains_share",
+     "notify_author",
+     "notify_author_mention",
+     "notify_skip_followers",
+     "parent_id",
+     "partner_ids_all_have_email",
+     "record_alias_domain_id",
+     "record_company_id",
+     "render_model",
+     "res_domain",
+     "res_domain_user_id",
+     "res_ids",
+     "scheduled_date",
+     "subtype_id",
+     "subtype_is_log",
+     "use_exclusion_list",
+     "email_from",
+     "partner_ids",
+     "subject",
+     "reply_to",
+     "can_edit_body",
+     "body",
+     "attachment_ids",
+     "reply_to_force_new",
+     "reply_to_mode",
+     "template_id"
+    ]
+   }
+  },
+  "mrp.consumption.warning": {
+   "fields": {
+    "consumption": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "flexible",
+      "warning",
+      "strict"
+     ],
+     "string": "Consumption",
+     "type": "selection"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "mrp_consumption_warning_line_ids": {
+     "readonly": false,
+     "relation": "mrp.consumption.warning.line",
+     "required": false,
+     "selection": [],
+     "string": "Mrp Consumption Warning Line",
+     "type": "one2many"
+    },
+    "mrp_production_count": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Mrp Production Count",
+     "type": "integer"
+    },
+    "mrp_production_ids": {
+     "readonly": false,
+     "relation": "mrp.production",
+     "required": false,
+     "selection": [],
+     "string": "Mrp Production",
+     "type": "many2many"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_confirm",
+      "string": "Force",
+      "type": "object"
+     },
+     {
+      "name": "action_confirm",
+      "string": "Confirm",
+      "type": "object"
+     },
+     {
+      "name": "action_set_qty",
+      "string": "Set Quantities & Validate",
+      "type": "object"
+     },
+     {
+      "name": "action_cancel",
+      "string": "Discard",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "mrp_production_ids",
+     "consumption",
+     "mrp_production_count",
+     "mrp_consumption_warning_line_ids",
+     "mrp_production_id",
+     "product_id",
+     "product_uom_id",
+     "product_expected_qty_uom",
+     "product_consumed_qty_uom"
+    ]
+   }
+  },
+  "mrp.production.backorder": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "mrp_production_backorder_line_ids": {
+     "readonly": false,
+     "relation": "mrp.production.backorder.line",
+     "required": false,
+     "selection": [],
+     "string": "Backorder Confirmation Lines",
+     "type": "one2many"
+    },
+    "mrp_production_ids": {
+     "readonly": false,
+     "relation": "mrp.production",
+     "required": false,
+     "selection": [],
+     "string": "Mrp Production",
+     "type": "many2many"
+    },
+    "show_backorder_lines": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Show backorder lines",
+     "type": "boolean"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_backorder",
+      "string": "Create backorder",
+      "type": "object"
+     },
+     {
+      "name": "action_backorder",
+      "string": "Validate",
+      "type": "object"
+     },
+     {
+      "name": "action_close_mo",
+      "string": "No Backorder",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "show_backorder_lines",
+     "mrp_production_backorder_line_ids",
+     "mrp_production_id",
+     "to_backorder"
+    ]
+   }
+  },
+  "mrp.production.serials": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "lot_name": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "First SN",
+     "type": "char"
+    },
+    "lot_quantity": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Number of SN",
+     "type": "integer"
+    },
+    "production_id": {
+     "readonly": false,
+     "relation": "mrp.production",
+     "required": false,
+     "selection": [],
+     "string": "Production",
+     "type": "many2one"
+    },
+    "serial_numbers": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Produced Serial Numbers",
+     "type": "text"
+    },
+    "workorder_id": {
+     "readonly": false,
+     "relation": "mrp.workorder",
+     "required": false,
+     "selection": [],
+     "string": "Workorder",
+     "type": "many2one"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_generate_serial_numbers",
+      "string": "Generate",
+      "type": "object"
+     },
+     {
+      "name": "action_apply",
+      "string": "Apply",
+      "type": "object"
+     },
+     {
+      "name": "action_split_and_assign_serials",
+      "string": "Prepare MO",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "production_id",
+     "lot_name",
+     "lot_quantity",
+     "serial_numbers"
+    ]
+   }
+  },
+  "payment.capture.wizard": {
+   "fields": {
+    "amount_to_capture": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Amount To Capture",
+     "type": "monetary"
+    },
+    "authorized_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Authorized Amount",
+     "type": "monetary"
+    },
+    "available_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Maximum Capture Allowed",
+     "type": "monetary"
+    },
+    "captured_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Already Captured",
+     "type": "monetary"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "currency_id": {
+     "readonly": true,
+     "relation": "res.currency",
+     "required": false,
+     "selection": [],
+     "string": "Currency",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "has_draft_children": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Has Draft Children",
+     "type": "boolean"
+    },
+    "has_remaining_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Has Remaining Amount",
+     "type": "boolean"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "is_amount_to_capture_valid": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is Amount To Capture Valid",
+     "type": "boolean"
+    },
+    "support_partial_capture": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Support Partial Capture",
+     "type": "boolean"
+    },
+    "transaction_ids": {
+     "readonly": true,
+     "relation": "payment.transaction",
+     "required": false,
+     "selection": [],
+     "string": "Transaction",
+     "type": "many2many"
+    },
+    "void_remaining_amount": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Void Remaining Amount",
+     "type": "boolean"
+    },
+    "voided_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Already Voided",
+     "type": "monetary"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_capture",
+      "string": "Capture",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "transaction_ids",
+     "is_amount_to_capture_valid",
+     "currency_id",
+     "support_partial_capture",
+     "has_draft_children",
+     "has_remaining_amount",
+     "authorized_amount",
+     "captured_amount",
+     "voided_amount",
+     "amount_to_capture",
+     "void_remaining_amount",
+     "available_amount"
+    ]
+   }
+  },
+  "payment.refund.wizard": {
+   "fields": {
+    "amount_available_for_refund": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Maximum Refund Allowed",
+     "type": "monetary"
+    },
+    "amount_to_refund": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Refund Amount",
+     "type": "monetary"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "currency_id": {
+     "readonly": true,
+     "relation": "res.currency",
+     "required": false,
+     "selection": [],
+     "string": "Currency",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "has_pending_refund": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Has a pending refund",
+     "type": "boolean"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "payment_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Payment Amount",
+     "type": "monetary"
+    },
+    "payment_id": {
+     "readonly": true,
+     "relation": "account.payment",
+     "required": false,
+     "selection": [],
+     "string": "Payment",
+     "type": "many2one"
+    },
+    "refunded_amount": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Refunded Amount",
+     "type": "monetary"
+    },
+    "support_refund": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "none",
+      "full_only",
+      "partial"
+     ],
+     "string": "Refund",
+     "type": "selection"
+    },
+    "transaction_id": {
+     "readonly": true,
+     "relation": "payment.transaction",
+     "required": false,
+     "selection": [],
+     "string": "Payment Transaction",
+     "type": "many2one"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_refund",
+      "string": "Refund",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "has_pending_refund",
+     "payment_id",
+     "transaction_id",
+     "currency_id",
+     "support_refund",
+     "payment_amount",
+     "refunded_amount",
+     "amount_available_for_refund",
+     "amount_to_refund"
+    ]
+   }
+  },
+  "phone.blacklist.remove": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "phone": {
+     "readonly": true,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Phone Number",
+     "type": "char"
+    },
+    "reason": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Reason",
+     "type": "char"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_unblacklist_apply",
+      "string": "Remove phone from blacklist",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "phone",
+     "reason"
+    ]
+   }
+  },
+  "pos.close.session.wizard": {
+   "fields": {
+    "account_id": {
+     "readonly": false,
+     "relation": "account.account",
+     "required": false,
+     "selection": [],
+     "string": "Destination account",
+     "type": "many2one"
+    },
+    "account_readonly": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Destination account is readonly",
+     "type": "boolean"
+    },
+    "amount_to_balance": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Amount to balance",
+     "type": "float"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "message": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Information message",
+     "type": "text"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "close_session",
+      "string": "Close Session",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "message",
+     "account_readonly",
+     "amount_to_balance",
+     "account_id"
+    ]
+   }
+  },
+  "project.share.wizard": {
+   "fields": {
+    "access_warning": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Access warning",
+     "type": "text"
+    },
+    "collaborator_ids": {
+     "readonly": false,
+     "relation": "project.share.collaborator.wizard",
+     "required": false,
+     "selection": [],
+     "string": "Collaborators",
+     "type": "one2many"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "existing_partner_ids": {
+     "readonly": true,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Existing Partner",
+     "type": "many2many"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "note": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Note",
+     "type": "text"
+    },
+    "partner_ids": {
+     "readonly": false,
+     "relation": "res.partner",
+     "required": true,
+     "selection": [],
+     "string": "Recipients",
+     "type": "many2many"
+    },
+    "res_id": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Related Document ID",
+     "type": "integer"
+    },
+    "res_model": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Related Document Model",
+     "type": "char"
+    },
+    "resource_ref": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [
+      "project.project"
+     ],
+     "string": "Related Document",
+     "type": "reference"
+    },
+    "share_link": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Public Link",
+     "type": "char"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_share_record",
+      "string": "Share Project",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "res_model",
+     "res_id",
+     "share_link",
+     "collaborator_ids",
+     "partner_id",
+     "access_mode",
+     "send_invitation",
+     "existing_partner_ids"
+    ]
+   }
+  },
+  "sms.composer": {
+   "fields": {
+    "body": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Message",
+     "type": "text"
+    },
+    "comment_single_recipient": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Single Mode",
+     "type": "boolean"
+    },
+    "composition_mode": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [
+      "numbers",
+      "comment",
+      "mass"
+     ],
+     "string": "Composition Mode",
+     "type": "selection"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "mass_force_send": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Send directly",
+     "type": "boolean"
+    },
+    "mass_keep_log": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Keep a note on document",
+     "type": "boolean"
+    },
+    "number_field_name": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Number Field",
+     "type": "char"
+    },
+    "numbers": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Recipients (Numbers)",
+     "type": "char"
+    },
+    "recipient_invalid_count": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "# Invalid recipients",
+     "type": "integer"
+    },
+    "recipient_single_description": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Recipients (Partners)",
+     "type": "text"
+    },
+    "recipient_single_number": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Stored Recipient Number",
+     "type": "char"
+    },
+    "recipient_single_number_itf": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Recipient Number",
+     "type": "char"
+    },
+    "recipient_single_valid": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is valid",
+     "type": "boolean"
+    },
+    "recipient_valid_count": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "# Valid recipients",
+     "type": "integer"
+    },
+    "res_id": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Document ID",
+     "type": "integer"
+    },
+    "res_ids": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Document IDs",
+     "type": "char"
+    },
+    "res_ids_count": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Visible records count",
+     "type": "integer"
+    },
+    "res_model": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Document Model Name",
+     "type": "char"
+    },
+    "res_model_description": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Document Model Description",
+     "type": "char"
+    },
+    "sanitized_numbers": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Sanitized Number",
+     "type": "char"
+    },
+    "template_id": {
+     "readonly": false,
+     "relation": "sms.template",
+     "required": false,
+     "selection": [],
+     "string": "Use Template",
+     "type": "many2one"
+    },
+    "use_exclusion_list": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Use Exclusion List",
+     "type": "boolean"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_send_sms",
+      "string": "Send",
+      "type": "object"
+     },
+     {
+      "name": "action_send_sms",
+      "string": "Put in queue",
+      "type": "object"
+     },
+     {
+      "name": "action_send_sms_mass_now",
+      "string": "Send now",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "res_model_description",
+     "recipient_invalid_count",
+     "res_ids_count",
+     "composition_mode",
+     "comment_single_recipient",
+     "res_id",
+     "res_ids",
+     "res_model",
+     "mass_force_send",
+     "recipient_single_valid",
+     "recipient_single_number",
+     "number_field_name",
+     "numbers",
+     "sanitized_numbers",
+     "template_id",
+     "recipient_single_description",
+     "recipient_single_number_itf",
+     "body",
+     "mass_keep_log",
+     "use_exclusion_list"
+    ]
+   }
+  },
+  "stock.backorder.confirmation": {
+   "fields": {
+    "backorder_confirmation_line_ids": {
+     "readonly": false,
+     "relation": "stock.backorder.confirmation.line",
+     "required": false,
+     "selection": [],
+     "string": "Backorder Confirmation Lines",
+     "type": "one2many"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "pick_ids": {
+     "readonly": false,
+     "relation": "stock.picking",
+     "required": false,
+     "selection": [],
+     "string": "Pick",
+     "type": "many2many"
+    },
+    "show_transfers": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Show Transfers",
+     "type": "boolean"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "process",
+      "string": "Create Backorder",
+      "type": "object"
+     },
+     {
+      "name": "process_cancel_backorder",
+      "string": "No Backorder",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "pick_ids",
+     "show_transfers",
+     "backorder_confirmation_line_ids",
+     "picking_id",
+     "to_backorder"
+    ]
+   }
+  },
+  "stock.warn.insufficient.qty.scrap": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "location_id": {
+     "readonly": false,
+     "relation": "stock.location",
+     "required": true,
+     "selection": [],
+     "string": "Location",
+     "type": "many2one"
+    },
+    "product_id": {
+     "readonly": false,
+     "relation": "product.product",
+     "required": true,
+     "selection": [],
+     "string": "Product",
+     "type": "many2one"
+    },
+    "product_uom_name": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Unit",
+     "type": "char"
+    },
+    "quant_ids": {
+     "readonly": true,
+     "relation": "stock.quant",
+     "required": false,
+     "selection": [],
+     "string": "Quant",
+     "type": "many2many"
+    },
+    "quantity": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Quantity",
+     "type": "float"
+    },
+    "scrap_id": {
+     "readonly": false,
+     "relation": "stock.scrap",
+     "required": false,
+     "selection": [],
+     "string": "Scrap",
+     "type": "many2one"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_cancel",
+      "string": "Discard",
+      "type": "object"
+     },
+     {
+      "name": "action_done",
+      "string": "Confirm",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "product_id",
+     "quant_ids",
+     "location_id",
+     "lot_id",
+     "quantity",
+     "product_uom_name"
+    ]
+   }
+  },
+  "stock.warn.insufficient.qty.unbuild": {
+   "fields": {
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "location_id": {
+     "readonly": false,
+     "relation": "stock.location",
+     "required": true,
+     "selection": [],
+     "string": "Location",
+     "type": "many2one"
+    },
+    "product_id": {
+     "readonly": false,
+     "relation": "product.product",
+     "required": true,
+     "selection": [],
+     "string": "Product",
+     "type": "many2one"
+    },
+    "product_uom_name": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Unit",
+     "type": "char"
+    },
+    "quant_ids": {
+     "readonly": true,
+     "relation": "stock.quant",
+     "required": false,
+     "selection": [],
+     "string": "Quant",
+     "type": "many2many"
+    },
+    "quantity": {
+     "readonly": false,
+     "relation": "",
+     "required": true,
+     "selection": [],
+     "string": "Quantity",
+     "type": "float"
+    },
+    "unbuild_id": {
+     "readonly": false,
+     "relation": "mrp.unbuild",
+     "required": false,
+     "selection": [],
+     "string": "Unbuild",
+     "type": "many2one"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "action_stock_quant_relocate",
+      "string": "Relocate",
+      "type": "object"
+     },
+     {
+      "name": "action_view_stock_moves",
+      "string": "History",
+      "type": "object"
+     },
+     {
+      "name": "action_view_orderpoints",
+      "string": "Replenishment",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "product_id",
+     "location_id",
+     "quant_ids",
+     "create_date",
+     "write_date",
+     "id",
+     "tracking",
+     "company_id",
+     "storage_category_id",
+     "product_categ_id",
+     "lot_id",
+     "inventory_quantity_auto_apply",
+     "reserved_quantity",
+     "available_quantity",
+     "product_uom_id",
+     "currency_id",
+     "cost_method",
+     "value",
+     "lot_properties",
+     "quantity",
+     "unbuild_id",
+     "product_uom_name"
+    ]
+   }
+  },
+  "validate.account.move": {
+   "fields": {
+    "abnormal_amount_partner_ids": {
+     "readonly": true,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Abnormal Amount Partner",
+     "type": "one2many"
+    },
+    "abnormal_date_partner_ids": {
+     "readonly": true,
+     "relation": "res.partner",
+     "required": false,
+     "selection": [],
+     "string": "Abnormal Date Partner",
+     "type": "one2many"
+    },
+    "create_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Created on",
+     "type": "datetime"
+    },
+    "create_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Created by",
+     "type": "many2one"
+    },
+    "display_force_hash": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Force Hash",
+     "type": "boolean"
+    },
+    "display_force_post": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Force Post",
+     "type": "boolean"
+    },
+    "display_name": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Display Name",
+     "type": "char"
+    },
+    "force_hash": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Force Hash",
+     "type": "boolean"
+    },
+    "force_post": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Force",
+     "type": "boolean"
+    },
+    "id": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "ID",
+     "type": "integer"
+    },
+    "ignore_abnormal_amount": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Ignore Abnormal Amount",
+     "type": "boolean"
+    },
+    "ignore_abnormal_date": {
+     "readonly": false,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Ignore Abnormal Date",
+     "type": "boolean"
+    },
+    "is_entries": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Is Entries",
+     "type": "boolean"
+    },
+    "move_ids": {
+     "readonly": false,
+     "relation": "account.move",
+     "required": false,
+     "selection": [],
+     "string": "Move",
+     "type": "many2many"
+    },
+    "write_date": {
+     "readonly": true,
+     "relation": "",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated on",
+     "type": "datetime"
+    },
+    "write_uid": {
+     "readonly": true,
+     "relation": "res.users",
+     "required": false,
+     "selection": [],
+     "string": "Last Updated by",
+     "type": "many2one"
+    }
+   },
+   "form": {
+    "buttons": [
+     {
+      "name": "validate_move",
+      "string": "Confirm",
+      "type": "object"
+     }
+    ],
+    "own_fields": [
+     "move_ids",
+     "display_force_post",
+     "force_post",
+     "force_hash",
+     "abnormal_date_partner_ids",
+     "ignore_abnormal_date",
+     "abnormal_amount_partner_ids",
+     "ignore_abnormal_amount",
+     "is_entries",
+     "display_force_hash"
+    ]
+   }
+  }
+ },
+ "method": "static: methods of the inventory's object buttons and the model methods they call (3 levels), in the installed modules' source; a res_model next to target 'new', or a window action loaded by XML id whose target is 'new'. Live: the dialog models' fields and form buttons.",
+ "provider": {
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "schemaVersion": "odoo.dialog-scan/v1"
+}
