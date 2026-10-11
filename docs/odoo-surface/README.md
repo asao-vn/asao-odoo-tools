@@ -878,6 +878,42 @@ scope.
   describes therefore disagreed; over JSON-2 (an API key) they agree. A real password that is also an
   ordinary word would mask that word in business data the same way.
 
+## Business buttons of list views (2026-10-11)
+
+The generator used to take a model's form buttons only. Some business actions sit only on the
+model's list: a work order's Start, Pause and Finish, a transfer's Unreserve, and a reorder rule's
+Order Once and Automate. `business_buttons` now takes the form's buttons, then the list's. A list
+button acts on the selected records as a form button acts on the open one.
+
+**Seven operations were added and verified** on fresh twins, through JSON-2:
+
+| Operations | Fixture |
+|---|---|
+| `manufacturing.workorder.start` / `.pause` / `.finish` | A fresh product and a bill of materials on a work center the demo does not block |
+| `inventory.transfer.unreserve` | Reserved deliveries |
+| `inventory.reorder_rule.replenish` / `.automate` / `.clear_manual_quantity` | Manual rules short of their minimum |
+
+Evidence: `action-conformance-19.0-demo-json2-list-buttons*.json`.
+
+**Left out, with the reason recorded in `SKIP_METHODS`:**
+- `copy_to_bom` copies into the bill of materials that only the list's context names.
+- The POS list's Create Invoices opens `pos.make.invoice`. The form's `pos.order.pos_order_invoice`
+  already does that.
+- The IAP lead generation is a paid service.
+- The replenishment information popup.
+- The website page's debug view.
+- The quant relocation dialog needs a destination that no list states.
+
+The action runner finds a list button as it finds a form button.
+
+**Coverage after this.** Of the business buttons on the screens the 16 SME apps show, every one is
+in one of these states:
+- covered;
+- left out on purpose: sending documents by email, creating users or companies from other records,
+  paid IAP, and navigation, print and share buttons;
+- covered under another name, such as `crm.opportunity.win` for Won and
+  `manufacturing.unbuild.create` for Unbuild.
+
 ## Not yet done
 
 - **Actions and wizards still UNVERIFIED on 19.0:** 39 actions and 7 wizards.

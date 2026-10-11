@@ -1,0 +1,127 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-11T07:28:47Z",
+ "records": {
+  "inventory.reorder_rule.automate": {
+   "changedFields": [
+    "qty_to_order_computed",
+    "trigger"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:aab69b7f4d77d6d72c65ccb01133f521c05c3c02f7e2508c98ccdbf5cda7727a",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "qty_to_order_computed",
+    "trigger"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:997b69fed31304e29beaf757fcc3a13d6e5a3d03c27e0bdb6633a5a90411baa4",
+   "status": "AGREE",
+   "transitions": {
+    "trigger": [
+     "manual",
+     "auto"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.reorder_rule.clear_manual_quantity": {
+   "changedFields": [
+    "qty_to_order_manual"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:c91db93ad79b71f5646317b23f8da4f998ac1569dd4e37289b64b9a80a89ac5f",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "qty_to_order_manual"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b5d949c101870e7f1cba45239e8c5e03e73133270edb703dfd4b20f76e6928da",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.reorder_rule.replenish": {
+   "changedFields": [
+    "qty_to_order_computed"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5851ba88392648875bc78075d8de04d7230da33d41d0558e9f2aa16a97368dcb",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "qty_to_order_computed"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:7a301307102f5dc610f23ad7301cd33418e3f7cb5c618bd078e6821d7e9576f6",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.transfer.unreserve": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:b69bac102414fdf22d91873643cfb00fa6f48f8a042cc17eedf49d5906b731f7",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:5363dd69c7b25d0619b90dc097fe2e826dead9f6c857a531555ae2cefffe3f57",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "manufacturing.workorder.finish": {
+   "definitionHash": "sha256:ecb1152872a7a4ea6764bb1ca0154bc3e4df9495a429ba472643dc8c4f22eee0",
+   "detail": "Please unblock the work center to start the work order.",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "manufacturing.workorder.pause": {
+   "definitionHash": "sha256:85233a9063fb726ef74ec7d1c097753708d03eeca1d26550cae36def92b8c67b",
+   "detail": "Please unblock the work center to start the work order.",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "manufacturing.workorder.start": {
+   "definitionHash": "sha256:db9518647a230e675d2042791d86c48936b71ae8a11e4d35f48049e8092b2bb0",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

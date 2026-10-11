@@ -1,0 +1,142 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-11T07:29:56Z",
+ "records": {
+  "inventory.transfer.unreserve": {
+   "changedFields": [
+    "move_line_ids",
+    "shipping_weight",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "move_line_ids": -1
+   },
+   "definitionHash": "sha256:b69bac102414fdf22d91873643cfb00fa6f48f8a042cc17eedf49d5906b731f7",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "move_line_ids",
+    "shipping_weight",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:8c7729d172b027784eadf4e6f4669813a6990e67d65147d276a3c3692df68ebe",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "assigned",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.workorder.finish": {
+   "changedFields": [
+    "date_finished",
+    "qty_produced",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ecb1152872a7a4ea6764bb1ca0154bc3e4df9495a429ba472643dc8c4f22eee0",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "date_finished",
+    "qty_produced",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:6e80cb7f7062219dff3c209751fc81107688c9ca0e25d2d9ef15f254020cb158",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "progress",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.workorder.pause": {
+   "changedFields": [
+    "duration",
+    "duration_unit"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:85233a9063fb726ef74ec7d1c097753708d03eeca1d26550cae36def92b8c67b",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "duration",
+    "duration_unit"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:18d0f0d4b660eac7a52237e3e73bf9ce3bb5eda493e39d1c9173823f92717858",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "manufacturing.workorder.start": {
+   "changedFields": [
+    "date_finished",
+    "date_start",
+    "duration",
+    "duration_percent",
+    "duration_unit",
+    "leave_id",
+    "production_date",
+    "state",
+    "time_ids"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "time_ids": 1
+   },
+   "definitionHash": "sha256:db9518647a230e675d2042791d86c48936b71ae8a11e4d35f48049e8092b2bb0",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "date_finished",
+    "date_start",
+    "duration",
+    "duration_percent",
+    "duration_unit",
+    "leave_id",
+    "production_date",
+    "state",
+    "time_ids"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:a708dfbecd19defc13516895551488f602813c563fa6387b555538b03be769d9",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "ready",
+     "progress"
+    ]
+   },
+   "twinBasis": "fixture"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

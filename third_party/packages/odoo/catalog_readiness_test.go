@@ -24,9 +24,10 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// 40 reads and 15 writes (attachments, journal entries, counts, settings, system parameters,
 	// website media and layouts, pricelist items, payments) and 24 actions (notes and activities on
 	// ten kinds of record, posting and resetting journal entries, applying and clearing counts) and the
-	// 7 prints (scripts/dev/odoo-report-conformance.py), and 6 guarded deletes.
-	if len(report.Records) != 103+291+219+70+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 593 surface", len(report.Records))
+	// 7 prints (scripts/dev/odoo-report-conformance.py), and 6 guarded deletes. Then 7 list-view actions
+	// (work order start/pause/finish, unreserve, reorder rules' replenish/automate/clear), on fresh twins.
+	if len(report.Records) != 103+291+219+77+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 600 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}

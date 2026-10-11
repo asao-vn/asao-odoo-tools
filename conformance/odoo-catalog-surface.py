@@ -152,6 +152,10 @@ ENTITY = {
 # Verbs chosen by hand where the method name would be opaque.
 METHOD_VERBS = {
     "action_l10n_vn_edi_update_payment_status": "einvoice_send_payment_status",
+    # List buttons, named as the list labels them.
+    "button_pending": "pause",
+    "action_replenish_auto": "automate",
+    "action_remove_manual_qty_to_order": "clear_manual_quantity",
 }
 
 # Wizards a form opens through a method rather than a dialog action, written by hand because the
@@ -437,6 +441,14 @@ SKIP_METHODS = {
     "button_unbuild", "action_create_accrual_plan_level",
     # It only opens the serial numbers dialog, whose buttons need a serial plan no view states.
     "action_generate_serial",
+    # List buttons that are not business operations: a paid IAP service, an information popup, a
+    # developer view, and a dialog that needs a destination no list states.
+    "action_generate_leads", "action_stock_replenishment_info", "action_page_debug_view",
+    "action_stock_quant_relocate",
+    # copy_to_bom copies an operation into the bill of materials the list was opened from, which
+    # only that list's context names. The POS list's Create Invoices opens the pos.make.invoice
+    # dialog for what the form's Invoice button (pos.order.pos_order_invoice) already does.
+    "copy_to_bom", "action_create_invoices",
 }
 HIGH_RISK_VERBS = ("unbuild", "void", "reverse", "refund", "hash", "unlock", "reset")
 # A field with one of these names would become a --model / --method flag, which the CLI reserves for
@@ -603,10 +615,12 @@ def main():
         taken.add(op["id"])
         operations.append(op)
 
-    def business_buttons(model, form, seen_verbs):
-        """(verb, method, label) for every business button the curated catalog does not cover."""
+    def business_buttons(model, views, seen_verbs):
+        """(verb, method, label) for every business button the curated catalog does not cover: the
+        form's, then the list's. A list button acts on the selected records as a form button acts
+        on the open one (mrp.workorder's start/finish/pause, stock.picking's unreserve)."""
         out, methods_seen = [], set()
-        for button in form.get("buttons", []):
+        for button in views.get("form", {}).get("buttons", []) + views.get("list", {}).get("buttons", []):
             method = button["name"]
             # A form often shows one method on two buttons (per state); it is one operation.
             if button["type"] != "object" or (model, method) in curated_methods or method in methods_seen:
@@ -764,7 +778,7 @@ def main():
         family, entity = base.split(".", 1)
         taken_verbs = {i[len(base) + 1:] for i in curated_ids if i.startswith(base + ".") and "." not in i[len(base) + 1:]}
         entry = {"model": model, "curated_entity": base, "operations": []}
-        for verb, method, label in business_buttons(model, record.get("views", {}).get("form", {}), taken_verbs):
+        for verb, method, label in business_buttons(model, record.get("views", {}), taken_verbs):
             risk = "RiskHigh" if any(word in verb for word in HIGH_RISK_VERBS) else "RiskMedium"
             add({"id": f"{base}.{verb}", "kind": "KindAction", "strategy": "StrategyMethodCall",
                  "model": model, "module": record["defining_module"],
@@ -984,7 +998,7 @@ def main():
             entry["operations"].append(op["id"])
 
         seen = {"list", "describe", "create", "update"}
-        for verb, method, button_label in business_buttons(model, form, seen):
+        for verb, method, button_label in business_buttons(model, views, seen):
             risk = "RiskHigh" if any(word in verb for word in HIGH_RISK_VERBS) else "RiskMedium"
             add({"id": f"{base}.{verb}", "kind": "KindAction", "strategy": "StrategyMethodCall",
                  "model": model, "module": module, "capability": capability(family, entity, "write"),

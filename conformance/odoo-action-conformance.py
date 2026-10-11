@@ -523,6 +523,55 @@ class Fixtures:
             return leave
         return self.twice(make)
 
+    def workorders(self, started):
+        """The work order of two fresh, identical manufacturing orders of a fresh product, made on a
+        work center that is not blocked (the demo blocks the one its bills of materials use), and
+        started when the button acts on a running work order (pause, finish)."""
+        center = self.first("mrp.workcenter", [["working_state", "!=", "blocked"]])["id"]
+        template = self.call("product.template", "create", [{"name": f"Conformance work order {STAMP}", "type": "consu"}])
+        product = self.call("product.product", "search", [[["product_tmpl_id", "=", template]]])[0]
+        bom = self.call("mrp.bom", "create", [{"product_tmpl_id": template, "product_qty": 1, "type": "normal", "operation_ids": [
+            [0, 0, {"name": f"Conformance operation {STAMP}", "workcenter_id": center, "time_cycle_manual": 10}]]}])
+
+        def make():
+            order = self.call("mrp.production", "create", [{"product_id": product, "bom_id": bom, "product_qty": 1}])
+            self.call("mrp.production", "action_confirm", [[order]])
+            found = self.call("mrp.workorder", "search", [[["production_id", "=", order]]], {"order": "id", "limit": 1})
+            if not found:
+                raise Unsupported("the bill of materials made no work order")
+            return found[0]
+        twins = self.twice(make)
+        if started:
+            self.call("mrp.workorder", "button_start", [twins])
+        return twins
+
+    def reserved_deliveries(self):
+        """Deliveries of 1 of a product with stock, reserved: Unreserve has something to release."""
+        twins = self.unreserved_deliveries()
+        self.call("stock.picking", "action_assign", [twins])
+        return twins
+
+    def reorder_rules(self, manual_quantity=False):
+        """Two manual reorder rules, each on a fresh storable product bought from one vendor and short
+        of its minimum, so that Order Once has something to order; with a quantity set by hand when
+        the button clears it."""
+        vendor = self.first("res.partner", [["supplier_rank", ">", 0]])["id"]
+        warehouse = self.first("stock.warehouse", [], ("id", "lot_stock_id"))
+        buy = self.first("stock.route", [["name", "=", "Buy"]])["id"]
+
+        def make():
+            template = self.call("product.template", "create", [{
+                "name": f"Conformance reorder {STAMP}", "type": "consu", "is_storable": True, "purchase_ok": True,
+                "seller_ids": [[0, 0, {"partner_id": vendor, "price": 10.0, "min_qty": 1}]]}])
+            product = self.call("product.product", "search", [[["product_tmpl_id", "=", template]]])[0]
+            rule = self.call("stock.warehouse.orderpoint", "create", [{
+                "product_id": product, "warehouse_id": warehouse["id"], "location_id": warehouse["lot_stock_id"][0],
+                "route_id": buy, "product_min_qty": 5, "product_max_qty": 10, "trigger": "manual"}])
+            if manual_quantity:
+                self.call("stock.warehouse.orderpoint", "write", [[rule], {"qty_to_order_manual": 3}])
+            return rule
+        return self.twice(make)
+
     def orders_with_operations(self, planned):
         bom = self.first("mrp.bom", [["type", "=", "normal"], ["operation_ids", "!=", False], ["product_tmpl_id.tracking", "=", "none"]],
                          ("id", "product_tmpl_id"))
@@ -598,6 +647,15 @@ FIXTURES = {
     # A count is made in the inventory list, never stored twice by the demo data.
     "inventory.count.apply": lambda f: f.counted_quants(),
     "inventory.count.clear": lambda f: f.counted_quants(),
+    # List buttons: work orders of two fresh identical manufacturing orders, and reorder rules short
+    # of their minimum (the demo's own differ in product, vendor and stock).
+    "inventory.transfer.unreserve": lambda f: f.reserved_deliveries(),
+    "manufacturing.workorder.start": lambda f: f.workorders(started=False),
+    "manufacturing.workorder.pause": lambda f: f.workorders(started=True),
+    "manufacturing.workorder.finish": lambda f: f.workorders(started=True),
+    "inventory.reorder_rule.replenish": lambda f: f.reorder_rules(),
+    "inventory.reorder_rule.automate": lambda f: f.reorder_rules(),
+    "inventory.reorder_rule.clear_manual_quantity": lambda f: f.reorder_rules(manual_quantity=True),
 }
 
 
@@ -772,7 +830,11 @@ def main():
         raise SystemExit(f"the provider runs {oracle.version.get('server_serie')}, not {options.series}")
     web = WebClient(oracle)
     inventory = json.load(open(options.inventory, encoding="utf-8"))
-    forms = {m["model"]: m.get("views", {}).get("form", {}) for m in inventory["models"] if "error" not in m}
+    # The buttons an operation can stand for: the form's, then the list's (the generator takes both;
+    # a list button acts on the selected records as a form button acts on the open one).
+    buttons_of = {m["model"]: (m.get("views", {}).get("form", {}).get("buttons", [])
+                               + m.get("views", {}).get("list", {}).get("buttons", []))
+                  for m in inventory["models"] if "error" not in m}
     installed = {r["name"] for r in oracle.call("ir.module.module", "search_read", [[["state", "=", "installed"]]], {"fields": ["name"]})}
 
     # Surface operations by default. A curated operation runs only when --only names it: the curated
@@ -825,7 +887,7 @@ def main():
         curated_button = CURATED_BUTTONS.get(operation_id)
         if curated_button:
             call = dict(curated_button["call"])
-        buttons = forms.get(model, {}).get("buttons", [])
+        buttons = buttons_of.get(model, [])
         if curated_button and curated_button.get("list"):
             mine = [{"type": "object", "name": call["method"], "invisible": ""}]
         elif call.get("method"):

@@ -8278,6 +8278,90 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-deletes-20261011.json",
       "verifiedAt": "2026-10-10T19:50:24Z",
       "definitionHash": "sha256:e95c89a79a41b3589a689172fcdeb9e9a6893dfbad8f13ff795bf8b1c9552dc8"
+    },
+    {
+      "operationId": "inventory.reorder_rule.automate",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "stock"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-20261011.json",
+      "verifiedAt": "2026-10-11T07:28:47Z",
+      "definitionHash": "sha256:aab69b7f4d77d6d72c65ccb01133f521c05c3c02f7e2508c98ccdbf5cda7727a"
+    },
+    {
+      "operationId": "inventory.reorder_rule.clear_manual_quantity",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "stock"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-20261011.json",
+      "verifiedAt": "2026-10-11T07:28:47Z",
+      "definitionHash": "sha256:c91db93ad79b71f5646317b23f8da4f998ac1569dd4e37289b64b9a80a89ac5f"
+    },
+    {
+      "operationId": "inventory.reorder_rule.replenish",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "stock"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-20261011.json",
+      "verifiedAt": "2026-10-11T07:28:47Z",
+      "definitionHash": "sha256:5851ba88392648875bc78075d8de04d7230da33d41d0558e9f2aa16a97368dcb"
+    },
+    {
+      "operationId": "inventory.transfer.unreserve",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "stock"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-fixtures-20261011.json",
+      "verifiedAt": "2026-10-11T07:29:56Z",
+      "definitionHash": "sha256:b69bac102414fdf22d91873643cfb00fa6f48f8a042cc17eedf49d5906b731f7"
+    },
+    {
+      "operationId": "manufacturing.workorder.finish",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "mrp"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-fixtures-20261011.json",
+      "verifiedAt": "2026-10-11T07:29:56Z",
+      "definitionHash": "sha256:ecb1152872a7a4ea6764bb1ca0154bc3e4df9495a429ba472643dc8c4f22eee0"
+    },
+    {
+      "operationId": "manufacturing.workorder.pause",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "mrp"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-fixtures-20261011.json",
+      "verifiedAt": "2026-10-11T07:29:56Z",
+      "definitionHash": "sha256:85233a9063fb726ef74ec7d1c097753708d03eeca1d26550cae36def92b8c67b"
+    },
+    {
+      "operationId": "manufacturing.workorder.start",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "mrp"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-list-buttons-fixtures-20261011.json",
+      "verifiedAt": "2026-10-11T07:29:56Z",
+      "definitionHash": "sha256:db9518647a230e675d2042791d86c48936b71ae8a11e4d35f48049e8092b2bb0"
     }
   ]
 }

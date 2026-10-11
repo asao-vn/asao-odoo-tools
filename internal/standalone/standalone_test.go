@@ -50,7 +50,9 @@ const AcceptedCatalogSize = 105
 // the records a business talks about. 716 -> 723: printed reports (<entity>.print), rendered through a
 // web session as the web client's Print menu does; 723 -> 727: the deployment system parameters
 // (report.url, which a containerised Odoo needs for printed reports to keep their header and style).
-const AcceptedSurfaceSize = 727
+// 727 -> 734: the business buttons of list views: work order start/pause/finish, unreserve a
+// transfer, and reorder rules' Order Once, Automate and clearing a quantity set by hand.
+const AcceptedSurfaceSize = 734
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -68,7 +70,9 @@ var acceptedUnverifiedOperations = []string{}
 // layouts, pricelist items and payments, once the read oracle honored each operation's provider domain;
 // and notes, activities, posting and resetting entries, applying and clearing counts. + 7: the prints,
 // whose PDFs matched the browser's download page for page and word for word. + 6: the guarded deletes.
-const AcceptedSurfaceCurrent = 291 + 219 + 70 + 7 + 6
+// Actions 70 -> 77: the list views' work order start/pause/finish, unreserve and reorder rules'
+// replenish/automate/clear, on fresh twins.
+const AcceptedSurfaceCurrent = 291 + 219 + 77 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

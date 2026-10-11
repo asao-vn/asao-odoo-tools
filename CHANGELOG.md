@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 (2026-10-11)
+
+- The business buttons of list views join the catalog, each verified against the web client's own
+  path on fresh twins:
+  - work orders: start, pause, finish;
+  - transfers: unreserve;
+  - reorder rules: Order Once, Automate, and clearing a quantity set by hand.
+- 839 operations, 703 verified.
+
 ## 0.2.1 (2026-10-11)
 
 - `odoo-cli version` reports the release (`releaseVersion`) next to the command contract

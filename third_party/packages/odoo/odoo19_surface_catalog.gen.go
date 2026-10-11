@@ -300,6 +300,13 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
 		Method: "action_confirm",
 	},
+	// stock.picking (Transfer): do_unreserve "Unreserve"
+	{
+		SemanticID: "inventory.transfer.unreserve", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.transfer.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.picking",
+		Method: "do_unreserve",
+	},
 	// stock.picking (Transfer): wizard stock.return.picking.action_create_returns "Return > Return"
 	{
 		SemanticID: "inventory.transfer.return", Kind: KindAction, Strategy: StrategyWizard,
@@ -4730,6 +4737,27 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"workcenter_id": {TargetModel: "mrp.workcenter", SearchField: "name"},
 		},
 	},
+	// mrp.workorder (Work Order): button_start "Start"
+	{
+		SemanticID: "manufacturing.workorder.start", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.workorder.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.workorder",
+		Method: "button_start",
+	},
+	// mrp.workorder (Work Order): button_pending "Pause"
+	{
+		SemanticID: "manufacturing.workorder.pause", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.workorder.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.workorder",
+		Method: "button_pending",
+	},
+	// mrp.workorder (Work Order): button_finish "Done"
+	{
+		SemanticID: "manufacturing.workorder.finish", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.workorder.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.workorder",
+		Method: "button_finish",
+	},
 	// payment.method (Payment Method)
 	{
 		SemanticID: "finance.online_payment_method.list", Kind: KindRead, Strategy: StrategyRead,
@@ -7155,5 +7183,26 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"route_id":             {TargetModel: "stock.route", SearchField: "name"},
 			"warehouse_id":         {TargetModel: "stock.warehouse", SearchField: "name"},
 		},
+	},
+	// stock.warehouse.orderpoint (Minimum Inventory Rule): action_remove_manual_qty_to_order "Remove manually entered value and replace by the quantity to order based on the forecasted quantities"
+	{
+		SemanticID: "inventory.reorder_rule.clear_manual_quantity", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.reorderrule.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.warehouse.orderpoint",
+		Method: "action_remove_manual_qty_to_order",
+	},
+	// stock.warehouse.orderpoint (Minimum Inventory Rule): action_replenish "Order"
+	{
+		SemanticID: "inventory.reorder_rule.replenish", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.reorderrule.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.warehouse.orderpoint",
+		Method: "action_replenish",
+	},
+	// stock.warehouse.orderpoint (Minimum Inventory Rule): action_replenish_auto "Automate"
+	{
+		SemanticID: "inventory.reorder_rule.automate", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.reorderrule.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.warehouse.orderpoint",
+		Method: "action_replenish_auto",
 	},
 }

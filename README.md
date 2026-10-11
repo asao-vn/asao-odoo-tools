@@ -10,14 +10,14 @@ can drive Odoo through it as dependably as a person does through the web client.
 
 ## What it covers
 
-832 operations over the business apps of Odoo Community 19.0. 696 of them are verified on the stock
+839 operations over the business apps of Odoo Community 19.0. 703 of them are verified on the stock
 image.
 
 | Kind | Operations | Verified |
 |---|---:|---:|
 | Read, list, group and paginate | 352 | 348 |
 | Create and update | 330 | 244 |
-| Business actions (the form's buttons) | 108 | 69 |
+| Business actions (form and list buttons) | 115 | 76 |
 | Dialogs (wizards) | 26 | 19 |
 | Print a document's PDF | 7 | 7 |
 | Guarded deletes | 8 | 8 |
@@ -122,13 +122,10 @@ pip install asao-erp
 
 - **Odoo Enterprise and Odoo Online** are not verified. Odoo Online allows the external API on its
   Custom plan only.
-- **Missing business actions:**
-  - CRM: mark an opportunity won.
-  - Manufacturing: start, finish and pause a work order; unbuild.
-  - Inventory: unreserve; replenish.
-  - Sales and Purchase: send a quotation or an RFQ by email.
-  - Point of Sale: invoice a POS order.
-  - Employees: create a user from an employee.
+- **Business actions left out on purpose:**
+  - Sending a document by email (a quotation, an RFQ, an invoice): odoo-cli prints the PDF instead.
+  - Creating a user or a company from another record.
+  - Paid IAP services (lead generation, enrichment).
 - **Apps not covered yet:** Fleet, Maintenance, Recruitment, Surveys, Repairs, Restaurant, To-Do,
   Email and SMS Marketing, Events, eLearning, eCommerce, Live Chat and Lunch.
 - **Self-update:** `odoo-cli update` needs a signed release channel that is not published yet. To
@@ -156,7 +153,7 @@ Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 ## Tiếng Việt
 
-`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 832 thao tác nghiệp vụ, trong đó 696 thao
+`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 839 thao tác nghiệp vụ, trong đó 703 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
 có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent.
 
