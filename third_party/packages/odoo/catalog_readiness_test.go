@@ -39,9 +39,11 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// 114 actions and wizards. Then updates of numbers, dates, booleans, selections and relations,
 	// creates of models with nothing required, line states compared on actions, and fixtures for
 	// landed costs, data cleaning, approvals and reservations: 498 creates/updates, 128 actions and
-	// wizards.
-	if len(report.Records) != 103+521+498+128+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 1160 surface", len(report.Records))
+	// wizards. 2026-10-13: payments authorized by the Demo provider (payment_demo), captured through
+	// the capture dialog and voided on the transaction, the invoice and the quotation: 132 actions
+	// and wizards.
+	if len(report.Records) != 103+521+498+132+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 1164 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}

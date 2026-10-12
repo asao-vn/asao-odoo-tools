@@ -61,7 +61,9 @@ const AcceptedCatalogSize = 105
 // (2026-10-12), less the buttons that send email or SMS, buy IAP credits or only open another window.
 // 1256 -> 1254: a shipping method's debug and production switches, which show only for a carrier
 // connector (none in Community).
-const AcceptedSurfaceSize = 1254
+// 1254 -> 1253: a payment transaction's Post Process, a button whose invisible is the constant 1
+// (only Odoo's cron runs it); the transaction's Capture becomes the capture dialog's operation.
+const AcceptedSurfaceSize = 1253
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -89,7 +91,8 @@ var acceptedUnverifiedOperations = []string{}
 // values: reads 521, writes 450, actions and wizards 114.
 // Then typed updates, creates without required fields, line states and more fixtures: writes 498,
 // actions and wizards 128.
-const AcceptedSurfaceCurrent = 521 + 498 + 128 + 7 + 6
+// Then payments authorized by the Demo provider, captured and voided: actions and wizards 132.
+const AcceptedSurfaceCurrent = 521 + 498 + 132 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

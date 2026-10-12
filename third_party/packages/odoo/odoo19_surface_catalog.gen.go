@@ -99,7 +99,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.payment.post", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"account"}, RequiredCapability: "finance.payment.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment",
 		Method: "action_post",
 	},
 	// account.payment (Payments): action_validate "Validate"
@@ -120,7 +120,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.payment.draft", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"account"}, RequiredCapability: "finance.payment.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment",
 		Method: "action_draft",
 	},
 	// account.payment (Payments): button_request_cancel "Request Cancel"
@@ -148,7 +148,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.payment.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"account"}, RequiredCapability: "finance.payment.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment",
 		Method: "action_cancel",
 	},
 	// crm.lead (Lead): action_restore "Restore"
@@ -565,7 +565,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"hr_holidays"}, RequiredCapability: "workforce.leave.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.leave",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"employee_id", "user_id", "state", "dashboard_warning_message", "leave_type_increases_duration", "department_id", "holiday_status_id", "employee_overtime", "request_date_from", "request_date_to", "duration_display", "request_date_from_period", "request_date_to_period", "request_hour_from", "request_hour_to", "tz", "date_from", "date_to", "name", "supported_attachment_ids", "can_approve", "can_validate", "can_back_to_approve", "can_refuse", "can_cancel", "validation_type", "overtime_deductible", "request_unit_hours", "request_unit_half", "tz_mismatch"},
+		OptionalReadFields: []string{"employee_id", "user_id", "state", "dashboard_warning_message", "leave_type_increases_duration", "department_id", "holiday_status_id", "employee_overtime", "request_date_from", "request_date_to", "duration_display", "request_date_from_period", "request_date_to_period", "request_hour_from", "request_hour_to", "tz", "date_from", "date_to", "name", "supported_attachment_ids", "can_approve", "can_validate", "can_back_to_approve", "can_refuse", "can_cancel", "validation_type", "overtime_deductible", "request_unit_half", "request_unit_hours", "tz_mismatch"},
 	},
 	// hr.leave (Time Off)
 	{
@@ -641,7 +641,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "structure.company.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"base"}, RequiredCapability: "structure.company.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "res.company",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "res.company",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "partner_id", "street", "street2", "city", "state_id", "zip", "country_id", "vat", "company_registry", "iap_enrich_auto_done", "currency_id", "phone", "email", "website", "parent_id", "alias_domain_id", "color", "social_twitter", "social_facebook", "social_github", "social_linkedin", "social_youtube", "social_instagram", "social_tiktok", "social_discord", "account_price_include", "cost_method", "fiscalyear_last_day", "fiscalyear_last_month", "horizon_days", "inventory_period", "layout_background", "point_of_sale_ticket_portal_url_display_mode", "security_lead", "logo"},
 		InputTypes: map[string]string{"alias_domain_id": "reference", "color": "integer", "country_id": "reference", "currency_id": "reference", "fiscalyear_last_day": "integer", "horizon_days": "number", "iap_enrich_auto_done": "boolean", "parent_id": "reference", "partner_id": "reference", "security_lead": "number", "state_id": "reference"},
 		InputEnums: map[string][]string{"account_price_include": []string{"tax_included", "tax_excluded"}, "cost_method": []string{"standard", "fifo", "average"}, "fiscalyear_last_month": []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}, "inventory_period": []string{"manual", "daily", "monthly"}, "layout_background": []string{"Blank", "Demo logo", "Custom"}, "point_of_sale_ticket_portal_url_display_mode": []string{"qr_code", "url", "qr_code_and_url"}},
@@ -1072,7 +1072,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.journal_entry.reset_to_draft", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"account"}, RequiredCapability: "finance.journalentry.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.move",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.move",
 		ProviderDomain: []interface{}{[]interface{}{"move_type", "=", "entry"}},
 		Method:         "button_draft",
 	},
@@ -3234,7 +3234,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "structure.model.recycle_records", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.model.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
 		Method: "action_recycle_records",
 	},
 	// data_recycle.record (Recycling Record)
@@ -3279,7 +3279,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "structure.record.validate", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
 		Method: "action_validate",
 	},
 	// data_recycle.record (Recycling Record): action_discard "Discard"
@@ -5122,7 +5122,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "people.expense.post", Kind: KindAction, Strategy: StrategyWizard,
 		RequiredModules: []string{"hr_expense"}, RequiredCapability: "people.expense.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.expense",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.expense",
 		WizardModel: "hr.expense.post.wizard", WizardMethod: "action_post_entry",
 		WizardOpenerMethod: "action_post", WizardOpenerActs: true,
 		WizardAllowedFields: []string{"employee_journal_id", "accounting_date"},
@@ -8128,10 +8128,10 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.payment_provider.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"is_published", "name", "code", "custom_mode", "state", "allow_tokenization", "capture_manually", "qr_code", "allow_express_checkout", "so_reference_type", "maximum_amount", "journal_id", "module_id", "company_id"},
 		InputTypes: map[string]string{"allow_express_checkout": "boolean", "allow_tokenization": "boolean", "capture_manually": "boolean", "company_id": "reference", "is_published": "boolean", "journal_id": "reference", "maximum_amount": "number", "module_id": "reference", "qr_code": "boolean"},
-		InputEnums: map[string][]string{"code": []string{"none", "custom"}, "custom_mode": []string{"wire_transfer", "cash_on_delivery"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
+		InputEnums: map[string][]string{"code": []string{"none", "custom", "demo"}, "custom_mode": []string{"wire_transfer", "cash_on_delivery"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"journal_id": {TargetModel: "account.journal", SearchField: "name"},
@@ -8141,10 +8141,10 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.payment_provider.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymentprovider.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.provider",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_published", "name", "code", "custom_mode", "state", "allow_tokenization", "capture_manually", "qr_code", "allow_express_checkout", "so_reference_type", "maximum_amount", "journal_id", "module_id", "company_id"},
 		InputTypes: map[string]string{"allow_express_checkout": "boolean", "allow_tokenization": "boolean", "capture_manually": "boolean", "company_id": "reference", "is_published": "boolean", "journal_id": "reference", "maximum_amount": "number", "module_id": "reference", "qr_code": "boolean"},
-		InputEnums: map[string][]string{"code": []string{"none", "custom"}, "custom_mode": []string{"wire_transfer", "cash_on_delivery"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
+		InputEnums: map[string][]string{"code": []string{"none", "custom", "demo"}, "custom_mode": []string{"wire_transfer", "cash_on_delivery"}, "so_reference_type": []string{"so_name", "partner"}, "state": []string{"disabled", "enabled", "test"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"journal_id": {TargetModel: "account.journal", SearchField: "name"},
@@ -8178,15 +8178,16 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttoken.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.token",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"active", "payment_details", "payment_method_id", "partner_id", "provider_id", "provider_ref"},
+		OptionalReadFields: []string{"active", "payment_details", "payment_method_id", "partner_id", "provider_code", "demo_simulated_state", "provider_id", "provider_ref"},
 	},
 	// payment.token (Payment Token)
 	{
 		SemanticID: "finance.payment_token.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttoken.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.token",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "payment_details", "partner_id", "provider_id", "provider_ref", "payment_method_id"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "payment_details", "partner_id", "demo_simulated_state", "provider_id", "provider_ref", "payment_method_id"},
 		InputTypes: map[string]string{"active": "boolean", "partner_id": "reference", "payment_method_id": "reference", "provider_id": "reference"},
+		InputEnums: map[string][]string{"demo_simulated_state": []string{"pending", "done", "cancel", "error"}},
 		Relations: map[string]RelationSpec{
 			"partner_id":        {TargetModel: "res.partner", SearchField: "name"},
 			"payment_method_id": {TargetModel: "payment.method", SearchField: "name"},
@@ -8198,8 +8199,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "finance.payment_token.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttoken.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.token",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "payment_details", "partner_id", "provider_id", "provider_ref", "payment_method_id"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "payment_details", "partner_id", "demo_simulated_state", "provider_id", "provider_ref", "payment_method_id"},
 		InputTypes: map[string]string{"active": "boolean", "partner_id": "reference", "payment_method_id": "reference", "provider_id": "reference"},
+		InputEnums: map[string][]string{"demo_simulated_state": []string{"pending", "done", "cancel", "error"}},
 		Relations: map[string]RelationSpec{
 			"partner_id":        {TargetModel: "res.partner", SearchField: "name"},
 			"payment_method_id": {TargetModel: "payment.method", SearchField: "name"},
@@ -8220,13 +8222,13 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttransaction.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"state", "invoices_count", "pos_order_id", "refunds_count", "sale_order_ids_nbr", "reference", "payment_id", "source_transaction_id", "amount", "currency_id", "payment_method_id", "provider_id", "provider_code", "provider_reference", "token_id", "create_date", "last_state_change", "is_live", "is_post_processed", "partner_id", "partner_address", "partner_city", "partner_state_id", "partner_zip", "partner_country_id", "partner_email", "partner_phone", "partner_lang", "child_transaction_ids", "state_message"},
+		OptionalReadFields: []string{"state", "capture_manually", "invoices_count", "pos_order_id", "refunds_count", "sale_order_ids_nbr", "reference", "payment_id", "source_transaction_id", "amount", "currency_id", "payment_method_id", "provider_id", "provider_code", "provider_reference", "token_id", "create_date", "last_state_change", "is_live", "is_post_processed", "partner_id", "partner_address", "partner_city", "partner_state_id", "partner_zip", "partner_country_id", "partner_email", "partner_phone", "partner_lang", "child_transaction_ids", "state_message"},
 	},
 	// payment.transaction (Payment Transaction)
 	{
 		SemanticID: "finance.payment_transaction.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttransaction.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"is_live", "is_post_processed", "partner_address", "partner_city", "partner_state_id", "partner_zip", "partner_country_id", "partner_email", "partner_phone", "partner_lang", "amount", "currency_id", "partner_id", "payment_method_id", "provider_id", "reference", "state"},
 		InputTypes: map[string]string{"amount": "number", "currency_id": "reference", "is_live": "boolean", "is_post_processed": "boolean", "partner_country_id": "reference", "partner_id": "reference", "partner_state_id": "reference", "payment_method_id": "reference", "provider_id": "reference"},
 		InputEnums: map[string][]string{"partner_lang": []string{"en_US"}, "state": []string{"draft", "pending", "authorized", "done", "cancel", "error"}},
@@ -8243,7 +8245,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.payment_transaction.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttransaction.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_live", "is_post_processed", "partner_address", "partner_city", "partner_state_id", "partner_zip", "partner_country_id", "partner_email", "partner_phone", "partner_lang", "amount", "currency_id", "partner_id", "payment_method_id", "provider_id", "reference", "state"},
 		InputTypes: map[string]string{"amount": "number", "currency_id": "reference", "is_live": "boolean", "is_post_processed": "boolean", "partner_country_id": "reference", "partner_id": "reference", "partner_state_id": "reference", "payment_method_id": "reference", "provider_id": "reference"},
 		InputEnums: map[string][]string{"partner_lang": []string{"en_US"}, "state": []string{"draft", "pending", "authorized", "done", "cancel", "error"}},
@@ -8256,13 +8258,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"provider_id":        {TargetModel: "payment.provider", SearchField: "name"},
 		},
 	},
-	// payment.transaction (Payment Transaction): action_capture "Capture Transaction"
-	{
-		SemanticID: "finance.payment_transaction.capture", Kind: KindAction, Strategy: StrategyMethodCall,
-		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttransaction.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
-		Method: "action_capture",
-	},
 	// payment.transaction (Payment Transaction): action_void "Void Transaction"
 	{
 		SemanticID: "finance.payment_transaction.void", Kind: KindAction, Strategy: StrategyMethodCall,
@@ -8270,12 +8265,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
 		Method: "action_void",
 	},
-	// payment.transaction (Payment Transaction): action_post_process "Post-process"
+	// payment.transaction (Payment Transaction): action_capture, then dialog payment.capture.wizard.action_capture "Capture Transaction > Capture"
 	{
-		SemanticID: "finance.payment_transaction.post_process", Kind: KindAction, Strategy: StrategyMethodCall,
+		SemanticID: "finance.payment_transaction.capture", Kind: KindAction, Strategy: StrategyWizard,
 		RequiredModules: []string{"payment"}, RequiredCapability: "finance.paymenttransaction.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
-		Method: "action_post_process",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "payment.transaction",
+		WizardModel: "payment.capture.wizard", WizardMethod: "action_capture",
+		WizardOpenerMethod: "action_capture", WizardOpenerActs: false,
+		WizardAllowedFields: []string{"amount_to_capture", "void_remaining_amount"},
+		InputTypes:          map[string]string{"amount_to_capture": "number", "void_remaining_amount": "boolean"},
 	},
 	// phone.blacklist (Phone Blacklist)
 	{
@@ -8459,7 +8457,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "pos.order.pay", Kind: KindAction, Strategy: StrategyWizard,
 		RequiredModules: []string{"point_of_sale"}, RequiredCapability: "pos.order.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.order",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "pos.order",
 		WizardModel: "pos.make.payment", WizardMethod: "check",
 		WizardActiveContext: true,
 		WizardAllowedFields: []string{"config_id", "payment_method_id", "amount", "payment_name"},
@@ -10129,7 +10127,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.currency_rate.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"base"}, RequiredCapability: "finance.currencyrate.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "res.currency.rate",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "res.currency.rate",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "rate", "company_rate", "inverse_company_rate", "currency_id"},
 		InputTypes: map[string]string{"company_rate": "number", "currency_id": "reference", "inverse_company_rate": "number", "rate": "number"},
 		Relations: map[string]RelationSpec{
@@ -10140,7 +10138,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "finance.currency_rate.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"base"}, RequiredCapability: "finance.currencyrate.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "res.currency.rate",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "res.currency.rate",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "rate", "company_rate", "inverse_company_rate", "currency_id"},
 		InputTypes: map[string]string{"company_rate": "number", "currency_id": "reference", "inverse_company_rate": "number", "rate": "number"},
 		Relations: map[string]RelationSpec{
@@ -10991,7 +10989,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "inventory.landed_cost.validate", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"stock_landed_costs"}, RequiredCapability: "inventory.landedcost.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.landed.cost",
 		Method: "button_validate",
 	},
 	// stock.landed.cost (Stock Landed Cost): button_cancel "Cancel"
@@ -11507,7 +11505,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	{
 		SemanticID: "inventory.scrap.validate", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"stock"}, RequiredCapability: "inventory.scrap.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.scrap",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "stock.scrap",
 		Method: "action_validate",
 	},
 	// stock.scrap (Scrap): action_validate, then dialog stock.warn.insufficient.qty.scrap.action_done "Validate > Confirm"

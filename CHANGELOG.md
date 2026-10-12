@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.8.0 (2026-10-13)
+
+- Payments: with Odoo's Demo provider (`payment_demo`), capturing and voiding authorized payments are
+  verified. A transaction's Capture is now its capture dialog (`finance.payment_transaction.capture`,
+  with `amount_to_capture`).
+- Risk reviewed: 17 operations whose name hid their risk are now high risk, so a plan asks for
+  approval:
+  - posting, reopening or cancelling a payment;
+  - resetting a journal entry to draft;
+  - validating landed costs and scraps;
+  - posting expenses;
+  - POS payments;
+  - payment providers, transactions and currency rates;
+  - company settings;
+  - data-cleaning deletes.
+- Buttons that can never show are left out (a transaction's Post Process), as are the Demo
+  provider's outcome buttons.
+- Odoo 20.0: 1081 operations verified, up from 1012; live chat conversation tags no longer exist
+  there.
+- 1267 of 1358 operations verified on 19.0.
+
 ## 0.7.0 (2026-10-12)
 
 - 1263 of 1359 operations verified on 19.0, up from 1201.

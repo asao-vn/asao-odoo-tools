@@ -1,0 +1,3474 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:2f0eb0d86c05a03ecf35785b22031b2d8711c970dfa36ca300aec2d5ff95cfbd",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-12T20:06:06Z",
+ "records": {
+  "catalog.product.bom_cost": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:34916b0b114c295cb2674c50265303f719c6ea4ee707e3c9fbadd147785c4c0a",
+   "kind": "action",
+   "modules": [
+    "product"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:76d5f2f43a3b97c9b095a16c3994c943026eef566d91bd32709cf1d580c79881",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "catalog.product_variant.bom_cost": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5c325ddb0fa7656d1030380f30b26fa9381c9ceed850e02260edf20ff651d40d",
+   "kind": "action",
+   "modules": [
+    "product"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:76d5f2f43a3b97c9b095a16c3994c943026eef566d91bd32709cf1d580c79881",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "crm.lead.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:5cdb827ff16311ad3e7e7fc66653fe1875cb7b6bebb74f357765825e4151abc9",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "crm"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:9e3351d07a3459a2790ae0bcdbdf93d4eb47268f9bd149756b9146dd25c6a022",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "crm.lead.mark_lost": {
+   "changedFields": [
+    "active",
+    "automated_probability",
+    "date_closed",
+    "probability",
+    "won_status"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:b7c16b006e918ce75c03d6ad94c02e1b9c2a538bd1870f9e6d2b497d2ec4f6f5",
+   "kind": "action",
+   "modules": [
+    "crm"
+   ],
+   "oracleChangedFields": [
+    "active",
+    "automated_probability",
+    "date_closed",
+    "probability",
+    "won_status"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:9e3351d07a3459a2790ae0bcdbdf93d4eb47268f9bd149756b9146dd25c6a022",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     true,
+     false
+    ],
+    "won_status": [
+     "pending",
+     "lost"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "crm.lead.restore": {
+   "changedFields": [
+    "active",
+    "automated_probability",
+    "date_closed",
+    "probability",
+    "won_status"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ea929fb1686da40ba55c316bdb830509855dfeb788d9a144bd56a7ff458eea05",
+   "kind": "action",
+   "modules": [
+    "crm"
+   ],
+   "oracleChangedFields": [
+    "active",
+    "automated_probability",
+    "date_closed",
+    "probability",
+    "won_status"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:9e3351d07a3459a2790ae0bcdbdf93d4eb47268f9bd149756b9146dd25c6a022",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     false,
+     true
+    ],
+    "won_status": [
+     "lost",
+     "pending"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "crm.lead.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:f82969aba5e1a9fcb05cc165bba26a9237e161354c7316d0bbd46c71ed71f789",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "crm"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:9e3351d07a3459a2790ae0bcdbdf93d4eb47268f9bd149756b9146dd25c6a022",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "crm.lost_reason.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:8132c612357efd05c1e98dcac5f635a0c50b346a84a7e52528101c7f7c195c9b",
+   "kind": "delete",
+   "modules": [
+    "crm"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:bdc12f336463816ea4cda690c2d7b45d072350f850982330eebc53463975ac47",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "crm.stage.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:6ecea16e7b30b350f8962ced1253d28d9f8d266b2bea7ff9071542b63d8aab37",
+   "kind": "delete",
+   "modules": [
+    "crm"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b5d949c101870e7f1cba45239e8c5e03e73133270edb703dfd4b20f76e6928da",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "crm.team.assign_leads": {
+   "definitionHash": "sha256:77895bfdb40145379a367d929681b921a22c5fb7d3afcc1b632533f1878bceac",
+   "kind": "action",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "elearning.channel_partner.archive": {
+   "changedFields": [
+    "active"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:40abeb0920f9fa892eb04c625e68644f1d44eaf0807a53e5431c89ef87e83af4",
+   "kind": "action",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleChangedFields": [
+    "active"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:80ad289c3e000dd332788a459e18f599927d9417454b34e1accfb17e333104a9",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "elearning.channel_partner.unarchive": {
+   "changedFields": [
+    "active"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:bcdcaf22a69bd1652a7adf99bbb4d67b33547f4a0c739e29c2732881572c4ed0",
+   "kind": "action",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleChangedFields": [
+    "active"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:80ad289c3e000dd332788a459e18f599927d9417454b34e1accfb17e333104a9",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     false,
+     true
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "event.event.website_publish_button": {
+   "changedFields": [
+    "is_published",
+    "published_date"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:9e80f9615a414fcb2172be584ccbe927f99dd8ac1089409d0523610ba30c2fbb",
+   "kind": "action",
+   "modules": [
+    "event"
+   ],
+   "oracleChangedFields": [
+    "is_published",
+    "published_date"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2e96afc0e9b31d97254a398e034dd89ae673b8958ef903ee31144c9742fd63be",
+   "status": "AGREE",
+   "transitions": {
+    "is_published": [
+     false,
+     true
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "event.lead_rule.execute_rule": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:0768879d8b7041589fa598cf9b322ed55a587966d5d613df3fce60f53919a10b",
+   "kind": "action",
+   "modules": [
+    "event_crm"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:549c0b02c551384c4b22d7eb659031139638fd436006ba9e91f7ccbe1e515f7e",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "event.registration.cancel": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:b437347e26020fff340808dc997651bbd3aa6474ff3ad913e3946231c900778e",
+   "kind": "action",
+   "modules": [
+    "event"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:986892150e66df72bba661be9ce3b499bdae350eff9361c172dad56450f28672",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "open",
+     "cancel"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "event.registration.confirm": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ba8210e6e57531ffc26bd926ecb4800f4fafcbf653b6dec00f28e24f96e4f6b0",
+   "kind": "action",
+   "modules": [
+    "event"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:d44b49da11eef52c8694d1cd320ab433ebeca43ebdb81c3a7196a0b6abd9dd6b",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "open"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "event.registration.set_done": {
+   "definitionHash": "sha256:ea515dd867a91496d323cc42b1bdaee871cb6731ff77e622c9a59fe08ea9c8b8",
+   "kind": "action",
+   "modules": [
+    "event"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "finance.fiscal_position.create_foreign_taxes": {
+   "changedFields": [],
+   "cliOutcome": "REFUSED:AERP_PROVIDER_ERROR",
+   "countChanges": {},
+   "definitionHash": "sha256:4dc8ff49a749e06c4f57ebb9fc9340677e75ea0b7ca1ecd68a842843dfee3531",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "REFUSED",
+   "oracleRefusal": "The operation cannot be completed: Missing required field 'Country' (country_id) for model 'Tax' (account.tax)",
+   "pairHash": "sha256:6fcc36009c766b7bdfe916c7049a9bfc37970e5c954ae9ec57de4bb8bb85a50c",
+   "status": "AGREE_REFUSED",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "finance.invoice.activate_currency": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:fc21ad5ec17abb801819ecd11674e349bde51139670520feca98df772656cb44",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:396dde8bdb00581f0095b522ea2bb7521ed8198c7b4f82c61953453bbaea9080",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "finance.invoice.create_landed_costs": {
+   "definitionHash": "sha256:de03fb07f8cd26eb31bd70542e892e980733851e235b4d693420b9cae9f474ac",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.invoice.einvoice_send_payment_status": {
+   "definitionHash": "sha256:1470094b0d0b8167ae73e8add56b6bf4fc0a56d52d74715184387c511be6cd6b",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.invoice.hash": {
+   "definitionHash": "sha256:b0292b0d23c8522a93c5b5a82ed3d5c4d2cb4192c0737d5777b8093b07de4d0e",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.invoice.log_note": {
+   "definitionHash": "sha256:d7d4b0fd2793ff6917ecf51cbfdcd203b8985e3a573d0d4d61b0c0d118744649",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.invoice.payment_capture": {
+   "definitionHash": "sha256:dd1cad19bc20940e61883c4e97df2604d54056e1b941ba810e02719bebfb0d5c",
+   "detail": "Invalid field payment.provider.state in condition ('state', '!=', 'disabled')",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.invoice.payment_void": {
+   "definitionHash": "sha256:91ef035dc63d89bfa67533934d30ba76a359f7a96c1369a500932acd2249c050",
+   "detail": "Invalid field payment.provider.state in condition ('state', '!=', 'disabled')",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.invoice.request_cancel": {
+   "definitionHash": "sha256:09bd9a7663e11114a618fa428ae108cf3264dee0ef235cbac88b607193b7d1e2",
+   "kind": "action",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "NOT_RUN_EXTERNAL_PARTY"
+  },
+  "finance.invoice.reverse": {
+   "changedFields": [
+    "audit_trail_message_ids",
+    "reversal_move_ids",
+    "reversal_move_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 1,
+    "reversal_move_ids": 1
+   },
+   "definitionHash": "sha256:2ffe9039bcaa6fa5830902662791fac0ed02e06719bf6affb169b50da8f73f6e",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "audit_trail_message_ids",
+    "reversal_move_ids",
+    "reversal_move_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4e3ca04ce6b532beea6c760c6cf7d17cb300d304faa0a14e2f82ca375f3a1251",
+   "status": "AGREE",
+   "transitions": {
+    "reversal_move_ids.state": [
+     "",
+     "posted"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "finance.invoice.reverse_and_replace": {
+   "changedFields": [
+    "audit_trail_message_ids",
+    "reversal_move_ids",
+    "reversal_move_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 1,
+    "reversal_move_ids": 1
+   },
+   "definitionHash": "sha256:a11ba6e889b84c5f8b5f6e60180e4d5e1fda308a8d43aae5c0a38046d1961e71",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "audit_trail_message_ids",
+    "reversal_move_ids",
+    "reversal_move_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:65d8982c9a032b505be99895f45990c69c8a62e1efbf36d96add4647642b42d1",
+   "status": "AGREE",
+   "transitions": {
+    "reversal_move_ids.state": [
+     "",
+     "posted"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "finance.invoice.schedule_activity": {
+   "definitionHash": "sha256:e9109410e473d0774f90c4cdd095fc2a886f91ce59fe392d1c69934bb2e063f6",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.invoice.send_einvoice": {
+   "definitionHash": "sha256:dccb396d308ed9b50e1ee33bf3f04c5e6243a753b71b30d6da95a373548542c8",
+   "kind": "action",
+   "modules": [
+    "l10n_vn_edi_viettel"
+   ],
+   "status": "NOT_RUN_EXTERNAL_PARTY"
+  },
+  "finance.invoice.update_fpos_values": {
+   "definitionHash": "sha256:cd84a6ca66186d292ea1113e76f4aaf065aa0b90841ccb5eecbd82ef8d43e960",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.journal_entry.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:c4464241fef72e5de225b36eec8462cb317974c5b66bb5792da3501252621462",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "account"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:bf8550fc14473dd32662578bfbf253afbdbc6bc261a07eaf85c4900ae908f52b",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "finance.journal_entry.post": {
+   "changedFields": [
+    "name",
+    "posted_before",
+    "sequence_number",
+    "sequence_prefix",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:4ee2eea0f6c756c54ba689c8aed395c8643dedaa5d3638811d5b840fac8fc5e7",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "name",
+    "posted_before",
+    "sequence_number",
+    "sequence_prefix",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:8a63a90c1b7258c2a838017f93418c58f3e50a532e419918d22d6186410be1fa",
+   "status": "AGREE",
+   "transitions": {
+    "posted_before": [
+     false,
+     true
+    ],
+    "state": [
+     "draft",
+     "posted"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.journal_entry.reset_to_draft": {
+   "changedFields": [
+    "is_manually_modified",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:b99e5b440597dd48c8644f1f8f7b52f17f5a9ab53861dd9f5ad24f65e0c77a19",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "is_manually_modified",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:73e2f935c623ad7dc1a376377fea137c64097d765f415e996289924a308b0b5b",
+   "status": "AGREE",
+   "transitions": {
+    "is_manually_modified": [
+     false,
+     true
+    ],
+    "state": [
+     "posted",
+     "draft"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.journal_entry.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:4bb5dab5ea5fdd089b548c427da634db2c122ae13dd2437895177b8ce6d82ed5",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "account"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:761e76e5d10acf74ee99d09514b76bf5f56a5e02252624384700f83dbfcac001",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "finance.payment.cancel": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:84c9616df456996c11e4ce880fbe9dceb000909661408ac89c45129fe5b889f0",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:11e07e7bb591992307e25655831247578120a67b9436b172b61a4df9ba743557",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "canceled"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment.draft": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:f32d77b2824db7eec2f86cd21a21db0a5be9cd049c6b8ac7cf698911fba46c2f",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2e96afc0e9b31d97254a398e034dd89ae673b8958ef903ee31144c9742fd63be",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "paid",
+     "draft"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment.mark_as_sent": {
+   "changedFields": [
+    "is_sent"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5780676491b999422609f0e57b8b9ada714d63241b19b8dbca8aa13bf91c8bd9",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "is_sent"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eb18eeb3c385eb89930335264dc8ded657169ecd0251918ea0382c465e8975a5",
+   "status": "AGREE",
+   "transitions": {
+    "is_sent": [
+     false,
+     true
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment.post": {
+   "changedFields": [
+    "move_id",
+    "name",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:946fbd0309c49b7df0f90678f89071ba761b092a48aa6c84b267d9abf7acb4e5",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "move_id",
+    "name",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:1a2d14c94f55b2b79673a42a042dfd095cff4089fb431d7af4ff8f4c7831dc58",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "paid"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment.reject": {
+   "definitionHash": "sha256:c57dd19cc425bb187b1ea6dc58762e3e68acf52ee94ba568f4ac802a958646b1",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  },
+  "finance.payment.request_cancel": {
+   "definitionHash": "sha256:c6c0f8e882c6c6bd6cff59db60dcbec5f695b0523b3199f6baddf6b3353e5b2d",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "finance.payment.unmark_as_sent": {
+   "changedFields": [
+    "is_sent"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:6e96ce61d2262c1c12a5c0aee9817cea07d41af4b8600d28470f8e731d76fe6a",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "is_sent"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ffe9bc6ede4c82bc338ea24a666ff5b570a9415fa3f9ca7ca1442a0df6a4f7dd",
+   "status": "AGREE",
+   "transitions": {
+    "is_sent": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "finance.payment.validate": {
+   "definitionHash": "sha256:cf8a0388c03a5a81010b9a4628316e11087b7cf20003eb17a000e0559c00bb23",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "finance.payment_provider.recompute_pending_msg": {
+   "definitionHash": "sha256:2325019f1a362644b766f94666cfa413e718519ac3b38dc2350c8e78faa6c176",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "finance.payment_provider.toggle_is_published": {
+   "changedFields": [
+    "is_published"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:1bbf970879289ebd6416f083e5fa85607aa3d9d0962a22a6d9f5b3eacfd90b1f",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "oracleChangedFields": [
+    "is_published"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0bac3d4886ccb88813f08e03df25c13b76105c2802b2547de13d86b65c03e7ba",
+   "status": "AGREE",
+   "transitions": {
+    "is_published": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "finance.payment_transaction.capture": {
+   "definitionHash": "sha256:30aa95b2a4cb033d577bdb21e537e7c44687c74a9684f27c357955b53d4f2b8d",
+   "detail": "Invalid field payment.provider.state in condition ('state', '!=', 'disabled')",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.payment_transaction.void": {
+   "definitionHash": "sha256:96dec6fe1186b3d4f3a6ae7b153340efbb2e687fa8fa4f2744fcce2344985fc1",
+   "detail": "Invalid field payment.provider.state in condition ('state', '!=', 'disabled')",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "finance.reconcile_model.set_auto_reconcile": {
+   "changedFields": [
+    "can_be_proposed",
+    "trigger"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ad08f472310c2759409c657ab58a384b18c340444656a81196a99e2f990c123f",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "can_be_proposed",
+    "trigger"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "transitions": {
+    "can_be_proposed": [
+     false,
+     true
+    ],
+    "trigger": [
+     "manual",
+     "auto_reconcile"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "finance.reconcile_model.set_manual": {
+   "changedFields": [
+    "can_be_proposed",
+    "trigger"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:9847a11545abd2146b056c6c765b246a708fa35199ae26ea525c9a013f2c6598",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "can_be_proposed",
+    "trigger"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "transitions": {
+    "can_be_proposed": [
+     true,
+     false
+    ],
+    "trigger": [
+     "auto_reconcile",
+     "manual"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "fleet.vehicle.accept_driver_change": {
+   "definitionHash": "sha256:8a9e7c640512304714204a982b89cc8056cfe01ee63fc9f1a29ae177ff726c49",
+   "detail": "The operation cannot be completed: The license plate must be unique",
+   "kind": "action",
+   "modules": [
+    "fleet"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "identity.bank_account.archive_bank": {
+   "definitionHash": "sha256:22898c8c980c5bdd3131bb606df01ff7d2434d3dcfcfb9dfd2804497f765d270",
+   "kind": "action",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "identity.contact.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:02b43c3eac6cf02a2731288e929851c299a79f14f49d24dc19d0143e6e4db6e8",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "mail"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:521e24536bb664b72bc1123ccdb4a996f73f8cb72fa0379ca6765a4f4e5b053c",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "identity.contact.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:f15eb53cfa942a136c2a353619b10c422cec3e679091db631396d67aa7edd3ff",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "mail"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:521e24536bb664b72bc1123ccdb4a996f73f8cb72fa0379ca6765a4f4e5b053c",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "inventory.batch_transfer.assign": {
+   "definitionHash": "sha256:552cb324a97ec70716ac1ab45eb06141f67bcb5da04a50ce8ad8f39bc19d6f75",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "status": "UNSUPPORTED_MODULE"
+  },
+  "inventory.batch_transfer.cancel": {
+   "definitionHash": "sha256:13dd9df6602b32b6f4a7e72b212bbf0089de67297395932a18a95f01c4c29b36",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "status": "UNSUPPORTED_MODULE"
+  },
+  "inventory.batch_transfer.confirm": {
+   "definitionHash": "sha256:55a6e21184081c50f0adff5459556d4d6fc9b2e70efe8bafa038b656ea93507d",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "status": "UNSUPPORTED_MODULE"
+  },
+  "inventory.batch_transfer.done": {
+   "definitionHash": "sha256:0b564744e241733d40ac062a7abab959bcf153fbdd260ff48fa7f56b2d498c29",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "status": "UNSUPPORTED_MODULE"
+  },
+  "inventory.count.apply": {
+   "changedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:c0ba861dd03955a689852e8239a7c8921f7325d79416173ad65e43c36bd339fb",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2f7f8c46c6df263fc1de118983089efbd4732adc1ee54b720f15b76b134ab8ab",
+   "status": "AGREE",
+   "transitions": {
+    "inventory_quantity_set": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.count.clear": {
+   "changedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:0580cc9b0374f0b0e7c0a3e84021a7436e68ba9598c8c449f1bf290188859e0a",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "inventory_quantity",
+    "inventory_quantity_set"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2f7f8c46c6df263fc1de118983089efbd4732adc1ee54b720f15b76b134ab8ab",
+   "status": "AGREE",
+   "transitions": {
+    "inventory_quantity_set": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.landed_cost.cancel": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:c6816ca8f4241a6d22acba353d3910204360fc33bd492fb2a93dd6a0365e65a7",
+   "kind": "action",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b5d949c101870e7f1cba45239e8c5e03e73133270edb703dfd4b20f76e6928da",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "cancel"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.landed_cost.compute_landed_cost": {
+   "changedFields": [
+    "valuation_adjustment_lines"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "valuation_adjustment_lines": 1
+   },
+   "definitionHash": "sha256:12d58a2257b5daa6a597959400eddf83eeaac0b9d904618f0226ebad0242bf10",
+   "kind": "action",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleChangedFields": [
+    "valuation_adjustment_lines"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:7a301307102f5dc610f23ad7301cd33418e3f7cb5c618bd078e6821d7e9576f6",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.landed_cost.validate": {
+   "changedFields": [
+    "state",
+    "valuation_adjustment_lines"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "valuation_adjustment_lines": 1
+   },
+   "definitionHash": "sha256:df263ada5e9eadb07c10b7f7e9e2fa71729fc3e4ee813f2a570c6cf214c050ef",
+   "kind": "action",
+   "modules": [
+    "stock_landed_costs"
+   ],
+   "oracleChangedFields": [
+    "state",
+    "valuation_adjustment_lines"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4810bf6b43870bfe010d516bf644fc64ecca5f8973ec996a0e000ccdae318977",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.package.unpack": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:1017a22d2f56548f3e7027fff3d26a2fc9bb2fcbae36a3c26825c85c4cc8f596",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:d2bb9d8a2e99bacbb55ef666cd4bc22f9f5454a0e27f3ce1de5eb78b6a0c95db",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "inventory.reorder_rule.automate": {
+   "changedFields": [
+    "qty_to_order_computed",
+    "trigger"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:aab69b7f4d77d6d72c65ccb01133f521c05c3c02f7e2508c98ccdbf5cda7727a",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "qty_to_order_computed",
+    "trigger"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:d44b49da11eef52c8694d1cd320ab433ebeca43ebdb81c3a7196a0b6abd9dd6b",
+   "status": "AGREE",
+   "transitions": {
+    "trigger": [
+     "manual",
+     "auto"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.reorder_rule.clear_manual_quantity": {
+   "changedFields": [
+    "qty_to_order_manual"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:c91db93ad79b71f5646317b23f8da4f998ac1569dd4e37289b64b9a80a89ac5f",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "qty_to_order_manual"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:7acc3be837b191e910d1db8f1f4e4ca67000b9bd917e3e25d14796e7273c43c1",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.reorder_rule.replenish": {
+   "changedFields": [
+    "qty_to_order_computed"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5851ba88392648875bc78075d8de04d7230da33d41d0558e9f2aa16a97368dcb",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "qty_to_order_computed"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:997b69fed31304e29beaf757fcc3a13d6e5a3d03c27e0bdb6633a5a90411baa4",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "inventory.scrap.validate": {
+   "definitionHash": "sha256:e31990275b861daa8a018ac680f2244372276f54a50a6f42800c100f10db2e7b",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "inventory.scrap.validate_despite_shortage": {
+   "definitionHash": "sha256:3877381ef32f2dcee89ed6edf6e1fd66335eb71af54505a881fc226a491f2058",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "inventory.shipping_method.website_publish_button": {
+   "changedFields": [
+    "is_published"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:6bfd6bdd1d2536c7e98d9008602891ba7ed76b943c017f905e81ed17a3df49d0",
+   "kind": "action",
+   "modules": [
+    "delivery"
+   ],
+   "oracleChangedFields": [
+    "is_published"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:549c0b02c551384c4b22d7eb659031139638fd436006ba9e91f7ccbe1e515f7e",
+   "status": "AGREE",
+   "transitions": {
+    "is_published": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "inventory.transfer.cancel_shipment": {
+   "definitionHash": "sha256:8f68eec9f6d9260f402d73d4288d3abb20479db4f70ddcd34c96eecdb980aee5",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "inventory.transfer.confirm": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:25825d68d778b34e95f13be1c06b0b428227caaf7373d442254a561dabd3141e",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:986892150e66df72bba661be9ce3b499bdae350eff9361c172dad56450f28672",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "inventory.transfer.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:56ac8a4c0e866458885868b70959df9f23a8cbf7aa6f6faab600f507f97c571d",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "stock"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:a87b3d05b4e119e645b2352408b6c2dce6bb6d8cf40f275aa1fd3ff3ba4a5d5c",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "inventory.transfer.return": {
+   "definitionHash": "sha256:60a7af0a6c111eaec952bf7fc9c3cb85a842c36933abad5baa7a741231940d55",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "inventory.transfer.return_all": {
+   "definitionHash": "sha256:4408aac4cb36e90b40c0ceda59c552ef7a8024fe5032d0096cb4eee488a021e6",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "inventory.transfer.return_for_exchange": {
+   "definitionHash": "sha256:0f866a2338310e0e0d952a954cef95996d1cfcdfbfbf54adaec924749935418b",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "inventory.transfer.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:17177463efd982c5b08fbc99057f30400543dbf2199af52aaa43e3dddbfb8d56",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "stock"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:a87b3d05b4e119e645b2352408b6c2dce6bb6d8cf40f275aa1fd3ff3ba4a5d5c",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "inventory.transfer.send_to_shipper": {
+   "definitionHash": "sha256:59f4a0f04ba70f1557e2e2738a3fe1e2886143573a19991e9cc8c06dd2d3e44c",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "inventory.transfer.unreserve": {
+   "definitionHash": "sha256:b69bac102414fdf22d91873643cfb00fa6f48f8a042cc17eedf49d5906b731f7",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "inventory.transfer.validate_with_backorder": {
+   "definitionHash": "sha256:e311f2839da8e16923aa4bb6382c7b1e4e83e56b5f93531ebd3704de541c6ef0",
+   "detail": "Wrong value for product.template.tracking: 'none'",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "inventory.transfer.validate_without_backorder": {
+   "definitionHash": "sha256:cc533b58d20885a30d802cee2438cbc5c9997e064cb76a0bc2cc38824b5e4078",
+   "detail": "Wrong value for product.template.tracking: 'none'",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "livechat.channel.join": {
+   "changedFields": [
+    "user_ids"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "user_ids": 1
+   },
+   "definitionHash": "sha256:e665442074888f31b955aa8343857af1bab8b9e6eaa20e79b9310907b7a006f5",
+   "kind": "action",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleChangedFields": [
+    "user_ids"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "livechat.channel.quit": {
+   "changedFields": [
+    "user_ids"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "user_ids": -1
+   },
+   "definitionHash": "sha256:d6b20be7a0156bed8c78ae6f0fae58955f38b7c5d6caad9ce9a06c276f383db7",
+   "kind": "action",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleChangedFields": [
+    "user_ids"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "lunch.order.add_to_cart": {
+   "definitionHash": "sha256:687079a3af05c4e8ceba00a3afe0da155f2c925e6f6abef5645900e385158e6c",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "lunch.order.cancel": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:1b735a8da29b0342ef2302ae92656e05d5ce8f765208dadea5ad901d450ab1a9",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:bdc12f336463816ea4cda690c2d7b45d072350f850982330eebc53463975ac47",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "ordered",
+     "cancelled"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "lunch.order.confirm": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:dba2193376dd800d1fd8718d4c92be0c479f1c9365029abe75b212cbde134f69",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:06fa2ca73c0fa7564b269d43e1658e83660968b8b4178910338a37d64d4f31ec",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "sent",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "lunch.order.confirm_orders": {
+   "definitionHash": "sha256:4467af6a35982af7f9e10eb9e4630d6c621fc4d1824658ad75b367038ca33f53",
+   "detail": "names ['show_confirm_button']",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "status": "NOT_RUN_UNEVALUABLE"
+  },
+  "lunch.order.reorder": {
+   "definitionHash": "sha256:06dfd0e92f0c5da42a4ebf4213d1332756db3a46b5be2b644e2999beac6af4c3",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "lunch.order.reset": {
+   "definitionHash": "sha256:4560ce22fc002470d96297781274ab65f92bb101210f4450e1adc73d5475c06b",
+   "detail": "Oh no! You don\u2019t have enough money in your wallet to order your selected lunch! Contact your lunch manager to add some money to your wallet.",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "maintenance.request.archive_equipment_request": {
+   "definitionHash": "sha256:852366449ed70c071df59c841c4ca6c56d0795a5cf13039b43fc52d69d5b9a7d",
+   "kind": "action",
+   "modules": [
+    "maintenance"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "maintenance.request.reset_equipment_request": {
+   "definitionHash": "sha256:9a84bf1ab33252582f120a2bb849ae164e78009c4deb9f15baa20d100fa70dba",
+   "detail": "Invalid field 'archive' in 'maintenance.request'",
+   "kind": "action",
+   "modules": [
+    "maintenance"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "manufacturing.bom.compute_bom_days": {
+   "definitionHash": "sha256:1afc0c1c5059ef5a475520b571307910d2551a2392054b2f63ae255c21e8ab50",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "manufacturing.order.assign": {
+   "changedFields": [
+    "all_move_raw_ids.state",
+    "move_raw_ids.state",
+    "reservation_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ae01ac5ce485214b2651b63a6847937f7826e863901276514c676ca8820ce201",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_raw_ids.state",
+    "move_raw_ids.state",
+    "reservation_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:582b6c28537dcfef03d18ecfbd0e7d01263671d4eff3625cc91529c7672f0bb3",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_raw_ids.state": [
+     "confirmed",
+     "assigned"
+    ],
+    "move_raw_ids.state": [
+     "confirmed",
+     "assigned"
+    ],
+    "reservation_state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.cancel": {
+   "changedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "reservation_state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:168fc5d8f9318c9112139c39b2989122fcfc729acf3824116904bc650a2c9de0",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "reservation_state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0053aeb6e01b2b454b8b1c7a3e769c1ec81df705665aa1224db0010fbd25e2d8",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_ids.state": [
+     "confirmed",
+     "cancel"
+    ],
+    "all_move_raw_ids.state": [
+     "assigned",
+     "cancel"
+    ],
+    "move_finished_ids.state": [
+     "confirmed",
+     "cancel"
+    ],
+    "move_raw_ids.state": [
+     "assigned",
+     "cancel"
+    ],
+    "reservation_state": [
+     "assigned",
+     false
+    ],
+    "state": [
+     "confirmed",
+     "cancel"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "manufacturing.order.change_quantity": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:863c7142c128af4845776fa626265388cad80681e88db8e5634dfddd7eb1808c",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:cdeff54e827f7915bdd91fea863f1409b093e8f897a0f72466c4ae15c859ea29",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "manufacturing.order.clear_lot_producing_ids": {
+   "definitionHash": "sha256:98d0cec2fb02faeadd8c3533c454d4a130a506b47f4045ff9cffafff20924aa8",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "manufacturing.order.confirm": {
+   "definitionHash": "sha256:74fecab3a85e9aa9845b981a1db95c86343cce63adf3576f923e7b707906b3a1",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "manufacturing.order.generate_bom": {
+   "definitionHash": "sha256:13ce1fae859bbd0cc2f232d8fc9e9733a0de197c982a7520579172c761ae15b2",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "manufacturing.order.mark_done": {
+   "changedFields": [
+    "all_move_ids.state",
+    "date_finished",
+    "duration",
+    "move_finished_ids.state",
+    "reservation_state",
+    "state",
+    "workorder_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:72ed559e8724bdfeb6ce17fd2b6e5612ea679479d04e5b662ca05abe7c029d2a",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_ids.state",
+    "date_finished",
+    "duration",
+    "move_finished_ids.state",
+    "reservation_state",
+    "state",
+    "workorder_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:cdeff54e827f7915bdd91fea863f1409b093e8f897a0f72466c4ae15c859ea29",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "move_finished_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "reservation_state": [
+     "assigned",
+     false
+    ],
+    "state": [
+     "progress",
+     "done"
+    ],
+    "workorder_ids.state": [
+     "progress",
+     "done"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "manufacturing.order.mark_done_confirm_consumption": {
+   "changedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "date_finished",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "reservation_state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:a35ef77f247b8f1e201c163e846a955cb4b025943f426f493f56b97687faf46b",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "date_finished",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "reservation_state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ab728d276526135c663a8efdb98231005daaa8eb9c9ac4ffc3e574b80bb85908",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "all_move_raw_ids.state": [
+     "confirmed",
+     "cancel"
+    ],
+    "move_finished_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "move_raw_ids.state": [
+     "confirmed",
+     "cancel"
+    ],
+    "reservation_state": [
+     "confirmed",
+     false
+    ],
+    "state": [
+     "confirmed",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.mark_done_confirm_consumption_with_backorder": {
+   "changedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "backorder_sequence",
+    "date_finished",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "name",
+    "product_qty",
+    "product_uom_qty",
+    "reservation_state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:a18bce401c11d27c41fd86a6ad02883f8d0afc2cd667458e33f4ab14ea762daf",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "backorder_sequence",
+    "date_finished",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "name",
+    "product_qty",
+    "product_uom_qty",
+    "reservation_state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:5872b00edeffaec86c3442c936a657cccb70fe852d98194d109e8b7f68b5ef52",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "all_move_raw_ids.state": [
+     "confirmed",
+     "cancel"
+    ],
+    "move_finished_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "move_raw_ids.state": [
+     "confirmed",
+     "cancel"
+    ],
+    "reservation_state": [
+     "confirmed",
+     false
+    ],
+    "state": [
+     "confirmed",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.mark_done_confirm_consumption_without_backorder": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:mrp.consumption.warning",
+   "countChanges": {},
+   "definitionHash": "sha256:8176612f87e39d641625a957896fe5e503674bcebedf2224cfc0ab2454225e76",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "DIALOG:mrp.consumption.warning",
+   "pairHash": "sha256:aad30a04371b8b2be214e3be4c8bf0620765c35779b118658de42c73602dad05",
+   "status": "AGREE_DIALOG",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.mark_done_with_backorder": {
+   "changedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "backorder_sequence",
+    "date_finished",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "name",
+    "product_qty",
+    "product_uom_qty",
+    "reservation_state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:74fece89aab1a0475298d2e387c21319df576d2e37d7072a351218b9fce0150b",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_ids.state",
+    "all_move_raw_ids.state",
+    "backorder_sequence",
+    "date_finished",
+    "move_finished_ids.state",
+    "move_raw_ids.state",
+    "name",
+    "product_qty",
+    "product_uom_qty",
+    "reservation_state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:e89e53648e5e8ad35ab530d2b8a71c63fd15faeddb8e3a3574e89fec632d2c89",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "all_move_raw_ids.state": [
+     "partially_available",
+     "done"
+    ],
+    "move_finished_ids.state": [
+     "assigned",
+     "done"
+    ],
+    "move_raw_ids.state": [
+     "partially_available",
+     "done"
+    ],
+    "reservation_state": [
+     "assigned",
+     false
+    ],
+    "state": [
+     "progress",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.mark_done_without_backorder": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:mrp.consumption.warning",
+   "countChanges": {},
+   "definitionHash": "sha256:9dafacec1f19d634c603f03c7901c8627622b8f7252d24b0d2b5d78359950205",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "DIALOG:mrp.consumption.warning",
+   "pairHash": "sha256:73e2f935c623ad7dc1a376377fea137c64097d765f415e996289924a308b0b5b",
+   "status": "AGREE_DIALOG",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.plan": {
+   "definitionHash": "sha256:3d0d7b9c5eadb1812a0ee3f89585c6b28440e2e9c217d232f206a684c8b74630",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "manufacturing.order.start": {
+   "changedFields": [
+    "date_finished",
+    "date_start",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:767beb393908960ba7c1b292ba29c7ffcd8545a1c9c8bbfc5dc17933f66805c9",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "date_finished",
+    "date_start",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b0aafada92c44723afef90c0391970e8774ffa2d14693f04ddc39d195298b598",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "confirmed",
+     "progress"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "manufacturing.order.unplan": {
+   "definitionHash": "sha256:aedae6208b8ac42cf715a117eb8d561553eee3f67a43a6ad1636c831e7a7ae7a",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "manufacturing.order.unreserve": {
+   "definitionHash": "sha256:816d86b2f8edfe3366345195cf1e1c895ff1de4409ba6f16355366120b88f7cf",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "manufacturing.order.update_bom": {
+   "definitionHash": "sha256:e3b49d9b57f2509924cda468317967d236171e7f79eb234dfc4f894cf3736eed",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "manufacturing.unbuild.validate": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:stock.warn.insufficient.qty.unbuild",
+   "countChanges": {},
+   "definitionHash": "sha256:32d7e1d496c9a08cc06836b0272e4e373ef7749de2f020eff617393c155c18f9",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "DIALOG:stock.warn.insufficient.qty.unbuild",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE_DIALOG",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "manufacturing.workorder.finish": {
+   "changedFields": [
+    "date_finished",
+    "qty_produced",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ecb1152872a7a4ea6764bb1ca0154bc3e4df9495a429ba472643dc8c4f22eee0",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "date_finished",
+    "qty_produced",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:8195aa19b2860c12ecd1600d71b1464c7d78613b4732e54d1d8289d94d7e5956",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "progress",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.workorder.pause": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:85233a9063fb726ef74ec7d1c097753708d03eeca1d26550cae36def92b8c67b",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:548e49f2adc8c7db5148842e7ce3ebd153854a45593caa8098fec884a076558c",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "manufacturing.workorder.start": {
+   "changedFields": [
+    "date_finished",
+    "date_start",
+    "leave_id",
+    "production_date",
+    "state",
+    "time_ids"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "time_ids": 1
+   },
+   "definitionHash": "sha256:db9518647a230e675d2042791d86c48936b71ae8a11e4d35f48049e8092b2bb0",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "date_finished",
+    "date_start",
+    "leave_id",
+    "production_date",
+    "state",
+    "time_ids"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4cb60f21c2d87f231b117e6ecf4f706c005975d17ea53a0344bfecdd9609a798",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "ready",
+     "progress"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "marketing.contact.add_to_mailing_list": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:mailing.contact.to.list",
+   "countChanges": {},
+   "definitionHash": "sha256:3709de23f0adf31a0ac0eaca885ff4405c68157291a96961bc00da9f247110c3",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "DIALOG:mailing.contact.to.list",
+   "pairHash": "sha256:0fd922e83d21fc2fda1578059c2012e5b132fbb80fba2be9660eb85d8c3f3404",
+   "status": "AGREE_DIALOG",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "marketing.contact.import": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:mailing.contact.import",
+   "countChanges": {},
+   "definitionHash": "sha256:af55fad3786346a8a13be0d9af5584fe629f9d11d9907dc993f163708f8b13f5",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "UNEVALUABLE:context \"{'from_mailing_list_ids': context.get('active_ids') if context.get('act",
+   "pairHash": "sha256:0fd922e83d21fc2fda1578059c2012e5b132fbb80fba2be9660eb85d8c3f3404",
+   "status": "NOT_RUN_UNEVALUABLE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "marketing.mailing.cancel": {
+   "definitionHash": "sha256:440eb2ff92631fc48a4def13d9213cc26283af0f6af18deda8c12296ee95e4c5",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "marketing.mailing.duplicate": {
+   "changedFields": [],
+   "cliOutcome": "REFUSED:AERP_PROVIDER_ERROR",
+   "countChanges": {},
+   "definitionHash": "sha256:9a1dae9cd5dfd6aea50b24ec26effeffa549a7b79800f62a368c2819065ffa35",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "REFUSED",
+   "oracleRefusal": "The operation cannot be completed: email from is required for non-template 'mail' mailings",
+   "pairHash": "sha256:0fd922e83d21fc2fda1578059c2012e5b132fbb80fba2be9660eb85d8c3f3404",
+   "status": "AGREE_REFUSED",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "marketing.mailing.reload": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:179ca4d16446cdf3c10f13b95a16f5fdf4bb073fc57d6e15c22e82c7164056d7",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0fd922e83d21fc2fda1578059c2012e5b132fbb80fba2be9660eb85d8c3f3404",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "marketing.mailing.remove_favorite": {
+   "definitionHash": "sha256:50a3a8bf6b34c537bb88ff6ea7b60abf3bb0bb4429112ff8a16b6dc8929b114c",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "marketing.mailing.set_favorite": {
+   "definitionHash": "sha256:f4957c4c000d86d049b40b8727a72d136ccb5ce902106e5586c4605142931a20",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "marketing.mailing.update_cards": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:8d913e2477f9b62415e3c7eaf0262c103ace76f21532a0eeb0c88c9853061ca9",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0fd922e83d21fc2fda1578059c2012e5b132fbb80fba2be9660eb85d8c3f3404",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "people.employee.generate_random_barcode": {
+   "definitionHash": "sha256:d3aa4bf99987fd135d8409edac35f50fd7b9a70c20278342bbf9ecb7b782b6fc",
+   "kind": "action",
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "people.employee.load_contract_template": {
+   "definitionHash": "sha256:eed0714da0e201e61a732db9434aa879b2cdb77d2c1b9ec06381278ead5e1e73",
+   "kind": "action",
+   "modules": [
+    "hr"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "people.expense.approve": {
+   "definitionHash": "sha256:69ccd2bde98999db21d7a7d6742bb635256c0001fbd96bebecd36d6b27e9050b",
+   "kind": "action",
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "people.expense.approve_despite_duplicate": {
+   "definitionHash": "sha256:741ec425ed08010eb0a7948cbd29a8e3f62fc1c3b621fb1c43a9b942c8fb5302",
+   "kind": "action",
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "people.expense.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:fc6d4bfaeeba994031220b64355d4c3463358900631113a95f30fc77befd13c0",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "hr_expense"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "people.expense.post": {
+   "definitionHash": "sha256:fc63dc38ee30233d2fcefc225752e5d97ebe3484d56ba9cf293249f1188d0d8a",
+   "kind": "action",
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "people.expense.refuse": {
+   "definitionHash": "sha256:1969b3270333424b9887df7f75eff6cc6f12925cfa2548da2b897b70834e1601",
+   "kind": "action",
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "people.expense.reset": {
+   "definitionHash": "sha256:5ea215b7b639313c55fc11fb4c88d627abb10e1e2a60d1562633b58672074228",
+   "kind": "action",
+   "modules": [
+    "hr_expense"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "people.expense.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:a2fb592907c3452cb8dc1aa55c34762b9de0be7b8c332c33f5ad35552a60c72e",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "hr_expense"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "people.expense.submit": {
+   "changedFields": [],
+   "cliOutcome": "REFUSED:AERP_PROVIDER_ERROR",
+   "countChanges": {},
+   "definitionHash": "sha256:b60d1a07560c4772b6e4ffd322734555c4ec1f4ac05bcda6e76d3790fd069c5d",
+   "kind": "action",
+   "modules": [
+    "hr_expense"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "REFUSED",
+   "oracleRefusal": "Select a product to proceed.\nOnly draft expenses can have a total of 0.",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE_REFUSED",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "people.job.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:308b7cf598a2fcffc0fe6b8b5ce5259216f59e4d0a00599a63493371f9247781",
+   "kind": "delete",
+   "modules": [
+    "hr"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eb18eeb3c385eb89930335264dc8ded657169ecd0251918ea0382c465e8975a5",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "pos.order.pay": {
+   "definitionHash": "sha256:d541489845b0e77f9bcbed84a177a356fb9eae45d17c86ad65de77718b2eba10",
+   "kind": "action",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "pos.order.pos_order_invoice": {
+   "definitionHash": "sha256:72cb9934970d603cfc7c12b97387f9a9606d57241445379c98b0a148a8a40ce8",
+   "kind": "action",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "pos.order.refund": {
+   "definitionHash": "sha256:6110a5b0f76e9450cbffbabe11f38ba0ac43c263810bf1e0e3d10b4ae391a26b",
+   "kind": "action",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "pos.session.pos_session_closing_control": {
+   "definitionHash": "sha256:e01b8bcfc34d529ca16dfc18092237dae017bd25c5549d1e584a53f691540b5b",
+   "kind": "action",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "procurement.agreement.cancel": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:d5f4f34af55d3bb8807780b977ede8d022333046d0dd5dd53db6520408e176f2",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2f9cf80b937f44b41379ae3765c65668e5e96241d19d2088e76d72d18ea324b2",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "confirmed",
+     "cancel"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.confirm": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:4cdd942626e2a9ed98e39e7f0f0ac4e6a95faafd8dabd164b6ccf2a92c0cf65c",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:def4fe4f74f38325f2f5e330fcb0e51d476035250b64f6158662026485f0e557",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "draft",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.done": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:f06e2eb5d8df0f06f7a79070822f80a312f9b4c38d415619bd63ba48ed398171",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:11e07e7bb591992307e25655831247578120a67b9436b172b61a4df9ba743557",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "confirmed",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.agreement.draft": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:a44f8528627df66afcbccdd90e43e5dfb1761a656a8157f2734120040bea2ea3",
+   "kind": "action",
+   "modules": [
+    "purchase_requisition"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2e96afc0e9b31d97254a398e034dd89ae673b8958ef903ee31144c9742fd63be",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "cancel",
+     "draft"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.order.acknowledge": {
+   "definitionHash": "sha256:6a30aae31cf94add7e2f5a18b954a331ac692998742b462db3d96443f4cc3ad9",
+   "kind": "action",
+   "modules": [
+    "purchase"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "procurement.order.approve": {
+   "changedFields": [
+    "date_approve",
+    "date_calendar_start",
+    "date_promised",
+    "picking_ids",
+    "picking_ids.state",
+    "receipt_status",
+    "reference_ids",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "picking_ids": 1,
+    "reference_ids": 1
+   },
+   "definitionHash": "sha256:6bcca5461954727233d2b312503087ea311958e6b43f631d93b1d075fead6750",
+   "kind": "action",
+   "modules": [
+    "purchase"
+   ],
+   "oracleChangedFields": [
+    "date_approve",
+    "date_calendar_start",
+    "date_promised",
+    "picking_ids",
+    "picking_ids.state",
+    "receipt_status",
+    "reference_ids",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:8be6d66e9099c68d8feb52ce42478d2153cac2763b784174ae6ae96cd636b596",
+   "status": "AGREE",
+   "transitions": {
+    "picking_ids.state": [
+     "",
+     "assigned"
+    ],
+    "receipt_status": [
+     false,
+     "pending"
+    ],
+    "state": [
+     "to approve",
+     "purchase"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "procurement.order.lock": {
+   "definitionHash": "sha256:9ce84730c3a9e56a83919d1152c630f34fe35261e190fb1d494fb3cc0de9e8f7",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "purchase"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  },
+  "procurement.order.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:3c01dcfe8f37e3430125a0488f2eaf94f0bbeab141e2286ea468e75cb63384ca",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "purchase"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "procurement.order.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:dcb10b6633ff6b27caf287f6c4bcfb7f43e727c64c83082f20ae065058946714",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "purchase"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "procurement.order.unlock": {
+   "changedFields": [
+    "locked"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:a952fda4c39b01a450dfdd022210f6dd57c2da6fc7b182bf87854d990943684d",
+   "kind": "action",
+   "modules": [
+    "purchase"
+   ],
+   "oracleChangedFields": [
+    "locked"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:def4fe4f74f38325f2f5e330fcb0e51d476035250b64f6158662026485f0e557",
+   "status": "AGREE",
+   "transitions": {
+    "locked": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "recruitment.applicant.archive_applicant": {
+   "definitionHash": "sha256:ddbb363d04bdc3ced420111f4b19e8d9be6bce9f509668ea8806389884589207",
+   "detail": "names ['context']",
+   "kind": "action",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "status": "NOT_RUN_UNEVALUABLE"
+  },
+  "recruitment.applicant.create_employee_from_applicant": {
+   "definitionHash": "sha256:b7c6586497fd5cfb1173e665918bf39a7858b84b7eb662dfcafda877e1262ba0",
+   "kind": "action",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "recruitment.applicant.job_add_applicants": {
+   "definitionHash": "sha256:d79a5dc12e6ac437f3f7092c6e98a9abb322a81028ea9e70ac00a8b200c848a3",
+   "detail": "names ['context']",
+   "kind": "action",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "status": "NOT_RUN_UNEVALUABLE"
+  },
+  "recruitment.applicant.talent_pool_add_applicants": {
+   "definitionHash": "sha256:1d486f923b5d9fbd17c78699057f2dccf49e95526773f94089083e660638db64",
+   "detail": "names ['context']",
+   "kind": "action",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "status": "NOT_RUN_UNEVALUABLE"
+  },
+  "recruitment.applicant.unarchive": {
+   "definitionHash": "sha256:b19d52b298399226b39ee7a014ef7532d20e8ed208065e714ba859a6a823ebf1",
+   "kind": "action",
+   "modules": [
+    "hr_recruitment"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "repair.order.assign": {
+   "changedFields": [
+    "move_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:d7f2e6e4333d2c013822e2ca1f8ccf2c8a1a8e0bfe8d722e137687b17c89054d",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2f9cf80b937f44b41379ae3765c65668e5e96241d19d2088e76d72d18ea324b2",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "repair.order.create_sale_order": {
+   "changedFields": [
+    "sale_order_id"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:64d22a7400f4e4a8f095acb992dc0cb3ab0aaf2b3fe4bfcc7a04fdbeb489cfaf",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "sale_order_id"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "repair.order.repair_cancel": {
+   "changedFields": [
+    "is_parts_available",
+    "move_ids.state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:b2f1b32e6cec8474cedeeac043e10161e755c77f65972eb304dcf1aacc5f0194",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "is_parts_available",
+    "move_ids.state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "transitions": {
+    "is_parts_available": [
+     true,
+     false
+    ],
+    "move_ids.state": [
+     "assigned",
+     "cancel"
+    ],
+    "state": [
+     "confirmed",
+     "cancel"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "repair.order.repair_cancel_draft": {
+   "changedFields": [
+    "move_ids.state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:12dc3bd16d2ea70b484128477ef9e9cd52289aaba09a26bca387cb5ca86d109d",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "cancel",
+     "draft"
+    ],
+    "state": [
+     "cancel",
+     "draft"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "repair.order.repair_end": {
+   "definitionHash": "sha256:bb4cca3cf86a65359fe64d4abc1330d85a371c5cab54af6706420ec09e87bb4b",
+   "detail": "The method 'repair.order.action_repair_start' does not exist",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "repair.order.repair_start": {
+   "definitionHash": "sha256:fa47eb53905e65f365568edc551d70e18840b4b25faae57c291f56ab4d15de45",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "repair.order.unreserve": {
+   "definitionHash": "sha256:75d38c601cde15b57a8590bdf432c6479c3c5369b77cae75c97bb96c88cb5541",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "repair.order.validate": {
+   "changedFields": [
+    "is_parts_available",
+    "move_ids.state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:80e66520d3d745c0d5d5257eb05a55c56dc14d3223e28ae0458dd1c793831e34",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "is_parts_available",
+    "move_ids.state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:eaea8a5749a907fb0ffc3dac2ecee4257f65db514ce2b86b64669e5c3d196aaa",
+   "status": "AGREE",
+   "transitions": {
+    "is_parts_available": [
+     false,
+     true
+    ],
+    "move_ids.state": [
+     "draft",
+     "assigned"
+    ],
+    "state": [
+     "draft",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "sales.loyalty_card.coupon_share": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:coupon.share",
+   "countChanges": {},
+   "definitionHash": "sha256:90db6f60428aad72c50c1994f3aa063875c6ff15443da32ea545b3f9e72ffeb9",
+   "kind": "action",
+   "modules": [
+    "loyalty"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "DIALOG:coupon.share",
+   "pairHash": "sha256:af1a1fc110b6094c48582b0ef83553cb7908d7a4365424eef28e76ef6c88d630",
+   "status": "AGREE_DIALOG",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "sales.loyalty_card.loyalty_update_balance": {
+   "changedFields": [],
+   "cliOutcome": "DIALOG:loyalty.card.update.balance",
+   "countChanges": {},
+   "definitionHash": "sha256:60b096e9984f8ef6d8c6cf0a0c5cd00b5344ae995d42f2fea3e598a64f065ca8",
+   "kind": "action",
+   "modules": [
+    "loyalty"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "DIALOG:loyalty.card.update.balance",
+   "pairHash": "sha256:af1a1fc110b6094c48582b0ef83553cb7908d7a4365424eef28e76ef6c88d630",
+   "status": "AGREE_DIALOG",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "sales.loyalty_program.program_share": {
+   "definitionHash": "sha256:fddd4b16cc902aeb1b35f903edc34e8226617a03424d625c30435def4ca0ccac",
+   "kind": "action",
+   "modules": [
+    "loyalty"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "sales.order.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:45caa248fca741b60ceea3af4e39d2a126bac0a213cdae690b7dbc2d79ed9adc",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "sale"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "sales.order.payment_capture": {
+   "definitionHash": "sha256:9c64ff3ee8376cd3af408d225bd463eb90cc125ea301570001b8749d2d846bca",
+   "detail": "Invalid field payment.provider.state in condition ('state', '!=', 'disabled')",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "sales.order.payment_void": {
+   "definitionHash": "sha256:cdd255f59bc790b58d22b4123e63fa2b9679042fc0357274def05bdb5d33d0f0",
+   "detail": "Invalid field payment.provider.state in condition ('state', '!=', 'disabled')",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "sales.order.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:56bea71bce646eb2d9cef0add667187d9fb245354a9951563a6139298e3d4d77",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "sale"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "sales.order.unlock": {
+   "changedFields": [
+    "locked"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5ee53d639818feddcb93b91de88cea5db1a0f8391767b26254ce9bc86b35196a",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "oracleChangedFields": [
+    "locked"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2f9cf80b937f44b41379ae3765c65668e5e96241d19d2088e76d72d18ea324b2",
+   "status": "AGREE",
+   "transitions": {
+    "locked": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "sales.order.update_taxes": {
+   "definitionHash": "sha256:8dcd77b1ef1f87b658e217ba19d7b886af57db66cc55f560492e5e9c79b15050",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "structure.model.recycle_records": {
+   "changedFields": [
+    "recycle_record_ids"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "recycle_record_ids": 25
+   },
+   "definitionHash": "sha256:d7dd0a9523ceb389a25444f730f0c8ca8560499689aa60bffc298f24b81261e2",
+   "kind": "action",
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleChangedFields": [
+    "recycle_record_ids"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:def4fe4f74f38325f2f5e330fcb0e51d476035250b64f6158662026485f0e557",
+   "status": "AGREE",
+   "transitions": {},
+   "twinBasis": "fixture"
+  },
+  "structure.record.discard": {
+   "changedFields": [
+    "active"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:9883e046dbe71b8254bd278150586764d71444da7906e1e43198df0bc9885010",
+   "kind": "action",
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleChangedFields": [
+    "active"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:8c7729d172b027784eadf4e6f4669813a6990e67d65147d276a3c3692df68ebe",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "structure.record.validate": {
+   "cliOutcome": "OK",
+   "definitionHash": "sha256:9670112c697c04deb015e084de4227d29f8b81745defadc2be45482a1370945e",
+   "deleted": {
+    "cli": true,
+    "oracle": true
+   },
+   "kind": "action",
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ec5cdbda648393b64125854cf9598548a4319138745ca427fb037fe6e4cd273c",
+   "status": "AGREE",
+   "twinBasis": "fixture"
+  },
+  "structure.settings.update": {
+   "definitionHash": "sha256:ae6470ed490ba9da32e0fd253e706174c46545f1459c84f9b0fb0d12ed3a512f",
+   "kind": "action",
+   "modules": [
+    "base"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "survey.survey.archive": {
+   "changedFields": [
+    "active"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:c2dbdf5b08844a3f92e6576602490a0f3f7fc5183f0b0ac6fefc3acd829bfb73",
+   "kind": "action",
+   "modules": [
+    "survey"
+   ],
+   "oracleChangedFields": [
+    "active"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:920c7197d9cb01d7968a16cbd84c8d9f312094ba53697282dc6e049862c5af6f",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     true,
+     false
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "survey.survey.end_session": {
+   "changedFields": [
+    "session_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:aa5184e898165c532de4f7d30860c258ab6b4b4e1934b44f2871d1362701fdb4",
+   "kind": "action",
+   "modules": [
+    "survey"
+   ],
+   "oracleChangedFields": [
+    "session_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:bdc12f336463816ea4cda690c2d7b45d072350f850982330eebc53463975ac47",
+   "status": "AGREE",
+   "transitions": {
+    "session_state": [
+     "ready",
+     false
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "survey.survey.start_session": {
+   "changedFields": [
+    "session_start_time",
+    "session_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:17803ff240bf9ffd300108d5e2d1ab58aea90e323722a546447dbf5deee09fa4",
+   "kind": "action",
+   "modules": [
+    "survey"
+   ],
+   "oracleChangedFields": [
+    "session_start_time",
+    "session_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:06fa2ca73c0fa7564b269d43e1658e83660968b8b4178910338a37d64d4f31ec",
+   "status": "AGREE",
+   "transitions": {
+    "session_state": [
+     false,
+     "ready"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "survey.survey.unarchive": {
+   "changedFields": [
+    "active"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:2e289792755fbac6b90518ec2fa0266db6d5125c48483ba4126053a60e8f965b",
+   "kind": "action",
+   "modules": [
+    "survey"
+   ],
+   "oracleChangedFields": [
+    "active"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:920c7197d9cb01d7968a16cbd84c8d9f312094ba53697282dc6e049862c5af6f",
+   "status": "AGREE",
+   "transitions": {
+    "active": [
+     false,
+     true
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "website.media.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:a6dc8b5257678974a9d268ef14e0c45614cf05104f988206621eebad9fab6ab0",
+   "kind": "delete",
+   "modules": [
+    "website"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:1d7da259966ec5cdff9041f61916ad7b26877454a5fd0bedb7de32d9813e7df1",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "website.menu.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:a42580d6b81ac433193e3fc98641d55e41cd5691a9c7eb8c2f99431838574b63",
+   "kind": "delete",
+   "modules": [
+    "website"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4810bf6b43870bfe010d516bf644fc64ecca5f8973ec996a0e000ccdae318977",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "work.project.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:121b8795c100738e3814b4b1c4c942af288ceef9463bcaad5b1b4dc685ad0508",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.project.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:db1920ecbc34654d33202fc188bc1e49b697d6e97d62ba63803e13e38795ed1c",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.task.log_note": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "message_type",
+    "subtype_id",
+    "body",
+    "author_id"
+   ],
+   "countChanges": {
+    "mail.message": 1
+   },
+   "definitionHash": "sha256:d621a1501059e8c1b42d3741bb9abf2e3359e29bdabf69b813fb9bb0b55658a4",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:fa851ef5b8afd1a06947cbc5ab7e91c627d8f657a13d761353f5565ccb465ab3",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.message": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.task.schedule_activity": {
+   "cliOutcome": "OK",
+   "comparedFields": [
+    "activity_type_id",
+    "summary",
+    "user_id",
+    "date_deadline"
+   ],
+   "countChanges": {
+    "mail.activity": 1
+   },
+   "definitionHash": "sha256:f4b3cf6155642e3666df80028227af18e066f476fe201c462489d39e36656e83",
+   "differingFields": [],
+   "kind": "chatter",
+   "leftHash": "sha256:eef66494a7a8b37634dad097f9c28e624aede546def9b79246064e7ff23ceb3f",
+   "modules": [
+    "project"
+   ],
+   "oracleCountChanges": {
+    "mail.activity": 1
+   },
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE",
+   "twinBasis": "chatter"
+  },
+  "work.task_stage.delete": {
+   "cliOutcome": "OK",
+   "countChange": -2,
+   "definitionHash": "sha256:e95c89a79a41b3589a689172fcdeb9e9a6893dfbad8f13ff795bf8b1c9552dc8",
+   "kind": "delete",
+   "modules": [
+    "project"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:cc2ed1b68368c5bccb02092f73f9687a4b8ff6adec23587e4ff37ebae58897a8",
+   "removed": {
+    "cli": true,
+    "oracle": true
+   },
+   "status": "AGREE",
+   "twinBasis": "fresh"
+  },
+  "workforce.attendance_log.approve_overtime": {
+   "definitionHash": "sha256:256948be06290b41dd206c5244fe06130416962f8241144c6c42bea2be92304d",
+   "kind": "action",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "workforce.attendance_log.refuse_overtime": {
+   "definitionHash": "sha256:41b1d6ace2c42fa36ebfcf6fb49e6378fe433e3ed1784dc37935793243c34de1",
+   "kind": "action",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "workforce.calendar.switch_based_on_duration": {
+   "definitionHash": "sha256:aff82acc94c75e7855867604e17f1ec3bd667822ef6c92aea1b501b4cf05f032",
+   "kind": "action",
+   "modules": [
+    "resource"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "workforce.calendar.switch_calendar_type": {
+   "definitionHash": "sha256:90c59e0debee9534c8a61b35a3867d116ac68d9e7e8bed7dbb021e0cfcba9eb0",
+   "kind": "action",
+   "modules": [
+    "resource"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  },
+  "workforce.leave.approve": {
+   "definitionHash": "sha256:6a2b82fb2ee19130fcea94a08a4c74ed01d51ca94d0c4de57d4ac26a7eaca4a8",
+   "kind": "action",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "workforce.leave.back_to_approval": {
+   "definitionHash": "sha256:ab32660d6c7f7987106362ce524d4a179f2e8529a669fa261f0aa297f980adcf",
+   "kind": "action",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "workforce.leave.cancel": {
+   "definitionHash": "sha256:1eb3e249afdb8149145a9fad1a0e2d3b5624fb460f3de258d0a6f6a5801beed1",
+   "detail": "Object hr.leave.type doesn't exist",
+   "kind": "action",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "ORACLE_ERROR"
+  },
+  "workforce.leave.refuse": {
+   "definitionHash": "sha256:bb7dcfb734f80edbe909f6c0963f6e545205ee20139cf5d0e547aeb63fd1bc0e",
+   "kind": "action",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "NOT_RUN_NO_TWINS"
+  },
+  "workforce.leave_allocation.approve": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5da71033582bcf343c1eda01b1f7f4b72512db60e9152777a042d465457d7e10",
+   "kind": "action",
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:af1a1fc110b6094c48582b0ef83553cb7908d7a4365424eef28e76ef6c88d630",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "refuse",
+     "validate"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "workforce.leave_allocation.refuse": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:787bffefddd8a764ea307278314576831d5e550168f383c439d500814fbd753c",
+   "kind": "action",
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:af1a1fc110b6094c48582b0ef83553cb7908d7a4365424eef28e76ef6c88d630",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "validate",
+     "refuse"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "workforce.overtime_ruleset.regenerate_overtimes": {
+   "definitionHash": "sha256:45e7ad1f88f39d8331e2db5e50987df5c76c409f31824f247d8be6ee58d5a2f4",
+   "kind": "action",
+   "modules": [
+    "hr_attendance"
+   ],
+   "status": "NOT_RUN_NO_BUTTON"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

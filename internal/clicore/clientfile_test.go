@@ -100,3 +100,26 @@ func TestABundleCarriesOnlyImagesBesideTheFile(t *testing.T) {
 		}
 	}
 }
+
+func TestAFileWithoutImagesAddsNoBundleFlag(t *testing.T) {
+	dir := t.TempDir()
+	md := filepath.Join(dir, "de.md")
+	_ = os.WriteFile(md, []byte("no pictures"), 0o600)
+	root := &Command{Name: "t", Children: []*Command{{
+		Name: "push", SideEffect: EffectNone, Authority: &Authority{},
+		Flags: []Flag{
+			{Name: "file", Kind: KindString, ClientFile: &ClientFile{Extensions: []string{".md"}, MaxBytes: 1 << 10,
+				Bundle: &ClientBundle{Flag: "image", Extensions: []string{".png"}, MaxBytes: 1 << 10, MaxCount: 2}}},
+			{Name: "image", Kind: KindString, Repeatable: true},
+		},
+		Run: func(context.Context, *Invocation) (interface{}, error) { return nil, nil },
+	}}}
+	Prepare(root)
+	invocation, _ := Parse(root, []string{"push", "--file", md})
+	if err := ExpandClientFiles(invocation); err != nil {
+		t.Fatal(err)
+	}
+	if _, present := invocation.Raw["image"]; present {
+		t.Fatal("an empty --image would reach the runtime as a flag with no value")
+	}
+}

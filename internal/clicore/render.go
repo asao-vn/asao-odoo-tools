@@ -179,6 +179,8 @@ func sideEffectMeaning(effect SideEffect) string {
 		return "writes local configuration on this machine; contacts nothing"
 	case EffectWriteLocalHost:
 		return "writes files on this machine and drives its local containers; contacts no ASAO service"
+	case EffectWriteLocalFiles:
+		return "writes new files under a folder you name on this machine; contacts nothing"
 	default:
 		return "unspecified"
 	}

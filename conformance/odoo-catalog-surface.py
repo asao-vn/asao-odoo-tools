@@ -220,6 +220,13 @@ OPENED_WIZARDS = [
     {"model": "account.move", "opener": "button_request_cancel", "wizard": "l10n_vn_edi_viettel.cancellation",
      "button": "button_request_cancel", "verb": "request_cancel", "replaces": True,
      "module": "l10n_vn_edi_viettel", "risk": "RiskHigh"},
+    # Capturing an authorized payment always asks for the amount (all of it by default, part of it
+    # where the provider captures partially): the capture happens on the dialog's Capture. Money
+    # moves at the provider, hence high risk. The quotation's and the invoice's Capture buttons
+    # reach the dialog through the transaction, which the dialog scan does not follow; capture
+    # those payments on the transaction.
+    {"model": "payment.transaction", "opener": "action_capture", "wizard": "payment.capture.wizard",
+     "button": "action_capture", "verb": "capture", "replaces": True, "risk": "RiskHigh"},
 ]
 REPLACED_METHODS = {(w["model"], w["opener"]) for w in OPENED_WIZARDS if w.get("replaces")}
 
@@ -480,8 +487,36 @@ SKIP_METHODS = {
     # (FedEx, UPS, ...): Community has none, so the buttons never show on its fixed or rule-based
     # methods.
     "toggle_debug", "toggle_prod_environment",
+    # The Demo payment provider's buttons that force a transaction's outcome: a test tool of
+    # payment_demo, not a business action.
+    "action_demo_set_done", "action_demo_set_canceled", "action_demo_set_error",
 }
 HIGH_RISK_VERBS = ("unbuild", "void", "reverse", "refund", "hash", "unlock", "reset")
+
+# Operations reviewed as high risk although their verb does not say so (2026-10-13, when the governed
+# product began to execute the surface's low- and medium-risk writes, DEC-2026-0160): each posts to
+# or reopens the books, moves money, changes how payments or currencies are handled, or deletes
+# records. A high-risk operation asks for approval in a plan, and the governed product leaves it to
+# the standalone tool.
+REVIEWED_HIGH_RISK = {
+    "finance.payment.post": "posts the payment's journal entry",
+    "finance.payment.draft": "reopens a posted payment",
+    "finance.payment.cancel": "cancels a payment and its entry",
+    "finance.journal_entry.reset_to_draft": "reopens a posted entry",
+    "inventory.landed_cost.validate": "posts the landed cost's valuation entry",
+    "inventory.scrap.validate": "takes stock out of the books for good",
+    "people.expense.post": "posts the expense's journal entry",
+    "pos.order.pay": "registers money received",
+    "structure.model.recycle_records": "archives or deletes every record the rule finds",
+    "structure.record.validate": "archives or deletes the proposed record",
+    "finance.payment_provider.create": "a payment provider holds credentials and takes money",
+    "finance.payment_provider.update": "a payment provider holds credentials and takes money",
+    "finance.payment_transaction.create": "a transaction is money owed or received",
+    "finance.payment_transaction.update": "a transaction is money owed or received",
+    "finance.currency_rate.create": "a rate converts every amount of the books",
+    "finance.currency_rate.update": "a rate converts every amount of the books",
+    "structure.company.update": "the company's tax identity, currency and fiscal settings",
+}
 # A field with one of these names would become a --model / --method flag, which the CLI reserves for
 # raw provider RPC and refuses on canonical operations (TestNoRawProviderRPCSurface). Such a field is
 # still read; it is never offered for writing.
@@ -674,6 +709,10 @@ def main():
             method = button["name"]
             # A form often shows one method on two buttons (per state); it is one operation.
             if button["type"] != "object" or (model, method) in curated_methods or method in methods_seen:
+                continue
+            # A button whose invisible is the constant 1 never shows (payment.transaction's Post
+            # Process, which only Odoo's cron runs): it is no one's to press.
+            if str(button.get("invisible") or "").strip() in ("1", "True"):
                 continue
             methods_seen.add(method)
             if method.startswith(SKIP_METHOD_PREFIXES) or method in SKIP_METHODS or method.startswith("_"):
@@ -945,7 +984,7 @@ def main():
          "module": "account", "capability": "finance.journalentry.write", "risk": "RiskMedium", "mode": "WriteModeUpdate",
          "allowed": ["date", "ref", "journal_id"], "relations": entry_relations, "label": "Journal entry",
          "types": {}, "enums": {}, "domain": ENTRY_DOMAIN})
-    for verb, method, risk in (("post", "action_post", "RiskHigh"), ("reset_to_draft", "button_draft", "RiskMedium")):
+    for verb, method, risk in (("post", "action_post", "RiskHigh"), ("reset_to_draft", "button_draft", "RiskHigh")):
         add({"id": f"finance.journal_entry.{verb}", "kind": "KindAction", "strategy": "StrategyMethodCall", "model": "account.move",
              "module": "account", "capability": "finance.journalentry.write", "risk": risk, "method": method,
              "label": "Journal entry", "domain": ENTRY_DOMAIN})
@@ -1093,6 +1132,13 @@ def main():
                                       "resolveWith": sorted(resolvers.get((model, dialog), []))})
     if problems:
         raise SystemExit("unreviewed dialogs: " + "; ".join(problems))
+
+    by_id = {o["id"]: o for o in operations}
+    unknown = sorted(set(REVIEWED_HIGH_RISK) - set(by_id))
+    if unknown:
+        raise SystemExit(f"REVIEWED_HIGH_RISK names operations the surface does not generate: {unknown}")
+    for operation_id in REVIEWED_HIGH_RISK:
+        by_id[operation_id]["risk"] = "RiskHigh"
 
     with open(OUTPUT, "w", encoding="utf-8") as out:
         out.write(render(operations, inventory["provider"]))

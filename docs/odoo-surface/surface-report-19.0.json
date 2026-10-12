@@ -2,10 +2,10 @@
  "by_strategy": {
   "StrategyDestructiveGuarded": 6,
   "StrategyFieldWrite": 531,
-  "StrategyMethodCall": 163,
+  "StrategyMethodCall": 161,
   "StrategyRead": 523,
   "StrategyReport": 7,
-  "StrategyWizard": 24
+  "StrategyWizard": 25
  },
  "dialogs": [
   {
@@ -67,13 +67,6 @@
    "operation": "manufacturing.unbuild.validate",
    "resolveWith": [],
    "via": "action_validate"
-  },
-  {
-   "dialog": "payment.capture.wizard",
-   "module": "payment",
-   "operation": "finance.payment_transaction.capture",
-   "resolveWith": [],
-   "via": "action_capture"
   },
   {
    "dialog": "pos.close.session.wizard",
@@ -2847,9 +2840,8 @@
     "finance.payment_transaction.describe",
     "finance.payment_transaction.create",
     "finance.payment_transaction.update",
-    "finance.payment_transaction.capture",
     "finance.payment_transaction.void",
-    "finance.payment_transaction.post_process"
+    "finance.payment_transaction.capture"
    ]
   },
   {
@@ -4140,7 +4132,7 @@
    ]
   }
  ],
- "operations": 1254,
+ "operations": 1253,
  "series": {
   "server_serie": "19.0",
   "server_version": "19.0-20260803"

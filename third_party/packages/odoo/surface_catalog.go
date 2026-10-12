@@ -96,18 +96,62 @@ func SurfaceReadCapability(op Odoo19Operation) string {
 	return family + ".records.read"
 }
 
-// LookupGovernedOperation finds an operation the governed product executes: a curated one, or a
-// surface READ, its capability then the family's (SurfaceReadCapability). The surface's writes,
-// actions and prints stay standalone-only.
+// SurfaceWriteCapability is the capability the governed product enforces for a surface write,
+// business action or dialog it executes: its family's (finance.records.write), as reads take
+// SurfaceReadCapability.
+func SurfaceWriteCapability(op Odoo19Operation) string {
+	family, _, _ := strings.Cut(op.SemanticID, ".")
+	return family + ".records.write"
+}
+
+// LookupGovernedOperation finds an operation the governed product executes: a curated one; a
+// surface READ, under its family's read capability (SurfaceReadCapability, DEC-2026-0156); or a
+// surface create, update, business action or dialog that is verified on 19.0 and of low or medium
+// risk, under its family's write capability (SurfaceWriteCapability, DEC-2026-0160). The rest of the
+// surface stays standalone-only, and WhyNotGoverned says why.
 func LookupGovernedOperation(id string) (Odoo19Operation, bool) {
 	if op, ok := CatalogByID[id]; ok {
 		return op, true
 	}
-	if op, ok := SurfaceCatalogByID[id]; ok && op.Strategy == StrategyRead {
+	op, ok := SurfaceCatalogByID[id]
+	if !ok {
+		return Odoo19Operation{}, false
+	}
+	if op.Strategy == StrategyRead {
 		op.RequiredCapability = Capability(SurfaceReadCapability(op))
 		return op, true
 	}
+	if WhyNotGoverned(id) == "" {
+		op.RequiredCapability = Capability(SurfaceWriteCapability(op))
+		return op, true
+	}
 	return Odoo19Operation{}, false
+}
+
+// WhyNotGoverned says why a surface operation is not executed by the governed product, or "" when
+// it is (and for an id outside the surface catalog). A write that moves money, posts to the books
+// or reaches outside Odoo is high risk and waits for an approval step the governed product does not
+// have yet; an unverified one is not offered to a business at all; deletes, prints and module
+// installs stay with the standalone tool.
+func WhyNotGoverned(id string) string {
+	op, ok := SurfaceCatalogByID[id]
+	if !ok {
+		return ""
+	}
+	switch op.Strategy {
+	case StrategyRead:
+		return ""
+	case StrategyFieldWrite, StrategyMethodCall, StrategyWizard:
+	default:
+		return "a surface " + strings.ToLower(string(op.Strategy)) + " operation runs only through the standalone tool (odoo-cli)"
+	}
+	if op.Risk != RiskLow && op.Risk != RiskMedium {
+		return "a " + strings.ToLower(string(op.Risk)) + "-risk surface operation needs an approval step the governed product does not have yet; run it through the standalone tool (odoo-cli)"
+	}
+	if readiness, _ := ReadinessOf(id); readiness != ReadinessCurrentVerified {
+		return "a surface write that is not verified on 19.0 is not offered through the governed product"
+	}
+	return ""
 }
 
 // LookupStandaloneOperation finds an operation in either catalog, for the standalone surface.

@@ -58,10 +58,11 @@ type Adapter struct {
 	// curated ones. Only the standalone executor sets it; a governed adapter never does, so a
 	// surface operation cannot be executed through the governed product at all.
 	Surface bool
-	// SurfaceReads lets a governed adapter execute the surface catalog's READ operations, and no other
-	// surface operation (LookupGovernedOperation): the governed product reads what the surface reaches,
-	// under each family's read capability, and changes nothing through it.
-	SurfaceReads bool
+	// GovernedSurface lets a governed adapter execute the surface operations the governed product
+	// admits (LookupGovernedOperation): every READ, under its family's read capability, and the
+	// verified low- and medium-risk writes, actions and dialogs, under its family's write capability.
+	// No other surface operation (WhyNotGoverned).
+	GovernedSurface bool
 	// ModuleBusyWaits are the waits before each new attempt of a module install that Odoo refused
 	// while a scheduled action ran (execModuleInstall); nil means defaultModuleBusyWaits.
 	ModuleBusyWaits []time.Duration
@@ -78,10 +79,13 @@ func (a *Adapter) effectiveRetryPolicy() RetryPolicy {
 
 func (a *Adapter) lookup(intent *ExecutionIntent) (Odoo19Operation, error) {
 	entry, ok := lookupOperation(intent.Operation, a.Surface)
-	if !ok && a.SurfaceReads {
+	if !ok && a.GovernedSurface {
 		entry, ok = LookupGovernedOperation(intent.Operation)
 	}
 	if !ok {
+		if why := WhyNotGoverned(intent.Operation); a.GovernedSurface && why != "" {
+			return Odoo19Operation{}, fmt.Errorf("unknown odoo19 semantic operation %q: %s", intent.Operation, why)
+		}
 		return Odoo19Operation{}, fmt.Errorf("unknown odoo19 semantic operation %q", intent.Operation)
 	}
 	return entry, nil

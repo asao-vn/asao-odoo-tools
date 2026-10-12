@@ -1,0 +1,347 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T18:50:47Z",
+ "records": {
+  "catalog.pricelist_item.update": {
+   "definitionHash": "sha256:f8ae5841fbceef30c5e9c64271f5604aef45b408d6f21b6a51e865f13f3ab822",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Please specify the category for which this rule should be applied",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_line.create": {
+   "definitionHash": "sha256:a0962222f2cc5d5c142cc09e5071a67d5eeabda4e19f9d247c345c20e0c7c7c0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The attribute Brand must have at least one value for the product Restaurant Expenses.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_line.update": {
+   "definitionHash": "sha256:c6407e7dcd5e365792bc3bc25f869e26ba6f220406c4ff7a2b4ba532f8cec955",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "On the product Large Cabinet you cannot transform the attribute Height into the attribute 1.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "catalog.template_attribute_value.create": {
+   "definitionHash": "sha256:60ee9a7c9ed0c679337f056f0b09afa1d8937207aeebd05f60c92fb2486e86ea",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The value Brand: Adidas is not defined for the attribute Legs on the product Customizable Desk.",
+   "modules": [
+    "product"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "crm.team_member.update": {
+   "definitionHash": "sha256:3df82f211f5f1243d996cf6b755d28055b761988417c71e7b78a053a29cea45f",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Member assignment domain for user Mitchell Admin and team Sales is incorrectly formatted",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.account.chart.create": {
+   "definitionHash": "sha256:9fb8734b0e577577ed0778bc9f6e4e899551d76b65cf787933971a95c4f0bc56",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The code must be set for every company to which this account belongs.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.bank_statement_line.create": {
+   "definitionHash": "sha256:0444baca8aec19279d578c34129fdb16ac853e447cb218af52ccc306014c6947",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You can't create a new statement line without a suspense account set on the Sales journal.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.fiscal_position_account.update": {
+   "definitionHash": "sha256:9157a561eb7637a3d35ef49b4f939bd20582995a04090320493fcd310625c600",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: An account fiscal position could be defined only one time on same accounts.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment.create": {
+   "definitionHash": "sha256:a4ce63915b2a6502dcd0eee318f5f2b76d48e77a6770d48cd75f68e3b47e8a37",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Please define a payment method line on your payment.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_method.create": {
+   "definitionHash": "sha256:836301d374b86198e2337e4d9e36d67f70eeaf061dc9b0a6e57c5c43a3d7f697",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Payment Methods' (account.payment.method) records.\n\nNo group currently allows this operation.\n\nContact your administrator to request access if necessary.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_provider.create": {
+   "definitionHash": "sha256:ecef20d9f54a812373d361ddad602452690e02ba58356657f8c8c40f504daee7",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:6507b807a752447afb9a7d93b1a32f128f1f455c6a58c03d7c46c56148057395",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment_provider.update": {
+   "definitionHash": "sha256:ee18299a5c83cc7b5c46e206606a7f7f290e2d50f216184f98efc1b0236f5423",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "payment"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment_term_line.update": {
+   "definitionHash": "sha256:2d297fc06f1e4dfe9f28b2073c04087604c0cc8d4995679274747b9966031cef",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The days added must be a number and has to be between 0 and 31.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.payment_token.create": {
+   "definitionHash": "sha256:ed047a4a78b3c15841d0cfba1ab03a21940ea4cd86e7e80a893fe651416e6cbd",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:a60cfb8047104cc4ccefa209303cf846efa887ed505cca228de2904fb45669c6",
+   "writtenFields": [
+    "partner_id",
+    "payment_method_id",
+    "provider_id",
+    "provider_ref"
+   ]
+  },
+  "finance.payment_token.update": {
+   "definitionHash": "sha256:7941a9f32b4935de83168f87a1b8c6b4bada3b6a3f1be862e5b031cb20a59cac",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "payment"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "payment_details"
+   ]
+  },
+  "finance.reconcile_model_line.create": {
+   "definitionHash": "sha256:1459b3c912cc158295801346e1329f23118156c85fb30f1a26d690c1ae05d7d1",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Statement line percentage can't be 0",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.reconcile_model_line.update": {
+   "definitionHash": "sha256:e12583d766ff8d7dea8a2d4b1491edcab4d47b3c9b2e5adcb0baad3ccbd0052a",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Statement line percentage can't be 0",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.tax.create": {
+   "definitionHash": "sha256:7c6444b77a0b58aafd7717c6a7329de842684c52248604fd4eee480782f4736d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The tax group must have the same country_id as the tax using it.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "livechat.channel_member_history.create": {
+   "definitionHash": "sha256:bba018e37a038c5a21989fdde21fe4e29066e9fd36e88b577ed8aba5ac960084",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'Keep the channel member history' (im_livechat.channel.member.history) records.\n\nNo group currently allows this operation.\n\nContact your administrator to r",
+   "modules": [
+    "im_livechat"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "livechat.channel_member_history.update": {
+   "definitionHash": "sha256:691668529a9ee3c42f1ce5eeb8932cdc35d88ca59afb9f84f07427008a0a0025",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to modify 'Keep the channel member history' (im_livechat.channel.member.history) records.\n\nNo group currently allows this operation.\n\nContact your administrator to r",
+   "modules": [
+    "im_livechat"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "manufacturing.workcenter_productivity_loss_type.create": {
+   "definitionHash": "sha256:ff15c0281565b53ba9116cbf4d765c9997f5211f40388d562ceb033c0acacfb0",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to create 'MRP Workorder productivity losses' (mrp.workcenter.productivity.loss.type) records.\n\nNo group currently allows this operation.\n\nContact your administrator",
+   "modules": [
+    "mrp"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "manufacturing.workcenter_productivity_loss_type.update": {
+   "definitionHash": "sha256:52fb62c46b157f12268a37ae4958b3acc736d963ad14c615cb44b2583d0cfac8",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: You are not allowed to modify 'MRP Workorder productivity losses' (mrp.workcenter.productivity.loss.type) records.\n\nNo group currently allows this operation.\n\nContact your administrator",
+   "modules": [
+    "mrp"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "marketing.card.create": {
+   "definitionHash": "sha256:87adfe8f63282cf7c6ec910090f9d9d76d866e0b4a6b6660c718c65db2234a65",
+   "missingFields": [
+    "res_id"
+   ],
+   "modules": [
+    "marketing_card"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "marketing.trace.create": {
+   "definitionHash": "sha256:f7937b6ef2af46a1a0eb01778e3b0202385fd65f067a61779b65a169080c21e6",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Missing required value for the field 'Document model' (model).\nModel: 'Mailing Statistics' (mailing.trace)\n- create/update: a mandatory field is not set\n- delete: an",
+   "missingFields": [
+    "model"
+   ],
+   "modules": [
+    "mass_mailing"
+   ],
+   "status": "NOT_RUN_UNSATISFIABLE"
+  },
+  "people.job_skill.update": {
+   "definitionHash": "sha256:14f251fcb6544298f7e7d99611632db9feff5d90d9de453d8f20583f81378d2c",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The following skills can't be created as they overlap or exactly match existing skills:\n\u2022 {'job_id': 1, 'skill_id': 1, 'id': 44, 'valid_from': datetime.date(2026, 10, 12), 'valid_to': False, 'skill_le",
+   "modules": [
+    "hr_skills"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.order.create": {
+   "definitionHash": "sha256:09879e2caaadcc4565ea1dd263888c4af05d1c4d9c7707ef6481139a12c53ca0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "session_id",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.payment.create": {
+   "definitionHash": "sha256:63f3f337892b2c2220314632d60bc04218307512dcfdcc698efab2215a526ad8",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "You cannot edit a payment for a posted order.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.session.create": {
+   "definitionHash": "sha256:9892bd66ab07b14796d2e44d76a1fbff59574794fba9a44e28f31ff875cca31d",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Another session is already opened for this point of sale.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "pos.session.update": {
+   "definitionHash": "sha256:134ac6d2da707342b07e43f749b52c064eab81262e93373dc2baafdd3143230b",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "Another session is already opened for this point of sale.",
+   "modules": [
+    "point_of_sale"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "sales.loyalty_card.create": {
+   "definitionHash": "sha256:5a3031a16752b62c09e4bba0a5567b83609779943934caacdda01fd89382a3a0",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "loyalty.program()",
+   "modules": [
+    "loyalty"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "sales.quotation_template_line.create": {
+   "definitionHash": "sha256:66b0029b57a55ec88c111ba3516903d2cb1fe06e483b3cb3a846c109c60f6862",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "The operation cannot be completed: Missing required product and UoM on accountable sale quote line.",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "schedule.recurrence.create": {
+   "definitionHash": "sha256:01fe9421a9bb76f258b66bdd3df0cd4318c8319d8a733ae089f66497259296b7",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "not enough values to unpack (expected 2, got 1)",
+   "modules": [
+    "calendar"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "schedule.recurrence.update": {
+   "definitionHash": "sha256:4f63a0bf72544aab92f132e68552bf96922504b698156523cc0788df2be316aa",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "not enough values to unpack (expected 2, got 1)",
+   "modules": [
+    "calendar"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "workforce.leave.create": {
+   "definitionHash": "sha256:ff0033cdc4ea7a33f461ce1ba9bac6112b4b685675e186f89a558ca238c44ffe",
+   "detail": "AERP_PROVIDER_ERROR",
+   "message": "None",
+   "modules": [
+    "hr_holidays"
+   ],
+   "status": "CLI_ERROR"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

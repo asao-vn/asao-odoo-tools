@@ -68,17 +68,18 @@ type Surface struct {
 	// operations (direct.SurfaceOperations) as well as the curated ones. Only the standalone product
 	// sets it.
 	IncludeSurface bool
-	// IncludeSurfaceReads makes this surface list, describe and accept the surface catalog's READ
-	// operations, under each family's read capability (direct.GovernedOperations): the governed
-	// product reads what the surface reaches and changes nothing through it.
-	IncludeSurfaceReads bool
+	// IncludeGovernedSurface makes this surface list, describe and accept the surface operations the
+	// governed product executes (direct.GovernedOperations): every READ, under its family's read
+	// capability (DEC-2026-0156), and the verified low- and medium-risk writes, actions and dialogs,
+	// under its family's write capability (DEC-2026-0160).
+	IncludeGovernedSurface bool
 }
 
 func (s Surface) operations() []direct.Operation {
 	switch {
 	case s.IncludeSurface:
 		return direct.AllOperations()
-	case s.IncludeSurfaceReads:
+	case s.IncludeGovernedSurface:
 		return direct.GovernedOperations()
 	}
 	return direct.Operations()
@@ -88,7 +89,7 @@ func (s Surface) operationIDs() []string {
 	switch {
 	case s.IncludeSurface:
 		return direct.AllOperationIDs()
-	case s.IncludeSurfaceReads:
+	case s.IncludeGovernedSurface:
 		return direct.GovernedOperationIDs()
 	}
 	return direct.OperationIDs()
@@ -98,7 +99,7 @@ func (s Surface) describe(operationID string) (direct.Operation, error) {
 	switch {
 	case s.IncludeSurface:
 		return direct.DescribeAnyOperation(operationID)
-	case s.IncludeSurfaceReads:
+	case s.IncludeGovernedSurface:
 		return direct.DescribeGovernedOperation(operationID)
 	}
 	return direct.DescribeOperation(operationID)
@@ -144,7 +145,7 @@ func CatalogListFlags() []clicore.Flag {
 }
 
 // ListCatalog renders the filtered catalog of this surface's operations: the curated catalog, plus
-// the surface catalog when IncludeSurface is set, or its reads when IncludeSurfaceReads is.
+// the surface catalog when IncludeSurface is set, or its governed part when IncludeGovernedSurface is.
 //
 // authorization is the surface's own honest statement about what governs execution of these
 // operations — an ENFORCED capability on the governed surface, and the local-credential trust

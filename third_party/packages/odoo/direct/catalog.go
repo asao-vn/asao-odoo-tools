@@ -236,12 +236,13 @@ func DescribeOperation(semanticID string) (Operation, error) {
 	return projectOperation(op), nil
 }
 
-// GovernedOperations are the operations the governed product executes: the curated catalog and the
-// surface's reads, each under the capability the governed product enforces for it.
+// GovernedOperations are the operations the governed product executes: the curated catalog, the
+// surface's reads and its verified low- and medium-risk writes, actions and dialogs, each under the
+// capability the governed product enforces for it (odoo.LookupGovernedOperation).
 func GovernedOperations() []Operation {
 	out := Operations()
 	for _, op := range odoo.SurfaceCatalog() {
-		if governed, ok := odoo.LookupGovernedOperation(op.SemanticID); ok && op.Strategy == odoo.StrategyRead {
+		if governed, ok := odoo.LookupGovernedOperation(op.SemanticID); ok {
 			out = append(out, projectOperation(governed))
 		}
 	}
@@ -253,6 +254,9 @@ func GovernedOperations() []Operation {
 func DescribeGovernedOperation(semanticID string) (Operation, error) {
 	op, ok := odoo.LookupGovernedOperation(semanticID)
 	if !ok {
+		if why := odoo.WhyNotGoverned(semanticID); why != "" {
+			return Operation{}, fmt.Errorf("%w: %q: %s", ErrUnknownOperation, semanticID, why)
+		}
 		return Operation{}, fmt.Errorf("%w: %q", ErrUnknownOperation, semanticID)
 	}
 	return projectOperation(op), nil

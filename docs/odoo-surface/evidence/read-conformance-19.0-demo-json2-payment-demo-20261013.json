@@ -1,0 +1,75 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T18:50:04Z",
+ "records": {
+  "finance.payment_token.describe": {
+   "cliHash": "sha256:61202e51d8326f84bf52ecf900932db45b7f392838fdc359c5b70b9f5eb1b4b9",
+   "definitionHash": "sha256:30f8fea697815faf073323405c413141a2eb769c683776a7095a523134469d37",
+   "fieldCount": 10,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:61202e51d8326f84bf52ecf900932db45b7f392838fdc359c5b70b9f5eb1b4b9",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_token.list": {
+   "cliHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "definitionHash": "sha256:e0ce89b0522630c3450f43a31721b34ff95e37a1561207952c28d4bcd4d1a514",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.payment_transaction.describe": {
+   "cliHash": "sha256:ed369dae97bfe5cb49a50323721b0a36a7549cdac2f714667e2a6d8db7d05190",
+   "definitionHash": "sha256:4c746b879db071c02652413d8a632e79f695cc23b0d5662897d7e06f2735a8e1",
+   "fieldCount": 33,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:fea783703a74e958873776eec256d66548ba55b341b0dfde6b491b23d4891dd9",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "workforce.leave.describe": {
+   "cliHash": "sha256:0e26c507763ac36060064088a38048f16b2d707fb6b5b6a217de4db5711d5f5f",
+   "definitionHash": "sha256:2b9614d7102a8ab9e3b6fe34ae88213c2974b0b2949ce339ae442015496be826",
+   "fieldCount": 32,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_holidays"
+   ],
+   "oracleHash": "sha256:2156af91f8f796299b9c02cbed30c16ac97c9e220a2c724f3c7b10acdaed427b",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

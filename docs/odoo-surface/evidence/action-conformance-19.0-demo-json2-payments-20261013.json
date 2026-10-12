@@ -1,0 +1,215 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T18:54:43Z",
+ "records": {
+  "finance.invoice.payment_void": {
+   "changedFields": [
+    "audit_trail_message_ids",
+    "transaction_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "audit_trail_message_ids": 2
+   },
+   "definitionHash": "sha256:91ef035dc63d89bfa67533934d30ba76a359f7a96c1369a500932acd2249c050",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [
+    "audit_trail_message_ids",
+    "transaction_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:21bf98b7632c4052f238d5f2b47248042bf38b37e01cf7817f3427370a01b268",
+   "status": "AGREE",
+   "transitions": {
+    "transaction_ids.state": [
+     "authorized",
+     "cancel"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment_transaction.capture": {
+   "changedFields": [
+    "child_transaction_ids",
+    "child_transaction_ids.state",
+    "last_state_change",
+    "state",
+    "state_message"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "child_transaction_ids": 1
+   },
+   "definitionHash": "sha256:30aa95b2a4cb033d577bdb21e537e7c44687c74a9684f27c357955b53d4f2b8d",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "oracleChangedFields": [
+    "child_transaction_ids",
+    "child_transaction_ids.state",
+    "last_state_change",
+    "state",
+    "state_message"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ab728d276526135c663a8efdb98231005daaa8eb9c9ac4ffc3e574b80bb85908",
+   "status": "AGREE",
+   "transitions": {
+    "child_transaction_ids.state": [
+     "",
+     "done"
+    ],
+    "state": [
+     "authorized",
+     "done"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "finance.payment_transaction.void": {
+   "changedFields": [
+    "child_transaction_ids",
+    "child_transaction_ids.state",
+    "last_state_change",
+    "state",
+    "state_message"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "child_transaction_ids": 1
+   },
+   "definitionHash": "sha256:96dec6fe1186b3d4f3a6ae7b153340efbb2e687fa8fa4f2744fcce2344985fc1",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "oracleChangedFields": [
+    "child_transaction_ids",
+    "child_transaction_ids.state",
+    "last_state_change",
+    "state",
+    "state_message"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:3beeee5787f850dd0de404ae4972f02cf353a6c3ea882ec293543c19ca1c96d0",
+   "status": "AGREE",
+   "transitions": {
+    "child_transaction_ids.state": [
+     "",
+     "cancel"
+    ],
+    "state": [
+     "authorized",
+     "cancel"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.transfer.reserve": {
+   "changedFields": [
+    "move_ids.state",
+    "move_line_ids",
+    "move_line_ids.state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "move_line_ids": 1
+   },
+   "definitionHash": "sha256:3f440b005d677d60104b6016b53f8a726b2b02d26ec89e6238c3fbcbd6985e41",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state",
+    "move_line_ids",
+    "move_line_ids.state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:c56e6f7295a0bd29ad8e17cf4c0624ad01315f0ff930fc0234f86d8fea0c23d5",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "confirmed",
+     "assigned"
+    ],
+    "move_line_ids.state": [
+     "",
+     "assigned"
+    ],
+    "state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "repair.order.assign": {
+   "changedFields": [
+    "move_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:d7f2e6e4333d2c013822e2ca1f8ccf2c8a1a8e0bfe8d722e137687b17c89054d",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:58a4a0740f8f34b103263ea016799f0d531f725dd0ccb4a237d8a79d7e4c2e91",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "sales.order.payment_void": {
+   "changedFields": [
+    "transaction_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:cdd255f59bc790b58d22b4123e63fa2b9679042fc0357274def05bdb5d33d0f0",
+   "kind": "action",
+   "modules": [
+    "sale"
+   ],
+   "oracleChangedFields": [
+    "transaction_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:513f3e868c1665ac948ac5f0a27401a8186019dae7d9363e46e073cefedf7a12",
+   "status": "AGREE",
+   "transitions": {
+    "transaction_ids.state": [
+     "authorized",
+     "cancel"
+    ]
+   },
+   "twinBasis": "fixture"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

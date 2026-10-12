@@ -498,6 +498,7 @@ var odoo20Dialect = &providerDialect{
 		"hr.attendance.overtime.rule":           "the overtime rule models were removed",
 		"hr.attendance.overtime.ruleset":        "the overtime rule models were removed",
 		"l10n_vn_edi_viettel.sinvoice.template": "SInvoice templates became a code on the symbol (l10n_vn_edi_viettel.sinvoice.symbol.invoice_template_code)",
+		"im_livechat.conversation.tag":          "live chat conversation tags were removed",
 	},
 	models: map[string]modelDialect{
 		"res.partner": {

@@ -5832,18 +5832,6 @@
       "definitionHash": "sha256:2273153d09401fcda9d18a394d08be71704c0548317b5e985dcfb09db04b4178"
     },
     {
-      "operationId": "workforce.leave.describe",
-      "providerVersion": "19.0-20260803",
-      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
-      "modules": [
-        "hr_holidays"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-demo-curated-gaps-20261010.json",
-      "verifiedAt": "2026-10-10T11:10:31Z",
-      "definitionHash": "sha256:7e7e73855ca0b740f1c49ab5a71d74d700d33f6e462f740d09af15ba2e350cff"
-    },
-    {
       "operationId": "catalog.uom.create",
       "providerVersion": "19.0-20260803",
       "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
@@ -6466,18 +6454,6 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-demo-new-ops-20261011.json",
       "verifiedAt": "2026-10-10T19:07:02Z",
       "definitionHash": "sha256:5ee63b1048a997daefc220c61776b005e66a4be6e22efc5580cee37d33938476"
-    },
-    {
-      "operationId": "finance.payment_transaction.describe",
-      "providerVersion": "19.0-20260803",
-      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
-      "modules": [
-        "payment"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-demo-new-ops-20261011.json",
-      "verifiedAt": "2026-10-10T19:07:02Z",
-      "definitionHash": "sha256:815a118d3a883ebe438f12a59fbb03785ef9f6f64fdba92ac8069bedd0222dd8"
     },
     {
       "operationId": "finance.payment_transaction.list",
@@ -9142,30 +9118,6 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-demo-json2-parked-apps-20261011.json",
       "verifiedAt": "2026-10-11T12:17:06Z",
       "definitionHash": "sha256:63386a412913ebefde48e63603f1371946aaf787b83d8ea06cb0f4898a18c7a9"
-    },
-    {
-      "operationId": "finance.payment_provider.create",
-      "providerVersion": "19.0-20260803",
-      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
-      "modules": [
-        "payment"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-demo-json2-parked-apps-20261011.json",
-      "verifiedAt": "2026-10-11T12:17:06Z",
-      "definitionHash": "sha256:8e7b87e8cb4eab5067d35a45a2e3eb1979eec7c3b2b827a2ad645812dc8c4603"
-    },
-    {
-      "operationId": "finance.payment_provider.update",
-      "providerVersion": "19.0-20260803",
-      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
-      "modules": [
-        "payment"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-demo-json2-parked-apps-20261011.json",
-      "verifiedAt": "2026-10-11T12:17:06Z",
-      "definitionHash": "sha256:bab475757189fd0ab51f46f783aaee13e04d7b5312aaf83f95fb2649751c02c6"
     },
     {
       "operationId": "finance.payment_transaction.create",
@@ -15082,6 +15034,102 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-lunch-repair-20261012.json",
       "verifiedAt": "2026-10-12T16:41:59Z",
       "definitionHash": "sha256:75d38c601cde15b57a8590bdf432c6479c3c5369b77cae75c97bb96c88cb5541"
+    },
+    {
+      "operationId": "finance.payment_transaction.describe",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-demo-json2-payment-demo-20261013.json",
+      "verifiedAt": "2026-10-12T18:50:04Z",
+      "definitionHash": "sha256:4c746b879db071c02652413d8a632e79f695cc23b0d5662897d7e06f2735a8e1"
+    },
+    {
+      "operationId": "workforce.leave.describe",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "hr_holidays"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-demo-json2-payment-demo-20261013.json",
+      "verifiedAt": "2026-10-12T18:50:04Z",
+      "definitionHash": "sha256:2b9614d7102a8ab9e3b6fe34ae88213c2974b0b2949ce339ae442015496be826"
+    },
+    {
+      "operationId": "finance.payment_provider.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-demo-json2-payment-demo-20261013.json",
+      "verifiedAt": "2026-10-12T18:50:47Z",
+      "definitionHash": "sha256:ecef20d9f54a812373d361ddad602452690e02ba58356657f8c8c40f504daee7"
+    },
+    {
+      "operationId": "finance.payment_provider.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-demo-json2-payment-demo-20261013.json",
+      "verifiedAt": "2026-10-12T18:50:47Z",
+      "definitionHash": "sha256:ee18299a5c83cc7b5c46e206606a7f7f290e2d50f216184f98efc1b0236f5423"
+    },
+    {
+      "operationId": "finance.invoice.payment_void",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-payments-20261013.json",
+      "verifiedAt": "2026-10-12T18:54:43Z",
+      "definitionHash": "sha256:91ef035dc63d89bfa67533934d30ba76a359f7a96c1369a500932acd2249c050"
+    },
+    {
+      "operationId": "finance.payment_transaction.capture",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-payments-20261013.json",
+      "verifiedAt": "2026-10-12T18:54:43Z",
+      "definitionHash": "sha256:30aa95b2a4cb033d577bdb21e537e7c44687c74a9684f27c357955b53d4f2b8d"
+    },
+    {
+      "operationId": "finance.payment_transaction.void",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-payments-20261013.json",
+      "verifiedAt": "2026-10-12T18:54:43Z",
+      "definitionHash": "sha256:96dec6fe1186b3d4f3a6ae7b153340efbb2e687fa8fa4f2744fcce2344985fc1"
+    },
+    {
+      "operationId": "sales.order.payment_void",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "sale"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-demo-json2-payments-20261013.json",
+      "verifiedAt": "2026-10-12T18:54:43Z",
+      "definitionHash": "sha256:cdd255f59bc790b58d22b4123e63fa2b9679042fc0357274def05bdb5d33d0f0"
     }
   ]
 }

@@ -1054,6 +1054,34 @@ The 96 unverified operations are of these kinds:
 - **Odoo's rules refuse a generic value.**
 - **A payment provider or a carrier is needed** to authorise or ship.
 
+## Payments, the 20.0 fixtures and governed writes (2026-10-13)
+
+**Payments.** `payment_demo`, the Demo payment provider shipped with Community, is installed on the
+three labs and set to capture manually.
+- **Fixture:** it authorizes payments through the module's own simulation route, the one a browser
+  posts to. The transaction may stand alone or sit on a quotation or a posted invoice.
+- **Capture:** a transaction's Capture always opens the capture dialog, so it is now that dialog's
+  operation (`OPENED_WIZARDS`, high risk). A quotation's or invoice's Capture reaches the dialog through
+  the transaction, which the dialog scan does not follow; capture those payments on the transaction.
+- **Void:** voids are verified on all three. The action runner now compares record states across
+  many2many relations as well (a quotation's `transaction_ids`).
+- **Left out:**
+  - a transaction's Post Process, whose `invisible` is the constant 1: the generator now leaves out
+    every button that can never show;
+  - the Demo provider's outcome-forcing buttons.
+
+**20.0.**
+- **Fixtures:** the 20.0 database has no demo data, so a fixture that finds no customer, vendor,
+  product or bill of materials now makes one (`Fixtures.make_missing`).
+- **Absent model:** live chat conversation tags no longer exist in 20.0 (`absentModels`).
+- **Result:** the 20.0 manifest holds 1081 records, 83% of the 1297 operations that 20.0 can
+  run.
+
+**Governed writes (DEC-2026-0160).** The governed product now executes the surface's verified low-
+and medium-risk creates, updates, actions and dialogs, under one write key per domain. That is 593
+operations. `REVIEWED_HIGH_RISK` lists 17 more high-risk operations: posting and reopening the
+books, money, rates, company settings and deletes.
+
 ## Not yet done
 
 - **Actions and wizards still UNVERIFIED on 19.0:** 39 actions and 7 wizards.

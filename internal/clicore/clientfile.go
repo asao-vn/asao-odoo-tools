@@ -112,7 +112,8 @@ func ExpandClientFiles(invocation *Invocation) *Error {
 				return err
 			}
 			values[i] = content
-			if flag.ClientFile.Bundle != nil {
+			// Only when there are images: a key with no values would travel as a flag with no value.
+			if flag.ClientFile.Bundle != nil && len(images) > 0 {
 				invocation.Raw[flag.ClientFile.Bundle.Flag] = append(invocation.Raw[flag.ClientFile.Bundle.Flag], bundleValues(images)...)
 			}
 		}

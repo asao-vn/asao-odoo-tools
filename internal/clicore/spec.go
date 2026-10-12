@@ -96,6 +96,11 @@ const (
 	// container, a throwaway restore container). It contacts no ASAO service and no provider API.
 	// Only the `asao server` family declares it (DEC-2026-0159), through ClientLocalHost.
 	EffectWriteLocalHost SideEffect = "WRITE_LOCAL_HOST"
+	// EffectWriteLocalFiles — writes new files the person named, under an output folder on the machine
+	// the command runs on (`asao alop assignments import` writes a converted assignment file and its
+	// pictures). No network, no canonical state, no provider, nothing outside that folder; an existing
+	// file is never replaced unless the person asks (--force). Only ClientLocalFiles leaves declare it.
+	EffectWriteLocalFiles SideEffect = "WRITE_LOCAL_FILES"
 )
 
 // ExecutionBoundary declares where a leaf is permitted to execute. It is
@@ -311,6 +316,13 @@ type Command struct {
 	// and drives its local container runtime. SideEffect READ, WRITE_LOCAL_HOST or WRITE_LOCAL_CONFIG
 	// (the server configuration and its timers); never canonical state, a provider or an ASAO service.
 	ClientLocalHost bool
+	// ClientLocalFiles is the sixth narrow CLIENT_LOCAL exception: a leaf that converts a file the
+	// person named on this machine and writes the result under an output folder they named
+	// (`asao alop assignments import`: a Word test becomes an assignment file and its pictures; `asao setup
+	// --install-skill`: the agent skill's SKILL.md where the agent host reads skills).
+	// SideEffect WRITE_LOCAL_FILES; no network, no canonical state, no provider, no ASAO service, and
+	// no existing file is replaced without an explicit --force.
+	ClientLocalFiles bool
 	// AgentAccess is this leaf's tool-protocol exposure. See the AgentAccess type. Empty on a group
 	// and on the standalone products' trees, which have no MCP projection.
 	AgentAccess AgentAccess
@@ -505,6 +517,8 @@ type CommandSpec struct {
 	ClientLocalSettings bool `json:"clientLocalSettings,omitempty"`
 	// ClientLocalHost projects the fifth CLIENT_LOCAL exception: the leaf operates this machine.
 	ClientLocalHost bool `json:"clientLocalHost,omitempty"`
+	// ClientLocalFiles projects the sixth: the leaf writes files the person named on this machine.
+	ClientLocalFiles bool `json:"clientLocalFiles,omitempty"`
 	// AgentAccess and HumanStep publish the leaf's tool-protocol exposure and whether its result is a
 	// link a person must open. agentAccess is published on every governed leaf (NONE included) so a
 	// reader never has to interpret an absence.
@@ -588,6 +602,7 @@ func Specify(command *Command, deep bool) CommandSpec {
 		spec.ClientLocalServer = command.ClientLocalServer
 		spec.ClientLocalSettings = command.ClientLocalSettings
 		spec.ClientLocalHost = command.ClientLocalHost
+		spec.ClientLocalFiles = command.ClientLocalFiles
 		spec.AgentAccess = command.AgentAccess
 		spec.AgentConfirmWhen = command.AgentConfirmWhen
 		spec.HumanStep = command.HumanStep

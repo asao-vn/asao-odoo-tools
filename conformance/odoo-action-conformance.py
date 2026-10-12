@@ -55,6 +55,7 @@ import argparse
 import ast
 import datetime
 import hashlib
+import itertools
 import json
 import os
 import subprocess
@@ -63,6 +64,7 @@ import urllib.request
 
 CANDIDATES = 400
 STAMP = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d%H%M%S")
+REFERENCES = itertools.count(1)
 VOLATILE = {"write_date", "write_uid", "create_date", "create_uid", "__last_update", "display_name"}
 VOLATILE_PREFIXES = ("message_", "activity_", "website_message", "rating_", "has_message", "my_activity")
 # Fields that measure time running since the action: they differ by the seconds between the two
@@ -105,6 +107,16 @@ class Oracle:
 
     def call(self, model, method, args, kwargs=None):
         return self._rpc("object", "execute_kw", [self.database, self.uid, self.password, model, method, args, kwargs or {}])
+
+    def route(self, path, params):
+        """A JSON route of the web server, as a browser posts it."""
+        payload = json.dumps({"jsonrpc": "2.0", "method": "call", "id": 1, "params": params}).encode()
+        request = urllib.request.Request(self.endpoint + path, data=payload, headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(request, timeout=180) as response:
+            answer = json.loads(response.read())
+        if "error" in answer:
+            raise ProviderRefusal((answer["error"].get("data") or {}).get("message") or answer["error"].get("message"))
+        return answer.get("result")
 
 
 class Unsupported(Exception):
@@ -306,8 +318,42 @@ class Fixtures:
     def first(self, model, domain, fields=("id",)):
         found = self.call(model, "search_read", [domain], {"fields": list(fields), "limit": 1, "order": "id"})
         if not found:
-            raise Unsupported(f"no {model} matching {domain}")
+            # A lab without demo data (vn20) has no customer, vendor, product or bill of materials to
+            # start from: one is made to the domain's terms.
+            made = self.make_missing(model, domain)
+            if made is None:
+                raise Unsupported(f"no {model} matching {domain}")
+            found = self.call(model, "search_read", [[["id", "=", made]]], {"fields": list(fields)})
         return found[0]
+
+    def make_missing(self, model, domain):
+        """A record of model inside domain, from its simple leaves: field = value, and field > 0 as 1
+        (a customer's or vendor's rank). A bill of materials is made whole: a product, a component
+        and, when the domain asks for operations, a work center and one operation. None when the
+        domain says more than that."""
+        if model == "mrp.bom":
+            finished = self.call("product.product", "create", [{"name": f"Conformance made product {STAMP}", "is_storable": True}])
+            component = self.call("product.product", "create", [{"name": f"Conformance made component {STAMP}", "is_storable": True}])
+            template = self.call("product.product", "read", [[finished], ["product_tmpl_id"]])[0]["product_tmpl_id"][0]
+            values = {"product_tmpl_id": template, "product_qty": 1, "type": "normal",
+                      "bom_line_ids": [[0, 0, {"product_id": component, "product_qty": 1}]]}
+            if any(isinstance(leaf, list) and leaf[0] == "operation_ids" for leaf in domain):
+                found = self.call("mrp.workcenter", "search", [[]], {"limit": 1})
+                center = found[0] if found else self.call("mrp.workcenter", "create", [{"name": f"Conformance work center {STAMP}"}])
+                values["operation_ids"] = [[0, 0, {"name": "Conformance operation", "workcenter_id": center}]]
+            return self.call("mrp.bom", "create", [values])
+        values = {"name": f"Conformance made {model} {STAMP}"}
+        for leaf in domain:
+            if not (isinstance(leaf, list) and len(leaf) == 3) or "." in leaf[0]:
+                return None
+            name, operator, value = leaf
+            if operator == "=":
+                values[name] = value
+            elif operator == ">" and value == 0:
+                values[name] = 1
+            else:
+                return None
+        return self.call(model, "create", [values])
 
     def twice(self, make):
         return [make(), make()]
@@ -388,6 +434,43 @@ class Fixtures:
             self.call("stock.picking", "button_validate", [[receipt]])
             return self.call("stock.landed.cost", "create", [{"picking_ids": [[6, 0, [receipt]]], "cost_lines": [[0, 0, {
                 "product_id": freight, "name": "Freight", "price_unit": 10.0, "split_method": "equal"}]]}])
+        return self.twice(make)
+
+    def authorized_payments(self, on):
+        """Two payments authorized and not yet captured, by the Demo provider (payment_demo) set to
+        capture manually: each a transaction on a quotation (on="sale"), a posted customer invoice
+        (on="invoice") or nothing (on="transaction"). The customer's side is the module's own
+        simulation route, which a browser posts; with manual capture, a paid simulation leaves the
+        transaction authorized."""
+        provider = self.first("payment.provider", [["code", "=", "demo"], ["state", "!=", "disabled"]], ("payment_method_ids",))
+        self.call("payment.provider", "write", [[provider["id"]], {"capture_manually": True}])
+        partner = self.first("res.partner", [["customer_rank", ">", 0]])["id"]
+        product = self.first("product.product", [["sale_ok", "=", True], ["type", "=", "service"]])["id"]
+
+        def make():
+            # A transaction's reference is unique: numbered across the whole run, not per fixture.
+            values = {"provider_id": provider["id"], "payment_method_id": provider["payment_method_ids"][0], "partner_id": partner,
+                      "reference": f"CONFORMANCE-{STAMP}-{on}-{next(REFERENCES)}"}
+            if on == "sale":
+                record = self.call("sale.order", "create", [{"partner_id": partner, "order_line": [[0, 0, {
+                    "product_id": product, "product_uom_qty": 1}]]}])
+                read = self.call("sale.order", "read", [[record], ["amount_total", "currency_id"]])[0]
+                values["sale_order_ids"] = [[6, 0, [record]]]
+            elif on == "invoice":
+                record = self.call("account.move", "create", [{"move_type": "out_invoice", "partner_id": partner, "invoice_line_ids": [[0, 0, {
+                    "product_id": product, "quantity": 1, "price_unit": 100.0}]]}])
+                self.call("account.move", "action_post", [[record]])
+                read = self.call("account.move", "read", [[record], ["amount_total", "currency_id"]])[0]
+                values["invoice_ids"] = [[6, 0, [record]]]
+            else:
+                record = None
+                company = self.call("res.users", "read", [[self.oracle.uid], ["company_id"]])[0]["company_id"][0]
+                read = {"amount_total": 100.0, "currency_id": self.call("res.company", "read", [[company], ["currency_id"]])[0]["currency_id"]}
+            values.update({"amount": read["amount_total"], "currency_id": read["currency_id"][0]})
+            transaction = self.call("payment.transaction", "create", [values])
+            self.oracle.route("/payment/demo/simulate_payment", {"reference": values["reference"], "simulated_state": "done",
+                                                                 "payment_details": "4242"})
+            return record or transaction
         return self.twice(make)
 
     def recycle_rules(self):
@@ -867,6 +950,14 @@ FIXTURES = {
     "maintenance.request.reset_equipment_request": lambda f: f.archived_requests(),
     "structure.record.discard": lambda f: f.recycle_records(),
     "structure.model.recycle_records": lambda f: f.recycle_rules(),
+    # Payments authorized by the Demo provider (2026-10-13): capture or void them on the quotation,
+    # on the invoice, or on the transaction itself.
+    "sales.order.payment_capture": lambda f: f.authorized_payments("sale"),
+    "sales.order.payment_void": lambda f: f.authorized_payments("sale"),
+    "finance.invoice.payment_capture": lambda f: f.authorized_payments("invoice"),
+    "finance.invoice.payment_void": lambda f: f.authorized_payments("invoice"),
+    "finance.payment_transaction.capture": lambda f: f.authorized_payments("transaction"),
+    "finance.payment_transaction.void": lambda f: f.authorized_payments("transaction"),
     "inventory.landed_cost.compute_landed_cost": lambda f: f.landed_costs(),
     "inventory.landed_cost.validate": lambda f: f.landed_costs(),
     "inventory.landed_cost.cancel": lambda f: f.landed_costs(),
@@ -1198,11 +1289,12 @@ def main():
         compared = sorted(f for f, m in meta.items() if m.get("store") and m["type"] in COMPARED_TYPES | COUNTED_TYPES
                           and f not in VOLATILE and not f.startswith(VOLATILE_PREFIXES) and f not in MODEL_VOLATILE.get(model, ()))
         # What a button changes may lie on the record's lines, not the record: reserving a repair's
-        # parts moves its stock moves from confirmed to assigned. Each one2many whose lines have a
-        # stored state is compared by those states too ("move_ids.state": the sorted states).
+        # parts moves its stock moves from confirmed to assigned, voiding a quotation's payment cancels
+        # its transaction. Each one2many or many2many whose records have a stored state is compared
+        # by those states too ("move_ids.state": the sorted states).
         meta = dict(meta)
         child_states = {}
-        for field in [f for f in compared if meta[f]["type"] == "one2many" and meta[f].get("relation")]:
+        for field in [f for f in compared if meta[f]["type"] in COUNTED_TYPES and meta[f].get("relation")]:
             relation = meta[field]["relation"]
             if relation not in child_meta:
                 try:
