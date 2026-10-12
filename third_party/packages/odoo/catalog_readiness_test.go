@@ -36,9 +36,12 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// 2026-10-12 added email marketing, live chat, lunch, eLearning, eCommerce and data cleaning, with
 	// the operations their forms changed run again, the lab admin given full accounting features, and
 	// the write runner retrying duplicates and giving values Odoo needs: 521 reads, 450 creates/updates,
-	// 114 actions and wizards.
-	if len(report.Records) != 103+521+450+114+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 1098 surface", len(report.Records))
+	// 114 actions and wizards. Then updates of numbers, dates, booleans, selections and relations,
+	// creates of models with nothing required, line states compared on actions, and fixtures for
+	// landed costs, data cleaning, approvals and reservations: 498 creates/updates, 128 actions and
+	// wizards.
+	if len(report.Records) != 103+521+498+128+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 1160 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}

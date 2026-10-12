@@ -89,6 +89,22 @@
    "model": "calendar.event"
   },
   {
+   "field": "website_message_ids",
+   "model": "card.campaign"
+  },
+  {
+   "field": "name",
+   "model": "chatbot.script"
+  },
+  {
+   "field": "source_id",
+   "model": "chatbot.script"
+  },
+  {
+   "field": "is_forward_operator",
+   "model": "chatbot.script.step"
+  },
+  {
    "field": "commercial_partner_id",
    "model": "crm.lead"
   },
@@ -325,6 +341,30 @@
    "model": "hr.version"
   },
   {
+   "field": "rating_avg",
+   "model": "im_livechat.channel"
+  },
+  {
+   "field": "rating_avg_percentage",
+   "model": "im_livechat.channel"
+  },
+  {
+   "field": "rating_ids",
+   "model": "im_livechat.channel"
+  },
+  {
+   "field": "conversation_tag_ids",
+   "model": "im_livechat.channel.member.history"
+  },
+  {
+   "field": "rating_id",
+   "model": "im_livechat.channel.member.history"
+  },
+  {
+   "field": "rating_text",
+   "model": "im_livechat.channel.member.history"
+  },
+  {
    "field": "invoice_template_id",
    "model": "l10n_vn_edi_viettel.sinvoice.symbol"
   },
@@ -335,6 +375,34 @@
   {
    "field": "website_message_ids",
    "model": "loyalty.card"
+  },
+  {
+   "field": "notification_moment",
+   "model": "lunch.alert"
+  },
+  {
+   "field": "moment",
+   "model": "lunch.supplier"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "lunch.supplier"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mailing.contact"
+  },
+  {
+   "field": "favorite_date",
+   "model": "mailing.mailing"
+  },
+  {
+   "field": "mailing_filter_id",
+   "model": "mailing.mailing"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "mailing.mailing"
   },
   {
    "field": "website_message_ids",
@@ -481,6 +549,22 @@
    "model": "product.document"
   },
   {
+   "field": "shown_on_product_page",
+   "model": "product.document"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "product.feed"
+  },
+  {
+   "field": "embed_code",
+   "model": "product.image"
+  },
+  {
+   "field": "product_variant_id",
+   "model": "product.image"
+  },
+  {
    "field": "website_message_ids",
    "model": "product.pricelist"
   },
@@ -493,7 +577,19 @@
    "model": "product.pricelist.item"
   },
   {
+   "field": "product_variant_image_ids",
+   "model": "product.product"
+  },
+  {
    "field": "property_price_difference_account_id",
+   "model": "product.product"
+  },
+  {
+   "field": "standard_price_update_warning",
+   "model": "product.product"
+  },
+  {
+   "field": "stock_notification_partner_ids",
    "model": "product.product"
   },
   {
@@ -511,6 +607,10 @@
   {
    "field": "exclude_for",
    "model": "product.template.attribute.value"
+  },
+  {
+   "field": "stock_notification",
+   "model": "product.wishlist"
   },
   {
    "field": "limited_access",
@@ -673,8 +773,20 @@
    "model": "sale.order"
   },
   {
+   "field": "shop_warning",
+   "model": "sale.order"
+  },
+  {
    "field": "website_message_ids",
    "model": "sale.order"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "slide.channel"
+  },
+  {
+   "field": "website_message_ids",
+   "model": "slide.slide"
   },
   {
    "field": "website_message_ids",
@@ -1257,6 +1369,38 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "favorite",
+   "candidates": [
+    "is_template"
+   ],
+   "model": "mailing.mailing",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "mailing_filter_count",
+   "candidates": [
+    "recipients_count"
+   ],
+   "model": "mailing.mailing",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "mailing_filter_domain",
+   "candidates": [
+    "ab_testing_version_name"
+   ],
+   "model": "mailing.mailing",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "name",
+   "candidates": [
+    "ab_testing_version_name"
+   ],
+   "model": "mailing.mailing",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "instruction_type",
    "candidates": [
     "state"
@@ -1832,11 +1976,36 @@
    "reason": "no candidate with the same label"
   },
   {
-   "baseline": "standard_price_update_warning",
+   "baseline": "align_category_content",
    "candidates": [
-    "base_unit_name"
+    "can_publish",
+    "is_published",
+    "not_in_shop",
+    "website_published"
    ],
-   "model": "product.product",
+   "model": "product.public.category",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_category_description",
+   "candidates": [
+    "can_publish",
+    "is_published",
+    "not_in_shop",
+    "website_published"
+   ],
+   "model": "product.public.category",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "show_category_title",
+   "candidates": [
+    "can_publish",
+    "is_published",
+    "not_in_shop",
+    "website_published"
+   ],
+   "model": "product.public.category",
    "reason": "no candidate with the same label"
   },
   {
@@ -1845,7 +2014,9 @@
     "property_account_expense_active",
     "property_account_income_active",
     "show_sales_price_page",
-    "visible_reinvoice_policy"
+    "suggest_accessory_products",
+    "suggest_alternative_products",
+    "suggest_optional_products"
    ],
    "model": "product.template",
    "reason": "no candidate with the same label"
@@ -1865,9 +2036,11 @@
   {
    "baseline": "rotting_days",
    "candidates": [
+    "invoice_count",
     "milestone_count",
     "milestone_count_reached",
-    "milestone_progress"
+    "milestone_progress",
+    "vendor_bill_count"
    ],
    "model": "project.project",
    "reason": "no candidate with the same label"
@@ -1875,9 +2048,11 @@
   {
    "baseline": "stage_id_color",
    "candidates": [
+    "invoice_count",
     "milestone_count",
     "milestone_count_reached",
-    "milestone_progress"
+    "milestone_progress",
+    "vendor_bill_count"
    ],
    "model": "project.project",
    "reason": "no candidate with the same label"
@@ -1965,11 +2140,11 @@
    "baseline": "company_registry",
    "candidates": [
     "external_code",
+    "free_order_label",
     "pay_later_label",
     "pay_now_label",
     "receipt_address",
-    "routing_endpoint",
-    "routing_identifier"
+    "routing_endpoint"
    ],
    "model": "res.company",
    "reason": "no candidate with the same label"
@@ -1978,11 +2153,11 @@
    "baseline": "company_registry_placeholder",
    "candidates": [
     "external_code",
+    "free_order_label",
     "pay_later_label",
     "pay_now_label",
     "receipt_address",
-    "routing_endpoint",
-    "routing_identifier"
+    "routing_endpoint"
    ],
    "model": "res.company",
    "reason": "no candidate with the same label"
@@ -2432,6 +2607,7 @@
   {
    "baseline": "loyalty_data",
    "candidates": [
+    "alerts",
     "extra_total_fields"
    ],
    "model": "sale.order",
@@ -2440,6 +2616,7 @@
   {
    "baseline": "pickup_location_data",
    "candidates": [
+    "alerts",
     "extra_total_fields"
    ],
    "model": "sale.order",
@@ -2452,8 +2629,8 @@
     "invoice_overages",
     "invoicing_closed",
     "is_linked_to_expense_with_attachment",
-    "is_unfulfilled",
-    "project_required"
+    "is_pickup_required",
+    "is_rating_email_sent"
    ],
    "model": "sale.order",
    "reason": "no candidate with the same label"
@@ -2465,8 +2642,8 @@
     "invoice_overages",
     "invoicing_closed",
     "is_linked_to_expense_with_attachment",
-    "is_unfulfilled",
-    "project_required"
+    "is_pickup_required",
+    "is_rating_email_sent"
    ],
    "model": "sale.order",
    "reason": "no candidate with the same label"
@@ -2478,10 +2655,18 @@
     "invoice_overages",
     "invoicing_closed",
     "is_linked_to_expense_with_attachment",
-    "is_unfulfilled",
-    "project_required"
+    "is_pickup_required",
+    "is_rating_email_sent"
    ],
    "model": "sale.order",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "shop_warning",
+   "candidates": [
+    "edi_customer_product_ref"
+   ],
+   "model": "sale.order.line",
    "reason": "no candidate with the same label"
   },
   {
@@ -2500,6 +2685,15 @@
     "user_has_access"
    ],
    "model": "sale.order.template",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "date_published",
+   "candidates": [
+    "publish_on",
+    "published_date"
+   ],
+   "model": "slide.slide",
    "reason": "no candidate with the same label"
   },
   {
@@ -2548,6 +2742,7 @@
    "baseline": "show_operations",
    "candidates": [
     "allow_spontaneous_returns",
+    "is_pickup_required",
     "l10n_vn_edi_is_sent",
     "l10n_vn_edi_show_send_button",
     "show_return"
@@ -2591,9 +2786,67 @@
    "reason": "no candidate with the same label"
   },
   {
+   "baseline": "add_to_cart_action",
+   "candidates": [
+    "prevent_sale_for",
+    "tax_display"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "contact_us_button_url",
+   "candidates": [
+    "contact_us_link_url",
+    "header_search_order_by",
+    "header_search_type"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "enabled_gmc_src",
+   "candidates": [
+    "align_category_content",
+    "prevent_sale",
+    "send_abandoned_cart_followup",
+    "send_order_rating_emails",
+    "show_category_description",
+    "show_category_title"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "prevent_zero_price_sale",
+   "candidates": [
+    "align_category_content",
+    "prevent_sale",
+    "send_abandoned_cart_followup",
+    "send_order_rating_emails",
+    "show_category_description",
+    "show_category_title"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
+   "baseline": "send_abandoned_cart_email",
+   "candidates": [
+    "align_category_content",
+    "prevent_sale",
+    "send_abandoned_cart_followup",
+    "send_order_rating_emails",
+    "show_category_description",
+    "show_category_title"
+   ],
+   "model": "website",
+   "reason": "no candidate with the same label"
+  },
+  {
    "baseline": "social_discord",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2603,7 +2856,7 @@
   {
    "baseline": "social_facebook",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2613,7 +2866,7 @@
   {
    "baseline": "social_github",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2623,7 +2876,7 @@
   {
    "baseline": "social_instagram",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2633,7 +2886,7 @@
   {
    "baseline": "social_linkedin",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2643,7 +2896,7 @@
   {
    "baseline": "social_tiktok",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2653,7 +2906,7 @@
   {
    "baseline": "social_twitter",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],
@@ -2663,7 +2916,7 @@
   {
    "baseline": "social_youtube",
    "candidates": [
-    "google_places_api_key",
+    "contact_us_link_url",
     "header_search_order_by",
     "header_search_type"
    ],

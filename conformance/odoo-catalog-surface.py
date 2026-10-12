@@ -476,6 +476,10 @@ SKIP_METHODS = {
     "action_buy_sms_credits",
     "action_mass_mailing_attendees", "action_compare_versions", "action_test_script",
     "action_survey_view_slide_channels", "return_action_to_open",
+    # A shipping method's debug logging and production switch show only for a carrier connector
+    # (FedEx, UPS, ...): Community has none, so the buttons never show on its fixed or rule-based
+    # methods.
+    "toggle_debug", "toggle_prod_environment",
 }
 HIGH_RISK_VERBS = ("unbuild", "void", "reverse", "refund", "hash", "unlock", "reset")
 # A field with one of these names would become a --model / --method flag, which the CLI reserves for

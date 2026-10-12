@@ -10,14 +10,14 @@ can drive Odoo through it as dependably as a person does through the web client.
 
 ## What it covers
 
-1361 operations over the business apps of Odoo Community 19.0. 1201 of them are verified on the stock
+1359 operations over the business apps of Odoo Community 19.0. 1263 of them are verified on the stock
 image.
 
 | Kind | Operations | Verified |
 |---|---:|---:|
 | Read, list, group and paginate | 580 | 578 |
-| Create and update | 558 | 475 |
-| Business actions (form and list buttons) | 181 | 113 |
+| Create and update | 558 | 523 |
+| Business actions (form and list buttons) | 179 | 127 |
 | Dialogs (wizards) | 26 | 19 |
 | Print a document's PDF | 7 | 7 |
 | Guarded deletes | 8 | 8 |
@@ -94,7 +94,7 @@ Before running an operation, `odoo-cli` checks the Odoo it reaches.
 |---|---|
 | The endpoint does not answer as Odoo | Refuses (`AERP_PROVIDER_NOT_ODOO`). Nothing is sent, not even the credential |
 | A series it does not support | Refuses, and says why: older than 19.0, newer than it knows, or an intermediate Odoo Online release (`saas~`) |
-| 20.0 | Runs only with `--allow-unverified`. A translation layer maps 19.0's names onto 20.0's; 717 of the 1361 operations are verified on 20.0 so far; the apps added in 0.6.0 are not yet verified there |
+| 20.0 | Runs only with `--allow-unverified`. A translation layer maps 19.0's names onto 20.0's; 1012 of the 1359 operations are verified on 20.0 so far |
 | The operation's modules are not installed | Refuses before sending (`AERP_MODULE_NOT_INSTALLED`) |
 | A write where this Odoo is customised: a model that Enterprise or third-party modules extend, an automation watching it, or a required field added by hand | Holds it back (`AERP_ENVIRONMENT_UNVERIFIED`) until you pass `--allow-unverified` |
 | Reads on a customised Odoo | Runs them, with a note |
@@ -135,7 +135,7 @@ pip install asao-erp
     abandoned-cart reminders, survey reminders, lunch notifications.
   - Creating a user or a company from another record.
   - Paid IAP services (lead generation, enrichment, SMS credits).
-- **Not verified yet:** 158 operations, most of them writes and actions whose records the lab's data
+- **Not verified yet:** 96 operations, most of them writes and actions whose records the lab's data
   cannot supply, or whose business rules refuse generic values.
 - **Self-update:** `odoo-cli update` needs a signed release channel that is not published yet. To
   update, run the installer again.
@@ -162,7 +162,7 @@ Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 ## Tiếng Việt
 
-`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1361 thao tác nghiệp vụ, trong đó 1201 thao
+`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1359 thao tác nghiệp vụ, trong đó 1263 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
 có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent.
 

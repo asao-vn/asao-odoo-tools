@@ -65,6 +65,9 @@ CANDIDATES = 400
 STAMP = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d%H%M%S")
 VOLATILE = {"write_date", "write_uid", "create_date", "create_uid", "__last_update", "display_name"}
 VOLATILE_PREFIXES = ("message_", "activity_", "website_message", "rating_", "has_message", "my_activity")
+# Fields that measure time running since the action: they differ by the seconds between the two
+# clicks, not by what the action did.
+MODEL_VOLATILE = {"mrp.workorder": {"duration", "duration_percent", "duration_unit"}}
 COMPARED_TYPES = {"char", "text", "selection", "boolean", "integer", "float", "monetary", "date", "datetime", "many2one"}
 # A relation is compared by how many records it holds, which is how an action that creates records
 # shows on its source (a credit note in reversal_move_ids, a return in return_ids).
@@ -334,6 +337,79 @@ class Fixtures:
             return order
         return self.twice(make)
 
+    def purchases_to_approve(self):
+        """Two purchase orders waiting for approval. The state is written directly: under double
+        validation an order confirmed by a purchase manager (the lab's admin) skips approval."""
+        partner = self.first("res.partner", [["supplier_rank", ">", 0]])["id"]
+        product = self.first("product.product", [["purchase_ok", "=", True], ["is_storable", "=", True]])["id"]
+
+        def make():
+            order = self.call("purchase.order", "create", [{"partner_id": partner, "order_line": [[0, 0, {
+                "product_id": product, "product_qty": 1, "price_unit": 10.0}]]}])
+            self.call("purchase.order", "write", [[order], {"state": "to approve"}])
+            return order
+        return self.twice(make)
+
+    def unpublished_events(self):
+        """Two events neither published nor public: Publish shows only then."""
+        start = datetime.date.today() + datetime.timedelta(days=40)
+        serial = iter(range(1, 3))
+        return self.twice(lambda: self.call("event.event", "create", [{
+            "name": f"Conformance twin event {STAMP}-{next(serial)}", "website_visibility": "link", "website_published": False,
+            "date_begin": f"{start} 08:00:00", "date_end": f"{start} 17:00:00"}]))
+
+    def archived_requests(self):
+        """Two maintenance requests archived: Restore shows on an archived request."""
+        serial = iter(range(1, 3))
+
+        def make():
+            request = self.call("maintenance.request", "create", [{"name": f"Conformance twin request {STAMP}-{next(serial)}"}])
+            self.call("maintenance.request", "write", [[request], {"archive": True}])
+            return request
+        return self.twice(make)
+
+    def landed_costs(self):
+        """Two draft landed costs of one freight line, each on a receipt done of a product costed at
+        average (landed costs apply to FIFO and average costing only)."""
+        categ = self.call("product.category", "create", [{"name": f"Conformance AVCO {STAMP}", "property_cost_method": "average"}])
+        product = self.call("product.product", "create", [{"name": f"Conformance landed product {STAMP}", "is_storable": True,
+                                                            "categ_id": categ, "standard_price": 5.0}])
+        freight = self.call("product.product", "create", [{"name": f"Conformance freight {STAMP}", "type": "service", "landed_cost_ok": True}])
+        kind = self.first("stock.picking.type", [["code", "=", "incoming"]], ("default_location_src_id", "default_location_dest_id"))
+        source, destination = kind["default_location_src_id"][0], kind["default_location_dest_id"][0]
+
+        def make():
+            receipt = self.call("stock.picking", "create", [{"picking_type_id": kind["id"], "location_id": source, "location_dest_id": destination,
+                                                              "move_ids": [[0, 0, {"product_id": product, "product_uom_qty": 2,
+                                                                                   "location_id": source, "location_dest_id": destination}]]}])
+            self.call("stock.picking", "action_confirm", [[receipt]])
+            moves = self.call("stock.picking", "read", [[receipt], ["move_ids"]])[0]["move_ids"]
+            self.call("stock.move", "write", [moves, {"quantity": 2, "picked": True}])
+            self.call("stock.picking", "button_validate", [[receipt]])
+            return self.call("stock.landed.cost", "create", [{"picking_ids": [[6, 0, [receipt]]], "cost_lines": [[0, 0, {
+                "product_id": freight, "name": "Freight", "price_unit": 10.0, "split_method": "equal"}]]}])
+        return self.twice(make)
+
+    def recycle_rules(self):
+        """Two data-cleaning rules on contacts, alike: Recycle Records runs a rule over its model."""
+        partner_model = self.first("ir.model", [["model", "=", "res.partner"]])["id"]
+        serial = iter(range(1, 3))
+        return self.twice(lambda: self.call("data_recycle.model", "create", [{
+            "name": f"Conformance twin rule {STAMP}-{next(serial)}", "res_model_id": partner_model}]))
+
+    def recycle_records(self):
+        """Two records a data-cleaning rule proposes, active, each for a fresh contact: validating a
+        proposal recycles (deletes) its contact, which a contact with documents refuses."""
+        partner_model = self.first("ir.model", [["model", "=", "res.partner"]])["id"]
+        found = self.call("data_recycle.model", "search", [[["res_model_id", "=", partner_model]]], {"limit": 1})
+        rule = found[0] if found else self.call("data_recycle.model", "create", [{
+            "name": f"Conformance contacts rule {STAMP}", "res_model_id": partner_model}])
+        serial = iter(range(1, 3))
+        targets = iter([self.call("res.partner", "create", [{"name": f"Conformance recycled contact {STAMP}-{next(serial)}"}])
+                        for _ in range(2)])
+        return self.twice(lambda: self.call("data_recycle.record", "create", [{
+            "recycle_model_id": rule, "res_id": next(targets)}]))
+
     def sales(self, locked):
         partner = self.first("res.partner", [["customer_rank", ">", 0]])["id"]
         product = self.first("product.product", [["sale_ok", "=", True], ["type", "=", "service"]])["id"]
@@ -445,14 +521,39 @@ class Fixtures:
             return picking
         return self.twice(make)
 
+    def stocked_product(self, location, quantity=20):
+        """A fresh storable product with quantity on hand at location, by an applied inventory count:
+        the lab's demo stock runs out as fixtures consume it."""
+        product = self.call("product.product", "create", [{"name": f"Conformance stocked {STAMP}-{self.oracle.uid}-{location}",
+                                                            "is_storable": True}])
+        quant = self.call("stock.quant", "create", [{"product_id": product, "location_id": location, "inventory_quantity": quantity}])
+        self.call("stock.quant", "action_apply_inventory", [[quant]])
+        return product
+
+    def waiting_productions(self):
+        """Two confirmed manufacturing orders whose components are in stock but released: Check
+        Availability reserves them. (Odoo reserves on confirmation and when stock arrives, so the
+        reservation is undone.)"""
+        stock = self.first("stock.warehouse", [], ("lot_stock_id",))["lot_stock_id"][0]
+        component = self.stocked_product(stock)
+        finished = self.call("product.product", "create", [{"name": f"Conformance finished {STAMP}", "is_storable": True}])
+        template = self.call("product.product", "read", [[finished], ["product_tmpl_id"]])[0]["product_tmpl_id"][0]
+        bom = self.call("mrp.bom", "create", [{"product_tmpl_id": template, "product_qty": 1,
+                                               "bom_line_ids": [[0, 0, {"product_id": component, "product_qty": 2}]]}])
+
+        def make():
+            order = self.call("mrp.production", "create", [{"product_id": finished, "product_qty": 1, "bom_id": bom}])
+            self.call("mrp.production", "action_confirm", [[order]])
+            self.call("mrp.production", "do_unreserve", [[order]])
+            return order
+        return self.twice(make)
+
     def unreserved_deliveries(self):
         """Deliveries of 1 of a product with stock, confirmed and then unreserved: Check Availability
         reserves them again, whatever the lab's other deliveries already hold."""
         kind = self.first("stock.picking.type", [["code", "=", "outgoing"]], ("id", "default_location_src_id", "default_location_dest_id"))
         source, destination = kind["default_location_src_id"][0], kind["default_location_dest_id"][0]
-        quant = self.first("stock.quant", [["location_id", "=", source], ["quantity", ">=", 10], ["lot_id", "=", False],
-                                           ["product_id.tracking", "=", "none"]], ("product_id",))
-        product = self.call("product.product", "read", [[quant["product_id"][0]], ["uom_id"]])[0]
+        product = self.call("product.product", "read", [[self.stocked_product(source)], ["uom_id"]])[0]
 
         def make():
             picking = self.call("stock.picking", "create", [{"picking_type_id": kind["id"], "location_id": source, "location_dest_id": destination,
@@ -584,9 +685,13 @@ class Fixtures:
         product = self.first("product.product", [["type", "=", "consu"], ["is_storable", "=", False]])["id"]
         stocked = None
         if part:
-            kind = self.first("stock.picking.type", [["code", "=", "repair_operation"]], ("id", "default_location_src_id"))
-            stocked = self.first("stock.quant", [["location_id", "=", kind["default_location_src_id"][0]], ["quantity", ">=", 10],
-                                                 ["lot_id", "=", False], ["product_id.tracking", "=", "none"]], ("product_id",))["product_id"][0]
+            # Stocked where a new repair takes its parts from: the lab holds several warehouses, each
+            # with its own repair type, and Odoo's default picks one of them.
+            kind = self.call("repair.order", "default_get", [["picking_type_id"]]).get("picking_type_id")
+            if not kind:
+                raise Unsupported("no default repair type")
+            location = self.call("stock.picking.type", "read", [[kind], ["default_location_src_id"]])[0]["default_location_src_id"][0]
+            stocked = self.stocked_product(location)
 
         def make():
             values = {"partner_id": partner, "product_id": product}
@@ -755,6 +860,17 @@ FIXTURES = {
     # The parked apps (2026-10-11): blanket orders, repairs, batch transfers, event registrations,
     # vehicles and live surveys in the states their buttons show in.
     "procurement.agreement.confirm": lambda f: f.agreements("draft"),
+    # 2026-10-12: approving a purchase, publishing an event, restoring a maintenance request, and the
+    # data-cleaning proposals.
+    "procurement.order.approve": lambda f: f.purchases_to_approve(),
+    "event.event.website_publish_button": lambda f: f.unpublished_events(),
+    "maintenance.request.reset_equipment_request": lambda f: f.archived_requests(),
+    "structure.record.discard": lambda f: f.recycle_records(),
+    "structure.model.recycle_records": lambda f: f.recycle_rules(),
+    "inventory.landed_cost.compute_landed_cost": lambda f: f.landed_costs(),
+    "inventory.landed_cost.validate": lambda f: f.landed_costs(),
+    "inventory.landed_cost.cancel": lambda f: f.landed_costs(),
+    "structure.record.validate": lambda f: f.recycle_records(),
     # Lunch orders (2026-10-12): Receive shows on a sent order, Cancel on an ordered one, Reset on a
     # cancelled one.
     "lunch.order.confirm": lambda f: f.lunch_orders("sent"),
@@ -766,6 +882,7 @@ FIXTURES = {
     "repair.order.repair_start": lambda f: f.repairs("confirmed"),
     "repair.order.repair_end": lambda f: f.repairs("under_repair"),
     "repair.order.assign": lambda f: f.repairs("confirmed", part="released"),
+    "manufacturing.order.assign": lambda f: f.waiting_productions(),
     "repair.order.unreserve": lambda f: f.repairs("confirmed", part="reserved"),
     "inventory.batch_transfer.confirm": lambda f: f.batches(confirmed=False, reserved=False),
     "inventory.batch_transfer.assign": lambda f: f.batches(confirmed=True, reserved=False),
@@ -974,6 +1091,7 @@ def main():
         operation_ids = [i for i in operation_ids if i in only]
 
     results = {}
+    child_meta = {}
     for operation_id in sorted(operation_ids):
         described = (cli(options.odoo_bin, options.profile, "catalog", "describe", "--operation", operation_id).get("data") or {})
         model, call = described.get("providerModel"), described.get("providerCall") or {}
@@ -1024,7 +1142,7 @@ def main():
             result["status"] = "NOT_RUN_NO_BUTTON"
             continue
         try:
-            meta = oracle.call(model, "fields_get", [], {"attributes": ["type", "store"]})
+            meta = oracle.call(model, "fields_get", [], {"attributes": ["type", "store", "relation"]})
             button_reads = set().union(*(expression_names(b.get("invisible")) for b in mine))
             missing = sorted(n for n in button_reads if n not in meta and n != "id")
             if missing:
@@ -1078,12 +1196,35 @@ def main():
             continue
         cli_target, oracle_target = pair
         compared = sorted(f for f, m in meta.items() if m.get("store") and m["type"] in COMPARED_TYPES | COUNTED_TYPES
-                          and f not in VOLATILE and not f.startswith(VOLATILE_PREFIXES))
+                          and f not in VOLATILE and not f.startswith(VOLATILE_PREFIXES) and f not in MODEL_VOLATILE.get(model, ()))
+        # What a button changes may lie on the record's lines, not the record: reserving a repair's
+        # parts moves its stock moves from confirmed to assigned. Each one2many whose lines have a
+        # stored state is compared by those states too ("move_ids.state": the sorted states).
+        meta = dict(meta)
+        child_states = {}
+        for field in [f for f in compared if meta[f]["type"] == "one2many" and meta[f].get("relation")]:
+            relation = meta[field]["relation"]
+            if relation not in child_meta:
+                try:
+                    child_meta[relation] = oracle.call(relation, "fields_get", [["state"]], {"attributes": ["type", "store"]})
+                except RuntimeError:
+                    child_meta[relation] = {}
+            state = child_meta[relation].get("state") or {}
+            if state.get("type") == "selection" and state.get("store"):
+                child_states[f"{field}.state"] = (field, relation)
+                meta[f"{field}.state"] = {"type": "selection", "store": True}
 
         def snapshot(record_id):
-            row = oracle.call(model, "read", [[record_id], compared])[0]
-            return {f: (len(row.get(f) or []) if meta[f]["type"] in COUNTED_TYPES else normalized(meta[f], row.get(f)))
-                    for f in compared}
+            rows = oracle.call(model, "read", [[record_id], compared], {"context": {"active_test": False}})
+            if not rows:
+                return None  # the action deleted the record (a validated data-cleaning proposal)
+            row = rows[0]
+            taken = {f: (len(row.get(f) or []) if meta[f]["type"] in COUNTED_TYPES else normalized(meta[f], row.get(f)))
+                     for f in compared}
+            for key, (field, relation) in child_states.items():
+                lines = oracle.call(relation, "read", [row.get(field) or [], ["state"]], {"context": {"active_test": False}})
+                taken[key] = ",".join(sorted(str(line.get("state")) for line in lines))
+            return taken
 
         before = {cli_target: snapshot(cli_target), oracle_target: snapshot(oracle_target)}
         samples = samples_for(oracle, call, described.get("inputs"))
@@ -1102,7 +1243,17 @@ def main():
             by_oracle = "REFUSED"
             result["oracleRefusal"] = str(error)[:160]
         after = {cli_target: snapshot(cli_target), oracle_target: snapshot(oracle_target)}
-        changed = {rid: sorted(f for f in compared if before[rid][f] != after[rid][f]) for rid in pair}
+        gone = [rid for rid in pair if after[rid] is None]
+        if gone:
+            # A record the action deleted: both paths must have deleted their twin.
+            both = len(gone) == 2 and by_cli == "OK" and by_oracle == "OK"
+            result.update({"cliOutcome": by_cli, "oracleOutcome": by_oracle, "pairHash": canonical_hash(pair), "twinBasis": basis,
+                           "deleted": {"cli": cli_target in gone, "oracle": oracle_target in gone},
+                           "status": "AGREE" if both else "DISAGREE"})
+            print(f"{operation_id}: {result['status']} cli={by_cli} oracle={by_oracle} (deleted)", file=sys.stderr)
+            continue
+        compared_all = compared + sorted(child_states)
+        changed = {rid: sorted(f for f in compared_all if before[rid][f] != after[rid][f]) for rid in pair}
         result.update({"cliOutcome": by_cli, "oracleOutcome": by_oracle, "pairHash": canonical_hash(pair), "twinBasis": basis,
                        "changedFields": changed[cli_target], "oracleChangedFields": changed[oracle_target],
                        "transitions": {f: [before[cli_target][f], after[cli_target][f]] for f in changed[cli_target]

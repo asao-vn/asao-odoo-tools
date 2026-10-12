@@ -59,6 +59,11 @@ type Flag struct {
 	// come from the person's own configuration (e.g. `asao open --web`, the origin a link points at).
 	// The tool projection leaves it out of the input schema and refuses it as an argument.
 	PersonOnly bool `json:"personOnly,omitempty"`
+	// ClientFile marks a flag whose value, as typed, is a path on the CALLER's machine. The client
+	// (internal/dispatch) reads that file and sends its content in place of the path, so a command
+	// executed by the remote authority runtime receives the text and never a path it could open on
+	// the server. See clientfile.go for the limits and why the runtime never expands it.
+	ClientFile *ClientFile `json:"clientFile,omitempty"`
 }
 
 func (f Flag) repeatable() bool { return f.Repeatable || f.Kind == KindKeyValue }
@@ -86,6 +91,11 @@ const (
 	// EffectNone for the opposite reason: something on disk really does change, so a caller reasoning
 	// about idempotency or about what to snapshot before running a command needs to know.
 	EffectWriteLocalConfig SideEffect = "WRITE_LOCAL_CONFIG"
+	// EffectWriteLocalHost — acts on the machine the command runs on beyond configuration: writes
+	// files there (a backup snapshot) and drives its local container runtime (a dump inside a database
+	// container, a throwaway restore container). It contacts no ASAO service and no provider API.
+	// Only the `asao server` family declares it (DEC-2026-0159), through ClientLocalHost.
+	EffectWriteLocalHost SideEffect = "WRITE_LOCAL_HOST"
 )
 
 // ExecutionBoundary declares where a leaf is permitted to execute. It is
@@ -296,6 +306,11 @@ type Command struct {
 	// network, no canonical state, no provider. It differs from ClientLocalPairing, which may also
 	// call the product API's pairing endpoints.
 	ClientLocalSettings bool
+	// ClientLocalHost is the fifth narrow CLIENT_LOCAL exception: a leaf that operates THIS machine
+	// (`asao server ...`, DEC-2026-0159): it inspects its disks and containers, writes backup snapshots
+	// and drives its local container runtime. SideEffect READ, WRITE_LOCAL_HOST or WRITE_LOCAL_CONFIG
+	// (the server configuration and its timers); never canonical state, a provider or an ASAO service.
+	ClientLocalHost bool
 	// AgentAccess is this leaf's tool-protocol exposure. See the AgentAccess type. Empty on a group
 	// and on the standalone products' trees, which have no MCP projection.
 	AgentAccess AgentAccess
@@ -488,6 +503,8 @@ type CommandSpec struct {
 	// ClientLocalServer and ClientLocalSettings project the third and fourth CLIENT_LOCAL exceptions.
 	ClientLocalServer   bool `json:"clientLocalServer,omitempty"`
 	ClientLocalSettings bool `json:"clientLocalSettings,omitempty"`
+	// ClientLocalHost projects the fifth CLIENT_LOCAL exception: the leaf operates this machine.
+	ClientLocalHost bool `json:"clientLocalHost,omitempty"`
 	// AgentAccess and HumanStep publish the leaf's tool-protocol exposure and whether its result is a
 	// link a person must open. agentAccess is published on every governed leaf (NONE included) so a
 	// reader never has to interpret an absence.
@@ -570,6 +587,7 @@ func Specify(command *Command, deep bool) CommandSpec {
 		spec.ClientLocalPairing = command.ClientLocalPairing
 		spec.ClientLocalServer = command.ClientLocalServer
 		spec.ClientLocalSettings = command.ClientLocalSettings
+		spec.ClientLocalHost = command.ClientLocalHost
 		spec.AgentAccess = command.AgentAccess
 		spec.AgentConfirmWhen = command.AgentConfirmWhen
 		spec.HumanStep = command.HumanStep

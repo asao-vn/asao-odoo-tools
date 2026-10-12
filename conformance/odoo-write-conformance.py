@@ -27,11 +27,13 @@ content. It promotes nothing; promotion stays a reviewed source change.
 import argparse
 import datetime
 import hashlib
+import http.client
 import json
 import os
 import re
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 
 STAMP = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d%H%M%S")
@@ -51,8 +53,13 @@ class Oracle:
         payload = json.dumps({"jsonrpc": "2.0", "method": "call", "id": 1,
                               "params": {"service": service, "method": method, "args": args}}).encode()
         request = urllib.request.Request(self.endpoint + "/jsonrpc", data=payload, headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(request, timeout=120) as response:
-            answer = json.loads(response.read())
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                answer = json.loads(response.read())
+        except (http.client.HTTPException, urllib.error.URLError, ConnectionError) as error:
+            # A dropped connection fails this operation's oracle call, not the run (Odoo 20 drops one
+            # when it cannot encode an answer).
+            raise RuntimeError(f"transport: {error.__class__.__name__}") from error
         if "error" in answer:
             raise RuntimeError((answer["error"].get("data") or {}).get("message") or answer["error"].get("message"))
         return answer["result"]
@@ -218,6 +225,48 @@ def simple_fields(accepted, series_meta, inputs):
     return candidates + sorted(f for f in accepted if simple(f) and f not in candidates)
 
 
+TYPED_KINDS = ("integer", "float", "monetary", "boolean", "date", "selection", "many2one")
+
+
+def typed_fields(accepted, series_meta, inputs):
+    """Writable fields of other simple types, for a model without a text field to change: numbers,
+    booleans, dates and selections first, then many2one. Never `state` (a state is a button's to
+    change) nor an input the catalog holds to a scope."""
+    def typed(field):
+        meta = series_meta(field)
+        # Stored only: a computed field that is not stored may ignore a write and still read back
+        # the value by chance.
+        return (meta.get("type") in TYPED_KINDS and not meta.get("readonly") and meta.get("store") and field != "state"
+                and not scoped(inputs.get(field, {}), meta))
+    return sorted((f for f in accepted if typed(f)), key=lambda f: (series_meta(f)["type"] == "many2one", f))
+
+
+def typed_value(oracle, meta, current):
+    """A value of the field's type that differs from the current one, or None when there is none."""
+    kind = meta["type"]
+    if kind == "integer":
+        return (current or 0) + 1
+    if kind in ("float", "monetary"):
+        return round((current or 0) + 1.5, 2)
+    if kind == "boolean":
+        return not current
+    if kind == "date":
+        for days in (7, 8):
+            value = (datetime.date.today() + datetime.timedelta(days=days)).isoformat()
+            if value != current:
+                return value
+    if kind == "selection":
+        return next((v for v, _ in meta.get("selection") or [] if v != current), None)
+    if kind == "many2one":
+        held = current[0] if isinstance(current, list) and current else current
+        try:
+            found = oracle.call(meta["relation"], "search", [[["id", "!=", held or 0]]], {"limit": 1, "order": "id"})
+        except RuntimeError:
+            return None
+        return found[0] if found else None
+    return None
+
+
 def update_value(field, meta=None):
     """A new value for a text field: a dialable number for a phone field, a short code for a field
     with a size (Odoo cuts a longer value), a marked text otherwise."""
@@ -300,7 +349,10 @@ def main():
         try:
             meta = oracle.call(model, "fields_get", [], {"attributes": ["type", "required", "readonly", "store", "relation", "selection", "size"]})
             # A default of False is no default: the field still has to be supplied.
-            defaults = {k: v for k, v in oracle.call(model, "default_get", [sorted(meta)]).items() if v not in (False, None, [], "")}
+            # Never a binary field's default (an image): Odoo 20 cannot encode it over JSON-RPC and drops
+            # the connection.
+            defaults = {k: v for k, v in oracle.call(model, "default_get", [sorted(f for f in meta if meta[f]["type"] != "binary")]).items()
+                        if v not in (False, None, [], "")}
         except RuntimeError as error:
             create_result.update({"status": "ORACLE_ERROR", "detail": str(error)[:200]})
             if update_result is not None:
@@ -349,6 +401,15 @@ def main():
                 update_result.update({"status": "NOT_RUN_NO_RECORD"})
             continue
         if not values:
+            # Nothing is required: the create writes one field of its own, a text field if it has one.
+            def create_meta(field):
+                return meta.get(to_series.get(field, field), {})
+            for own in (simple_fields(accepted, create_meta, catalog_inputs) + typed_fields(accepted, create_meta, catalog_inputs)):
+                value = sample(oracle, to_series.get(own, own), create_meta(own), related_cache)
+                if value is not None:
+                    values[own] = value
+                    break
+        if not values:
             create_result.update({"status": "NOT_RUN_NOTHING_TO_WRITE"})
             if update_result is not None:
                 update_result.update({"status": "NOT_RUN_NO_RECORD"})
@@ -395,11 +456,21 @@ def main():
         # The update's own inputs: a field only the create accepts (a scope-held key) is not the update's to change.
         update_accepts = update_inputs(update_described)
         candidates = simple_fields(accepted & set(update_accepts), series_meta, update_accepts)
+        typed = not candidates
+        if typed:
+            candidates = typed_fields(accepted & set(update_accepts), series_meta, update_accepts)
         if not candidates:
             update_result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
             continue
         field = candidates[0]
-        new_value = update_value(field, series_meta(field))
+        if typed:
+            current = oracle.call(model, "read", [[record_id], [to_series.get(field, field)]])[0].get(to_series.get(field, field))
+            new_value = typed_value(oracle, series_meta(field), current)
+            if new_value is None:
+                update_result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
+                continue
+        else:
+            new_value = update_value(field, series_meta(field))
         answer = cli(options.odoo_bin, options.profile, "execute", "--operation", update_id, "--provider-target-id", str(record_id),
                      "--values", json.dumps({field: new_value}), "--allow-unverified")
         if answer.get("status") != "OK":
@@ -407,8 +478,9 @@ def main():
                                   "message": ((answer.get("error") or {}).get("message") or "")[:200]})
             continue
         stored = oracle.call(model, "read", [[record_id], [to_series.get(field, field)]])[0]
-        update_result.update({"kind": "update", "writtenFields": [field],
-                              "status": "AGREE" if stored.get(to_series.get(field, field)) == normalised(model, field, new_value) else "DISAGREE"})
+        landed = same(normalised(model, field, new_value), stored.get(to_series.get(field, field)), series_meta(field)["type"])
+        update_result.update({"kind": "update", "writtenFields": [field], "fieldType": series_meta(field)["type"],
+                              "status": "AGREE" if landed else "DISAGREE"})
 
     # An update whose create made no record (refused, unsatisfiable, nothing to write) falls back to
     # the path below: the newest existing record inside its domain, updated and restored.
@@ -426,13 +498,16 @@ def main():
         results[update_id] = result
         to_series = renames.get(model, {})
         try:
-            meta = oracle.call(model, "fields_get", [], {"attributes": ["type", "readonly", "store", "size"]})
+            meta = oracle.call(model, "fields_get", [], {"attributes": ["type", "readonly", "store", "size", "relation", "selection"]})
         except RuntimeError as error:
             result.update({"status": "ORACLE_ERROR", "detail": str(error)[:200]})
             continue
         def series_meta(field):
             return meta.get(to_series.get(field, field), {})
         candidates = simple_fields(accepted, series_meta, update_inputs(described))
+        typed = not candidates
+        if typed:
+            candidates = typed_fields(accepted, series_meta, update_inputs(described))
         if not candidates:
             result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
             continue
@@ -445,7 +520,12 @@ def main():
             result.update({"status": "NOT_RUN_NO_RECORD"})
             continue
         record_id, original = existing[0]["id"], existing[0].get(provider_field)
-        new_value = update_value(field, meta.get(provider_field))
+        new_value = typed_value(oracle, meta[provider_field], original) if typed else update_value(field, meta.get(provider_field))
+        if new_value is None:
+            result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
+            continue
+        if isinstance(original, list):
+            original = original[0] if original else False
         answer = cli(options.odoo_bin, options.profile, "execute", "--operation", update_id, "--provider-target-id", str(record_id),
                      "--values", json.dumps({field: new_value}), "--allow-unverified")
         if answer.get("status") != "OK":
@@ -454,8 +534,9 @@ def main():
             continue
         stored = oracle.call(model, "read", [[record_id], [provider_field]])[0]
         oracle.call(model, "write", [[record_id], {provider_field: original}])
-        result.update({"kind": "update-existing", "writtenFields": [field], "restored": True,
-                       "status": "AGREE" if stored.get(provider_field) == normalised(model, field, new_value) else "DISAGREE"})
+        landed = same(normalised(model, field, new_value), stored.get(provider_field), meta[provider_field]["type"])
+        result.update({"kind": "update-existing", "writtenFields": [field], "restored": True, "fieldType": meta[provider_field]["type"],
+                       "status": "AGREE" if landed else "DISAGREE"})
 
     evidence = {
         "schemaVersion": "odoo.write-conformance-run/v1",

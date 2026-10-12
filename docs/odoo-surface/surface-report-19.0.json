@@ -2,7 +2,7 @@
  "by_strategy": {
   "StrategyDestructiveGuarded": 6,
   "StrategyFieldWrite": 531,
-  "StrategyMethodCall": 165,
+  "StrategyMethodCall": 163,
   "StrategyRead": 523,
   "StrategyReport": 7,
   "StrategyWizard": 24
@@ -969,7 +969,10 @@
   },
   {
    "model": "card.campaign",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.campaign.list",
     "marketing.campaign.describe",
@@ -979,7 +982,10 @@
   },
   {
    "model": "card.campaign.tag",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.campaign_tag.list",
     "marketing.campaign_tag.describe",
@@ -989,7 +995,10 @@
   },
   {
    "model": "card.card",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.card.list",
     "marketing.card.describe",
@@ -999,7 +1008,10 @@
   },
   {
    "model": "card.template",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.template.list",
     "marketing.template.describe",
@@ -1009,7 +1021,10 @@
   },
   {
    "model": "chatbot.message",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.message.list",
     "livechat.message.describe",
@@ -1019,7 +1034,12 @@
   },
   {
    "model": "chatbot.script",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "source_id"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.script.list",
     "livechat.script.describe",
@@ -1029,7 +1049,10 @@
   },
   {
    "model": "chatbot.script.answer",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.script_answer.list",
     "livechat.script_answer.describe",
@@ -1039,7 +1062,12 @@
   },
   {
    "model": "chatbot.script.step",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "is_forward_operator"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.script_step.list",
     "livechat.script_step.describe",
@@ -1134,7 +1162,10 @@
   },
   {
    "model": "data_recycle.model",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "structure.model.list",
     "structure.model.describe",
@@ -1145,7 +1176,10 @@
   },
   {
    "model": "data_recycle.record",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "structure.record.list",
     "structure.record.describe",
@@ -1158,22 +1192,15 @@
   {
    "model": "delivery.carrier",
    "next_series": {
-    "missing_fields": [
-     "is_published",
-     "website_description"
-    ],
-    "missing_methods": [
-     "website_publish_button"
-    ]
+    "missing_fields": [],
+    "missing_methods": []
    },
    "operations": [
     "inventory.shipping_method.list",
     "inventory.shipping_method.describe",
     "inventory.shipping_method.create",
     "inventory.shipping_method.update",
-    "inventory.shipping_method.website_publish_button",
-    "inventory.shipping_method.toggle_prod_environment",
-    "inventory.shipping_method.toggle_debug"
+    "inventory.shipping_method.website_publish_button"
    ]
   },
   {
@@ -1205,23 +1232,8 @@
   {
    "model": "event.event",
    "next_series": {
-    "missing_fields": [
-     "community_menu",
-     "event_register_url",
-     "introduction_menu",
-     "is_published",
-     "register_menu",
-     "website_id",
-     "website_menu",
-     "website_published",
-     "website_url",
-     "website_visibility"
-    ],
-    "missing_methods": [
-     "action_invite_contacts",
-     "action_mass_mailing_attendees",
-     "website_publish_button"
-    ]
+    "missing_fields": [],
+    "missing_methods": []
    },
    "operations": [
     "event.event.list",
@@ -1300,9 +1312,7 @@
   {
    "model": "event.registration",
    "next_series": {
-    "missing_fields": [
-     "visitor_id"
-    ],
+    "missing_fields": [],
     "missing_methods": [
      "action_set_done"
     ]
@@ -1359,9 +1369,7 @@
   {
    "model": "event.tag",
    "next_series": {
-    "missing_fields": [
-     "website_id"
-    ],
+    "missing_fields": [],
     "missing_methods": []
    },
    "operations": [
@@ -1374,9 +1382,7 @@
   {
    "model": "event.tag.category",
    "next_series": {
-    "missing_fields": [
-     "is_published"
-    ],
+    "missing_fields": [],
     "missing_methods": []
    },
    "operations": [
@@ -1389,10 +1395,7 @@
   {
    "model": "event.type",
    "next_series": {
-    "missing_fields": [
-     "community_menu",
-     "website_menu"
-    ],
+    "missing_fields": [],
     "missing_methods": []
    },
    "operations": [
@@ -1962,8 +1965,7 @@
    "model": "hr.resume.line",
    "next_series": {
     "missing_fields": [
-     "certificate_filename",
-     "channel_id"
+     "certificate_filename"
     ],
     "missing_methods": []
    },
@@ -2070,7 +2072,10 @@
   },
   {
    "model": "im_livechat.channel",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.channel.list",
     "livechat.channel.describe",
@@ -2082,7 +2087,12 @@
   },
   {
    "model": "im_livechat.channel.member.history",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "conversation_tag_ids"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.channel_member_history.list",
     "livechat.channel_member_history.describe",
@@ -2092,7 +2102,10 @@
   },
   {
    "model": "im_livechat.channel.rule",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.channel_rule.list",
     "livechat.channel_rule.describe",
@@ -2112,7 +2125,10 @@
   },
   {
    "model": "im_livechat.expertise",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "livechat.expertise.list",
     "livechat.expertise.describe",
@@ -2189,10 +2205,7 @@
   {
    "model": "loyalty.program",
    "next_series": {
-    "missing_fields": [
-     "ecommerce_ok",
-     "show_non_published_product_warning"
-    ],
+    "missing_fields": [],
     "missing_methods": []
    },
    "operations": [
@@ -2231,7 +2244,12 @@
   },
   {
    "model": "lunch.alert",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "notification_moment"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.alert.list",
     "lunch.alert.describe",
@@ -2241,7 +2259,10 @@
   },
   {
    "model": "lunch.cashmove",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.cashmove.list",
     "lunch.cashmove.describe",
@@ -2251,7 +2272,10 @@
   },
   {
    "model": "lunch.location",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.location.list",
     "lunch.location.describe",
@@ -2261,7 +2285,10 @@
   },
   {
    "model": "lunch.order",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.order.list",
     "lunch.order.describe",
@@ -2277,7 +2304,10 @@
   },
   {
    "model": "lunch.product",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.product.list",
     "lunch.product.describe",
@@ -2287,7 +2317,10 @@
   },
   {
    "model": "lunch.product.category",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.product_category.list",
     "lunch.product_category.describe",
@@ -2297,7 +2330,12 @@
   },
   {
    "model": "lunch.supplier",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "moment"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.supplier.list",
     "lunch.supplier.describe",
@@ -2307,7 +2345,10 @@
   },
   {
    "model": "lunch.topping",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "lunch.topping.list",
     "lunch.topping.describe",
@@ -2317,7 +2358,10 @@
   },
   {
    "model": "mailing.contact",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.contact.list",
     "marketing.contact.describe",
@@ -2329,7 +2373,10 @@
   },
   {
    "model": "mailing.filter",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.filter.list",
     "marketing.filter.describe",
@@ -2339,7 +2386,13 @@
   },
   {
    "model": "mailing.list",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": [
+     "action_send_mailing",
+     "action_send_mailing_sms"
+    ]
+   },
    "operations": [
     "marketing.list.list",
     "marketing.list.describe",
@@ -2349,7 +2402,22 @@
   },
   {
    "model": "mailing.mailing",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "favorite",
+     "mailing_filter_count",
+     "mailing_filter_id",
+     "name"
+    ],
+    "missing_methods": [
+     "action_remove_favorite",
+     "action_set_favorite",
+     "action_view_delivered",
+     "action_view_mailing_contacts",
+     "action_view_traces_failed",
+     "action_view_traces_sent"
+    ]
+   },
    "operations": [
     "marketing.mailing.list",
     "marketing.mailing.describe",
@@ -2365,7 +2433,10 @@
   },
   {
    "model": "mailing.subscription",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.subscription.list",
     "marketing.subscription.describe",
@@ -2375,7 +2446,10 @@
   },
   {
    "model": "mailing.subscription.optout",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.subscription_optout.list",
     "marketing.subscription_optout.describe",
@@ -2385,7 +2459,10 @@
   },
   {
    "model": "mailing.trace",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "marketing.trace.list",
     "marketing.trace.describe",
@@ -2928,12 +3005,7 @@
   {
    "model": "product.attribute",
    "next_series": {
-    "missing_fields": [
-     "category_id",
-     "is_thumbnail_visible",
-     "preview_variants",
-     "visibility"
-    ],
+    "missing_fields": [],
     "missing_methods": []
    },
    "operations": [
@@ -2945,7 +3017,10 @@
   },
   {
    "model": "product.attribute.category",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "catalog.attribute_category.list",
     "catalog.attribute_category.describe",
@@ -3023,7 +3098,10 @@
   },
   {
    "model": "product.feed",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "catalog.feed.list",
     "catalog.feed.describe",
@@ -3033,7 +3111,12 @@
   },
   {
    "model": "product.image",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "embed_code"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "catalog.image.list",
     "catalog.image.describe",
@@ -3044,11 +3127,7 @@
   {
    "model": "product.pricelist",
    "next_series": {
-    "missing_fields": [
-     "code",
-     "selectable",
-     "website_id"
-    ],
+    "missing_fields": [],
     "missing_methods": []
    },
    "operations": [
@@ -3076,7 +3155,10 @@
   },
   {
    "model": "product.public.category",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "catalog.public_category.list",
     "catalog.public_category.describe",
@@ -3086,7 +3168,10 @@
   },
   {
    "model": "product.ribbon",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "catalog.ribbon.list",
     "catalog.ribbon.describe",
@@ -3165,7 +3250,12 @@
   },
   {
    "model": "product.wishlist",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "stock_notification"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "catalog.wishlist.list",
     "catalog.wishlist.describe",
@@ -3571,7 +3661,10 @@
   },
   {
    "model": "slide.answer",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.answer.list",
     "elearning.answer.describe",
@@ -3581,7 +3674,10 @@
   },
   {
    "model": "slide.channel",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.channel.list",
     "elearning.channel.describe",
@@ -3591,7 +3687,10 @@
   },
   {
    "model": "slide.channel.partner",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.channel_partner.list",
     "elearning.channel_partner.describe",
@@ -3603,7 +3702,10 @@
   },
   {
    "model": "slide.channel.tag",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.channel_tag.list",
     "elearning.channel_tag.describe",
@@ -3613,7 +3715,10 @@
   },
   {
    "model": "slide.channel.tag.group",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.channel_tag_group.list",
     "elearning.channel_tag_group.describe",
@@ -3623,7 +3728,10 @@
   },
   {
    "model": "slide.embed",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.embed.list",
     "elearning.embed.describe",
@@ -3633,7 +3741,10 @@
   },
   {
    "model": "slide.question",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.question.list",
     "elearning.question.describe",
@@ -3643,7 +3754,12 @@
   },
   {
    "model": "slide.slide",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [
+     "date_published"
+    ],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.slide.list",
     "elearning.slide.describe",
@@ -3653,7 +3769,10 @@
   },
   {
    "model": "slide.slide.partner",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.slide_partner.list",
     "elearning.slide_partner.describe",
@@ -3663,7 +3782,10 @@
   },
   {
    "model": "slide.slide.resource",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.slide_resource.list",
     "elearning.slide_resource.describe",
@@ -3673,7 +3795,10 @@
   },
   {
    "model": "slide.tag",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "elearning.tag.list",
     "elearning.tag.describe",
@@ -3935,12 +4060,8 @@
   {
    "model": "survey.survey",
    "next_series": {
-    "missing_fields": [
-     "slide_channel_count"
-    ],
-    "missing_methods": [
-     "action_survey_view_slide_channels"
-    ]
+    "missing_fields": [],
+    "missing_methods": []
    },
    "operations": [
     "survey.survey.list",
@@ -3981,7 +4102,10 @@
   },
   {
    "model": "website.checkout.step",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "website.checkout_step.list",
     "website.checkout_step.describe",
@@ -3991,7 +4115,10 @@
   },
   {
    "model": "website.event.menu",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "website.event_menu.list",
     "website.event_menu.describe",
@@ -4001,7 +4128,10 @@
   },
   {
    "model": "website.sale.extra.field",
-   "next_series": "MODEL_ABSENT",
+   "next_series": {
+    "missing_fields": [],
+    "missing_methods": []
+   },
    "operations": [
     "website.sale_extra_field.list",
     "website.sale_extra_field.describe",
@@ -4010,7 +4140,7 @@
    ]
   }
  ],
- "operations": 1256,
+ "operations": 1254,
  "series": {
   "server_serie": "19.0",
   "server_version": "19.0-20260803"

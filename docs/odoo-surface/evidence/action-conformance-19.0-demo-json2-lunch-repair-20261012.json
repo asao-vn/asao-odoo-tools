@@ -1,0 +1,76 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T16:41:59Z",
+ "records": {
+  "lunch.order.add_to_cart": {
+   "definitionHash": "sha256:687079a3af05c4e8ceba00a3afe0da155f2c925e6f6abef5645900e385158e6c",
+   "detail": "the made records do not show the button",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "status": "NOT_RUN_FIXTURE_NOT_APPLICABLE"
+  },
+  "lunch.order.reset": {
+   "changedFields": [
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:4560ce22fc002470d96297781274ab65f92bb101210f4450e1adc73d5475c06b",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "oracleChangedFields": [
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:b5d949c101870e7f1cba45239e8c5e03e73133270edb703dfd4b20f76e6928da",
+   "status": "AGREE",
+   "transitions": {
+    "state": [
+     "cancelled",
+     "ordered"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "repair.order.unreserve": {
+   "changedFields": [
+    "move_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:75d38c601cde15b57a8590bdf432c6479c3c5369b77cae75c97bb96c88cb5541",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:2d701ded91fa3564b54734f4b7b0c87e15db458248b21e44b3b5beb2f83a2642",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "assigned",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "fixture"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}

@@ -177,6 +177,8 @@ func sideEffectMeaning(effect SideEffect) string {
 		return "causes a mutation in an external provider"
 	case EffectWriteLocalConfig:
 		return "writes local configuration on this machine; contacts nothing"
+	case EffectWriteLocalHost:
+		return "writes files on this machine and drives its local containers; contacts no ASAO service"
 	default:
 		return "unspecified"
 	}

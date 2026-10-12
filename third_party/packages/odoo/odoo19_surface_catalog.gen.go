@@ -3338,20 +3338,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
 		Method: "website_publish_button",
 	},
-	// delivery.carrier (Shipping Methods): toggle_prod_environment
-	{
-		SemanticID: "inventory.shipping_method.toggle_prod_environment", Kind: KindAction, Strategy: StrategyMethodCall,
-		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
-		Method: "toggle_prod_environment",
-	},
-	// delivery.carrier (Shipping Methods): toggle_debug
-	{
-		SemanticID: "inventory.shipping_method.toggle_debug", Kind: KindAction, Strategy: StrategyMethodCall,
-		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
-		Method: "toggle_debug",
-	},
 	// delivery.price.rule (Delivery Price Rules)
 	{
 		SemanticID: "inventory.shipping_price_rule.list", Kind: KindRead, Strategy: StrategyRead,

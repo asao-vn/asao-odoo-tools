@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.0 (2026-10-12)
+
+- 1263 of 1359 operations verified on 19.0, up from 1201.
+- The conformance runners see more:
+  - updates of numbers, booleans, dates, selections and relations;
+  - creates of models with nothing required;
+  - the states of a record's lines (a repair's parts, a production's components);
+  - buttons that delete their record.
+- New fixtures:
+  - purchase approval;
+  - event publishing;
+  - maintenance restore;
+  - data cleaning;
+  - landed costs (compute, validate, cancel);
+  - reservations of productions, repairs and batches.
+- A shipping method's debug and production switches are left out: they need a carrier connector.
+- Odoo 20.0 runs the same apps as 19.0: 1012 operations verified there, up from 717.
+
 ## 0.6.0 (2026-10-12)
 
 - Six more Community apps:

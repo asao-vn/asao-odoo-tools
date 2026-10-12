@@ -996,6 +996,64 @@ account tags and reconciliation models require.
 operation disagrees. On 20.0, 42 records were dropped as stale, leaving 717. The new apps are not yet
 installed on `vn20`.
 
+## Closing the gaps (2026-10-12, later)
+
+**The write runner, with fields of every simple type.** An update of a model without a text field
+changes a stored number, boolean, date, selection or many2one, never `state`. The new value always
+differs from the current one. A create with nothing required writes one field of its own. Computed
+fields that are not stored are never chosen: a write there can be ignored and still read back the
+same value.
+
+**The action runner, on the lines too.**
+- *Line states.* A button may act on a record's lines rather than on the record: reserving a
+  repair's parts changes its stock moves. Each one2many whose lines have a stored state is now
+  compared by those states (`move_ids.state`).
+- *Deletions.* A button that deletes its record, such as validating a data-cleaning proposal, agrees
+  when both twins are gone.
+
+**Fixtures:**
+- purchase orders waiting for approval;
+- unpublished, non-public events;
+- archived maintenance requests;
+- data-cleaning rules and proposals, on fresh contacts;
+- landed costs on receipts of an average-cost product;
+- productions with their components released.
+
+Fixtures that need stock now make a fresh product and stock it with an applied inventory count: the
+demo stock had run out. A repair's parts are stocked where Odoo's default repair type takes them
+from, because the lab holds several warehouses.
+
+**Lab fixes.** The seeder had built data-cleaning rules on `base`, an abstract model with no table.
+It now uses `res.partner`, and the broken rules were removed.
+
+**Left out:** the debug and production switches of a shipping method. They show only for a carrier
+connector, and Community has none.
+
+**Result:** 1359 operations, 1263 verified on 19.0, and none disagrees.
+
+**20.0.**
+- **Lab set-up:** `vn20` gained the same nine modules, and its admin got full accounting features.
+- **Renames:** a fresh 20.0 inventory left the renames table unchanged, so `odoo20RenamesVerified`
+  still holds.
+- **Runs:** read, seed, write and action passes ran with `--readiness ANY`. The 20.0 manifest went
+  from 717 to 1012 records.
+- **Two 20.0 problems, met along the way:**
+  - Odoo 20 drops the JSON-RPC connection when it cannot encode an answer that holds a binary
+    default (a lunch product's image). The write runner no longer asks for binary defaults, and a
+    dropped connection now fails only that operation.
+  - A work order's running time differs by the seconds between the two clicks. The action runner
+    ignores it (`MODEL_VOLATILE`).
+- **Disagreement:** one write disagrees on 20.0, `catalog.pricelist_item.create` on `applied_on`. It
+  stays unverified there.
+
+The 96 unverified operations are of these kinds:
+- **The CLI cannot see the effect.** BoM cost writes `standard_price`, which is computed and not
+  stored.
+- **The effect lands outside the record.** Duplicating a mailing or generating leads creates other
+  records.
+- **Odoo's rules refuse a generic value.**
+- **A payment provider or a carrier is needed** to authorise or ship.
+
 ## Not yet done
 
 - **Actions and wizards still UNVERIFIED on 19.0:** 39 actions and 7 wizards.

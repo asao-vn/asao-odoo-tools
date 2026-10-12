@@ -95,6 +95,8 @@ SEEDS = {
     "event.slot": lambda o: {"event_id": _long_event(o), "date": str(datetime.date.today() + datetime.timedelta(days=31)),
                              "start_hour": 9.0, "end_hour": 11.0},
     "card.card": _card_campaign,
+    # A data-cleaning rule on contacts: the first ir.model ("base") is abstract and has no table.
+    "data_recycle.model": lambda o: {"res_model_id": o.first("ir.model", [["model", "=", "res.partner"]])},
     "mailing.filter": lambda o: {"mailing_model_id": o.first("ir.model", [["model", "=", "res.partner"]]), "mailing_domain": "[]"},
     "event.question.answer": lambda o: {"question_id": _question(o), "name": f"Conformance answer {STAMP}"},
     "event.registration.answer": lambda o: {

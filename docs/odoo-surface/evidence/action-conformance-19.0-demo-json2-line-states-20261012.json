@@ -1,0 +1,447 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "twin records on which the form shows the button and which agree on what its invisible expression reads and on state; the CLI on one, an independent web-client oracle (button context, wizard defaults by onchange, the operation's dialog answers) on the other; stored scalar fields compared before and after: the same fields changed, selections and booleans to the same values. Twins are sought inside the operation's provider domain. A chatter operation (a note, an activity) is compared by what each path left on its record: one new note or activity, the same in type, subtype, author, summary, user and deadline. A guarded delete runs on two fresh records inside its domain, one deleted through the CLI and one unlinked as the web client's Delete does: both gone, nothing else in the domain.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T16:41:32Z",
+ "records": {
+  "catalog.product.bom_cost": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:34916b0b114c295cb2674c50265303f719c6ea4ee707e3c9fbadd147785c4c0a",
+   "kind": "action",
+   "modules": [
+    "product"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:ecbe2b8fdbf3c7fe6c74ee8dc812bd4be0b68988c4208918d7b617178a7e2f2f",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "catalog.product_variant.bom_cost": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:5c325ddb0fa7656d1030380f30b26fa9381c9ceed850e02260edf20ff651d40d",
+   "kind": "action",
+   "modules": [
+    "product"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:94a843ea0898dc6659cd25df0ecd89bc3546651ec637650479e16b8c7a7e889e",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "event.lead_rule.execute_rule": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:0768879d8b7041589fa598cf9b322ed55a587966d5d613df3fce60f53919a10b",
+   "kind": "action",
+   "modules": [
+    "event_crm"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0fd922e83d21fc2fda1578059c2012e5b132fbb80fba2be9660eb85d8c3f3404",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "finance.invoice.activate_currency": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:fc21ad5ec17abb801819ecd11674e349bde51139670520feca98df772656cb44",
+   "kind": "action",
+   "modules": [
+    "account"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:418c8b1838966bb425271e9ca1f781650aab59299e59e557b899b000c9028153",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "finance.payment_provider.recompute_pending_msg": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:2325019f1a362644b766f94666cfa413e718519ac3b38dc2350c8e78faa6c176",
+   "kind": "action",
+   "modules": [
+    "payment"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:abd113b5e58f0a83723c8a2b9b3f1f67a8c1a68ea883877edd108d624a39ec54",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "inventory.batch_transfer.assign": {
+   "changedFields": [
+    "picking_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:552cb324a97ec70716ac1ab45eb06141f67bcb5da04a50ce8ad8f39bc19d6f75",
+   "kind": "action",
+   "modules": [
+    "stock_picking_batch"
+   ],
+   "oracleChangedFields": [
+    "picking_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0419710be814ea74d5894c3bc184c565ad771cd958218713ef84edb43dc91e6c",
+   "status": "AGREE",
+   "transitions": {
+    "picking_ids.state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.package.unpack": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:1017a22d2f56548f3e7027fff3d26a2fc9bb2fcbae36a3c26825c85c4cc8f596",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "inventory.transfer.reserve": {
+   "changedFields": [
+    "move_ids.state",
+    "move_line_ids",
+    "move_line_ids.state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "move_line_ids": 1
+   },
+   "definitionHash": "sha256:3f440b005d677d60104b6016b53f8a726b2b02d26ec89e6238c3fbcbd6985e41",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state",
+    "move_line_ids",
+    "move_line_ids.state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:fb07338a5c8c74f25a6c5229ff0f17bf37091105dd624e17e8894971a561955c",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "confirmed",
+     "assigned"
+    ],
+    "move_line_ids.state": [
+     "",
+     "assigned"
+    ],
+    "state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "inventory.transfer.unreserve": {
+   "changedFields": [
+    "move_ids.state",
+    "move_line_ids",
+    "move_line_ids.state",
+    "state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {
+    "move_line_ids": -1
+   },
+   "definitionHash": "sha256:b69bac102414fdf22d91873643cfb00fa6f48f8a042cc17eedf49d5906b731f7",
+   "kind": "action",
+   "modules": [
+    "stock"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state",
+    "move_line_ids",
+    "move_line_ids.state",
+    "state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:a4591655752e14cce4ace6f5c9c0ecd3f4702c7024a269aaf4a065f05cf5120b",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "assigned",
+     "confirmed"
+    ],
+    "move_line_ids.state": [
+     "assigned",
+     ""
+    ],
+    "state": [
+     "assigned",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "lunch.order.add_to_cart": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:687079a3af05c4e8ceba00a3afe0da155f2c925e6f6abef5645900e385158e6c",
+   "kind": "action",
+   "modules": [
+    "lunch"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:549c0b02c551384c4b22d7eb659031139638fd436006ba9e91f7ccbe1e515f7e",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "manufacturing.bom.compute_bom_days": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:1afc0c1c5059ef5a475520b571307910d2551a2392054b2f63ae255c21e8ab50",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:64d09705ded0415bba409dfe7e21b2136bff4b8cdc7e29f66076f27f6d1ce027",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "manufacturing.order.assign": {
+   "changedFields": [
+    "all_move_raw_ids.state",
+    "move_raw_ids.state",
+    "reservation_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:ae01ac5ce485214b2651b63a6847937f7826e863901276514c676ca8820ce201",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_raw_ids.state",
+    "move_raw_ids.state",
+    "reservation_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:99513b578cfd6a5375d0eb49d6663a4a03efd1ca97cd11540a463d564391fb34",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_raw_ids.state": [
+     "confirmed",
+     "assigned"
+    ],
+    "move_raw_ids.state": [
+     "confirmed",
+     "assigned"
+    ],
+    "reservation_state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "manufacturing.order.unreserve": {
+   "changedFields": [
+    "all_move_raw_ids.state",
+    "move_raw_ids.state",
+    "reservation_state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:816d86b2f8edfe3366345195cf1e1c895ff1de4409ba6f16355366120b88f7cf",
+   "kind": "action",
+   "modules": [
+    "mrp"
+   ],
+   "oracleChangedFields": [
+    "all_move_raw_ids.state",
+    "move_raw_ids.state",
+    "reservation_state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:a7fa74e5e685ba03cb8a1cf7d84d2864913376e569f74d76eb00e916e9b53dd7",
+   "status": "AGREE",
+   "transitions": {
+    "all_move_raw_ids.state": [
+     "assigned",
+     "confirmed"
+    ],
+    "move_raw_ids.state": [
+     "assigned",
+     "confirmed"
+    ],
+    "reservation_state": [
+     "assigned",
+     "confirmed"
+    ]
+   },
+   "twinBasis": "strict"
+  },
+  "marketing.mailing.duplicate": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:9a1dae9cd5dfd6aea50b24ec26effeffa549a7b79800f62a368c2819065ffa35",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:0a3b1852e3ea7780ce14803110b54f8d6e9ff7fc310baffa3e25e8d993042194",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "marketing.mailing.reload": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:179ca4d16446cdf3c10f13b95a16f5fdf4bb073fc57d6e15c22e82c7164056d7",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4d3994bdb59b2cb1be91a940c43ce12ce7e1d818f98ccc29d0d034ff4c417376",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "marketing.mailing.update_cards": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:8d913e2477f9b62415e3c7eaf0262c103ace76f21532a0eeb0c88c9853061ca9",
+   "kind": "action",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:4d3994bdb59b2cb1be91a940c43ce12ce7e1d818f98ccc29d0d034ff4c417376",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "repair.order.assign": {
+   "changedFields": [
+    "move_ids.state"
+   ],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:d7f2e6e4333d2c013822e2ca1f8ccf2c8a1a8e0bfe8d722e137687b17c89054d",
+   "kind": "action",
+   "modules": [
+    "repair"
+   ],
+   "oracleChangedFields": [
+    "move_ids.state"
+   ],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:5bc33c52f64ccd5339df9b24980bb20ef3e3ce9b005f10a989f0f6cfb908d93a",
+   "status": "AGREE",
+   "transitions": {
+    "move_ids.state": [
+     "confirmed",
+     "assigned"
+    ]
+   },
+   "twinBasis": "fixture"
+  },
+  "workforce.attendance_log.approve_overtime": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:256948be06290b41dd206c5244fe06130416962f8241144c6c42bea2be92304d",
+   "kind": "action",
+   "modules": [
+    "hr_attendance"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:62658c8c9522e80024e4e72d62ec919889e00125e4f9eba9d6cd373854cd5c56",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "workforce.attendance_log.refuse_overtime": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:41b1d6ace2c42fa36ebfcf6fb49e6378fe433e3ed1784dc37935793243c34de1",
+   "kind": "action",
+   "modules": [
+    "hr_attendance"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:62658c8c9522e80024e4e72d62ec919889e00125e4f9eba9d6cd373854cd5c56",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  },
+  "workforce.overtime_ruleset.regenerate_overtimes": {
+   "changedFields": [],
+   "cliOutcome": "OK",
+   "countChanges": {},
+   "definitionHash": "sha256:45e7ad1f88f39d8331e2db5e50987df5c76c409f31824f247d8be6ee58d5a2f4",
+   "kind": "action",
+   "modules": [
+    "hr_attendance"
+   ],
+   "oracleChangedFields": [],
+   "oracleOutcome": "OK",
+   "pairHash": "sha256:f5cab1cd0e1bb451c2bcdb4962b4beb71f90575bf48aa4024fa815890d9ef882",
+   "status": "AGREE_NO_CHANGE",
+   "transitions": {},
+   "twinBasis": "strict"
+  }
+ },
+ "schemaVersion": "odoo.action-conformance-run/v1"
+}
