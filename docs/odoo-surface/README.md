@@ -955,6 +955,47 @@ The result is 759 records, against 578 before. `odoo20RenamesVerified` records t
 
 20.0 stays a candidate series: making it supported is a decision for the owner.
 
+## Six more apps (2026-10-12)
+
+The labs gained mass_mailing (with SMS), marketing_card, im_livechat, lunch, website_slides,
+website_sale, website_event and data_recycle: 51 new business models.
+
+**Families.** The new models form four families: `marketing`, `livechat`, `lunch` and `elearning`.
+`data_recycle` goes under `structure`, and the eCommerce models under `catalog`, `website` and
+`sales`. The governed vocabulary gains a read key for each new family, and every one of them reaches
+personal data. Only `livechat` is in a preset (the manager's, which already reads contacts). `lunch`
+holds each employee's orders and wallet, so it is in no preset: the statistics role excludes staff
+data.
+
+**Left out on purpose** (`SKIP_METHODS`), as for quotations and invoices:
+- every button that sends email or SMS (mailings, invitations, coupons, reminders, notifications);
+- buying SMS credits;
+- the buttons that only open another window.
+
+**Generator fixes.**
+- A required rich-text field is offered: a lunch alert's message could not be created without it.
+- Inputs Odoo sets itself are not offered: lunch jobs, and a mailing's UTM source, which replaces its
+  name.
+
+**Runner fixes.**
+- **Write runner:**
+  - it retries a create refused as a duplicate with other related records, one many2one at a time;
+  - it samples reference fields;
+  - it gives the values a generic sample cannot (`GIVEN_VALUES`, each with its reason);
+  - it compares zip prefixes in upper case (`NORMALISED`);
+  - it keeps update values within a field's size.
+- **Action runner:**
+  - a click the oracle cannot evaluate is `NOT_RUN_UNEVALUABLE`, not a disagreement;
+  - lunch orders are verified on fixtures with distinct notes, because Odoo merges identical orders.
+- **Seeder:** it numbers generic names, and seeds event slots, marketing cards and mailing filters.
+
+**Lab change.** The admin of `lab19demo` has *Show Full Accounting Features*, which bank statements,
+account tags and reconciliation models require.
+
+**Result:** 1361 operations, 1201 verified on 19.0 (937 after the stale drop, before the runs). No
+operation disagrees. On 20.0, 42 records were dropped as stale, leaving 717. The new apps are not yet
+installed on `vn20`.
+
 ## Not yet done
 
 - **Actions and wizards still UNVERIFIED on 19.0:** 39 actions and 7 wizards.

@@ -600,8 +600,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "catalog.product_variant.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.productvariant.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.product",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"service_type", "company_id", "tracking", "qty_available", "is_favorite", "name", "product_tmpl_id", "sale_ok", "available_in_pos", "can_be_expensed", "purchase_ok", "active", "type", "invoice_policy", "service_tracking", "project_id", "project_template_id", "task_template_id", "service_policy", "service_upsell_threshold", "is_storable", "list_price", "lst_price", "uom_id", "standard_price", "default_code", "barcode", "categ_id", "description_sale", "expense_policy", "color", "to_weight", "self_order_available", "service_to_purchase", "landed_cost_ok", "split_method_landed_cost", "purchase_method", "description_purchase", "weight", "volume", "sale_delay", "hs_code", "country_of_origin", "lot_valuated", "serial_prefix_format", "use_expiration_date", "property_stock_production", "property_stock_inventory", "expiration_time", "use_time", "removal_time", "alert_time", "description_pickingin", "description_pickingout"},
-		InputTypes: map[string]string{"active": "boolean", "alert_time": "integer", "available_in_pos": "boolean", "can_be_expensed": "boolean", "categ_id": "reference", "color": "integer", "company_id": "reference", "country_of_origin": "reference", "expiration_time": "integer", "is_favorite": "boolean", "is_storable": "boolean", "landed_cost_ok": "boolean", "list_price": "number", "lot_valuated": "boolean", "lst_price": "number", "product_tmpl_id": "reference", "project_id": "reference", "project_template_id": "reference", "property_stock_inventory": "reference", "property_stock_production": "reference", "purchase_ok": "boolean", "qty_available": "number", "removal_time": "integer", "sale_delay": "integer", "sale_ok": "boolean", "self_order_available": "boolean", "service_to_purchase": "boolean", "service_upsell_threshold": "number", "standard_price": "number", "task_template_id": "reference", "to_weight": "boolean", "uom_id": "reference", "use_expiration_date": "boolean", "use_time": "integer", "volume": "number", "weight": "number"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"service_type", "company_id", "is_published", "tracking", "qty_available", "is_favorite", "name", "product_tmpl_id", "sale_ok", "available_in_pos", "can_be_expensed", "purchase_ok", "active", "type", "invoice_policy", "service_tracking", "project_id", "project_template_id", "task_template_id", "service_policy", "service_upsell_threshold", "is_storable", "list_price", "lst_price", "uom_id", "standard_price", "default_code", "barcode", "categ_id", "website_sequence", "allow_out_of_stock_order", "website_ribbon_id", "show_availability", "available_threshold", "description_sale", "expense_policy", "color", "to_weight", "self_order_available", "service_to_purchase", "landed_cost_ok", "split_method_landed_cost", "purchase_method", "description_purchase", "weight", "volume", "sale_delay", "hs_code", "country_of_origin", "lot_valuated", "serial_prefix_format", "use_expiration_date", "property_stock_production", "property_stock_inventory", "expiration_time", "use_time", "removal_time", "alert_time", "description_pickingin", "description_pickingout", "base_unit_count"},
+		InputTypes: map[string]string{"active": "boolean", "alert_time": "integer", "allow_out_of_stock_order": "boolean", "available_in_pos": "boolean", "available_threshold": "number", "base_unit_count": "number", "can_be_expensed": "boolean", "categ_id": "reference", "color": "integer", "company_id": "reference", "country_of_origin": "reference", "expiration_time": "integer", "is_favorite": "boolean", "is_published": "boolean", "is_storable": "boolean", "landed_cost_ok": "boolean", "list_price": "number", "lot_valuated": "boolean", "lst_price": "number", "product_tmpl_id": "reference", "project_id": "reference", "project_template_id": "reference", "property_stock_inventory": "reference", "property_stock_production": "reference", "purchase_ok": "boolean", "qty_available": "number", "removal_time": "integer", "sale_delay": "integer", "sale_ok": "boolean", "self_order_available": "boolean", "service_to_purchase": "boolean", "service_upsell_threshold": "number", "show_availability": "boolean", "standard_price": "number", "task_template_id": "reference", "to_weight": "boolean", "uom_id": "reference", "use_expiration_date": "boolean", "use_time": "integer", "volume": "number", "website_ribbon_id": "reference", "website_sequence": "integer", "weight": "number"},
 		InputEnums: map[string][]string{"expense_policy": []string{"no", "cost", "sales_price"}, "invoice_policy": []string{"order", "delivery"}, "purchase_method": []string{"purchase", "receive"}, "service_policy": []string{"ordered_prepaid", "delivered_timesheet", "delivered_manual"}, "service_tracking": []string{"no", "event", "repair", "task_global_project", "task_in_project", "project_only"}, "service_type": []string{"manual", "milestones", "timesheet"}, "split_method_landed_cost": []string{"equal", "by_quantity", "by_current_cost_price", "by_weight", "by_volume"}, "tracking": []string{"serial", "lot", "none"}, "type": []string{"consu", "service", "combo"}},
 		Relations: map[string]RelationSpec{
 			"categ_id":                  {TargetModel: "product.category", SearchField: "name"},
@@ -614,6 +614,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"property_stock_production": {TargetModel: "stock.location", SearchField: "name"},
 			"task_template_id":          {TargetModel: "project.task", SearchField: "name"},
 			"uom_id":                    {TargetModel: "uom.uom", SearchField: "name"},
+			"website_ribbon_id":         {TargetModel: "product.ribbon", SearchField: "name"},
 		},
 	},
 	// project.milestone (Project Milestone)
@@ -823,8 +824,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "website.site.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"website"}, RequiredCapability: "website.site.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "domain", "default_lang_id", "company_id", "user_id", "logo", "favicon", "custom_code_head", "custom_code_footer", "homepage_url"},
-		InputTypes: map[string]string{"company_id": "reference", "default_lang_id": "reference", "user_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "domain", "default_lang_id", "karma_profile_min", "company_id", "ecommerce_access", "product_page_image_layout", "product_page_image_ratio", "product_page_image_ratio_mobile", "product_page_image_roundness", "product_page_image_spacing", "product_page_image_width", "shop_default_sort", "user_id", "logo", "favicon", "custom_code_head", "custom_code_footer", "homepage_url"},
+		InputTypes: map[string]string{"company_id": "reference", "default_lang_id": "reference", "karma_profile_min": "integer", "user_id": "reference"},
+		InputEnums: map[string][]string{"ecommerce_access": []string{"everyone", "logged_in"}, "product_page_image_layout": []string{"carousel", "grid"}, "product_page_image_ratio": []string{"auto", "21_9", "16_9", "4_3", "6_5", "1_1", "4_5", "2_3"}, "product_page_image_ratio_mobile": []string{"auto", "21_9", "16_9", "4_3", "6_5", "1_1", "4_5", "2_3"}, "product_page_image_roundness": []string{"none", "small", "medium", "big"}, "product_page_image_spacing": []string{"none", "small", "medium", "big"}, "product_page_image_width": []string{"none", "33_pc", "50_pc", "66_pc", "100_pc"}, "shop_default_sort": []string{"website_sequence asc", "publish_date desc", "name asc", "list_price asc", "list_price desc"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"user_id":    {TargetModel: "res.users", SearchField: "name"},
@@ -2677,6 +2679,308 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"base_event_id": {TargetModel: "calendar.event", SearchField: "name"},
 		},
 	},
+	// card.campaign (Marketing Card Campaign)
+	{
+		SemanticID: "marketing.campaign.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaign.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "name", "user_id", "res_model", "target_url", "tag_ids"},
+	},
+	// card.campaign (Marketing Card Campaign)
+	{
+		SemanticID: "marketing.campaign.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaign.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"mailing_count", "target_url_click_count", "card_count", "card_click_count", "card_share_count", "name", "preview_record_ref", "target_url", "res_model", "post_suggestion", "user_id", "tag_ids", "content_header_dyn", "content_header", "content_header_path", "content_header_color", "content_sub_header_dyn", "content_sub_header", "content_sub_header_path", "content_sub_header_color", "content_section_dyn", "content_section", "content_section_path", "content_sub_section1_dyn", "content_sub_section1", "content_sub_section1_path", "content_sub_section2_dyn", "content_sub_section2", "content_sub_section2_path", "content_image1_path", "content_image2_path", "content_button", "card_template_id", "request_title", "request_description", "reward_target_url", "reward_message", "active"},
+	},
+	// card.campaign (Marketing Card Campaign)
+	{
+		SemanticID: "marketing.campaign.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaign.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "preview_record_ref", "target_url", "post_suggestion", "user_id", "content_header_dyn", "content_header", "content_header_path", "content_header_color", "content_sub_header_dyn", "content_sub_header", "content_sub_header_path", "content_sub_header_color", "content_section_dyn", "content_section", "content_section_path", "content_sub_section1_dyn", "content_sub_section1", "content_sub_section1_path", "content_sub_section2_dyn", "content_sub_section2", "content_sub_section2_path", "content_image1_path", "content_image2_path", "content_button", "card_template_id", "request_title", "request_description", "reward_target_url", "active", "res_model"},
+		InputTypes: map[string]string{"active": "boolean", "card_template_id": "reference", "content_header_dyn": "boolean", "content_section_dyn": "boolean", "content_sub_header_dyn": "boolean", "content_sub_section1_dyn": "boolean", "content_sub_section2_dyn": "boolean", "user_id": "reference"},
+		InputEnums: map[string][]string{"res_model": []string{"res.partner", "event.registration"}},
+		Relations: map[string]RelationSpec{
+			"card_template_id": {TargetModel: "card.template", SearchField: "name"},
+			"user_id":          {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// card.campaign (Marketing Card Campaign)
+	{
+		SemanticID: "marketing.campaign.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaign.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "preview_record_ref", "target_url", "post_suggestion", "user_id", "content_header_dyn", "content_header", "content_header_path", "content_header_color", "content_sub_header_dyn", "content_sub_header", "content_sub_header_path", "content_sub_header_color", "content_section_dyn", "content_section", "content_section_path", "content_sub_section1_dyn", "content_sub_section1", "content_sub_section1_path", "content_sub_section2_dyn", "content_sub_section2", "content_sub_section2_path", "content_image1_path", "content_image2_path", "content_button", "card_template_id", "request_title", "request_description", "reward_target_url", "active", "res_model"},
+		InputTypes: map[string]string{"active": "boolean", "card_template_id": "reference", "content_header_dyn": "boolean", "content_section_dyn": "boolean", "content_sub_header_dyn": "boolean", "content_sub_section1_dyn": "boolean", "content_sub_section2_dyn": "boolean", "user_id": "reference"},
+		InputEnums: map[string][]string{"res_model": []string{"res.partner", "event.registration"}},
+		Relations: map[string]RelationSpec{
+			"card_template_id": {TargetModel: "card.template", SearchField: "name"},
+			"user_id":          {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// card.campaign.tag (Marketing Card Campaign Tag)
+	{
+		SemanticID: "marketing.campaign_tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaigntag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// card.campaign.tag (Marketing Card Campaign Tag)
+	{
+		SemanticID: "marketing.campaign_tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaigntag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// card.campaign.tag (Marketing Card Campaign Tag)
+	{
+		SemanticID: "marketing.campaign_tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaigntag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign.tag",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// card.campaign.tag (Marketing Card Campaign Tag)
+	{
+		SemanticID: "marketing.campaign_tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.campaigntag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.campaign.tag",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// card.card (Marketing Card)
+	{
+		SemanticID: "marketing.card.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.card.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.card",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "create_uid", "res_model", "campaign_id", "share_status"},
+	},
+	// card.card (Marketing Card)
+	{
+		SemanticID: "marketing.card.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.card.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.card",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "res_model", "share_status", "campaign_id", "res_id", "requires_sync"},
+	},
+	// card.card (Marketing Card)
+	{
+		SemanticID: "marketing.card.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.card.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.card",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "share_status", "campaign_id", "res_id", "requires_sync"},
+		InputTypes: map[string]string{"active": "boolean", "campaign_id": "reference", "requires_sync": "boolean"},
+		InputEnums: map[string][]string{"share_status": []string{"shared", "visited"}},
+		Relations: map[string]RelationSpec{
+			"campaign_id": {TargetModel: "card.campaign", SearchField: "name"},
+		},
+	},
+	// card.card (Marketing Card)
+	{
+		SemanticID: "marketing.card.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.card.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.card",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "share_status", "campaign_id", "res_id", "requires_sync"},
+		InputTypes: map[string]string{"active": "boolean", "campaign_id": "reference", "requires_sync": "boolean"},
+		InputEnums: map[string][]string{"share_status": []string{"shared", "visited"}},
+		Relations: map[string]RelationSpec{
+			"campaign_id": {TargetModel: "card.campaign", SearchField: "name"},
+		},
+	},
+	// card.template (Marketing Card Template)
+	{
+		SemanticID: "marketing.template.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.template.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.template",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// card.template (Marketing Card Template)
+	{
+		SemanticID: "marketing.template.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.template.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.template",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "primary_color", "secondary_color", "primary_text_color", "secondary_text_color", "body"},
+	},
+	// card.template (Marketing Card Template)
+	{
+		SemanticID: "marketing.template.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.template.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.template",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "primary_color", "secondary_color", "primary_text_color", "secondary_text_color"},
+	},
+	// card.template (Marketing Card Template)
+	{
+		SemanticID: "marketing.template.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"marketing_card"}, RequiredCapability: "marketing.template.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "card.template",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "primary_color", "secondary_color", "primary_text_color", "secondary_text_color"},
+	},
+	// chatbot.message (Chatbot Message)
+	{
+		SemanticID: "livechat.message.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.message.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.message",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"discuss_channel_id"},
+	},
+	// chatbot.message (Chatbot Message)
+	{
+		SemanticID: "livechat.message.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.message.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.message",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"mail_message_id", "script_step_id", "user_raw_script_answer_id", "discuss_channel_id", "user_script_answer_id", "user_raw_answer"},
+	},
+	// chatbot.message (Chatbot Message)
+	{
+		SemanticID: "livechat.message.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.message.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.message",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"mail_message_id", "script_step_id", "user_raw_script_answer_id", "discuss_channel_id", "user_script_answer_id"},
+		InputTypes: map[string]string{"discuss_channel_id": "reference", "mail_message_id": "reference", "script_step_id": "reference", "user_raw_script_answer_id": "integer", "user_script_answer_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"script_step_id":        {TargetModel: "chatbot.script.step", SearchField: "name"},
+			"user_script_answer_id": {TargetModel: "chatbot.script.answer", SearchField: "name"},
+		},
+	},
+	// chatbot.message (Chatbot Message)
+	{
+		SemanticID: "livechat.message.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.message.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.message",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"mail_message_id", "script_step_id", "user_raw_script_answer_id", "discuss_channel_id", "user_script_answer_id"},
+		InputTypes: map[string]string{"discuss_channel_id": "reference", "mail_message_id": "reference", "script_step_id": "reference", "user_raw_script_answer_id": "integer", "user_script_answer_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"script_step_id":        {TargetModel: "chatbot.script.step", SearchField: "name"},
+			"user_script_answer_id": {TargetModel: "chatbot.script.answer", SearchField: "name"},
+		},
+	},
+	// chatbot.script (Chatbot Script)
+	{
+		SemanticID: "livechat.script.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.script.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"title"},
+	},
+	// chatbot.script (Chatbot Script)
+	{
+		SemanticID: "livechat.script.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.script.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"first_step_warning", "livechat_channel_count", "lead_count", "active", "title", "script_step_ids"},
+	},
+	// chatbot.script (Chatbot Script)
+	{
+		SemanticID: "livechat.script.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.script.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "title", "operator_partner_id", "source_id"},
+		InputTypes: map[string]string{"active": "boolean", "operator_partner_id": "reference", "source_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"operator_partner_id": {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// chatbot.script (Chatbot Script)
+	{
+		SemanticID: "livechat.script.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.script.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "title", "operator_partner_id", "source_id"},
+		InputTypes: map[string]string{"active": "boolean", "operator_partner_id": "reference", "source_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"operator_partner_id": {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// chatbot.script.answer (Chatbot Script Answer)
+	{
+		SemanticID: "livechat.script_answer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "script_step_id", "name", "redirect_link"},
+	},
+	// chatbot.script.answer (Chatbot Script Answer)
+	{
+		SemanticID: "livechat.script_answer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptanswer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "script_step_id"},
+	},
+	// chatbot.script.answer (Chatbot Script Answer)
+	{
+		SemanticID: "livechat.script_answer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.answer",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "script_step_id"},
+		InputTypes: map[string]string{"script_step_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"script_step_id": {TargetModel: "chatbot.script.step", SearchField: "name"},
+		},
+	},
+	// chatbot.script.answer (Chatbot Script Answer)
+	{
+		SemanticID: "livechat.script_answer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptanswer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.answer",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "script_step_id"},
+		InputTypes: map[string]string{"script_step_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"script_step_id": {TargetModel: "chatbot.script.step", SearchField: "name"},
+		},
+	},
+	// chatbot.script.step (Chatbot Script Step)
+	{
+		SemanticID: "livechat.script_step.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptstep.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.step",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "message", "step_type", "answer_ids", "triggering_answer_ids"},
+	},
+	// chatbot.script.step (Chatbot Script Step)
+	{
+		SemanticID: "livechat.script_step.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptstep.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.step",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"is_forward_operator_child", "sequence", "message", "chatbot_script_id", "step_type", "crm_team_id", "operator_expertise_ids", "triggering_answer_ids", "answer_ids", "is_forward_operator"},
+	},
+	// chatbot.script.step (Chatbot Script Step)
+	{
+		SemanticID: "livechat.script_step.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptstep.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.step",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"sequence", "chatbot_script_id", "step_type", "crm_team_id"},
+		InputTypes: map[string]string{"chatbot_script_id": "reference", "crm_team_id": "reference", "sequence": "integer"},
+		InputEnums: map[string][]string{"step_type": []string{"text", "question_selection", "question_email", "question_phone", "forward_operator", "free_input_single", "free_input_multi", "create_lead", "create_lead_and_forward"}},
+		Relations: map[string]RelationSpec{
+			"chatbot_script_id": {TargetModel: "chatbot.script", SearchField: "name"},
+			"crm_team_id":       {TargetModel: "crm.team", SearchField: "name"},
+		},
+	},
+	// chatbot.script.step (Chatbot Script Step)
+	{
+		SemanticID: "livechat.script_step.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.scriptstep.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "chatbot.script.step",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"sequence", "chatbot_script_id", "step_type", "crm_team_id"},
+		InputTypes: map[string]string{"chatbot_script_id": "reference", "crm_team_id": "reference", "sequence": "integer"},
+		InputEnums: map[string][]string{"step_type": []string{"text", "question_selection", "question_email", "question_phone", "forward_operator", "free_input_single", "free_input_multi", "create_lead", "create_lead_and_forward"}},
+		Relations: map[string]RelationSpec{
+			"chatbot_script_id": {TargetModel: "chatbot.script", SearchField: "name"},
+			"crm_team_id":       {TargetModel: "crm.team", SearchField: "name"},
+		},
+	},
 	// crm.lost.reason (Opp. Lost Reason)
 	{
 		SemanticID: "crm.lost_reason.list", Kind: KindRead, Strategy: StrategyRead,
@@ -2892,13 +3196,106 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"user_id":     {TargetModel: "res.users", SearchField: "name"},
 		},
 	},
+	// data_recycle.model (Recycling Model)
+	{
+		SemanticID: "structure.model.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.model.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "res_model_id", "recycle_mode", "recycle_action", "active"},
+	},
+	// data_recycle.model (Recycling Model)
+	{
+		SemanticID: "structure.model.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.model.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"records_to_recycle_count", "name", "res_model_id", "res_model_name", "active", "recycle_mode", "recycle_action", "include_archived", "notify_user_ids", "notify_frequency", "notify_frequency_period", "domain", "time_field_id", "time_field_delta", "time_field_delta_unit"},
+	},
+	// data_recycle.model (Recycling Model)
+	{
+		SemanticID: "structure.model.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.model.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "res_model_id", "active", "recycle_mode", "recycle_action", "include_archived", "notify_frequency", "notify_frequency_period", "domain", "time_field_id", "time_field_delta", "time_field_delta_unit"},
+		InputTypes: map[string]string{"active": "boolean", "include_archived": "boolean", "notify_frequency": "integer", "res_model_id": "reference", "time_field_delta": "integer", "time_field_id": "reference"},
+		InputEnums: map[string][]string{"notify_frequency_period": []string{"days", "weeks", "months"}, "recycle_action": []string{"archive", "unlink"}, "recycle_mode": []string{"manual", "automatic"}, "time_field_delta_unit": []string{"days", "weeks", "months", "years"}},
+	},
+	// data_recycle.model (Recycling Model)
+	{
+		SemanticID: "structure.model.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.model.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "res_model_id", "active", "recycle_mode", "recycle_action", "include_archived", "notify_frequency", "notify_frequency_period", "domain", "time_field_id", "time_field_delta", "time_field_delta_unit"},
+		InputTypes: map[string]string{"active": "boolean", "include_archived": "boolean", "notify_frequency": "integer", "res_model_id": "reference", "time_field_delta": "integer", "time_field_id": "reference"},
+		InputEnums: map[string][]string{"notify_frequency_period": []string{"days", "weeks", "months"}, "recycle_action": []string{"archive", "unlink"}, "recycle_mode": []string{"manual", "automatic"}, "time_field_delta_unit": []string{"days", "weeks", "months", "years"}},
+	},
+	// data_recycle.model (Recycling Model): action_recycle_records "Run Now"
+	{
+		SemanticID: "structure.model.recycle_records", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.model.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.model",
+		Method: "action_recycle_records",
+	},
+	// data_recycle.record (Recycling Record)
+	{
+		SemanticID: "structure.record.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "res_model_name", "res_id", "recycle_model_id", "name"},
+	},
+	// data_recycle.record (Recycling Record)
+	{
+		SemanticID: "structure.record.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "recycle_model_id", "res_model_id", "company_id", "name", "res_id", "res_model_name"},
+	},
+	// data_recycle.record (Recycling Record)
+	{
+		SemanticID: "structure.record.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "recycle_model_id", "res_id"},
+		InputTypes: map[string]string{"active": "boolean", "recycle_model_id": "reference", "res_id": "integer"},
+		Relations: map[string]RelationSpec{
+			"recycle_model_id": {TargetModel: "data_recycle.model", SearchField: "name"},
+		},
+	},
+	// data_recycle.record (Recycling Record)
+	{
+		SemanticID: "structure.record.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "recycle_model_id", "res_id"},
+		InputTypes: map[string]string{"active": "boolean", "recycle_model_id": "reference", "res_id": "integer"},
+		Relations: map[string]RelationSpec{
+			"recycle_model_id": {TargetModel: "data_recycle.model", SearchField: "name"},
+		},
+	},
+	// data_recycle.record (Recycling Record): action_validate "Validate"
+	{
+		SemanticID: "structure.record.validate", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		Method: "action_validate",
+	},
+	// data_recycle.record (Recycling Record): action_discard "Discard"
+	{
+		SemanticID: "structure.record.discard", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"data_recycle"}, RequiredCapability: "structure.record.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "data_recycle.record",
+		Method: "action_discard",
+	},
 	// delivery.carrier (Shipping Methods)
 	{
 		SemanticID: "inventory.shipping_method.list", Kind: KindRead, Strategy: StrategyRead,
 		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "name", "delivery_type", "country_ids", "max_weight", "max_volume", "must_have_tag_ids", "excluded_tag_ids"},
+		OptionalReadFields: []string{"sequence", "name", "delivery_type", "is_published", "country_ids", "max_weight", "max_volume", "must_have_tag_ids", "excluded_tag_ids"},
 	},
 	// delivery.carrier (Shipping Methods)
 	{
@@ -2906,15 +3303,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "currency_id", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "supports_shipping_insurance", "shipping_insurance", "price_rule_ids", "country_ids", "state_ids", "zip_prefix_ids", "max_weight", "weight_uom_name", "max_volume", "volume_uom_name", "must_have_tag_ids", "excluded_tag_ids", "carrier_description"},
+		OptionalReadFields: []string{"is_published", "name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "currency_id", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "supports_shipping_insurance", "shipping_insurance", "price_rule_ids", "country_ids", "state_ids", "zip_prefix_ids", "max_weight", "weight_uom_name", "max_volume", "volume_uom_name", "must_have_tag_ids", "excluded_tag_ids", "website_description", "carrier_description"},
 	},
 	// delivery.carrier (Shipping Methods)
 	{
 		SemanticID: "inventory.shipping_method.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "shipping_insurance", "max_weight", "max_volume", "carrier_description"},
-		InputTypes: map[string]string{"active": "boolean", "allow_cash_on_delivery": "boolean", "amount": "number", "company_id": "reference", "debug_logging": "boolean", "fixed_margin": "number", "fixed_price": "number", "free_over": "boolean", "margin": "number", "max_volume": "number", "max_weight": "number", "prod_environment": "boolean", "product_id": "reference", "shipping_insurance": "integer"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"is_published", "name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "shipping_insurance", "max_weight", "max_volume", "website_description", "carrier_description"},
+		InputTypes: map[string]string{"active": "boolean", "allow_cash_on_delivery": "boolean", "amount": "number", "company_id": "reference", "debug_logging": "boolean", "fixed_margin": "number", "fixed_price": "number", "free_over": "boolean", "is_published": "boolean", "margin": "number", "max_volume": "number", "max_weight": "number", "prod_environment": "boolean", "product_id": "reference", "shipping_insurance": "integer"},
 		InputEnums: map[string][]string{"delivery_type": []string{"base_on_rule", "fixed"}, "integration_level": []string{"rate", "rate_and_ship"}, "invoice_policy": []string{"estimated", "real"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
@@ -2926,13 +3323,20 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "inventory.shipping_method.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "shipping_insurance", "max_weight", "max_volume", "carrier_description"},
-		InputTypes: map[string]string{"active": "boolean", "allow_cash_on_delivery": "boolean", "amount": "number", "company_id": "reference", "debug_logging": "boolean", "fixed_margin": "number", "fixed_price": "number", "free_over": "boolean", "margin": "number", "max_volume": "number", "max_weight": "number", "prod_environment": "boolean", "product_id": "reference", "shipping_insurance": "integer"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_published", "name", "active", "company_id", "prod_environment", "debug_logging", "delivery_type", "allow_cash_on_delivery", "integration_level", "fixed_price", "margin", "fixed_margin", "free_over", "amount", "product_id", "tracking_url", "invoice_policy", "shipping_insurance", "max_weight", "max_volume", "website_description", "carrier_description"},
+		InputTypes: map[string]string{"active": "boolean", "allow_cash_on_delivery": "boolean", "amount": "number", "company_id": "reference", "debug_logging": "boolean", "fixed_margin": "number", "fixed_price": "number", "free_over": "boolean", "is_published": "boolean", "margin": "number", "max_volume": "number", "max_weight": "number", "prod_environment": "boolean", "product_id": "reference", "shipping_insurance": "integer"},
 		InputEnums: map[string][]string{"delivery_type": []string{"base_on_rule", "fixed"}, "integration_level": []string{"rate", "rate_and_ship"}, "invoice_policy": []string{"estimated", "real"}},
 		Relations: map[string]RelationSpec{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"product_id": {TargetModel: "product.product", SearchField: "name"},
 		},
+	},
+	// delivery.carrier (Shipping Methods): website_publish_button
+	{
+		SemanticID: "inventory.shipping_method.website_publish_button", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"delivery"}, RequiredCapability: "inventory.shippingmethod.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "delivery.carrier",
+		Method: "website_publish_button",
 	},
 	// delivery.carrier (Shipping Methods): toggle_prod_environment
 	{
@@ -3024,7 +3428,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.event.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "address_id", "organizer_id", "user_id", "lead_count", "date_begin", "date_end", "tag_ids", "seats_taken", "seats_used", "seats_max", "seats_reserved", "stage_id"},
+		OptionalReadFields: []string{"name", "address_id", "organizer_id", "user_id", "lead_count", "company_id", "date_begin", "date_end", "tag_ids", "seats_taken", "seats_used", "seats_max", "seats_reserved", "stage_id"},
 	},
 	// event.event (Event)
 	{
@@ -3032,16 +3436,16 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.event.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"stage_id", "seats_taken", "lead_count", "currency_id", "sale_price_total", "active", "company_id", "kanban_state", "name", "date_begin", "date_end", "date_tz", "is_multi_slots", "event_slot_count", "lang", "event_type_id", "tag_ids", "organizer_id", "user_id", "address_id", "event_url", "seats_limited", "seats_max", "event_ticket_ids", "event_mail_ids", "question_ids", "badge_format", "ticket_instructions", "note"},
+		OptionalReadFields: []string{"event_registrations_open", "stage_id", "is_published", "seats_taken", "lead_count", "currency_id", "sale_price_total", "website_url", "active", "company_id", "kanban_state", "name", "website_menu", "introduction_menu", "register_menu", "community_menu", "date_begin", "date_end", "date_tz", "is_multi_slots", "event_slot_count", "lang", "event_type_id", "tag_ids", "organizer_id", "user_id", "website_id", "website_published", "website_visibility", "event_register_url", "address_id", "event_url", "seats_limited", "seats_max", "event_ticket_ids", "event_mail_ids", "question_ids", "badge_format", "ticket_instructions", "note", "is_finished"},
 	},
 	// event.event (Event)
 	{
 		SemanticID: "event.event.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.event.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"stage_id", "active", "company_id", "kanban_state", "name", "date_begin", "date_end", "date_tz", "is_multi_slots", "lang", "event_type_id", "organizer_id", "user_id", "address_id", "event_url", "seats_limited", "seats_max", "badge_format"},
-		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "company_id": "reference", "event_type_id": "reference", "is_multi_slots": "boolean", "organizer_id": "reference", "seats_limited": "boolean", "seats_max": "integer", "stage_id": "reference", "user_id": "reference"},
-		InputEnums: map[string][]string{"badge_format": []string{"A4_french_fold", "A6", "four_per_sheet"}, "date_tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}, "kanban_state": []string{"normal", "done", "blocked", "cancel"}, "lang": []string{"en_US"}},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"stage_id", "is_published", "active", "company_id", "kanban_state", "name", "website_menu", "introduction_menu", "register_menu", "community_menu", "date_begin", "date_end", "date_tz", "is_multi_slots", "lang", "event_type_id", "organizer_id", "user_id", "website_id", "website_published", "website_visibility", "address_id", "event_url", "seats_limited", "seats_max", "badge_format"},
+		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "community_menu": "boolean", "company_id": "reference", "event_type_id": "reference", "introduction_menu": "boolean", "is_multi_slots": "boolean", "is_published": "boolean", "organizer_id": "reference", "register_menu": "boolean", "seats_limited": "boolean", "seats_max": "integer", "stage_id": "reference", "user_id": "reference", "website_id": "reference", "website_menu": "boolean", "website_published": "boolean"},
+		InputEnums: map[string][]string{"badge_format": []string{"A4_french_fold", "A6", "four_per_sheet"}, "date_tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}, "kanban_state": []string{"normal", "done", "blocked", "cancel"}, "lang": []string{"en_US"}, "website_visibility": []string{"public", "link", "logged_users"}},
 		Relations: map[string]RelationSpec{
 			"address_id":    {TargetModel: "res.partner", SearchField: "name"},
 			"company_id":    {TargetModel: "res.company", SearchField: "name"},
@@ -3049,6 +3453,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"organizer_id":  {TargetModel: "res.partner", SearchField: "name"},
 			"stage_id":      {TargetModel: "event.stage", SearchField: "name"},
 			"user_id":       {TargetModel: "res.users", SearchField: "name"},
+			"website_id":    {TargetModel: "website", SearchField: "name"},
 		},
 	},
 	// event.event (Event)
@@ -3056,9 +3461,9 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "event.event.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.event.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"stage_id", "active", "company_id", "kanban_state", "name", "date_begin", "date_end", "date_tz", "is_multi_slots", "lang", "event_type_id", "organizer_id", "user_id", "address_id", "event_url", "seats_limited", "seats_max", "badge_format"},
-		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "company_id": "reference", "event_type_id": "reference", "is_multi_slots": "boolean", "organizer_id": "reference", "seats_limited": "boolean", "seats_max": "integer", "stage_id": "reference", "user_id": "reference"},
-		InputEnums: map[string][]string{"badge_format": []string{"A4_french_fold", "A6", "four_per_sheet"}, "date_tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}, "kanban_state": []string{"normal", "done", "blocked", "cancel"}, "lang": []string{"en_US"}},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"stage_id", "is_published", "active", "company_id", "kanban_state", "name", "website_menu", "introduction_menu", "register_menu", "community_menu", "date_begin", "date_end", "date_tz", "is_multi_slots", "lang", "event_type_id", "organizer_id", "user_id", "website_id", "website_published", "website_visibility", "address_id", "event_url", "seats_limited", "seats_max", "badge_format"},
+		InputTypes: map[string]string{"active": "boolean", "address_id": "reference", "community_menu": "boolean", "company_id": "reference", "event_type_id": "reference", "introduction_menu": "boolean", "is_multi_slots": "boolean", "is_published": "boolean", "organizer_id": "reference", "register_menu": "boolean", "seats_limited": "boolean", "seats_max": "integer", "stage_id": "reference", "user_id": "reference", "website_id": "reference", "website_menu": "boolean", "website_published": "boolean"},
+		InputEnums: map[string][]string{"badge_format": []string{"A4_french_fold", "A6", "four_per_sheet"}, "date_tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}, "kanban_state": []string{"normal", "done", "blocked", "cancel"}, "lang": []string{"en_US"}, "website_visibility": []string{"public", "link", "logged_users"}},
 		Relations: map[string]RelationSpec{
 			"address_id":    {TargetModel: "res.partner", SearchField: "name"},
 			"company_id":    {TargetModel: "res.company", SearchField: "name"},
@@ -3066,7 +3471,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"organizer_id":  {TargetModel: "res.partner", SearchField: "name"},
 			"stage_id":      {TargetModel: "event.stage", SearchField: "name"},
 			"user_id":       {TargetModel: "res.users", SearchField: "name"},
+			"website_id":    {TargetModel: "website", SearchField: "name"},
 		},
+	},
+	// event.event (Event): website_publish_button "Publish"
+	{
+		SemanticID: "event.event.website_publish_button", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"event"}, RequiredCapability: "event.event.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.event",
+		Method: "website_publish_button",
 	},
 	// event.event.ticket (Event Ticket)
 	{
@@ -3279,7 +3692,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"barcode", "active", "create_date", "name", "partner_id", "email", "phone", "company_name", "event_id", "sale_order_id", "event_slot_id", "event_ticket_id", "state", "sale_status"},
+		OptionalReadFields: []string{"barcode", "active", "create_date", "name", "partner_id", "visitor_id", "email", "phone", "company_name", "event_id", "sale_order_id", "event_slot_id", "event_ticket_id", "registration_answer_ids", "state", "sale_status"},
 	},
 	// event.registration (Event Registration)
 	{
@@ -3287,15 +3700,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"active", "state", "lead_count", "name", "email", "phone", "company_name", "event_id", "event_slot_id", "event_ticket_id", "barcode", "partner_id", "create_date", "date_closed", "pos_order_id", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id", "registration_answer_ids", "sale_status", "is_multi_slots"},
+		OptionalReadFields: []string{"active", "state", "lead_count", "name", "email", "phone", "visitor_id", "company_name", "event_id", "event_slot_id", "event_ticket_id", "barcode", "partner_id", "create_date", "date_closed", "pos_order_id", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id", "registration_answer_ids", "sale_status", "is_multi_slots"},
 	},
 	// event.registration (Event Registration)
 	{
 		SemanticID: "event.registration.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "state", "name", "email", "phone", "company_name", "event_id", "event_slot_id", "event_ticket_id", "partner_id", "date_closed", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id"},
-		InputTypes: map[string]string{"active": "boolean", "event_id": "reference", "event_slot_id": "reference", "event_ticket_id": "reference", "partner_id": "reference", "sale_order_id": "reference", "sale_order_line_id": "reference", "utm_campaign_id": "reference", "utm_medium_id": "reference", "utm_source_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "state", "name", "email", "phone", "visitor_id", "company_name", "event_id", "event_slot_id", "event_ticket_id", "partner_id", "date_closed", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id"},
+		InputTypes: map[string]string{"active": "boolean", "event_id": "reference", "event_slot_id": "reference", "event_ticket_id": "reference", "partner_id": "reference", "sale_order_id": "reference", "sale_order_line_id": "reference", "utm_campaign_id": "reference", "utm_medium_id": "reference", "utm_source_id": "reference", "visitor_id": "reference"},
 		InputEnums: map[string][]string{"state": []string{"draft", "open", "done", "cancel"}},
 		Relations: map[string]RelationSpec{
 			"event_id":           {TargetModel: "event.event", SearchField: "name"},
@@ -3311,8 +3724,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "event.registration.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.registration.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.registration",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "state", "name", "email", "phone", "company_name", "event_id", "event_slot_id", "event_ticket_id", "partner_id", "date_closed", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id"},
-		InputTypes: map[string]string{"active": "boolean", "event_id": "reference", "event_slot_id": "reference", "event_ticket_id": "reference", "partner_id": "reference", "sale_order_id": "reference", "sale_order_line_id": "reference", "utm_campaign_id": "reference", "utm_medium_id": "reference", "utm_source_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "state", "name", "email", "phone", "visitor_id", "company_name", "event_id", "event_slot_id", "event_ticket_id", "partner_id", "date_closed", "sale_order_id", "sale_order_line_id", "utm_campaign_id", "utm_medium_id", "utm_source_id"},
+		InputTypes: map[string]string{"active": "boolean", "event_id": "reference", "event_slot_id": "reference", "event_ticket_id": "reference", "partner_id": "reference", "sale_order_id": "reference", "sale_order_line_id": "reference", "utm_campaign_id": "reference", "utm_medium_id": "reference", "utm_source_id": "reference", "visitor_id": "reference"},
 		InputEnums: map[string][]string{"state": []string{"draft", "open", "done", "cancel"}},
 		Relations: map[string]RelationSpec{
 			"event_id":           {TargetModel: "event.event", SearchField: "name"},
@@ -3470,17 +3883,18 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "category_id", "color"},
+		OptionalReadFields: []string{"name", "website_id", "category_id", "color"},
 	},
 	// event.tag (Event Tag)
 	{
 		SemanticID: "event.tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "category_id", "color"},
-		InputTypes: map[string]string{"category_id": "reference", "color": "integer"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "website_id", "category_id", "color"},
+		InputTypes: map[string]string{"category_id": "reference", "color": "integer", "website_id": "reference"},
 		Relations: map[string]RelationSpec{
 			"category_id": {TargetModel: "event.tag.category", SearchField: "name"},
+			"website_id":  {TargetModel: "website", SearchField: "name"},
 		},
 	},
 	// event.tag (Event Tag)
@@ -3488,10 +3902,11 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "event.tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tag.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "category_id", "color"},
-		InputTypes: map[string]string{"category_id": "reference", "color": "integer"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "website_id", "category_id", "color"},
+		InputTypes: map[string]string{"category_id": "reference", "color": "integer", "website_id": "reference"},
 		Relations: map[string]RelationSpec{
 			"category_id": {TargetModel: "event.tag.category", SearchField: "name"},
+			"website_id":  {TargetModel: "website", SearchField: "name"},
 		},
 	},
 	// event.tag.category (Event Tag Category)
@@ -3500,7 +3915,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "name", "tag_ids"},
+		OptionalReadFields: []string{"sequence", "name", "tag_ids", "is_published"},
 	},
 	// event.tag.category (Event Tag Category)
 	{
@@ -3508,21 +3923,23 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "tag_ids"},
+		OptionalReadFields: []string{"name", "is_published", "tag_ids"},
 	},
 	// event.tag.category (Event Tag Category)
 	{
 		SemanticID: "event.tag_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "is_published"},
+		InputTypes: map[string]string{"is_published": "boolean"},
 	},
 	// event.tag.category (Event Tag Category)
 	{
 		SemanticID: "event.tag_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.tagcategory.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.tag.category",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "is_published"},
+		InputTypes: map[string]string{"is_published": "boolean"},
 	},
 	// event.type (Event Template)
 	{
@@ -3538,15 +3955,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"event"}, RequiredCapability: "event.template.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "default_timezone", "tag_ids", "has_seats_limitation", "seats_max", "event_type_ticket_ids", "event_type_mail_ids", "question_ids", "note", "ticket_instructions"},
+		OptionalReadFields: []string{"name", "website_menu", "community_menu", "default_timezone", "tag_ids", "has_seats_limitation", "seats_max", "event_type_ticket_ids", "event_type_mail_ids", "question_ids", "note", "ticket_instructions"},
 	},
 	// event.type (Event Template)
 	{
 		SemanticID: "event.template.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.template.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "default_timezone", "has_seats_limitation", "seats_max"},
-		InputTypes: map[string]string{"has_seats_limitation": "boolean", "seats_max": "integer"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "website_menu", "community_menu", "default_timezone", "has_seats_limitation", "seats_max"},
+		InputTypes: map[string]string{"community_menu": "boolean", "has_seats_limitation": "boolean", "seats_max": "integer", "website_menu": "boolean"},
 		InputEnums: map[string][]string{"default_timezone": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
 	},
 	// event.type (Event Template)
@@ -3554,8 +3971,8 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "event.template.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"event"}, RequiredCapability: "event.template.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "event.type",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "default_timezone", "has_seats_limitation", "seats_max"},
-		InputTypes: map[string]string{"has_seats_limitation": "boolean", "seats_max": "integer"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "website_menu", "community_menu", "default_timezone", "has_seats_limitation", "seats_max"},
+		InputTypes: map[string]string{"community_menu": "boolean", "has_seats_limitation": "boolean", "seats_max": "integer", "website_menu": "boolean"},
 		InputEnums: map[string][]string{"default_timezone": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
 	},
 	// event.type.mail (Mail Scheduling on Event Category)
@@ -3727,13 +4144,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
 		Method: "action_accept_driver_change",
-	},
-	// fleet.vehicle (Vehicle): return_action_to_open
-	{
-		SemanticID: "fleet.vehicle.return_action_to_open", Kind: KindAction, Strategy: StrategyMethodCall,
-		RequiredModules: []string{"fleet"}, RequiredCapability: "fleet.vehicle.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "fleet.vehicle",
-		Method: "return_action_to_open",
 	},
 	// fleet.vehicle.assignation.log (Drivers history on a vehicle)
 	{
@@ -5213,7 +5623,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"hr_skills"}, RequiredCapability: "people.resumeline.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"employee_id", "name", "date_start", "course_type", "line_type_id", "certificate_filename", "duration", "event_id", "external_url", "description"},
+		OptionalReadFields: []string{"employee_id", "name", "date_start", "course_type", "line_type_id", "certificate_filename", "duration", "channel_id", "event_id", "external_url", "description"},
 	},
 	// hr.resume.line (Resume line of an employee)
 	{
@@ -5221,7 +5631,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"hr_skills"}, RequiredCapability: "people.resumeline.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"line_type_id", "name", "course_type", "event_id", "external_url", "date_start", "date_end", "duration", "certificate_filename", "survey_id", "description", "is_course"},
+		OptionalReadFields: []string{"line_type_id", "name", "course_type", "event_id", "channel_id", "external_url", "date_start", "date_end", "duration", "certificate_filename", "survey_id", "description", "is_course"},
 	},
 	// hr.resume.line (Resume line of an employee)
 	{
@@ -5230,7 +5640,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		WriteMode: WriteModeCreate, AllowedFields: []string{"line_type_id", "name", "course_type", "external_url", "date_start", "date_end", "duration", "certificate_filename", "employee_id"},
 		InputTypes: map[string]string{"duration": "integer", "employee_id": "reference", "line_type_id": "reference"},
-		InputEnums: map[string][]string{"course_type": []string{"external", "onsite"}},
+		InputEnums: map[string][]string{"course_type": []string{"external", "onsite", "elearning"}},
 		Relations: map[string]RelationSpec{
 			"employee_id":  {TargetModel: "hr.employee", SearchField: "name"},
 			"line_type_id": {TargetModel: "hr.resume.line.type", SearchField: "name"},
@@ -5243,7 +5653,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "hr.resume.line",
 		WriteMode: WriteModeUpdate, AllowedFields: []string{"line_type_id", "name", "course_type", "external_url", "date_start", "date_end", "duration", "certificate_filename", "employee_id"},
 		InputTypes: map[string]string{"duration": "integer", "employee_id": "reference", "line_type_id": "reference"},
-		InputEnums: map[string][]string{"course_type": []string{"external", "onsite"}},
+		InputEnums: map[string][]string{"course_type": []string{"external", "onsite", "elearning"}},
 		Relations: map[string]RelationSpec{
 			"employee_id":  {TargetModel: "hr.employee", SearchField: "name"},
 			"line_type_id": {TargetModel: "hr.resume.line.type", SearchField: "name"},
@@ -5519,6 +5929,188 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 		},
 	},
+	// im_livechat.channel (Livechat Channel)
+	{
+		SemanticID: "livechat.channel.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// im_livechat.channel (Livechat Channel)
+	{
+		SemanticID: "livechat.channel.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"are_you_inside", "chatbot_script_count", "nbr_channel", "name", "user_ids", "ongoing_session_count", "remaining_session_capacity", "button_text", "button_background_color", "button_text_color", "default_message", "header_background_color", "title_color", "review_link", "max_sessions_mode", "max_sessions", "block_assignment_during_call", "rule_ids", "script_external", "web_page"},
+	},
+	// im_livechat.channel (Livechat Channel)
+	{
+		SemanticID: "livechat.channel.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channel.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "button_text", "button_background_color", "button_text_color", "default_message", "header_background_color", "title_color", "review_link", "max_sessions_mode", "max_sessions", "block_assignment_during_call"},
+		InputTypes: map[string]string{"block_assignment_during_call": "boolean", "max_sessions": "integer"},
+		InputEnums: map[string][]string{"max_sessions_mode": []string{"unlimited", "limited"}},
+	},
+	// im_livechat.channel (Livechat Channel)
+	{
+		SemanticID: "livechat.channel.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channel.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "button_text", "button_background_color", "button_text_color", "default_message", "header_background_color", "title_color", "review_link", "max_sessions_mode", "max_sessions", "block_assignment_during_call"},
+		InputTypes: map[string]string{"block_assignment_during_call": "boolean", "max_sessions": "integer"},
+		InputEnums: map[string][]string{"max_sessions_mode": []string{"unlimited", "limited"}},
+	},
+	// im_livechat.channel (Livechat Channel): action_join "Join Channel"
+	{
+		SemanticID: "livechat.channel.join", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channel.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel",
+		Method: "action_join",
+	},
+	// im_livechat.channel (Livechat Channel): action_quit "Leave Channel"
+	{
+		SemanticID: "livechat.channel.quit", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channel.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel",
+		Method: "action_quit",
+	},
+	// im_livechat.channel.member.history (Keep the channel member history)
+	{
+		SemanticID: "livechat.channel_member_history.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelmemberhistory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.member.history",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "channel_id", "partner_id", "chatbot_script_id", "guest_id", "session_duration_hour", "livechat_member_type"},
+	},
+	// im_livechat.channel.member.history (Keep the channel member history)
+	{
+		SemanticID: "livechat.channel_member_history.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelmemberhistory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.member.history",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"member_id", "channel_id", "partner_id", "livechat_member_type", "guest_id", "chatbot_script_id", "agent_expertise_ids", "conversation_tag_ids", "session_country_id", "session_outcome", "session_week_day", "session_livechat_channel_id", "session_start_hour", "session_duration_hour", "rating", "call_history_ids", "has_call", "call_percentage", "response_time_hour", "call_count", "call_duration_hour", "help_status"},
+	},
+	// im_livechat.channel.member.history (Keep the channel member history)
+	{
+		SemanticID: "livechat.channel_member_history.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelmemberhistory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.member.history",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"member_id", "response_time_hour"},
+		InputTypes: map[string]string{"member_id": "reference", "response_time_hour": "number"},
+	},
+	// im_livechat.channel.member.history (Keep the channel member history)
+	{
+		SemanticID: "livechat.channel_member_history.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelmemberhistory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.member.history",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"member_id", "response_time_hour"},
+		InputTypes: map[string]string{"member_id": "reference", "response_time_hour": "number"},
+	},
+	// im_livechat.channel.rule (Livechat Channel Rules)
+	{
+		SemanticID: "livechat.channel_rule.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "action", "chatbot_script_id", "regex_url", "country_ids"},
+	},
+	// im_livechat.channel.rule (Livechat Channel Rules)
+	{
+		SemanticID: "livechat.channel_rule.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.rule",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"action", "auto_popup_timer", "chatbot_script_id", "chatbot_enabled_condition", "regex_url", "country_ids"},
+	},
+	// im_livechat.channel.rule (Livechat Channel Rules)
+	{
+		SemanticID: "livechat.channel_rule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelrule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.rule",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"action", "auto_popup_timer", "chatbot_script_id", "chatbot_enabled_condition", "regex_url"},
+		InputTypes: map[string]string{"auto_popup_timer": "integer", "chatbot_script_id": "reference"},
+		InputEnums: map[string][]string{"action": []string{"display_button", "display_button_and_text", "auto_popup", "hide_button"}, "chatbot_enabled_condition": []string{"always", "only_if_no_operator", "only_if_operator"}},
+		Relations: map[string]RelationSpec{
+			"chatbot_script_id": {TargetModel: "chatbot.script", SearchField: "name"},
+		},
+	},
+	// im_livechat.channel.rule (Livechat Channel Rules)
+	{
+		SemanticID: "livechat.channel_rule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelrule.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.rule",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"action", "auto_popup_timer", "chatbot_script_id", "chatbot_enabled_condition", "regex_url"},
+		InputTypes: map[string]string{"auto_popup_timer": "integer", "chatbot_script_id": "reference"},
+		InputEnums: map[string][]string{"action": []string{"display_button", "display_button_and_text", "auto_popup", "hide_button"}, "chatbot_enabled_condition": []string{"always", "only_if_no_operator", "only_if_operator"}},
+		Relations: map[string]RelationSpec{
+			"chatbot_script_id": {TargetModel: "chatbot.script", SearchField: "name"},
+		},
+	},
+	// im_livechat.conversation.tag (Live Chat Conversation Tags)
+	{
+		SemanticID: "livechat.conversation_tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.conversationtag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.conversation.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// im_livechat.conversation.tag (Live Chat Conversation Tags)
+	{
+		SemanticID: "livechat.conversation_tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.conversationtag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.conversation.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "color"},
+	},
+	// im_livechat.conversation.tag (Live Chat Conversation Tags)
+	{
+		SemanticID: "livechat.conversation_tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.conversationtag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.conversation.tag",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// im_livechat.conversation.tag (Live Chat Conversation Tags)
+	{
+		SemanticID: "livechat.conversation_tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.conversationtag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.conversation.tag",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "color"},
+		InputTypes: map[string]string{"color": "integer"},
+	},
+	// im_livechat.expertise (Live Chat Expertise)
+	{
+		SemanticID: "livechat.expertise.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.expertise.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.expertise",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "user_ids"},
+	},
+	// im_livechat.expertise (Live Chat Expertise)
+	{
+		SemanticID: "livechat.expertise.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.expertise.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.expertise",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "user_ids"},
+	},
+	// im_livechat.expertise (Live Chat Expertise)
+	{
+		SemanticID: "livechat.expertise.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.expertise.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.expertise",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// im_livechat.expertise (Live Chat Expertise)
+	{
+		SemanticID: "livechat.expertise.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.expertise.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.expertise",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
 	// l10n_vn_edi_viettel.sinvoice.symbol (SInvoice symbol)
 	{
 		SemanticID: "finance.einvoice_symbol.list", Kind: KindRead, Strategy: StrategyRead,
@@ -5636,12 +6228,12 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
 		Method: "action_loyalty_update_balance",
 	},
-	// loyalty.card (Loyalty Coupon): action_coupon_send "Send"
+	// loyalty.card (Loyalty Coupon): action_coupon_share "Share"
 	{
-		SemanticID: "sales.loyalty_card.coupon_send", Kind: KindAction, Strategy: StrategyMethodCall,
+		SemanticID: "sales.loyalty_card.coupon_share", Kind: KindAction, Strategy: StrategyMethodCall,
 		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.write",
 		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
-		Method: "action_coupon_send",
+		Method: "action_coupon_share",
 	},
 	// loyalty.history (History for Loyalty cards and Ewallets)
 	{
@@ -5734,15 +6326,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"coupon_count", "active", "applies_on", "name", "program_type", "trigger_product_ids", "payment_program_discount_product_id", "mail_template_id", "pos_report_print_id", "currency_id", "currency_symbol", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "total_order_count", "company_id", "available_on", "pos_ok", "sale_ok", "pos_config_ids", "rule_ids", "reward_ids", "communication_plan_ids"},
+		OptionalReadFields: []string{"coupon_count", "active", "applies_on", "name", "program_type", "trigger_product_ids", "payment_program_discount_product_id", "mail_template_id", "pos_report_print_id", "currency_id", "currency_symbol", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "total_order_count", "company_id", "available_on", "pos_ok", "sale_ok", "ecommerce_ok", "pos_config_ids", "rule_ids", "reward_ids", "communication_plan_ids", "show_non_published_product_warning"},
 	},
 	// loyalty.program (Loyalty Program)
 	{
 		SemanticID: "sales.loyalty_program.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "applies_on", "name", "program_type", "mail_template_id", "pos_report_print_id", "currency_id", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "company_id", "available_on", "pos_ok", "sale_ok"},
-		InputTypes: map[string]string{"active": "boolean", "available_on": "boolean", "company_id": "reference", "currency_id": "reference", "limit_usage": "boolean", "mail_template_id": "reference", "max_usage": "integer", "portal_visible": "boolean", "pos_ok": "boolean", "pos_report_print_id": "reference", "sale_ok": "boolean"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "applies_on", "name", "program_type", "mail_template_id", "pos_report_print_id", "currency_id", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "company_id", "available_on", "pos_ok", "sale_ok", "ecommerce_ok"},
+		InputTypes: map[string]string{"active": "boolean", "available_on": "boolean", "company_id": "reference", "currency_id": "reference", "ecommerce_ok": "boolean", "limit_usage": "boolean", "mail_template_id": "reference", "max_usage": "integer", "portal_visible": "boolean", "pos_ok": "boolean", "pos_report_print_id": "reference", "sale_ok": "boolean"},
 		InputEnums: map[string][]string{"applies_on": []string{"current", "future", "both"}, "program_type": []string{"coupons", "gift_card", "loyalty", "promotion", "ewallet", "promo_code", "buy_x_get_y", "next_order_coupons"}, "trigger": []string{"auto", "with_code"}},
 		Relations: map[string]RelationSpec{
 			"company_id":  {TargetModel: "res.company", SearchField: "name"},
@@ -5754,13 +6346,20 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "sales.loyalty_program.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "applies_on", "name", "program_type", "mail_template_id", "pos_report_print_id", "currency_id", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "company_id", "available_on", "pos_ok", "sale_ok"},
-		InputTypes: map[string]string{"active": "boolean", "available_on": "boolean", "company_id": "reference", "currency_id": "reference", "limit_usage": "boolean", "mail_template_id": "reference", "max_usage": "integer", "portal_visible": "boolean", "pos_ok": "boolean", "pos_report_print_id": "reference", "sale_ok": "boolean"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "applies_on", "name", "program_type", "mail_template_id", "pos_report_print_id", "currency_id", "portal_point_name", "portal_visible", "trigger", "date_from", "date_to", "limit_usage", "max_usage", "company_id", "available_on", "pos_ok", "sale_ok", "ecommerce_ok"},
+		InputTypes: map[string]string{"active": "boolean", "available_on": "boolean", "company_id": "reference", "currency_id": "reference", "ecommerce_ok": "boolean", "limit_usage": "boolean", "mail_template_id": "reference", "max_usage": "integer", "portal_visible": "boolean", "pos_ok": "boolean", "pos_report_print_id": "reference", "sale_ok": "boolean"},
 		InputEnums: map[string][]string{"applies_on": []string{"current", "future", "both"}, "program_type": []string{"coupons", "gift_card", "loyalty", "promotion", "ewallet", "promo_code", "buy_x_get_y", "next_order_coupons"}, "trigger": []string{"auto", "with_code"}},
 		Relations: map[string]RelationSpec{
 			"company_id":  {TargetModel: "res.company", SearchField: "name"},
 			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
 		},
+	},
+	// loyalty.program (Loyalty Program): action_program_share "Share"
+	{
+		SemanticID: "sales.loyalty_program.program_share", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltyprogram.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.program",
+		Method: "action_program_share",
 	},
 	// loyalty.reward (Loyalty Reward)
 	{
@@ -5853,6 +6452,666 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"product_category_id": {TargetModel: "product.category", SearchField: "name"},
 			"product_tag_id":      {TargetModel: "product.tag", SearchField: "name"},
 			"program_id":          {TargetModel: "loyalty.program", SearchField: "name"},
+		},
+	},
+	// lunch.alert (Lunch Alert)
+	{
+		SemanticID: "lunch.alert.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.alert.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.alert",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "mode", "message", "available_today", "active"},
+	},
+	// lunch.alert (Lunch Alert)
+	{
+		SemanticID: "lunch.alert.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.alert.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.alert",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "mode", "recipients", "location_ids", "until", "active", "notification_time", "notification_moment", "tz", "message"},
+	},
+	// lunch.alert (Lunch Alert)
+	{
+		SemanticID: "lunch.alert.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.alert.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.alert",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "mode", "recipients", "until", "active", "notification_time", "notification_moment", "tz", "message"},
+		InputTypes: map[string]string{"active": "boolean", "notification_time": "number"},
+		InputEnums: map[string][]string{"mode": []string{"alert", "chat"}, "notification_moment": []string{"am", "pm"}, "recipients": []string{"everyone", "last_week", "last_month", "last_year"}, "tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
+	},
+	// lunch.alert (Lunch Alert)
+	{
+		SemanticID: "lunch.alert.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.alert.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.alert",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "mode", "recipients", "until", "active", "notification_time", "notification_moment", "tz", "message"},
+		InputTypes: map[string]string{"active": "boolean", "notification_time": "number"},
+		InputEnums: map[string][]string{"mode": []string{"alert", "chat"}, "notification_moment": []string{"am", "pm"}, "recipients": []string{"everyone", "last_week", "last_month", "last_year"}, "tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
+	},
+	// lunch.cashmove (Lunch Cashmove)
+	{
+		SemanticID: "lunch.cashmove.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.cashmove.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.cashmove",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"currency_id", "date", "user_id", "description", "amount"},
+	},
+	// lunch.cashmove (Lunch Cashmove)
+	{
+		SemanticID: "lunch.cashmove.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.cashmove.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.cashmove",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"currency_id", "user_id", "date", "amount", "description"},
+	},
+	// lunch.cashmove (Lunch Cashmove)
+	{
+		SemanticID: "lunch.cashmove.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.cashmove.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.cashmove",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"currency_id", "user_id", "date", "amount", "description"},
+		InputTypes: map[string]string{"amount": "number", "currency_id": "reference", "user_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
+			"user_id":     {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// lunch.cashmove (Lunch Cashmove)
+	{
+		SemanticID: "lunch.cashmove.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.cashmove.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.cashmove",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"currency_id", "user_id", "date", "amount", "description"},
+		InputTypes: map[string]string{"amount": "number", "currency_id": "reference", "user_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
+			"user_id":     {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// lunch.location (Lunch Locations)
+	{
+		SemanticID: "lunch.location.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.location.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.location",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "address"},
+	},
+	// lunch.location (Lunch Locations)
+	{
+		SemanticID: "lunch.location.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.location.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.location",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "address"},
+	},
+	// lunch.location (Lunch Locations)
+	{
+		SemanticID: "lunch.location.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.location.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.location",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "address"},
+	},
+	// lunch.location (Lunch Locations)
+	{
+		SemanticID: "lunch.location.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.location.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.location",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "address"},
+	},
+	// lunch.order (Lunch Order)
+	{
+		SemanticID: "lunch.order.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"date", "supplier_id", "product_id", "display_toppings", "note", "user_id", "lunch_location_id", "currency_id", "price", "state", "display_reorder_button", "notified", "display_add_button"},
+	},
+	// lunch.order (Lunch Order)
+	{
+		SemanticID: "lunch.order.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "date", "currency_id", "quantity", "product_id", "state", "category_id", "available_toppings_1", "available_toppings_2", "available_toppings_3", "supplier_id", "order_deadline_passed", "available_today", "name", "price", "topping_label_1", "topping_ids_1", "topping_label_2", "topping_ids_2", "topping_label_3", "topping_ids_3", "product_description", "note", "display_add_button"},
+	},
+	// lunch.order (Lunch Order)
+	{
+		SemanticID: "lunch.order.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "date", "quantity", "product_id", "note"},
+		InputTypes: map[string]string{"company_id": "reference", "product_id": "reference", "quantity": "number"},
+		Relations: map[string]RelationSpec{
+			"company_id": {TargetModel: "res.company", SearchField: "name"},
+			"product_id": {TargetModel: "lunch.product", SearchField: "name"},
+		},
+	},
+	// lunch.order (Lunch Order)
+	{
+		SemanticID: "lunch.order.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "date", "quantity", "product_id", "note"},
+		InputTypes: map[string]string{"company_id": "reference", "product_id": "reference", "quantity": "number"},
+		Relations: map[string]RelationSpec{
+			"company_id": {TargetModel: "res.company", SearchField: "name"},
+			"product_id": {TargetModel: "lunch.product", SearchField: "name"},
+		},
+	},
+	// lunch.order (Lunch Order): add_to_cart "Add To Cart"
+	{
+		SemanticID: "lunch.order.add_to_cart", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		Method: "add_to_cart",
+	},
+	// lunch.order (Lunch Order): action_confirm "Receive"
+	{
+		SemanticID: "lunch.order.confirm", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		Method: "action_confirm",
+	},
+	// lunch.order (Lunch Order): action_reorder "Re-order"
+	{
+		SemanticID: "lunch.order.reorder", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		Method: "action_reorder",
+	},
+	// lunch.order (Lunch Order): action_cancel "Cancel"
+	{
+		SemanticID: "lunch.order.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		Method: "action_cancel",
+	},
+	// lunch.order (Lunch Order): action_reset "Reset"
+	{
+		SemanticID: "lunch.order.reset", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		Method: "action_reset",
+	},
+	// lunch.order (Lunch Order): action_confirm_orders "Confirm Orders"
+	{
+		SemanticID: "lunch.order.confirm_orders", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.order.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.order",
+		Method: "action_confirm_orders",
+	},
+	// lunch.product (Lunch Product)
+	{
+		SemanticID: "lunch.product.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.product.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"currency_id", "name", "category_id", "supplier_id", "description", "price"},
+	},
+	// lunch.product (Lunch Product)
+	{
+		SemanticID: "lunch.product.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.product.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"company_id", "currency_id", "name", "active", "category_id", "supplier_id", "price", "new_until", "description"},
+	},
+	// lunch.product (Lunch Product)
+	{
+		SemanticID: "lunch.product.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.product.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"company_id", "name", "active", "category_id", "supplier_id", "price", "new_until"},
+		InputTypes: map[string]string{"active": "boolean", "category_id": "reference", "company_id": "reference", "price": "number", "supplier_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"category_id": {TargetModel: "lunch.product.category", SearchField: "name"},
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
+			"supplier_id": {TargetModel: "lunch.supplier", SearchField: "name"},
+		},
+	},
+	// lunch.product (Lunch Product)
+	{
+		SemanticID: "lunch.product.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.product.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"company_id", "name", "active", "category_id", "supplier_id", "price", "new_until"},
+		InputTypes: map[string]string{"active": "boolean", "category_id": "reference", "company_id": "reference", "price": "number", "supplier_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"category_id": {TargetModel: "lunch.product.category", SearchField: "name"},
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
+			"supplier_id": {TargetModel: "lunch.supplier", SearchField: "name"},
+		},
+	},
+	// lunch.product.category (Lunch Product Category)
+	{
+		SemanticID: "lunch.product_category.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.productcategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// lunch.product.category (Lunch Product Category)
+	{
+		SemanticID: "lunch.product_category.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.productcategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"product_count", "name"},
+	},
+	// lunch.product.category (Lunch Product Category)
+	{
+		SemanticID: "lunch.product_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.productcategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// lunch.product.category (Lunch Product Category)
+	{
+		SemanticID: "lunch.product_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.productcategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.product.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
+	// lunch.supplier (Lunch Supplier)
+	{
+		SemanticID: "lunch.supplier.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.supplier.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.supplier",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "phone", "email"},
+	},
+	// lunch.supplier (Lunch Supplier)
+	{
+		SemanticID: "lunch.supplier.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.supplier.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.supplier",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "partner_id", "street", "street2", "city", "state_id", "zip_code", "country_id", "active", "email", "phone", "responsible_id", "tz", "sun", "recurrency_end_date", "delivery", "available_location_ids", "send_by", "automatic_email_time", "moment", "topping_label_1", "topping_quantity_1", "topping_ids_1", "topping_label_2", "topping_quantity_2", "topping_ids_2", "topping_label_3", "topping_quantity_3", "topping_ids_3"},
+	},
+	// lunch.supplier (Lunch Supplier)
+	{
+		SemanticID: "lunch.supplier.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.supplier.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.supplier",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "partner_id", "street", "street2", "city", "state_id", "zip_code", "country_id", "active", "email", "phone", "responsible_id", "tz", "sun", "recurrency_end_date", "delivery", "send_by", "automatic_email_time", "moment", "topping_label_1", "topping_quantity_1", "topping_label_2", "topping_quantity_2", "topping_label_3", "topping_quantity_3"},
+		InputTypes: map[string]string{"active": "boolean", "automatic_email_time": "number", "country_id": "reference", "partner_id": "reference", "responsible_id": "reference", "state_id": "reference", "sun": "boolean"},
+		InputEnums: map[string][]string{"delivery": []string{"delivery", "no_delivery"}, "moment": []string{"am", "pm"}, "send_by": []string{"phone", "mail"}, "topping_quantity_1": []string{"0_more", "1_more", "1"}, "topping_quantity_2": []string{"0_more", "1_more", "1"}, "topping_quantity_3": []string{"0_more", "1_more", "1"}, "tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
+		Relations: map[string]RelationSpec{
+			"country_id":     {TargetModel: "res.country", SearchField: "name"},
+			"partner_id":     {TargetModel: "res.partner", SearchField: "name"},
+			"responsible_id": {TargetModel: "res.users", SearchField: "name"},
+			"state_id":       {TargetModel: "res.country.state", SearchField: "name"},
+		},
+	},
+	// lunch.supplier (Lunch Supplier)
+	{
+		SemanticID: "lunch.supplier.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.supplier.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.supplier",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "partner_id", "street", "street2", "city", "state_id", "zip_code", "country_id", "active", "email", "phone", "responsible_id", "tz", "sun", "recurrency_end_date", "delivery", "send_by", "automatic_email_time", "moment", "topping_label_1", "topping_quantity_1", "topping_label_2", "topping_quantity_2", "topping_label_3", "topping_quantity_3"},
+		InputTypes: map[string]string{"active": "boolean", "automatic_email_time": "number", "country_id": "reference", "partner_id": "reference", "responsible_id": "reference", "state_id": "reference", "sun": "boolean"},
+		InputEnums: map[string][]string{"delivery": []string{"delivery", "no_delivery"}, "moment": []string{"am", "pm"}, "send_by": []string{"phone", "mail"}, "topping_quantity_1": []string{"0_more", "1_more", "1"}, "topping_quantity_2": []string{"0_more", "1_more", "1"}, "topping_quantity_3": []string{"0_more", "1_more", "1"}, "tz": []string{"Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Timbuktu", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Atka", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Coral_Harbour", "America/Costa_Rica", "America/Coyhaique", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Ensenada", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montreal", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Acre", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Shiprock", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Virgin", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Chongqing", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Harbin", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Istanbul", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kashgar", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Tel_Aviv", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Jan_Mayen", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Canberra", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Australia/Yancowinna", "CET", "CST6CDT", "EET", "EST", "EST5EDT", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belfast", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kirov", "Europe/Kyiv", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Nicosia", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Tiraspol", "Europe/Ulyanovsk", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zurich", "GMT", "HST", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "MET", "MST", "MST7MDT", "PST8PDT", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kanton", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Samoa", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "Pacific/Yap", "UTC", "WET", "Etc/GMT", "Etc/GMT+0", "Etc/GMT+1", "Etc/GMT+10", "Etc/GMT+11", "Etc/GMT+12", "Etc/GMT+2", "Etc/GMT+3", "Etc/GMT+4", "Etc/GMT+5", "Etc/GMT+6", "Etc/GMT+7", "Etc/GMT+8", "Etc/GMT+9", "Etc/GMT-0", "Etc/GMT-1", "Etc/GMT-10", "Etc/GMT-11", "Etc/GMT-12", "Etc/GMT-13", "Etc/GMT-14", "Etc/GMT-2", "Etc/GMT-3", "Etc/GMT-4", "Etc/GMT-5", "Etc/GMT-6", "Etc/GMT-7", "Etc/GMT-8", "Etc/GMT-9", "Etc/GMT0", "Etc/Greenwich", "Etc/UCT", "Etc/UTC", "Etc/Universal", "Etc/Zulu"}},
+		Relations: map[string]RelationSpec{
+			"country_id":     {TargetModel: "res.country", SearchField: "name"},
+			"partner_id":     {TargetModel: "res.partner", SearchField: "name"},
+			"responsible_id": {TargetModel: "res.users", SearchField: "name"},
+			"state_id":       {TargetModel: "res.country.state", SearchField: "name"},
+		},
+	},
+	// lunch.topping (Lunch Extras)
+	{
+		SemanticID: "lunch.topping.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.topping.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.topping",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// lunch.topping (Lunch Extras)
+	{
+		SemanticID: "lunch.topping.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.topping.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.topping",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "currency_id", "supplier_id", "company_id", "price", "topping_category"},
+	},
+	// lunch.topping (Lunch Extras)
+	{
+		SemanticID: "lunch.topping.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.topping.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.topping",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "supplier_id", "company_id", "price", "topping_category"},
+		InputTypes: map[string]string{"company_id": "reference", "price": "number", "supplier_id": "reference", "topping_category": "integer"},
+		Relations: map[string]RelationSpec{
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
+			"supplier_id": {TargetModel: "lunch.supplier", SearchField: "name"},
+		},
+	},
+	// lunch.topping (Lunch Extras)
+	{
+		SemanticID: "lunch.topping.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"lunch"}, RequiredCapability: "lunch.topping.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "lunch.topping",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "supplier_id", "company_id", "price", "topping_category"},
+		InputTypes: map[string]string{"company_id": "reference", "price": "number", "supplier_id": "reference", "topping_category": "integer"},
+		Relations: map[string]RelationSpec{
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
+			"supplier_id": {TargetModel: "lunch.supplier", SearchField: "name"},
+		},
+	},
+	// mailing.contact (Mailing Contact)
+	{
+		SemanticID: "marketing.contact.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.contact.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.contact",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "name", "company_name", "email", "is_blacklisted", "country_id", "mobile", "phone_sanitized", "phone_sanitized_blacklisted", "opt_out", "list_ids", "properties_base_definition_id"},
+	},
+	// mailing.contact (Mailing Contact)
+	{
+		SemanticID: "marketing.contact.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.contact.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.contact",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "email", "is_blacklisted", "mobile", "phone_sanitized", "company_name", "country_id", "create_date", "tag_ids", "subscription_ids", "phone_blacklisted", "properties_base_definition_id"},
+	},
+	// mailing.contact (Mailing Contact)
+	{
+		SemanticID: "marketing.contact.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.contact.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.contact",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "email", "mobile", "company_name", "country_id"},
+		InputTypes: map[string]string{"country_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"country_id": {TargetModel: "res.country", SearchField: "name"},
+		},
+	},
+	// mailing.contact (Mailing Contact)
+	{
+		SemanticID: "marketing.contact.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.contact.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.contact",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "email", "mobile", "company_name", "country_id"},
+		InputTypes: map[string]string{"country_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"country_id": {TargetModel: "res.country", SearchField: "name"},
+		},
+	},
+	// mailing.contact (Mailing Contact): action_import "Import"
+	{
+		SemanticID: "marketing.contact.import", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.contact.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.contact",
+		Method: "action_import",
+	},
+	// mailing.contact (Mailing Contact): action_add_to_mailing_list "Add to List"
+	{
+		SemanticID: "marketing.contact.add_to_mailing_list", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.contact.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.contact",
+		Method: "action_add_to_mailing_list",
+	},
+	// mailing.filter (Mailing Favorite Filters)
+	{
+		SemanticID: "marketing.filter.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.filter.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.filter",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "create_uid", "mailing_model_id", "mailing_domain"},
+	},
+	// mailing.filter (Mailing Favorite Filters)
+	{
+		SemanticID: "marketing.filter.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.filter.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.filter",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "mailing_model_id", "create_uid", "mailing_model_name", "mailing_domain"},
+	},
+	// mailing.filter (Mailing Favorite Filters)
+	{
+		SemanticID: "marketing.filter.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.filter.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.filter",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "mailing_model_id", "mailing_domain"},
+		InputTypes: map[string]string{"mailing_model_id": "reference"},
+	},
+	// mailing.filter (Mailing Favorite Filters)
+	{
+		SemanticID: "marketing.filter.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.filter.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.filter",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "mailing_model_id", "mailing_domain"},
+		InputTypes: map[string]string{"mailing_model_id": "reference"},
+	},
+	// mailing.list (Mailing List)
+	{
+		SemanticID: "marketing.list.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.list.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.list",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "is_public", "mailing_count", "contact_pct_bounce", "contact_pct_opt_out", "contact_pct_blacklisted", "contact_count"},
+	},
+	// mailing.list (Mailing List)
+	{
+		SemanticID: "marketing.list.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.list.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.list",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"contact_count", "mailing_count", "contact_pct_bounce", "contact_pct_opt_out", "contact_pct_blacklisted", "name", "active", "is_public"},
+	},
+	// mailing.list (Mailing List)
+	{
+		SemanticID: "marketing.list.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.list.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.list",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "is_public"},
+		InputTypes: map[string]string{"active": "boolean", "is_public": "boolean"},
+	},
+	// mailing.list (Mailing List)
+	{
+		SemanticID: "marketing.list.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.list.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.list",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "is_public"},
+		InputTypes: map[string]string{"active": "boolean", "is_public": "boolean"},
+	},
+	// mailing.mailing (Mass Mailing)
+	{
+		SemanticID: "marketing.mailing.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"calendar_date", "subject", "mailing_model_id", "user_id", "sent", "received_ratio", "opened_ratio", "bounced_ratio", "clicks_ratio", "replied_ratio", "state"},
+	},
+	// mailing.mailing (Mass Mailing)
+	{
+		SemanticID: "marketing.mailing.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sms_force_send", "schedule_type", "state", "sms_has_insufficient_credit", "sms_has_unregistered_account", "card_requires_sync_count", "canceled", "scheduled", "process", "sent", "failed", "next_departure", "next_departure_is_past", "warning_message", "opened_ratio", "replied_ratio", "clicks_ratio", "use_leads", "crm_lead_count", "sale_quotation_count", "sale_invoiced_amount", "received_ratio", "bounced_ratio", "link_trackers_count", "active", "create_uid", "mailing_type", "subject", "sms_subject", "card_campaign_id", "mailing_model_id", "contact_list_ids", "mailing_filter_id", "mailing_filter_count", "mailing_model_name", "mailing_on_mailing_list", "mailing_model_real", "mailing_domain", "body_arch", "body_html", "is_body_empty", "body_plaintext", "ab_testing_enabled", "ab_testing_pc", "ab_testing_winner_selection", "ab_testing_sms_winner_selection", "ab_testing_schedule_datetime", "is_ab_test_sent", "ab_testing_mailings_count", "ab_testing_mailings_sms_count", "ab_testing_completed", "ab_testing_description", "preview", "email_from", "reply_to_mode", "reply_to", "attachment_ids", "sms_allow_unsubscribe", "medium_id", "source_id", "user_id", "mail_server_available", "name", "mail_server_id", "keep_archives", "use_exclusion_list", "favorite"},
+	},
+	// mailing.mailing (Mass Mailing)
+	{
+		SemanticID: "marketing.mailing.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"sms_force_send", "schedule_type", "state", "active", "mailing_type", "subject", "sms_subject", "card_campaign_id", "mailing_model_id", "mailing_filter_id", "mailing_domain", "body_plaintext", "ab_testing_enabled", "ab_testing_pc", "ab_testing_winner_selection", "ab_testing_sms_winner_selection", "ab_testing_schedule_datetime", "preview", "email_from", "reply_to_mode", "reply_to", "sms_allow_unsubscribe", "medium_id", "user_id", "name", "mail_server_id", "keep_archives", "use_exclusion_list", "favorite"},
+		InputTypes: map[string]string{"ab_testing_enabled": "boolean", "ab_testing_pc": "integer", "active": "boolean", "card_campaign_id": "reference", "favorite": "boolean", "keep_archives": "boolean", "mail_server_id": "reference", "mailing_filter_id": "reference", "mailing_model_id": "reference", "medium_id": "reference", "sms_allow_unsubscribe": "boolean", "sms_force_send": "boolean", "use_exclusion_list": "boolean", "user_id": "reference"},
+		InputEnums: map[string][]string{"ab_testing_sms_winner_selection": []string{"manual", "clicks_ratio", "crm_lead_count", "sale_quotation_count", "sale_invoiced_amount"}, "ab_testing_winner_selection": []string{"manual", "opened_ratio", "clicks_ratio", "replied_ratio", "crm_lead_count", "sale_quotation_count", "sale_invoiced_amount"}, "mailing_type": []string{"mail", "sms"}, "reply_to_mode": []string{"update", "new"}, "schedule_type": []string{"now", "scheduled"}, "state": []string{"draft", "in_queue", "sending", "done"}},
+		Relations: map[string]RelationSpec{
+			"card_campaign_id":  {TargetModel: "card.campaign", SearchField: "name"},
+			"mailing_filter_id": {TargetModel: "mailing.filter", SearchField: "name"},
+			"user_id":           {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// mailing.mailing (Mass Mailing)
+	{
+		SemanticID: "marketing.mailing.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"sms_force_send", "schedule_type", "state", "active", "mailing_type", "subject", "sms_subject", "card_campaign_id", "mailing_model_id", "mailing_filter_id", "mailing_domain", "body_plaintext", "ab_testing_enabled", "ab_testing_pc", "ab_testing_winner_selection", "ab_testing_sms_winner_selection", "ab_testing_schedule_datetime", "preview", "email_from", "reply_to_mode", "reply_to", "sms_allow_unsubscribe", "medium_id", "user_id", "name", "mail_server_id", "keep_archives", "use_exclusion_list", "favorite"},
+		InputTypes: map[string]string{"ab_testing_enabled": "boolean", "ab_testing_pc": "integer", "active": "boolean", "card_campaign_id": "reference", "favorite": "boolean", "keep_archives": "boolean", "mail_server_id": "reference", "mailing_filter_id": "reference", "mailing_model_id": "reference", "medium_id": "reference", "sms_allow_unsubscribe": "boolean", "sms_force_send": "boolean", "use_exclusion_list": "boolean", "user_id": "reference"},
+		InputEnums: map[string][]string{"ab_testing_sms_winner_selection": []string{"manual", "clicks_ratio", "crm_lead_count", "sale_quotation_count", "sale_invoiced_amount"}, "ab_testing_winner_selection": []string{"manual", "opened_ratio", "clicks_ratio", "replied_ratio", "crm_lead_count", "sale_quotation_count", "sale_invoiced_amount"}, "mailing_type": []string{"mail", "sms"}, "reply_to_mode": []string{"update", "new"}, "schedule_type": []string{"now", "scheduled"}, "state": []string{"draft", "in_queue", "sending", "done"}},
+		Relations: map[string]RelationSpec{
+			"card_campaign_id":  {TargetModel: "card.campaign", SearchField: "name"},
+			"mailing_filter_id": {TargetModel: "mailing.filter", SearchField: "name"},
+			"user_id":           {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// mailing.mailing (Mass Mailing): action_duplicate "Duplicate"
+	{
+		SemanticID: "marketing.mailing.duplicate", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		Method: "action_duplicate",
+	},
+	// mailing.mailing (Mass Mailing): action_cancel "Cancel"
+	{
+		SemanticID: "marketing.mailing.cancel", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		Method: "action_cancel",
+	},
+	// mailing.mailing (Mass Mailing): action_set_favorite "Add to Templates"
+	{
+		SemanticID: "marketing.mailing.set_favorite", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		Method: "action_set_favorite",
+	},
+	// mailing.mailing (Mass Mailing): action_remove_favorite "Remove from Templates"
+	{
+		SemanticID: "marketing.mailing.remove_favorite", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		Method: "action_remove_favorite",
+	},
+	// mailing.mailing (Mass Mailing): action_update_cards
+	{
+		SemanticID: "marketing.mailing.update_cards", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		Method: "action_update_cards",
+	},
+	// mailing.mailing (Mass Mailing): action_reload
+	{
+		SemanticID: "marketing.mailing.reload", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.mailing.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.mailing",
+		Method: "action_reload",
+	},
+	// mailing.subscription (Mailing List Subscription)
+	{
+		SemanticID: "marketing.subscription.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscription.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "contact_id", "is_blacklisted", "list_id", "opt_out_datetime", "opt_out_reason_id"},
+	},
+	// mailing.subscription (Mailing List Subscription)
+	{
+		SemanticID: "marketing.subscription.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscription.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"list_id", "is_blacklisted", "contact_id", "create_date", "opt_out_datetime", "opt_out", "opt_out_reason_id"},
+	},
+	// mailing.subscription (Mailing List Subscription)
+	{
+		SemanticID: "marketing.subscription.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscription.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"list_id", "is_blacklisted", "contact_id", "opt_out_datetime", "opt_out", "opt_out_reason_id"},
+		InputTypes: map[string]string{"contact_id": "reference", "is_blacklisted": "boolean", "list_id": "reference", "opt_out": "boolean", "opt_out_reason_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"contact_id":        {TargetModel: "mailing.contact", SearchField: "name"},
+			"list_id":           {TargetModel: "mailing.list", SearchField: "name"},
+			"opt_out_reason_id": {TargetModel: "mailing.subscription.optout", SearchField: "name"},
+		},
+	},
+	// mailing.subscription (Mailing List Subscription)
+	{
+		SemanticID: "marketing.subscription.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscription.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"list_id", "is_blacklisted", "contact_id", "opt_out_datetime", "opt_out", "opt_out_reason_id"},
+		InputTypes: map[string]string{"contact_id": "reference", "is_blacklisted": "boolean", "list_id": "reference", "opt_out": "boolean", "opt_out_reason_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"contact_id":        {TargetModel: "mailing.contact", SearchField: "name"},
+			"list_id":           {TargetModel: "mailing.list", SearchField: "name"},
+			"opt_out_reason_id": {TargetModel: "mailing.subscription.optout", SearchField: "name"},
+		},
+	},
+	// mailing.subscription.optout (Mailing Subscription Reason)
+	{
+		SemanticID: "marketing.subscription_optout.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscriptionoptout.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription.optout",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "is_feedback"},
+	},
+	// mailing.subscription.optout (Mailing Subscription Reason)
+	{
+		SemanticID: "marketing.subscription_optout.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscriptionoptout.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription.optout",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "is_feedback"},
+	},
+	// mailing.subscription.optout (Mailing Subscription Reason)
+	{
+		SemanticID: "marketing.subscription_optout.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscriptionoptout.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription.optout",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "is_feedback"},
+		InputTypes: map[string]string{"is_feedback": "boolean"},
+	},
+	// mailing.subscription.optout (Mailing Subscription Reason)
+	{
+		SemanticID: "marketing.subscription_optout.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.subscriptionoptout.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.subscription.optout",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "is_feedback"},
+		InputTypes: map[string]string{"is_feedback": "boolean"},
+	},
+	// mailing.trace (Mailing Statistics)
+	{
+		SemanticID: "marketing.trace.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.trace.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.trace",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"mass_mailing_id", "trace_type", "email", "sms_number", "sent_datetime", "links_click_datetime", "trace_status", "failure_type", "open_datetime", "reply_datetime", "is_test_trace"},
+	},
+	// mailing.trace (Mailing Statistics)
+	{
+		SemanticID: "marketing.trace.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.trace.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.trace",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"trace_status", "is_test_trace", "failure_type", "sent_datetime", "links_click_datetime", "open_datetime", "failure_reason", "reply_datetime", "trace_type", "email", "sms_number", "mass_mailing_id", "mail_mail_id_int", "sms_id_int", "sms_code", "medium_id", "source_id"},
+	},
+	// mailing.trace (Mailing Statistics)
+	{
+		SemanticID: "marketing.trace.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.trace.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.trace",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"trace_status", "is_test_trace", "failure_type", "sent_datetime", "links_click_datetime", "open_datetime", "reply_datetime", "trace_type", "email", "sms_number", "mass_mailing_id", "mail_mail_id_int", "sms_id_int", "sms_code"},
+		InputTypes: map[string]string{"is_test_trace": "boolean", "mail_mail_id_int": "integer", "mass_mailing_id": "reference", "sms_id_int": "integer"},
+		InputEnums: map[string][]string{"failure_type": []string{"unknown", "mail_bounce", "mail_spam", "mail_email_invalid", "mail_email_missing", "mail_from_invalid", "mail_from_missing", "mail_smtp", "mail_bl", "mail_dup", "mail_optout", "sms_number_missing", "sms_number_format", "sms_credit", "sms_country_not_supported", "sms_registration_needed", "sms_server", "sms_acc", "sms_blacklist", "sms_duplicate", "sms_optout", "sms_expired", "sms_invalid_destination", "sms_not_allowed", "sms_not_delivered", "sms_rejected", "twilio_authentication", "twilio_callback", "twilio_from_missing", "twilio_from_to"}, "trace_status": []string{"outgoing", "process", "pending", "sent", "open", "reply", "bounce", "error", "cancel"}, "trace_type": []string{"mail", "sms"}},
+		Relations: map[string]RelationSpec{
+			"mass_mailing_id": {TargetModel: "mailing.mailing", SearchField: "name"},
+		},
+	},
+	// mailing.trace (Mailing Statistics)
+	{
+		SemanticID: "marketing.trace.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"mass_mailing"}, RequiredCapability: "marketing.trace.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mailing.trace",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"trace_status", "is_test_trace", "failure_type", "sent_datetime", "links_click_datetime", "open_datetime", "reply_datetime", "trace_type", "email", "sms_number", "mass_mailing_id", "mail_mail_id_int", "sms_id_int", "sms_code"},
+		InputTypes: map[string]string{"is_test_trace": "boolean", "mail_mail_id_int": "integer", "mass_mailing_id": "reference", "sms_id_int": "integer"},
+		InputEnums: map[string][]string{"failure_type": []string{"unknown", "mail_bounce", "mail_spam", "mail_email_invalid", "mail_email_missing", "mail_from_invalid", "mail_from_missing", "mail_smtp", "mail_bl", "mail_dup", "mail_optout", "sms_number_missing", "sms_number_format", "sms_credit", "sms_country_not_supported", "sms_registration_needed", "sms_server", "sms_acc", "sms_blacklist", "sms_duplicate", "sms_optout", "sms_expired", "sms_invalid_destination", "sms_not_allowed", "sms_not_delivered", "sms_rejected", "twilio_authentication", "twilio_callback", "twilio_from_missing", "twilio_from_to"}, "trace_status": []string{"outgoing", "process", "pending", "sent", "open", "reply", "bounce", "error", "cancel"}, "trace_type": []string{"mail", "sms"}},
+		Relations: map[string]RelationSpec{
+			"mass_mailing_id": {TargetModel: "mailing.mailing", SearchField: "name"},
 		},
 	},
 	// maintenance.equipment (Maintenance Equipment)
@@ -7443,7 +8702,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.attribute.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "name", "display_type", "create_variant"},
+		OptionalReadFields: []string{"sequence", "name", "category_id", "display_type", "create_variant", "visibility"},
 	},
 	// product.attribute (Product Attribute)
 	{
@@ -7451,25 +8710,63 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.attribute.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"number_related_products", "name", "display_type", "create_variant", "value_ids", "active"},
+		OptionalReadFields: []string{"number_related_products", "name", "display_type", "create_variant", "visibility", "preview_variants", "is_thumbnail_visible", "category_id", "value_ids", "active"},
 	},
 	// product.attribute (Product Attribute)
 	{
 		SemanticID: "catalog.attribute.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.attribute.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "display_type", "create_variant", "active"},
-		InputTypes: map[string]string{"active": "boolean"},
-		InputEnums: map[string][]string{"create_variant": []string{"always", "dynamic", "no_variant"}, "display_type": []string{"radio", "pills", "select", "color", "multi", "image"}},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "display_type", "create_variant", "visibility", "preview_variants", "is_thumbnail_visible", "category_id", "active"},
+		InputTypes: map[string]string{"active": "boolean", "category_id": "reference", "is_thumbnail_visible": "boolean"},
+		InputEnums: map[string][]string{"create_variant": []string{"always", "dynamic", "no_variant"}, "display_type": []string{"radio", "pills", "select", "color", "multi", "image"}, "preview_variants": []string{"visible", "hidden", "hover"}, "visibility": []string{"visible", "hidden"}},
+		Relations: map[string]RelationSpec{
+			"category_id": {TargetModel: "product.attribute.category", SearchField: "name"},
+		},
 	},
 	// product.attribute (Product Attribute)
 	{
 		SemanticID: "catalog.attribute.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.attribute.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "display_type", "create_variant", "active"},
-		InputTypes: map[string]string{"active": "boolean"},
-		InputEnums: map[string][]string{"create_variant": []string{"always", "dynamic", "no_variant"}, "display_type": []string{"radio", "pills", "select", "color", "multi", "image"}},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "display_type", "create_variant", "visibility", "preview_variants", "is_thumbnail_visible", "category_id", "active"},
+		InputTypes: map[string]string{"active": "boolean", "category_id": "reference", "is_thumbnail_visible": "boolean"},
+		InputEnums: map[string][]string{"create_variant": []string{"always", "dynamic", "no_variant"}, "display_type": []string{"radio", "pills", "select", "color", "multi", "image"}, "preview_variants": []string{"visible", "hidden", "hover"}, "visibility": []string{"visible", "hidden"}},
+		Relations: map[string]RelationSpec{
+			"category_id": {TargetModel: "product.attribute.category", SearchField: "name"},
+		},
+	},
+	// product.attribute.category (Product Attribute Category)
+	{
+		SemanticID: "catalog.attribute_category.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale_comparison"}, RequiredCapability: "catalog.attributecategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "attribute_ids"},
+	},
+	// product.attribute.category (Product Attribute Category)
+	{
+		SemanticID: "catalog.attribute_category.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale_comparison"}, RequiredCapability: "catalog.attributecategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "sequence", "attribute_ids"},
+	},
+	// product.attribute.category (Product Attribute Category)
+	{
+		SemanticID: "catalog.attribute_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale_comparison"}, RequiredCapability: "catalog.attributecategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "sequence"},
+		InputTypes: map[string]string{"sequence": "integer"},
+	},
+	// product.attribute.category (Product Attribute Category)
+	{
+		SemanticID: "catalog.attribute_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale_comparison"}, RequiredCapability: "catalog.attributecategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.attribute.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "sequence"},
+		InputTypes: map[string]string{"sequence": "integer"},
 	},
 	// product.attribute.value (Attribute Value)
 	{
@@ -7627,7 +8924,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.document.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.document",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"res_model", "sequence", "name", "attached_on_sale"},
+		OptionalReadFields: []string{"res_model", "sequence", "name", "attached_on_sale", "shown_on_product_page"},
 	},
 	// product.document (Product Document)
 	{
@@ -7635,15 +8932,15 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.document.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.document",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"res_model", "name", "type", "url", "res_name", "form_field_ids", "create_uid", "create_date", "attached_on_mrp", "attached_on_sale"},
+		OptionalReadFields: []string{"res_model", "name", "type", "url", "res_name", "form_field_ids", "create_uid", "create_date", "attached_on_mrp", "attached_on_sale", "shown_on_product_page"},
 	},
 	// product.document (Product Document)
 	{
 		SemanticID: "catalog.document.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.document.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.document",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"res_model", "name", "type", "url", "attached_on_mrp", "attached_on_sale", "ir_attachment_id"},
-		InputTypes: map[string]string{"ir_attachment_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"res_model", "name", "type", "url", "attached_on_mrp", "attached_on_sale", "shown_on_product_page", "ir_attachment_id"},
+		InputTypes: map[string]string{"ir_attachment_id": "reference", "shown_on_product_page": "boolean"},
 		InputEnums: map[string][]string{"attached_on_mrp": []string{"hidden", "bom"}, "attached_on_sale": []string{"hidden", "quotation", "sale_order", "inside"}, "type": []string{"url", "binary"}},
 	},
 	// product.document (Product Document)
@@ -7651,9 +8948,81 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "catalog.document.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.document.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.document",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"res_model", "name", "type", "url", "attached_on_mrp", "attached_on_sale", "ir_attachment_id"},
-		InputTypes: map[string]string{"ir_attachment_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"res_model", "name", "type", "url", "attached_on_mrp", "attached_on_sale", "shown_on_product_page", "ir_attachment_id"},
+		InputTypes: map[string]string{"ir_attachment_id": "reference", "shown_on_product_page": "boolean"},
 		InputEnums: map[string][]string{"attached_on_mrp": []string{"hidden", "bom"}, "attached_on_sale": []string{"hidden", "quotation", "sale_order", "inside"}, "type": []string{"url", "binary"}},
+	},
+	// product.feed (Product Feed)
+	{
+		SemanticID: "catalog.feed.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.feed.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.feed",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "lang_id", "product_category_ids", "url", "website_lang_ids"},
+	},
+	// product.feed (Product Feed)
+	{
+		SemanticID: "catalog.feed.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.feed.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.feed",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "url", "website_id", "lang_id", "product_category_ids", "website_lang_ids"},
+	},
+	// product.feed (Product Feed)
+	{
+		SemanticID: "catalog.feed.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.feed.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.feed",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "website_id", "lang_id", "access_token", "cache_expiry", "target"},
+		InputTypes: map[string]string{"lang_id": "reference", "website_id": "reference"},
+		InputEnums: map[string][]string{"target": []string{"gmc"}},
+		Relations: map[string]RelationSpec{
+			"website_id": {TargetModel: "website", SearchField: "name"},
+		},
+	},
+	// product.feed (Product Feed)
+	{
+		SemanticID: "catalog.feed.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.feed.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.feed",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "website_id", "lang_id", "access_token", "cache_expiry", "target"},
+		InputTypes: map[string]string{"lang_id": "reference", "website_id": "reference"},
+		InputEnums: map[string][]string{"target": []string{"gmc"}},
+		Relations: map[string]RelationSpec{
+			"website_id": {TargetModel: "website", SearchField: "name"},
+		},
+	},
+	// product.image (Product Image)
+	{
+		SemanticID: "catalog.image.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.image.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.image",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// product.image (Product Image)
+	{
+		SemanticID: "catalog.image.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.image.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.image",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "video_url", "embed_code"},
+	},
+	// product.image (Product Image)
+	{
+		SemanticID: "catalog.image.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.image.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.image",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"sequence", "name", "video_url"},
+		InputTypes: map[string]string{"sequence": "integer"},
+	},
+	// product.image (Product Image)
+	{
+		SemanticID: "catalog.image.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.image.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.image",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"sequence", "name", "video_url"},
+		InputTypes: map[string]string{"sequence": "integer"},
 	},
 	// product.pricelist (Pricelist)
 	{
@@ -7661,7 +9030,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.pricelist.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.pricelist",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"sequence", "name", "country_group_ids"},
+		OptionalReadFields: []string{"sequence", "name", "country_group_ids", "selectable"},
 	},
 	// product.pricelist (Pricelist)
 	{
@@ -7669,17 +9038,19 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.pricelist.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.pricelist",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"name", "active", "country_group_ids", "item_ids"},
+		OptionalReadFields: []string{"name", "active", "country_group_ids", "item_ids", "company_id", "website_id", "selectable", "code"},
 	},
 	// product.pricelist (Pricelist)
 	{
 		SemanticID: "catalog.pricelist.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.pricelist.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.pricelist",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "currency_id"},
-		InputTypes: map[string]string{"active": "boolean", "currency_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "active", "company_id", "website_id", "selectable", "code", "currency_id"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "currency_id": "reference", "selectable": "boolean", "website_id": "reference"},
 		Relations: map[string]RelationSpec{
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
 			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
+			"website_id":  {TargetModel: "website", SearchField: "name"},
 		},
 	},
 	// product.pricelist (Pricelist)
@@ -7687,10 +9058,12 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "catalog.pricelist.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"product"}, RequiredCapability: "catalog.pricelist.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.pricelist",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "currency_id"},
-		InputTypes: map[string]string{"active": "boolean", "currency_id": "reference"},
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "active", "company_id", "website_id", "selectable", "code", "currency_id"},
+		InputTypes: map[string]string{"active": "boolean", "company_id": "reference", "currency_id": "reference", "selectable": "boolean", "website_id": "reference"},
 		Relations: map[string]RelationSpec{
+			"company_id":  {TargetModel: "res.company", SearchField: "name"},
 			"currency_id": {TargetModel: "res.currency", SearchField: "name"},
+			"website_id":  {TargetModel: "website", SearchField: "name"},
 		},
 	},
 	// product.pricelist.item (Pricelist Rule)
@@ -7740,6 +9113,78 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"product_id":        {TargetModel: "product.product", SearchField: "name"},
 			"product_tmpl_id":   {TargetModel: "product.template", SearchField: "name"},
 		},
+	},
+	// product.public.category (Website Product Category)
+	{
+		SemanticID: "catalog.public_category.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.publiccategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.public.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence"},
+	},
+	// product.public.category (Website Product Category)
+	{
+		SemanticID: "catalog.public_category.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.publiccategory.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.public.category",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "parent_id", "sequence", "website_description"},
+	},
+	// product.public.category (Website Product Category)
+	{
+		SemanticID: "catalog.public_category.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.publiccategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.public.category",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "parent_id", "sequence"},
+		InputTypes: map[string]string{"parent_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"parent_id": {TargetModel: "product.public.category", SearchField: "name"},
+		},
+	},
+	// product.public.category (Website Product Category)
+	{
+		SemanticID: "catalog.public_category.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.publiccategory.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.public.category",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "parent_id", "sequence"},
+		InputTypes: map[string]string{"parent_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"parent_id": {TargetModel: "product.public.category", SearchField: "name"},
+		},
+	},
+	// product.ribbon (Product ribbon)
+	{
+		SemanticID: "catalog.ribbon.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.ribbon.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.ribbon",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "position", "text_color", "bg_color"},
+	},
+	// product.ribbon (Product ribbon)
+	{
+		SemanticID: "catalog.ribbon.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.ribbon.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.ribbon",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "assign", "new_period", "position", "style", "text_color", "bg_color"},
+	},
+	// product.ribbon (Product ribbon)
+	{
+		SemanticID: "catalog.ribbon.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.ribbon.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.ribbon",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "assign", "new_period", "position", "style", "text_color", "bg_color"},
+		InputTypes: map[string]string{"new_period": "integer"},
+		InputEnums: map[string][]string{"assign": []string{"manual", "sale", "new", "out_of_stock"}, "position": []string{"left", "right"}, "style": []string{"ribbon", "tag"}},
+	},
+	// product.ribbon (Product ribbon)
+	{
+		SemanticID: "catalog.ribbon.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "catalog.ribbon.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.ribbon",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "assign", "new_period", "position", "style", "text_color", "bg_color"},
+		InputTypes: map[string]string{"new_period": "integer"},
+		InputEnums: map[string][]string{"assign": []string{"manual", "sale", "new", "out_of_stock"}, "position": []string{"left", "right"}, "style": []string{"ribbon", "tag"}},
 	},
 	// product.supplierinfo (Supplier Pricelist)
 	{
@@ -7941,6 +9386,49 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"company_id": {TargetModel: "res.company", SearchField: "name"},
 			"product_id": {TargetModel: "product.product", SearchField: "name"},
 			"uom_id":     {TargetModel: "uom.uom", SearchField: "name"},
+		},
+	},
+	// product.wishlist (Product Wishlist)
+	{
+		SemanticID: "catalog.wishlist.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale_wishlist"}, RequiredCapability: "catalog.wishlist.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.wishlist",
+		ReadFields: []string{"id", "display_name"},
+	},
+	// product.wishlist (Product Wishlist)
+	{
+		SemanticID: "catalog.wishlist.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale_wishlist"}, RequiredCapability: "catalog.wishlist.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.wishlist",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"partner_id", "currency_id", "price", "active", "product_id", "pricelist_id", "website_id", "stock_notification"},
+	},
+	// product.wishlist (Product Wishlist)
+	{
+		SemanticID: "catalog.wishlist.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale_wishlist"}, RequiredCapability: "catalog.wishlist.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.wishlist",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"partner_id", "price", "active", "product_id", "pricelist_id", "website_id"},
+		InputTypes: map[string]string{"active": "boolean", "partner_id": "reference", "price": "number", "pricelist_id": "reference", "product_id": "reference", "website_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"partner_id":   {TargetModel: "res.partner", SearchField: "name"},
+			"pricelist_id": {TargetModel: "product.pricelist", SearchField: "name"},
+			"product_id":   {TargetModel: "product.product", SearchField: "name"},
+			"website_id":   {TargetModel: "website", SearchField: "name"},
+		},
+	},
+	// product.wishlist (Product Wishlist)
+	{
+		SemanticID: "catalog.wishlist.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale_wishlist"}, RequiredCapability: "catalog.wishlist.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "product.wishlist",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"partner_id", "price", "active", "product_id", "pricelist_id", "website_id"},
+		InputTypes: map[string]string{"active": "boolean", "partner_id": "reference", "price": "number", "pricelist_id": "reference", "product_id": "reference", "website_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"partner_id":   {TargetModel: "res.partner", SearchField: "name"},
+			"pricelist_id": {TargetModel: "product.pricelist", SearchField: "name"},
+			"product_id":   {TargetModel: "product.product", SearchField: "name"},
+			"website_id":   {TargetModel: "website", SearchField: "name"},
 		},
 	},
 	// project.collaborator (Collaborators in project shared)
@@ -9033,6 +10521,442 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"sale_order_template_id": {TargetModel: "sale.order.template", SearchField: "name"},
 		},
 	},
+	// slide.answer (Slide Question's Answer)
+	{
+		SemanticID: "elearning.answer.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.answer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"text_value"},
+	},
+	// slide.answer (Slide Question's Answer)
+	{
+		SemanticID: "elearning.answer.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.answer.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.answer",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "text_value", "question_id", "is_correct", "comment"},
+	},
+	// slide.answer (Slide Question's Answer)
+	{
+		SemanticID: "elearning.answer.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.answer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.answer",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"sequence", "text_value", "question_id", "is_correct", "comment"},
+		InputTypes: map[string]string{"is_correct": "boolean", "question_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"question_id": {TargetModel: "slide.question"},
+		},
+	},
+	// slide.answer (Slide Question's Answer)
+	{
+		SemanticID: "elearning.answer.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.answer.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.answer",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"sequence", "text_value", "question_id", "is_correct", "comment"},
+		InputTypes: map[string]string{"is_correct": "boolean", "question_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"question_id": {TargetModel: "slide.question"},
+		},
+	},
+	// slide.channel (Course)
+	{
+		SemanticID: "elearning.channel.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "user_id", "channel_type", "visibility", "enroll", "is_published", "active"},
+	},
+	// slide.channel (Course)
+	{
+		SemanticID: "elearning.channel.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"members_count", "total_views", "total_slides", "members_completed_count", "nbr_certification", "members_certified_count", "members_all_count", "is_published", "name", "active", "tag_ids", "slide_ids", "description", "user_id", "website_published", "prerequisite_channel_ids", "prerequisite_of_channel_ids", "visibility", "website_absolute_url", "enroll", "upload_group_ids", "enroll_group_ids", "enroll_msg", "allow_comment", "share_slide_template_id", "share_channel_template_id", "publish_template_id", "completed_template_id", "channel_type", "promote_strategy", "promoted_slide_id", "karma_gen_channel_rank", "karma_gen_channel_finish", "karma_review", "karma_slide_comment", "karma_slide_vote"},
+	},
+	// slide.channel (Course)
+	{
+		SemanticID: "elearning.channel.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channel.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"is_published", "name", "active", "user_id", "website_published", "visibility", "enroll", "allow_comment", "share_slide_template_id", "share_channel_template_id", "publish_template_id", "completed_template_id", "channel_type", "promote_strategy", "promoted_slide_id", "karma_gen_channel_rank", "karma_gen_channel_finish", "karma_review", "karma_slide_comment", "karma_slide_vote"},
+		InputTypes: map[string]string{"active": "boolean", "allow_comment": "boolean", "completed_template_id": "reference", "is_published": "boolean", "karma_gen_channel_finish": "integer", "karma_gen_channel_rank": "integer", "karma_review": "integer", "karma_slide_comment": "integer", "karma_slide_vote": "integer", "promoted_slide_id": "reference", "publish_template_id": "reference", "share_channel_template_id": "reference", "share_slide_template_id": "reference", "user_id": "reference", "website_published": "boolean"},
+		InputEnums: map[string][]string{"channel_type": []string{"training", "documentation"}, "enroll": []string{"public", "invite"}, "promote_strategy": []string{"latest", "most_voted", "most_viewed", "specific", "none"}, "visibility": []string{"public", "connected", "members", "link"}},
+		Relations: map[string]RelationSpec{
+			"promoted_slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+			"user_id":           {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// slide.channel (Course)
+	{
+		SemanticID: "elearning.channel.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channel.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_published", "name", "active", "user_id", "website_published", "visibility", "enroll", "allow_comment", "share_slide_template_id", "share_channel_template_id", "publish_template_id", "completed_template_id", "channel_type", "promote_strategy", "promoted_slide_id", "karma_gen_channel_rank", "karma_gen_channel_finish", "karma_review", "karma_slide_comment", "karma_slide_vote"},
+		InputTypes: map[string]string{"active": "boolean", "allow_comment": "boolean", "completed_template_id": "reference", "is_published": "boolean", "karma_gen_channel_finish": "integer", "karma_gen_channel_rank": "integer", "karma_review": "integer", "karma_slide_comment": "integer", "karma_slide_vote": "integer", "promoted_slide_id": "reference", "publish_template_id": "reference", "share_channel_template_id": "reference", "share_slide_template_id": "reference", "user_id": "reference", "website_published": "boolean"},
+		InputEnums: map[string][]string{"channel_type": []string{"training", "documentation"}, "enroll": []string{"public", "invite"}, "promote_strategy": []string{"latest", "most_voted", "most_viewed", "specific", "none"}, "visibility": []string{"public", "connected", "members", "link"}},
+		Relations: map[string]RelationSpec{
+			"promoted_slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+			"user_id":           {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// slide.channel.partner (Channel / Partners (Members))
+	{
+		SemanticID: "elearning.channel_partner.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channelpartner.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.partner",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"channel_id", "partner_id", "partner_email", "create_date", "write_date", "last_invitation_date", "member_status", "nbr_certification", "survey_certification_success", "completion", "next_slide_id", "channel_user_id", "channel_type", "channel_visibility", "channel_enroll", "active"},
+	},
+	// slide.channel.partner (Channel / Partners (Members))
+	{
+		SemanticID: "elearning.channel_partner.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channelpartner.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.partner",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"active", "member_status", "completed_slides_count", "partner_email", "channel_type", "channel_enroll", "next_slide_id", "last_invitation_date", "survey_certification_success", "channel_id", "completion", "partner_id", "channel_user_id", "channel_visibility", "channel_website_id", "invitation_link", "nbr_certification"},
+	},
+	// slide.channel.partner (Channel / Partners (Members))
+	{
+		SemanticID: "elearning.channel_partner.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channelpartner.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.partner",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"active", "completed_slides_count", "last_invitation_date", "survey_certification_success", "channel_id", "completion", "partner_id", "member_status"},
+		InputTypes: map[string]string{"active": "boolean", "channel_id": "reference", "completed_slides_count": "integer", "completion": "integer", "partner_id": "reference", "survey_certification_success": "boolean"},
+		InputEnums: map[string][]string{"member_status": []string{"invited", "joined", "ongoing", "completed"}},
+		Relations: map[string]RelationSpec{
+			"channel_id": {TargetModel: "slide.channel", SearchField: "name"},
+			"partner_id": {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// slide.channel.partner (Channel / Partners (Members))
+	{
+		SemanticID: "elearning.channel_partner.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channelpartner.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.partner",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"active", "completed_slides_count", "last_invitation_date", "survey_certification_success", "channel_id", "completion", "partner_id", "member_status"},
+		InputTypes: map[string]string{"active": "boolean", "channel_id": "reference", "completed_slides_count": "integer", "completion": "integer", "partner_id": "reference", "survey_certification_success": "boolean"},
+		InputEnums: map[string][]string{"member_status": []string{"invited", "joined", "ongoing", "completed"}},
+		Relations: map[string]RelationSpec{
+			"channel_id": {TargetModel: "slide.channel", SearchField: "name"},
+			"partner_id": {TargetModel: "res.partner", SearchField: "name"},
+		},
+	},
+	// slide.channel.partner (Channel / Partners (Members)): action_archive "Archive"
+	{
+		SemanticID: "elearning.channel_partner.archive", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channelpartner.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.partner",
+		Method: "action_archive",
+	},
+	// slide.channel.partner (Channel / Partners (Members)): action_unarchive "Unarchive"
+	{
+		SemanticID: "elearning.channel_partner.unarchive", Kind: KindAction, Strategy: StrategyMethodCall,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channelpartner.write",
+		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.partner",
+		Method: "action_unarchive",
+	},
+	// slide.channel.tag (Channel/Course Tag)
+	{
+		SemanticID: "elearning.channel_tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "group_sequence", "name", "group_id"},
+	},
+	// slide.channel.tag (Channel/Course Tag)
+	{
+		SemanticID: "elearning.channel_tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "group_id"},
+	},
+	// slide.channel.tag (Channel/Course Tag)
+	{
+		SemanticID: "elearning.channel_tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "group_id", "sequence"},
+		InputTypes: map[string]string{"group_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"group_id": {TargetModel: "slide.channel.tag.group", SearchField: "name"},
+		},
+	},
+	// slide.channel.tag (Channel/Course Tag)
+	{
+		SemanticID: "elearning.channel_tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "group_id", "sequence"},
+		InputTypes: map[string]string{"group_id": "reference", "sequence": "integer"},
+		Relations: map[string]RelationSpec{
+			"group_id": {TargetModel: "slide.channel.tag.group", SearchField: "name"},
+		},
+	},
+	// slide.channel.tag.group (Channel/Course Groups)
+	{
+		SemanticID: "elearning.channel_tag_group.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltaggroup.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag.group",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "name", "is_published", "tag_ids"},
+	},
+	// slide.channel.tag.group (Channel/Course Groups)
+	{
+		SemanticID: "elearning.channel_tag_group.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltaggroup.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag.group",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "is_published", "tag_ids"},
+	},
+	// slide.channel.tag.group (Channel/Course Groups)
+	{
+		SemanticID: "elearning.channel_tag_group.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltaggroup.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag.group",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "is_published", "sequence"},
+		InputTypes: map[string]string{"is_published": "boolean", "sequence": "integer"},
+	},
+	// slide.channel.tag.group (Channel/Course Groups)
+	{
+		SemanticID: "elearning.channel_tag_group.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.channeltaggroup.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.channel.tag.group",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name", "is_published", "sequence"},
+		InputTypes: map[string]string{"is_published": "boolean", "sequence": "integer"},
+	},
+	// slide.embed (Embedded Slides View Counter)
+	{
+		SemanticID: "elearning.embed.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.embed.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.embed",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"website_name", "count_views", "slide_id"},
+	},
+	// slide.embed (Embedded Slides View Counter)
+	{
+		SemanticID: "elearning.embed.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.embed.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.embed",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"slide_id", "website_name", "url", "count_views"},
+	},
+	// slide.embed (Embedded Slides View Counter)
+	{
+		SemanticID: "elearning.embed.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.embed.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.embed",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"slide_id", "url", "count_views"},
+		InputTypes: map[string]string{"count_views": "integer", "slide_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.embed (Embedded Slides View Counter)
+	{
+		SemanticID: "elearning.embed.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.embed.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.embed",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"slide_id", "url", "count_views"},
+		InputTypes: map[string]string{"count_views": "integer", "slide_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.question (Content Quiz Question)
+	{
+		SemanticID: "elearning.question.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.question.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.question",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"sequence", "question", "slide_id"},
+	},
+	// slide.question (Content Quiz Question)
+	{
+		SemanticID: "elearning.question.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.question.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.question",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"answers_validation_error", "question", "answer_ids"},
+	},
+	// slide.question (Content Quiz Question)
+	{
+		SemanticID: "elearning.question.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.question.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.question",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"question", "slide_id"},
+		InputTypes: map[string]string{"slide_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.question (Content Quiz Question)
+	{
+		SemanticID: "elearning.question.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.question.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.question",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"question", "slide_id"},
+		InputTypes: map[string]string{"slide_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.slide (Slides)
+	{
+		SemanticID: "elearning.slide.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slide.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "channel_id", "category_id", "user_id", "is_published", "date_published", "completion_time"},
+	},
+	// slide.slide (Slides)
+	{
+		SemanticID: "elearning.slide.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slide.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"channel_type", "channel_allow_comment", "slide_views", "likes", "dislikes", "comments_count", "embed_count", "is_published", "name", "is_category", "tag_ids", "active", "channel_id", "slide_category", "survey_id", "slide_type", "source_type", "video_url", "document_google_url", "image_google_url", "user_id", "completion_time", "slide_resource_downloadable", "date_published", "is_preview", "public_views", "total_views", "description", "slide_resource_ids", "quiz_first_attempt_reward", "quiz_second_attempt_reward", "quiz_third_attempt_reward", "quiz_fourth_attempt_reward", "question_ids"},
+	},
+	// slide.slide (Slides)
+	{
+		SemanticID: "elearning.slide.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slide.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"is_published", "name", "is_category", "active", "channel_id", "slide_category", "survey_id", "slide_type", "source_type", "video_url", "document_google_url", "image_google_url", "user_id", "completion_time", "slide_resource_downloadable", "is_preview", "quiz_first_attempt_reward", "quiz_second_attempt_reward", "quiz_third_attempt_reward", "quiz_fourth_attempt_reward"},
+		InputTypes: map[string]string{"active": "boolean", "channel_id": "reference", "completion_time": "number", "is_category": "boolean", "is_preview": "boolean", "is_published": "boolean", "quiz_first_attempt_reward": "integer", "quiz_fourth_attempt_reward": "integer", "quiz_second_attempt_reward": "integer", "quiz_third_attempt_reward": "integer", "slide_resource_downloadable": "boolean", "survey_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"slide_category": []string{"infographic", "article", "document", "video", "quiz", "certification"}, "slide_type": []string{"image", "article", "quiz", "pdf", "sheet", "doc", "slides", "youtube_video", "google_drive_video", "vimeo_video", "certification"}, "source_type": []string{"local_file", "external"}},
+		Relations: map[string]RelationSpec{
+			"channel_id": {TargetModel: "slide.channel", SearchField: "name"},
+			"survey_id":  {TargetModel: "survey.survey"},
+			"user_id":    {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// slide.slide (Slides)
+	{
+		SemanticID: "elearning.slide.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slide.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"is_published", "name", "is_category", "active", "channel_id", "slide_category", "survey_id", "slide_type", "source_type", "video_url", "document_google_url", "image_google_url", "user_id", "completion_time", "slide_resource_downloadable", "is_preview", "quiz_first_attempt_reward", "quiz_second_attempt_reward", "quiz_third_attempt_reward", "quiz_fourth_attempt_reward"},
+		InputTypes: map[string]string{"active": "boolean", "channel_id": "reference", "completion_time": "number", "is_category": "boolean", "is_preview": "boolean", "is_published": "boolean", "quiz_first_attempt_reward": "integer", "quiz_fourth_attempt_reward": "integer", "quiz_second_attempt_reward": "integer", "quiz_third_attempt_reward": "integer", "slide_resource_downloadable": "boolean", "survey_id": "reference", "user_id": "reference"},
+		InputEnums: map[string][]string{"slide_category": []string{"infographic", "article", "document", "video", "quiz", "certification"}, "slide_type": []string{"image", "article", "quiz", "pdf", "sheet", "doc", "slides", "youtube_video", "google_drive_video", "vimeo_video", "certification"}, "source_type": []string{"local_file", "external"}},
+		Relations: map[string]RelationSpec{
+			"channel_id": {TargetModel: "slide.channel", SearchField: "name"},
+			"survey_id":  {TargetModel: "survey.survey"},
+			"user_id":    {TargetModel: "res.users", SearchField: "name"},
+		},
+	},
+	// slide.slide.partner (Slide / Partner decorated m2m)
+	{
+		SemanticID: "elearning.slide_partner.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slidepartner.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.partner",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"create_date", "partner_id", "slide_id", "channel_id", "completed", "survey_scoring_success", "quiz_attempts_count", "vote"},
+	},
+	// slide.slide.partner (Slide / Partner decorated m2m)
+	{
+		SemanticID: "elearning.slide_partner.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slidepartner.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.partner",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"partner_id", "slide_id", "slide_category", "channel_id", "completed", "survey_scoring_success", "quiz_attempts_count", "vote", "user_input_ids"},
+	},
+	// slide.slide.partner (Slide / Partner decorated m2m)
+	{
+		SemanticID: "elearning.slide_partner.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slidepartner.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.partner",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"partner_id", "slide_id", "completed", "quiz_attempts_count", "vote"},
+		InputTypes: map[string]string{"completed": "boolean", "partner_id": "reference", "quiz_attempts_count": "integer", "slide_id": "reference", "vote": "integer"},
+		Relations: map[string]RelationSpec{
+			"partner_id": {TargetModel: "res.partner", SearchField: "name"},
+			"slide_id":   {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.slide.partner (Slide / Partner decorated m2m)
+	{
+		SemanticID: "elearning.slide_partner.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slidepartner.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.partner",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"partner_id", "slide_id", "completed", "quiz_attempts_count", "vote"},
+		InputTypes: map[string]string{"completed": "boolean", "partner_id": "reference", "quiz_attempts_count": "integer", "slide_id": "reference", "vote": "integer"},
+		Relations: map[string]RelationSpec{
+			"partner_id": {TargetModel: "res.partner", SearchField: "name"},
+			"slide_id":   {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.slide.resource (Additional resource for a particular slide)
+	{
+		SemanticID: "elearning.slide_resource.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slideresource.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.resource",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// slide.slide.resource (Additional resource for a particular slide)
+	{
+		SemanticID: "elearning.slide_resource.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slideresource.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.resource",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"slide_id", "name", "file_name", "download_url", "resource_type", "link", "sequence"},
+	},
+	// slide.slide.resource (Additional resource for a particular slide)
+	{
+		SemanticID: "elearning.slide_resource.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slideresource.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.resource",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"slide_id", "name", "file_name", "resource_type", "link", "sequence"},
+		InputTypes: map[string]string{"sequence": "integer", "slide_id": "reference"},
+		InputEnums: map[string][]string{"resource_type": []string{"file", "url"}},
+		Relations: map[string]RelationSpec{
+			"slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.slide.resource (Additional resource for a particular slide)
+	{
+		SemanticID: "elearning.slide_resource.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.slideresource.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.slide.resource",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"slide_id", "name", "file_name", "resource_type", "link", "sequence"},
+		InputTypes: map[string]string{"sequence": "integer", "slide_id": "reference"},
+		InputEnums: map[string][]string{"resource_type": []string{"file", "url"}},
+		Relations: map[string]RelationSpec{
+			"slide_id": {TargetModel: "slide.slide", SearchField: "name"},
+		},
+	},
+	// slide.tag (Slide Tag)
+	{
+		SemanticID: "elearning.tag.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.tag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// slide.tag (Slide Tag)
+	{
+		SemanticID: "elearning.tag.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.tag.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.tag",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// slide.tag (Slide Tag)
+	{
+		SemanticID: "elearning.tag.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.tag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.tag",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"name"},
+	},
+	// slide.tag (Slide Tag)
+	{
+		SemanticID: "elearning.tag.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_slides"}, RequiredCapability: "elearning.tag.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "slide.tag",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"name"},
+	},
 	// stock.landed.cost (Stock Landed Cost)
 	{
 		SemanticID: "inventory.landed_cost.list", Kind: KindRead, Strategy: StrategyRead,
@@ -9927,7 +11851,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		RequiredModules: []string{"survey"}, RequiredCapability: "survey.survey.read",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.survey",
 		ReadFields:         []string{"id", "display_name"},
-		OptionalReadFields: []string{"session_state", "question_ids", "session_available", "answer_count", "success_count", "answer_done_count", "lead_count", "survey_type", "title", "user_id", "active", "has_conditional_questions", "lang_ids", "restrict_user_ids", "team_id", "question_and_page_ids", "questions_layout", "progression_mode", "questions_selection", "users_can_go_back", "access_mode", "users_login_required", "is_attempts_limited", "attempts_limit", "is_time_limited", "time_limit", "scoring_type", "scoring_success_min", "certification", "certification_report_layout", "certification_validity_months", "certification_mail_template_id", "certification_give_badge", "certification_badge_id", "certification_badge_id_dummy", "access_token", "session_code", "session_link", "session_speed_rating", "session_speed_rating_time_limit", "description", "description_done", "generate_lead"},
+		OptionalReadFields: []string{"session_state", "question_ids", "session_available", "answer_count", "slide_channel_count", "success_count", "answer_done_count", "lead_count", "survey_type", "title", "user_id", "active", "has_conditional_questions", "lang_ids", "restrict_user_ids", "team_id", "question_and_page_ids", "questions_layout", "progression_mode", "questions_selection", "users_can_go_back", "access_mode", "users_login_required", "is_attempts_limited", "attempts_limit", "is_time_limited", "time_limit", "scoring_type", "scoring_success_min", "certification", "certification_report_layout", "certification_validity_months", "certification_mail_template_id", "certification_give_badge", "certification_badge_id", "certification_badge_id_dummy", "access_token", "session_code", "session_link", "session_speed_rating", "session_speed_rating_time_limit", "description", "description_done", "generate_lead"},
 	},
 	// survey.survey (Survey)
 	{
@@ -10025,13 +11949,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"survey_id": {TargetModel: "survey.survey"},
 		},
 	},
-	// survey.user_input (Survey User Input): action_resend "Resend Invitation"
-	{
-		SemanticID: "survey.response.resend", Kind: KindAction, Strategy: StrategyMethodCall,
-		RequiredModules: []string{"survey"}, RequiredCapability: "survey.response.write",
-		Risk: RiskMedium, Confidence: "SURFACE_DISCOVERED", ProviderModel: "survey.user_input",
-		Method: "action_resend",
-	},
 	// survey.user_input.line (Survey User Input Line)
 	{
 		SemanticID: "survey.response_line.list", Kind: KindRead, Strategy: StrategyRead,
@@ -10076,6 +11993,124 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"question_id":         {TargetModel: "survey.question"},
 			"suggested_answer_id": {TargetModel: "survey.question.answer"},
 			"user_input_id":       {TargetModel: "survey.user_input"},
+		},
+	},
+	// website.checkout.step (Website Checkout Step)
+	{
+		SemanticID: "website.checkout_step.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.checkoutstep.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.checkout.step",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// website.checkout.step (Website Checkout Step)
+	{
+		SemanticID: "website.checkout_step.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.checkoutstep.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.checkout.step",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"website_id", "is_published", "website_url", "name", "step_href", "back_button_label", "website_published", "can_publish", "website_absolute_url", "sequence", "main_button_label"},
+	},
+	// website.checkout.step (Website Checkout Step)
+	{
+		SemanticID: "website.checkout_step.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.checkoutstep.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.checkout.step",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"website_id", "is_published", "name", "step_href", "back_button_label", "website_published", "sequence", "main_button_label"},
+		InputTypes: map[string]string{"is_published": "boolean", "sequence": "integer", "website_id": "reference", "website_published": "boolean"},
+		Relations: map[string]RelationSpec{
+			"website_id": {TargetModel: "website", SearchField: "name"},
+		},
+	},
+	// website.checkout.step (Website Checkout Step)
+	{
+		SemanticID: "website.checkout_step.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.checkoutstep.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.checkout.step",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"website_id", "is_published", "name", "step_href", "back_button_label", "website_published", "sequence", "main_button_label"},
+		InputTypes: map[string]string{"is_published": "boolean", "sequence": "integer", "website_id": "reference", "website_published": "boolean"},
+		Relations: map[string]RelationSpec{
+			"website_id": {TargetModel: "website", SearchField: "name"},
+		},
+	},
+	// website.event.menu (Website Event Menu)
+	{
+		SemanticID: "website.event_menu.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_event"}, RequiredCapability: "website.eventmenu.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.event.menu",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"menu_id", "event_id", "menu_type", "view_id"},
+	},
+	// website.event.menu (Website Event Menu)
+	{
+		SemanticID: "website.event_menu.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_event"}, RequiredCapability: "website.eventmenu.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.event.menu",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"menu_id", "event_id", "menu_type", "view_id"},
+	},
+	// website.event.menu (Website Event Menu)
+	{
+		SemanticID: "website.event_menu.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_event"}, RequiredCapability: "website.eventmenu.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.event.menu",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"menu_id", "event_id", "menu_type", "view_id"},
+		InputTypes: map[string]string{"event_id": "reference", "menu_id": "reference", "view_id": "reference"},
+		InputEnums: map[string][]string{"menu_type": []string{"community", "introduction", "register", "other"}},
+		Relations: map[string]RelationSpec{
+			"event_id": {TargetModel: "event.event", SearchField: "name"},
+			"menu_id":  {TargetModel: "website.menu", SearchField: "name"},
+		},
+	},
+	// website.event.menu (Website Event Menu)
+	{
+		SemanticID: "website.event_menu.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_event"}, RequiredCapability: "website.eventmenu.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.event.menu",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"menu_id", "event_id", "menu_type", "view_id"},
+		InputTypes: map[string]string{"event_id": "reference", "menu_id": "reference", "view_id": "reference"},
+		InputEnums: map[string][]string{"menu_type": []string{"community", "introduction", "register", "other"}},
+		Relations: map[string]RelationSpec{
+			"event_id": {TargetModel: "event.event", SearchField: "name"},
+			"menu_id":  {TargetModel: "website.menu", SearchField: "name"},
+		},
+	},
+	// website.sale.extra.field (E-Commerce Extra Info Shown on product page)
+	{
+		SemanticID: "website.sale_extra_field.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.saleextrafield.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.sale.extra.field",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name"},
+	},
+	// website.sale.extra.field (E-Commerce Extra Info Shown on product page)
+	{
+		SemanticID: "website.sale_extra_field.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.saleextrafield.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.sale.extra.field",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"website_id", "field_id", "name", "sequence", "label"},
+	},
+	// website.sale.extra.field (E-Commerce Extra Info Shown on product page)
+	{
+		SemanticID: "website.sale_extra_field.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.saleextrafield.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.sale.extra.field",
+		WriteMode: WriteModeCreate, AllowedFields: []string{"website_id", "field_id", "sequence"},
+		InputTypes: map[string]string{"field_id": "reference", "sequence": "integer", "website_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"website_id": {TargetModel: "website", SearchField: "name"},
+		},
+	},
+	// website.sale.extra.field (E-Commerce Extra Info Shown on product page)
+	{
+		SemanticID: "website.sale_extra_field.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"website_sale"}, RequiredCapability: "website.saleextrafield.write",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "website.sale.extra.field",
+		WriteMode: WriteModeUpdate, AllowedFields: []string{"website_id", "field_id", "sequence"},
+		InputTypes: map[string]string{"field_id": "reference", "sequence": "integer", "website_id": "reference"},
+		Relations: map[string]RelationSpec{
+			"website_id": {TargetModel: "website", SearchField: "name"},
 		},
 	},
 }

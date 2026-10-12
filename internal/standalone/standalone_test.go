@@ -57,7 +57,9 @@ const AcceptedCatalogSize = 105
 // subcontracting, landed costs, margins) from a fresh lab19 inventory.
 // 1050 -> 1034: sixteen navigation buttons left out (they open another list or a URL and change
 // nothing).
-const AcceptedSurfaceSize = 1034
+// 1034 -> 1256: email and SMS marketing, live chat, lunch, eLearning, eCommerce and data cleaning
+// (2026-10-12), less the buttons that send email or SMS, buy IAP credits or only open another window.
+const AcceptedSurfaceSize = 1256
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -81,7 +83,9 @@ var acceptedUnverifiedOperations = []string{}
 // after the 51 operations their forms changed ran again.
 // Then seeded models, updates on existing records and no overridden inputs: reads 419, writes 346.
 // Then twelve actions of the parked apps on fixtures: actions and wizards 88 -> 100.
-const AcceptedSurfaceCurrent = 419 + 346 + 100 + 7 + 6
+// Then the apps of 2026-10-12, full accounting features on the lab, duplicate retries and given
+// values: reads 521, writes 450, actions and wizards 114.
+const AcceptedSurfaceCurrent = 521 + 450 + 114 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

@@ -1,0 +1,126 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T15:28:12Z",
+ "records": {
+  "event.slot.describe": {
+   "cliHash": "sha256:e4eab9d062f816eefc43417616f25414e979ad7ca761e43d050605c5ec9ea75b",
+   "definitionHash": "sha256:3ab0028306a27ba0b5eaf7d73fb102beb7c6839ea6e0475e825e41f56c86e89f",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:2e033b8840bd0b6a568f9e3a699df9b0d7457def4e0badcb29b70d60d9b54f86",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.slot.list": {
+   "cliHash": "sha256:02d6e7b63835ccb6bd8c452eba73b83100c5af80bb9c94fafe03f27e1892eb6c",
+   "definitionHash": "sha256:d439bca955b51eba1ac52c6aecdbb0fac6a2d4a75e07d49496cf27639c9b9319",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:02d6e7b63835ccb6bd8c452eba73b83100c5af80bb9c94fafe03f27e1892eb6c",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "finance.payment_token.describe": {
+   "cliHash": "sha256:d0c47043c85362f58908d38d3445b1128ed506aa2afaf8ea1d3778e28f9cd0ac",
+   "definitionHash": "sha256:bb353878cfe332ebd3bfeed0000e68c07db826c0db2350e615e07075b8d5a2b8",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:d0c47043c85362f58908d38d3445b1128ed506aa2afaf8ea1d3778e28f9cd0ac",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_token.list": {
+   "cliHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "definitionHash": "sha256:e0ce89b0522630c3450f43a31721b34ff95e37a1561207952c28d4bcd4d1a514",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "marketing.card.describe": {
+   "cliHash": "sha256:f5463273c6b651ee097eeb637de22c80343084b70c95ec78d7bcf4dfb12b5bd7",
+   "definitionHash": "sha256:ef6836e6aa5a5782a3fcc986809ffb2edf551b8a7eb473b283250b1f69ef7996",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:f5463273c6b651ee097eeb637de22c80343084b70c95ec78d7bcf4dfb12b5bd7",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.card.list": {
+   "cliHash": "sha256:f25ed8cd5464710aff6e5d655a575ac273cb9c19d696e53fa13de05db97454ca",
+   "definitionHash": "sha256:830f788634f1a6f750315072ad2c6b243894f524ab56b45fcd28616ef1b788c5",
+   "kind": "list",
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:f25ed8cd5464710aff6e5d655a575ac273cb9c19d696e53fa13de05db97454ca",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "marketing.filter.describe": {
+   "cliHash": "sha256:57a9647f7b9e07f4352cffeef70347200c564ec9aced61114584b0a442963583",
+   "definitionHash": "sha256:29470420d95a71bdabf8fa26426720a71f4922c1deba8c6b6cede20b0089c610",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:57a9647f7b9e07f4352cffeef70347200c564ec9aced61114584b0a442963583",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.filter.list": {
+   "cliHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "definitionHash": "sha256:2e589a95a9cdfde688b7fa296f17bebd550408330c8f4fd6d40814adf9f5e272",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:18b058689d010062a25cd7fb949b2abfea1757d2de45ca3abdda17db956e506b",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

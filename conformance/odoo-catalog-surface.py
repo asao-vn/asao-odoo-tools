@@ -44,6 +44,11 @@ FAMILY = {
     "maintenance.": "maintenance", "repair.": "repair", "restaurant.": "pos", "survey.": "survey",
     "hr.applicant": "recruitment", "hr.recruitment": "recruitment", "hr.job.platform": "recruitment",
     "hr.talent.pool": "recruitment",
+    # Community apps added on 2026-10-11: email marketing and marketing cards, live chat and its
+    # chatbots, lunch, eLearning, and data cleaning (a set-up tool).
+    "mailing.": "marketing", "card.": "marketing",
+    "im_livechat.": "livechat", "chatbot.": "livechat",
+    "lunch.": "lunch", "slide.": "elearning", "data_recycle.": "structure",
 }
 
 # Entity names chosen by hand where the mechanical one would be unclear or would collide with a
@@ -409,6 +414,8 @@ SKIP = {
     "link.tracker", "link.tracker.click", "link.tracker.code", "event.mail.registration", "event.mail.slot",
     "event.lead.request", "pos_self_order.custom_link", "purchase.order.group", "sale.order.coupon.points",
     "restaurant.order.course",
+    # An SQL view reporting live chat sessions: read-only by construction.
+    "im_livechat.report.channel",
 }
 
 # Business buttons only: no navigation, printing, messaging, wizards, installs or account creation.
@@ -456,6 +463,19 @@ SKIP_METHODS = {
     "action_survey_user_input", "action_survey_user_input_certified", "action_survey_user_input_completed",
     "action_survey_preview_certification_template", "action_test_survey", "action_create_meeting",
     "install_more_provider", "action_batch_detailed_operations", "action_lost_leads",
+    # The apps added on 2026-10-11. Sending email or SMS stays out, as for quotations and invoices:
+    # launching, queueing, scheduling, testing, retrying or picking the winner of a mailing; inviting
+    # or enrolling eLearning attendees (the invitation is emailed) and inviting event guests; sending
+    # a coupon, an abandoned-cart reminder or a survey again; sharing a marketing card; telling
+    # employees their lunch has arrived. Buying SMS credits is a paid IAP service. The rest only
+    # opens another window: a mailing to the attendees, the A/B versions, the chatbot's test page,
+    # a survey's courses, a vehicle's contracts.
+    "action_launch", "action_put_in_queue", "action_schedule", "action_test", "action_retry_failed",
+    "action_select_as_winner", "action_channel_invite", "action_channel_enroll", "action_invite_contacts",
+    "action_coupon_send", "action_recovery_email_send", "action_resend", "action_share", "action_notify",
+    "action_buy_sms_credits",
+    "action_mass_mailing_attendees", "action_compare_versions", "action_test_script",
+    "action_survey_view_slide_channels", "return_action_to_open",
 }
 HIGH_RISK_VERBS = ("unbuild", "void", "reverse", "refund", "hash", "unlock", "reset")
 # A field with one of these names would become a --model / --method flag, which the CLI reserves for
@@ -538,7 +558,11 @@ def writable(fields, name, required_ok=False):
     # production_id, project.update's project_id): without it the create could never succeed.
     if not meta or (meta["readonly"] and not (required_ok and meta["required"] and meta["store"])):
         return False
-    if meta["type"] in UNREADABLE_TYPES | {"one2many", "many2many", "html", "monetary_currency"}:
+    if meta["type"] in UNREADABLE_TYPES | {"one2many", "many2many", "monetary_currency"}:
+        return False
+    # Rich text is left to the web editor, except where Odoo requires it (a lunch alert's message):
+    # without it the create could never succeed.
+    if meta["type"] == "html" and not (required_ok and meta["required"]):
         return False
     return (not name.startswith(NOISE_FIELD_PREFIXES) and name not in ("id", "display_name")
             and name not in RESERVED_INPUT_NAMES)
@@ -554,6 +578,9 @@ OVERRIDDEN_INPUTS = {
     ("purchase.requisition", "name"): "the agreement's reference comes from its sequence",
     ("hr.recruitment.source", "name"): "the source's name is its UTM source's",
     ("hr.expense", "price_unit"): "computed from the product's cost and the total",
+    ("mailing.mailing", "source_id"): "the mailing's name is its UTM source's: a source given replaces the name",
+    ("lunch.supplier", "cron_id"): "the supplier makes its own automatic-order job",
+    ("lunch.alert", "cron_id"): "the alert makes its own notification job",
 }
 
 UI_ONLY_CONTEXT_KEYS = {"dialog_size"}

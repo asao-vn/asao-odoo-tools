@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.6.0 (2026-10-12)
+
+- Six more Community apps:
+  - Email and SMS Marketing, with marketing cards;
+  - Live Chat, with its chatbots;
+  - Lunch;
+  - eLearning;
+  - eCommerce;
+  - Data Cleaning.
+- Buttons that send email or SMS, buy IAP credits or only open another window stay out.
+- Required rich-text fields are accepted (a lunch alert's message). A lunch alert's and a lunch
+  supplier's scheduled job, and a mailing's UTM source, are no longer offered: Odoo sets them itself.
+- Conformance:
+  - the lab admin has full accounting features;
+  - the write runner retries a create Odoo refuses as a duplicate with other related records, samples
+    reference fields, and gives the values Odoo needs that a generic sample cannot;
+  - zip prefixes are compared in upper case, and short codes respect a field's size;
+  - lunch orders are verified on fixtures with distinct notes, so that Odoo does not merge them.
+- 1361 operations, 1201 verified on 19.0. On 20.0, 717 are verified; the new apps are not verified
+  there yet.
+
 ## 0.5.0 (2026-10-11)
 
 - Odoo 20.0 conformance:

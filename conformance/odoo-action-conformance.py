@@ -560,6 +560,21 @@ class Fixtures:
             return agreement
         return self.twice(make)
 
+    def lunch_orders(self, state):
+        """Two lunch orders of today for this login, put in state. Each carries its own note: Odoo
+        merges an order into an identical one of the same user, product, day and note, archiving it,
+        so twins without a note would merge into each other."""
+        product = self.first("lunch.product", [])["id"]
+        user = self.oracle.uid
+        serial = iter(range(1, 3))
+
+        def make():
+            order = self.call("lunch.order", "create", [{"product_id": product, "user_id": user,
+                                                         "note": f"Conformance twin {STAMP}-{next(serial)}"}])
+            self.call("lunch.order", "write", [[order], {"state": state}])
+            return order
+        return self.twice(make)
+
     def repairs(self, state, part=None):
         """Two repair orders of a product for a customer, confirmed or under repair; with one storable
         part added, reserved or released, when the button acts on the parts. The product repaired is
@@ -740,6 +755,11 @@ FIXTURES = {
     # The parked apps (2026-10-11): blanket orders, repairs, batch transfers, event registrations,
     # vehicles and live surveys in the states their buttons show in.
     "procurement.agreement.confirm": lambda f: f.agreements("draft"),
+    # Lunch orders (2026-10-12): Receive shows on a sent order, Cancel on an ordered one, Reset on a
+    # cancelled one.
+    "lunch.order.confirm": lambda f: f.lunch_orders("sent"),
+    "lunch.order.cancel": lambda f: f.lunch_orders("ordered"),
+    "lunch.order.reset": lambda f: f.lunch_orders("cancelled"),
     "procurement.agreement.done": lambda f: f.agreements("confirmed"),
     "procurement.agreement.cancel": lambda f: f.agreements("confirmed"),
     "procurement.agreement.draft": lambda f: f.agreements("cancel"),
@@ -1110,6 +1130,10 @@ def main():
             result["status"] = "AGREE_DIALOG"
         elif by_cli.startswith("REFUSED") and by_oracle == "REFUSED":
             result["status"] = "AGREE_REFUSED"
+        elif by_oracle.startswith("UNEVALUABLE:"):
+            # The oracle could not click the button as the web client would (a context it cannot
+            # evaluate): there is nothing to compare the CLI with, which is no evidence either way.
+            result["status"] = "NOT_RUN_UNEVALUABLE"
         else:
             result["status"] = "DISAGREE"
         print(f"{operation_id}: {result['status']} cli={by_cli} oracle={by_oracle}", file=sys.stderr)

@@ -59,7 +59,8 @@ class Oracle:
 
 
 # Records a model's required fields alone do not make valid: values chosen by hand, as a function of
-# the oracle. Each returns the values to add (they win over the generic ones).
+# the oracle. Each returns the values to add (they win over the generic ones); it is called again for
+# every record, so a seed can tell the records apart.
 def _event(o):
     return o.first("event.event") or o.call("event.event", "create", [{
         "name": f"Conformance event {STAMP}", "date_begin": f"{datetime.date.today() + datetime.timedelta(days=30)} 09:00:00",
@@ -74,9 +75,27 @@ def _question(o, kind="simple_choice"):
                                                  "event_ids": [[6, 0, [_event(o)]]]}])
 
 
+def _long_event(o):
+    """An event of three whole days in UTC, so a slot on its middle day falls inside it in any time zone."""
+    start = datetime.date.today() + datetime.timedelta(days=30)
+    found = o.first("event.event", [["name", "=", "Conformance event (three days)"]])
+    return found or o.call("event.event", "create", [{
+        "name": "Conformance event (three days)", "date_tz": "UTC",
+        "date_begin": f"{start} 00:00:00", "date_end": f"{start + datetime.timedelta(days=3)} 00:00:00"}])
+
+
+def _card_campaign(o):
+    """A card is made for one record of its campaign's model, and a campaign holds one card per record."""
+    campaign = o.call("card.campaign", "search_read", [[]], {"fields": ["res_model"], "limit": 1, "order": "id"})[0]
+    carded = [c["res_id"] for c in o.call("card.card", "search_read", [[["campaign_id", "=", campaign["id"]]]], {"fields": ["res_id"]})]
+    return {"campaign_id": campaign["id"], "res_id": o.first(campaign["res_model"], [["id", "not in", carded]])}
+
+
 SEEDS = {
-    "event.slot": lambda o: {"event_id": _event(o), "date": str(datetime.date.today() + datetime.timedelta(days=30)),
+    "event.slot": lambda o: {"event_id": _long_event(o), "date": str(datetime.date.today() + datetime.timedelta(days=31)),
                              "start_hour": 9.0, "end_hour": 11.0},
+    "card.card": _card_campaign,
+    "mailing.filter": lambda o: {"mailing_model_id": o.first("ir.model", [["model", "=", "res.partner"]]), "mailing_domain": "[]"},
     "event.question.answer": lambda o: {"question_id": _question(o), "name": f"Conformance answer {STAMP}"},
     "event.registration.answer": lambda o: {
         "question_id": _question(o, "text_box"), "value_text_box": "Conformance",
@@ -89,14 +108,14 @@ SEEDS = {
 }
 
 
-def generic_values(o, model, fields, extra):
+def generic_values(o, model, fields, extra, serial=1):
     values = o.call(model, "default_get", [list(fields)])
     for name, meta in fields.items():
         if not meta.get("required") or meta.get("readonly") or values.get(name) not in (None, False, "", []):
             continue
         kind = meta["type"]
         if kind in ("char", "text", "html"):
-            values[name] = f"Conformance {model} {STAMP}"
+            values[name] = f"Conformance {model} {STAMP}-{serial}"
         elif kind == "many2one":
             values[name] = o.first(meta["relation"])
         elif kind == "selection" and meta.get("selection"):
@@ -160,12 +179,12 @@ def main():
                 print(f"{model}: holds {have}")
                 continue
             fields = oracle.call(model, "fields_get", [], {"attributes": ["type", "required", "readonly", "relation", "selection"]})
-            extra = dict(simple_leaves(domain))
-            if model in SEEDS:
-                extra.update(SEEDS[model](oracle))
             made = []
-            for _ in range(missing):
-                made.append(oracle.call(model, "create", [generic_values(oracle, model, fields, extra)]))
+            for serial in range(1, missing + 1):
+                extra = dict(simple_leaves(domain))
+                if model in SEEDS:
+                    extra.update(SEEDS[model](oracle))
+                made.append(oracle.call(model, "create", [generic_values(oracle, model, fields, extra, serial)]))
             print(f"{model}: made {made}")
         except RuntimeError as error:
             print(f"{model}: NOT SEEDED: {str(error).splitlines()[0][:200]}")

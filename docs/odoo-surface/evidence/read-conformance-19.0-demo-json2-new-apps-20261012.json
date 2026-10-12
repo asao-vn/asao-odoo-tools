@@ -1,0 +1,1677 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:b53a6e7238ff8d6a55cd56d1a17b6a404a0f55a2399f273e7f9137de5f562021",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-12T14:55:54Z",
+ "records": {
+  "catalog.attribute.describe": {
+   "cliHash": "sha256:3714d798fbfb40ec82aa8e3e544cd8a6301869e68c4f6f16a558f27a0cbfdfeb",
+   "definitionHash": "sha256:c606621a74beb5f4ab0661024d204e96b4ac281751baeffc6fbf3dafc0025536",
+   "fieldCount": 12,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:3714d798fbfb40ec82aa8e3e544cd8a6301869e68c4f6f16a558f27a0cbfdfeb",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.attribute.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:cc625ec854af091a656a62b64f5e0b46169d276162584dd452844fc0e757295c",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.attribute_category.describe": {
+   "cliHash": "sha256:684e1328e5d76554a52b717f71143b8c8d07e89a0baec570c32e868d6730763b",
+   "definitionHash": "sha256:8ac3345da08bf28d74a36e9c71bef2bd3346c3275b175905990c82f5c51a514b",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale_comparison"
+   ],
+   "oracleHash": "sha256:684e1328e5d76554a52b717f71143b8c8d07e89a0baec570c32e868d6730763b",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.attribute_category.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:fabc90dc171859ad64f47cd2504c470f37cda002d890e7339c3147888b377c96",
+   "kind": "list",
+   "modules": [
+    "website_sale_comparison"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.document.describe": {
+   "cliHash": "sha256:78a6f6d919b9fbc9f979f49dcb5abe618ca64e01376eda5689a4aa021ad33f27",
+   "definitionHash": "sha256:b977cd722ef566690ce90957d6dd221237f3f7c5ae8d27b7705367e19715c983",
+   "fieldCount": 13,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:78a6f6d919b9fbc9f979f49dcb5abe618ca64e01376eda5689a4aa021ad33f27",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.document.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:fcc6ab37882977a40954bae82746c86f623bb77c13f37833c24679d3f5cd921d",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.feed.describe": {
+   "cliHash": "sha256:6c746a96499e8b6c3748dc03cef288f7ef532d72f396600481ead93c1d25a926",
+   "definitionHash": "sha256:21f91047be69c1680a6764ba1b237cc78d9054b4cbbfa4c1640020d225363a19",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:6c746a96499e8b6c3748dc03cef288f7ef532d72f396600481ead93c1d25a926",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.feed.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:2b47848a4cf695b8b455167a31a6e9fae39af7be0b7e4da80857f73460491735",
+   "kind": "list",
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "catalog.image.describe": {
+   "cliHash": "sha256:98765d4533598413d6de460dcdfbf863786d270e994cad518def2618b06cea46",
+   "definitionHash": "sha256:d8996b400dc85443c9d1ca0cd11a843922e9074666771c65c51ea80b1da4759f",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:98765d4533598413d6de460dcdfbf863786d270e994cad518def2618b06cea46",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.image.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:74b1918f7f90f4f1d8f3d9b0ff34bdd527b26aa1d9466b45b06596a6f2fb13a1",
+   "kind": "list",
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.pricelist.describe": {
+   "cliHash": "sha256:937b774927f9f38eb8d9a34b74ebad7151c8fe7b58821d856e871a37ca8f7719",
+   "definitionHash": "sha256:4b1eb140602dd1a57f28a1c80da05ee414ed595873941bd29bb79fa5097ff89d",
+   "fieldCount": 10,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:937b774927f9f38eb8d9a34b74ebad7151c8fe7b58821d856e871a37ca8f7719",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.pricelist.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:9d5d1a358929dc1394adc9abe530b95d3273a2989725bb5eff14a88cc58dcfa2",
+   "kind": "list",
+   "modules": [
+    "product"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.public_category.describe": {
+   "cliHash": "sha256:3c351d339e1c4d9531fbe4902adde43c6c410494db2671a13c3e5d2e27acc8ed",
+   "definitionHash": "sha256:53235d8554698e112dfcfc8c26dadd164ca58a3cf21d42be7a2d17cb05546300",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:3c351d339e1c4d9531fbe4902adde43c6c410494db2671a13c3e5d2e27acc8ed",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.public_category.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:6d2abe8db3c73f58f2533ae624c200ceb8199ce2c72a9186772f48486cfb8104",
+   "kind": "list",
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "catalog.ribbon.describe": {
+   "cliHash": "sha256:774849a31a8268fa3248a3b5ed603a1791e147f7a9a9ccc2223335bfc8ef5793",
+   "definitionHash": "sha256:1fcebbbc9aae08b999e66e18409c4c77b2c9748b256aa6009434dbfe9cd9dc11",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:774849a31a8268fa3248a3b5ed603a1791e147f7a9a9ccc2223335bfc8ef5793",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.ribbon.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "definitionHash": "sha256:87505b37f37ab0fba64513a7638cfd3a631d2d9c7f675f0e857666fd1ac41757",
+   "kind": "list",
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "providerDomain": false,
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "catalog.wishlist.describe": {
+   "cliHash": "sha256:7fa67ea89cbc1e60f39ca0abea4a368e1878be0eef38d88e1bb6fa916d6a27eb",
+   "definitionHash": "sha256:b45118722d451f6bb1b6a1a0f7b954e4eb0892c1aaa11e4f5175ca80316cbe1d",
+   "fieldCount": 10,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale_wishlist"
+   ],
+   "oracleHash": "sha256:48c9efc9a971935e02d602d9096a89e646eb57ad8d4656cb3878d704e63627e5",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "catalog.wishlist.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:f65be6ac0a7d22db41f298bbf2ea2425639283962f70217d9e55b534f7c5a01e",
+   "kind": "list",
+   "modules": [
+    "website_sale_wishlist"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "elearning.answer.describe": {
+   "cliHash": "sha256:dd0c3ae6c627dea4ca74abaa7b1c2d0441bee1589e19a5e931640b9ce6c129e5",
+   "definitionHash": "sha256:676a1319ec5300758e06f5148415510f6dccb6f3555b2dd369ea9edc052a9ef7",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:dd0c3ae6c627dea4ca74abaa7b1c2d0441bee1589e19a5e931640b9ce6c129e5",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.answer.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:ab80bcf8ec0f5d995fb3a6ee17f2e791a956c1a73f194062d769e308fe20b498",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.channel.describe": {
+   "cliHash": "sha256:8b8b8c8d368e1a75562d7763501fb6c2bc69dbef20e434cd18c572a683befb66",
+   "definitionHash": "sha256:6a7751e8fc69fd208134d25932076df517ecb811f6847e574f339b4448806764",
+   "fieldCount": 38,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:8b8b8c8d368e1a75562d7763501fb6c2bc69dbef20e434cd18c572a683befb66",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.channel.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:f86ccc88fea0de495025f44983a910f9ebca31030f5edd604b1b501ae101a4a7",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.channel_partner.describe": {
+   "cliHash": "sha256:897f7128f55e1c057b95e3874bee96bc4ef48edf88a9f39c738366ed52d46776",
+   "definitionHash": "sha256:5310af86b80dc3bc93a48e14e5050b29b6e38b04d48aefe4395b92c9e271182f",
+   "fieldCount": 19,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:897f7128f55e1c057b95e3874bee96bc4ef48edf88a9f39c738366ed52d46776",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.channel_partner.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:17cbf6152838c62d155ade7d74dc122464c63baa953589fe82c9c4657cfc6272",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.channel_tag.describe": {
+   "cliHash": "sha256:9091db73e919b5fa0f8b3a6edede58ca987d8306c7f6f21ac510f2fbb87c2edb",
+   "definitionHash": "sha256:16426b212ee35e702b23cffaa33576bb3e71999324244790876daa6450cb5d04",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:9091db73e919b5fa0f8b3a6edede58ca987d8306c7f6f21ac510f2fbb87c2edb",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.channel_tag.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:6c6d602ae3469185a53d737c7ad0339660cd9c2635171b9db4da898901ace4cf",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.channel_tag_group.describe": {
+   "cliHash": "sha256:9cc07a78eaa5b2ec64563ba63f8f82ea61720cccd73bf87f9e9442e167651154",
+   "definitionHash": "sha256:e3974460d45a04f700e6a2a7f85f035d0fbade9b37ff367b8ed034d63a2e6fb4",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:9cc07a78eaa5b2ec64563ba63f8f82ea61720cccd73bf87f9e9442e167651154",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.channel_tag_group.list": {
+   "cliHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "definitionHash": "sha256:8d274a8461c9b2a92dfd40a76f1c91780a49e07565597d49fd42dc3fd5920bfa",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "providerDomain": false,
+   "recordCount": 3,
+   "status": "AGREE"
+  },
+  "elearning.embed.describe": {
+   "cliHash": "sha256:05a2b8efc89be040f1554b18c4b4f7968f886b9617c8b10e393a4b695a30b3b1",
+   "definitionHash": "sha256:843227f7cbc150ed326c9f3a6c867065ae151d6800e0c51fc5464a8bef0132a9",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:05a2b8efc89be040f1554b18c4b4f7968f886b9617c8b10e393a4b695a30b3b1",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.embed.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:479e75f566e45d5c964f4a9fe3561d0e28bfea8daaf3c595cd82cb3aeabae510",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "elearning.question.describe": {
+   "cliHash": "sha256:5eef98516178a6c3c6a188394e7d66eb05728e6ba66ac602f1a3f48ebbe6414d",
+   "definitionHash": "sha256:02d48ab8d0b857da9fe5883a7bfb8f0adc0b8c34419ddc6ac04f8501e77aa7c6",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:5eef98516178a6c3c6a188394e7d66eb05728e6ba66ac602f1a3f48ebbe6414d",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.question.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:a167f5849c95f8f210b872fa218270a672891416ed0f6eb97263e874f463600c",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.slide.describe": {
+   "cliHash": "sha256:b422d6cdc1818c1a861ef6bbf87c9987315919014607a9c5555a67c79edb2c2e",
+   "definitionHash": "sha256:ee10242d6f466bc7e28c968f9e463db632abaf78a64dfd50d7a71cb8069bd919",
+   "fieldCount": 36,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:b422d6cdc1818c1a861ef6bbf87c9987315919014607a9c5555a67c79edb2c2e",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.slide.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:5cd51582f3eeba48f1b7ccbf521441dc4891bf4e8623d703a763a31f612d8ef8",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.slide_partner.describe": {
+   "cliHash": "sha256:3c52095107ca0992cae64eacfe9e53d52e2d3f279aa1edc9d11d69f910e29567",
+   "definitionHash": "sha256:03fa796c9befe19c663eee1c9288437f9c9eb39bcc930146890c303c45564417",
+   "fieldCount": 11,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:3c52095107ca0992cae64eacfe9e53d52e2d3f279aa1edc9d11d69f910e29567",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.slide_partner.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:01ef578ba58c830ef5031c6dfb3e0ae7e3399a5db26882429eed2a2f51805922",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.slide_resource.describe": {
+   "cliHash": "sha256:1a917705c74ed92d0280422be026be156c1728bfe416147fd7eaf48702c76797",
+   "definitionHash": "sha256:a0fee1f128c9203127743b665081c74c4ac995f5f6b3284afab0ace5bbdd3598",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:1a917705c74ed92d0280422be026be156c1728bfe416147fd7eaf48702c76797",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.slide_resource.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:1e80c836cb9df0657867622ed83388f3765a12400e68ee186a5285f984596092",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "elearning.tag.describe": {
+   "cliHash": "sha256:3377cabc00fc7aacc8f3b30733546c287d4e726bd242e180038107135798e405",
+   "definitionHash": "sha256:3b68300e92fb6c4bf991ffee6881219b72b4d3850d299e20153517c7fcffc58e",
+   "fieldCount": 3,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:3377cabc00fc7aacc8f3b30733546c287d4e726bd242e180038107135798e405",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "elearning.tag.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:3b68300e92fb6c4bf991ffee6881219b72b4d3850d299e20153517c7fcffc58e",
+   "kind": "list",
+   "modules": [
+    "website_slides"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "event.event.describe": {
+   "cliHash": "sha256:bf7b01af37d6890451c6b861c63662cba1c78c426cce6c7f42a470aad5f6dc41",
+   "definitionHash": "sha256:26685ec361640a0eab06d24c5b6804de3d17c66755818a375309768bd8ce7aa3",
+   "fieldCount": 43,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:650f2ee661672549659fbf3773ee38be5138dc7a209495c31e6d695e9268fed6",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.event.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:2d2b54339999917ae2ab2ea1b14dce8c1dc7fbd7212d7f1c948f63e93cdbf842",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "event.registration.describe": {
+   "cliHash": "sha256:38f61e3cad07e4c1a32641e9b080687cd258fcdd51b16785a774cc1b6c93c0e3",
+   "definitionHash": "sha256:ca84e0aae21a71475ecd7a093802129f529a8728787a903f279806ded9461ea3",
+   "fieldCount": 26,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:38f61e3cad07e4c1a32641e9b080687cd258fcdd51b16785a774cc1b6c93c0e3",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.registration.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:d7fc73195585401a6a7cb9e5ded73b354ffb5f8c762d5185848c084cc32d9107",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "event.slot.describe": {
+   "definitionHash": "sha256:3ab0028306a27ba0b5eaf7d73fb102beb7c6839ea6e0475e825e41f56c86e89f",
+   "modules": [
+    "event"
+   ],
+   "providerDomain": false,
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "event.slot.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:d439bca955b51eba1ac52c6aecdbb0fac6a2d4a75e07d49496cf27639c9b9319",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "providerDomain": false,
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "event.tag.describe": {
+   "cliHash": "sha256:a5624b16919b32bd168e99b2f6678d87a4382ae2b2f3b49b56174c452f524283",
+   "definitionHash": "sha256:7d59d2add5b57ed0803b44ccc419454ef8fe97fc02c9b13a81ed7c376c00cec4",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:a5624b16919b32bd168e99b2f6678d87a4382ae2b2f3b49b56174c452f524283",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.tag_category.describe": {
+   "cliHash": "sha256:218659e823a98ed64ea6e2026ce17da26128281c247824475b5339645afbfad8",
+   "definitionHash": "sha256:4892d0cc0bb9b750293fcca612f16891171757e3e3f0f4ed4fd9ac153aa92d27",
+   "fieldCount": 5,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:218659e823a98ed64ea6e2026ce17da26128281c247824475b5339645afbfad8",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "event.tag_category.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "definitionHash": "sha256:34490eb29e838a76298a3a403b870b5df03c9d5156fb8a6a5a2631a55f6707ab",
+   "kind": "list",
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "providerDomain": false,
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "event.template.describe": {
+   "cliHash": "sha256:77ca49331c8d0e22cc17429bde5f5791770c3d88be0f8a128325593aafbcbb8e",
+   "definitionHash": "sha256:c23dbb070b229ac47a49593624a6ccdb2c22b6fc1546ff93c69c555798fecaa8",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "event"
+   ],
+   "oracleHash": "sha256:77ca49331c8d0e22cc17429bde5f5791770c3d88be0f8a128325593aafbcbb8e",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_token.describe": {
+   "cliHash": "sha256:a8bbef41b7e4369924bc1e1090e5c6dff5ed440427bd992f178ad84862df5ce9",
+   "definitionHash": "sha256:bb353878cfe332ebd3bfeed0000e68c07db826c0db2350e615e07075b8d5a2b8",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:a8bbef41b7e4369924bc1e1090e5c6dff5ed440427bd992f178ad84862df5ce9",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.payment_token.list": {
+   "cliHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "definitionHash": "sha256:e0ce89b0522630c3450f43a31721b34ff95e37a1561207952c28d4bcd4d1a514",
+   "kind": "list",
+   "modules": [
+    "payment"
+   ],
+   "oracleHash": "sha256:30b5fcc48536512d38205b8b49d5d60a3b9491d683d369039daf8987a30967b6",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "inventory.shipping_method.describe": {
+   "cliHash": "sha256:b9db325b0661851c70e4429f554c8d1d07c3c513be4f4df8c46c1ada71179f3d",
+   "definitionHash": "sha256:5a9e214d6afaf9a3daadcca3a4bacaa4be85492f6434cce48037c53e34a78c2c",
+   "fieldCount": 34,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "delivery"
+   ],
+   "oracleHash": "sha256:7c8536729c806cac39b7eb772c1c1d08cda14a4a83acaca630bfb38479b915ec",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "inventory.shipping_method.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "definitionHash": "sha256:2917cf7d2576861f583867e2d9d295d44a115a1d113279770f8ff9a42ca5ff22",
+   "kind": "list",
+   "modules": [
+    "delivery"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "providerDomain": false,
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "livechat.channel.describe": {
+   "cliHash": "sha256:fc01437453af75de913da9d60ac4212399280216f8ea64f40afd18a6110e8c0e",
+   "definitionHash": "sha256:a09d8c299ba7893c4f83f695f70bf459f5f998c009d2b5163867ad722f485f6a",
+   "fieldCount": 22,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:fc01437453af75de913da9d60ac4212399280216f8ea64f40afd18a6110e8c0e",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.channel.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:33d75662a351ea8599f8dd4a50afd4d5bb4841af7ed5df8c85279ec16a08bb4b",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "livechat.channel_member_history.describe": {
+   "cliHash": "sha256:ccb15e645a476322fb23ad152deef942ae9700157da8c4ab894a3814e2b2430b",
+   "definitionHash": "sha256:69d14d0de10c18c0cd554bb589db1d65bf6a0947ac5df4e2bcd65883939c45fd",
+   "fieldCount": 24,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:8ade788e8dd5a5a64bffa207d00490cbafecf32860453db26e76a863c42e5e13",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.channel_member_history.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:d1ee84d1e0e09d00b2846259ccdd4f4de13ecc68b6f286c573af36006131a1ea",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "livechat.channel_rule.describe": {
+   "cliHash": "sha256:3cb922e740fe1ac01a8bb7d96717864b34e84258e840a1b730f6aa59797cdffe",
+   "definitionHash": "sha256:5a7cce90848dcc51cec4c3571f8c7cf9e60a6986dad268e90b163dc84fbf657d",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:3cb922e740fe1ac01a8bb7d96717864b34e84258e840a1b730f6aa59797cdffe",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.channel_rule.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:98cdd84a15c74f0ca39bbf3a6194632a45a4f3947b73aba88e5a2fa836c1bea2",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "livechat.conversation_tag.describe": {
+   "cliHash": "sha256:e18cb1b41bd1a2348aa04a557f50424dc80454eb97b49cc48bb2886e988ceb32",
+   "definitionHash": "sha256:a447b83171c06b3938afdb2ec0c562b3a23a047b381bca9876d8f0efb125af40",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:e18cb1b41bd1a2348aa04a557f50424dc80454eb97b49cc48bb2886e988ceb32",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.conversation_tag.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "definitionHash": "sha256:a447b83171c06b3938afdb2ec0c562b3a23a047b381bca9876d8f0efb125af40",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "providerDomain": false,
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "livechat.expertise.describe": {
+   "cliHash": "sha256:06e347b0af19b6328effa82286023e937a9e0fc4d77a05986be2981c598a342c",
+   "definitionHash": "sha256:b78b1ed6938080c163c5025c44e80d68016ee2b8a165b5849a4e21e170a8efed",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:06e347b0af19b6328effa82286023e937a9e0fc4d77a05986be2981c598a342c",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.expertise.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:b78b1ed6938080c163c5025c44e80d68016ee2b8a165b5849a4e21e170a8efed",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "livechat.message.describe": {
+   "cliHash": "sha256:c7c483b8420bc3102528832f9e74678abcc65ae0df3e5e6cf94bf11409f48c5f",
+   "definitionHash": "sha256:943c7f5a2978c82b7445b4269e147961b5a854a7315b69f72643ddfa11904374",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:c7c483b8420bc3102528832f9e74678abcc65ae0df3e5e6cf94bf11409f48c5f",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.message.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:addafdbee7f85f813071b9441c13721201f1e97cf494b5d364a93302b207acfa",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "livechat.script.describe": {
+   "cliHash": "sha256:a82cdc54b30927d7557fa9d80515f7102c8e22e0e943033ad997c5a03046db9e",
+   "definitionHash": "sha256:bb1a70669efa165f1eb47cd375ee2a96f1a312be13826e20485bf1fb0ed060c0",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:a82cdc54b30927d7557fa9d80515f7102c8e22e0e943033ad997c5a03046db9e",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.script.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "definitionHash": "sha256:95505a113ac0107998adc3c8727650acc866920521db04c425628782fef18801",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "providerDomain": false,
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "livechat.script_answer.describe": {
+   "cliHash": "sha256:d4a129f861ca2e69de3d4d057f3f525b792569896dce5de0de28bf6b6dfefcbb",
+   "definitionHash": "sha256:89516b28dd0887cab981828370942cbe34c5d11c771ab9099b764ddb74e3b595",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:d4a129f861ca2e69de3d4d057f3f525b792569896dce5de0de28bf6b6dfefcbb",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.script_answer.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:6996f94c1b9a691e49c4b36280a80263ac546d99e3e52aafd76fbc21f09b293f",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "livechat.script_step.describe": {
+   "cliHash": "sha256:89e6e38a9da347dba8d4d323e3eea201d1d35e13f68a0609e8912a7a40f45f56",
+   "definitionHash": "sha256:dc37fe42fb53991ccb327113aa86a010a000e2113694bcc0560af7e0c476a2f5",
+   "fieldCount": 12,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:89e6e38a9da347dba8d4d323e3eea201d1d35e13f68a0609e8912a7a40f45f56",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "livechat.script_step.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:e20469b4069b10b0b5f8c6f8b2f8ebacc34434816c92d963c5cdd78350a23e8d",
+   "kind": "list",
+   "modules": [
+    "im_livechat"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "lunch.alert.describe": {
+   "cliHash": "sha256:f45ea79c08445d32cd5dfec0671bbd7b21fd7386ef6b3d2a76fcf00df1cc2c8f",
+   "definitionHash": "sha256:8a555752e2bbcdfb10e0b8b254efc336b13c0e8771f1578bb201a4dd25f09f7c",
+   "fieldCount": 12,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:4f0277e51ddff8a28fdae093131411a9c01dbe5bf146f388acad45184d96b77f",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.alert.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "definitionHash": "sha256:ea561c18d529c04987de9447a32d9b7a0f2d8b66d15c76da33257c7b0ad89dc9",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "providerDomain": false,
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "lunch.cashmove.describe": {
+   "cliHash": "sha256:cbcf0d35818d0f6812741afcd201481d7fe9762421606c2a1eb117ccfc05ac86",
+   "definitionHash": "sha256:c82356b74fffed8d7d24974333d4265753444b150db065401855960526da7d44",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:d0ba9654a6938183c3a8eda25efe4237f4e6bea70a909d57eead8b50c9d949bd",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.cashmove.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:d740182bbbec04c57ab092ae5ceb964c48a58ef6759d97841b08e26cc3b80293",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "lunch.location.describe": {
+   "cliHash": "sha256:ad7d37cc136766aadde31204132283cb1624dbe4a852d44211bd7c50bbaa0829",
+   "definitionHash": "sha256:23537fb0e3c49354ace967d5b79be45a20b3577820b807fccdc26ffcb6330d07",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:ad7d37cc136766aadde31204132283cb1624dbe4a852d44211bd7c50bbaa0829",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.location.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "definitionHash": "sha256:23537fb0e3c49354ace967d5b79be45a20b3577820b807fccdc26ffcb6330d07",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "providerDomain": false,
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "lunch.order.describe": {
+   "cliHash": "sha256:4f2dc88be5425b71d1c942eec129abafc23b78e71f1af42191f9764232bb5a4a",
+   "definitionHash": "sha256:e47ef7167adb5ea4789af942340cb03420ea079249be9f8af5c582e49e48620b",
+   "fieldCount": 26,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:03f31841330c870f9930f91d2a3c05e35a5b56014756f61875ee931d427a830c",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.order.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:acf240b49830a0ceb3196383195ebc4083cb278aa8f6d3e854fdf8dfd7ba1dc7",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "lunch.product.describe": {
+   "cliHash": "sha256:6ac42359a51a5e716591f1d30096d7927d212250a3af3ee19b95b3ad5383f182",
+   "definitionHash": "sha256:01fdd3e8a8c8a17cd568bd81fa33e3872929904e40eaf9a207b50f29a1a12080",
+   "fieldCount": 11,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:6ac42359a51a5e716591f1d30096d7927d212250a3af3ee19b95b3ad5383f182",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.product.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:798538e56d8e6c8d160d7b9b80277d180b0799a58a53a40314fefe04092d8518",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "lunch.product_category.describe": {
+   "cliHash": "sha256:3ec9ba2922c0b181c3e0e119d6196c00d8a0b014c3270b9c28ab5f8e0634894f",
+   "definitionHash": "sha256:f97bb3d1f8ef4126f4e963c693c21946b28184141e51bbe171aa1013dc83e942",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:3ec9ba2922c0b181c3e0e119d6196c00d8a0b014c3270b9c28ab5f8e0634894f",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.product_category.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:b6d61a2302c72afe99ffa55c307f760579de967bf9dae7ca74e48d441d4e4d4a",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "lunch.supplier.describe": {
+   "cliHash": "sha256:4c54cf59b73a2fc5601a52656c06012eb6b45833894c79c90d4bf91247c991ff",
+   "definitionHash": "sha256:ada322f0f2f746d4341a45cce2561d552dfe8b7df5af499e709b10fcfade7276",
+   "fieldCount": 31,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:e580f2eb542968d5ee2a281b252fe69ad96211c9530c5399d24b65ba0d7f7b5e",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.supplier.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:37c1aca40cf5ce30a3f279092293dcb0624f5e23f7d59ae2c74996f3beea1575",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "lunch.topping.describe": {
+   "cliHash": "sha256:0b22493b1b49632438ede557ed099c0848abe4c7ae9de14fbb4b9ff3d479c9f5",
+   "definitionHash": "sha256:d7f22a012465261fded81f899436c9468d6dab9cc57d512614473a40b402ad56",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:0b22493b1b49632438ede557ed099c0848abe4c7ae9de14fbb4b9ff3d479c9f5",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "lunch.topping.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "definitionHash": "sha256:182122cf6e05d2722e6efe512b60667ff39ef5f99578dbc42628e3b3d8813204",
+   "kind": "list",
+   "modules": [
+    "lunch"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "providerDomain": false,
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "marketing.campaign.describe": {
+   "cliHash": "sha256:a43add3f7ad87ed109064129bc6824ee7ecec5c0985cbd907553ee400052a7a5",
+   "definitionHash": "sha256:4503fc9ebfc2510b108f67f051297f66dbbfd3d5027d8d42246e5a402c4db821",
+   "fieldCount": 40,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:a43add3f7ad87ed109064129bc6824ee7ecec5c0985cbd907553ee400052a7a5",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.campaign.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "definitionHash": "sha256:620111e5955dad8e41877e8ec6ddac6d89bbcbbf0d839ce551757131e7fa216b",
+   "kind": "list",
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "providerDomain": false,
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "marketing.campaign_tag.describe": {
+   "cliHash": "sha256:3603acaa18de40d5988943ba7f4f0f017c3719f2934acd1ad5130873e21b81e0",
+   "definitionHash": "sha256:e1ec52264b7835e98d411089f151b5ab21768c42c396cdd183ada340c4025a04",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:3603acaa18de40d5988943ba7f4f0f017c3719f2934acd1ad5130873e21b81e0",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.campaign_tag.list": {
+   "cliHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "definitionHash": "sha256:195ba935a3568d10ee78fa455ae3bb612e6014e857f64944f6b4e16b364ca785",
+   "kind": "list",
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22",
+   "providerDomain": false,
+   "recordCount": 1,
+   "status": "AGREE"
+  },
+  "marketing.card.describe": {
+   "definitionHash": "sha256:ef6836e6aa5a5782a3fcc986809ffb2edf551b8a7eb473b283250b1f69ef7996",
+   "modules": [
+    "marketing_card"
+   ],
+   "providerDomain": false,
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "marketing.card.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:830f788634f1a6f750315072ad2c6b243894f524ab56b45fcd28616ef1b788c5",
+   "kind": "list",
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "providerDomain": false,
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "marketing.contact.describe": {
+   "cliHash": "sha256:77d20b8aaf77847aee643673aeee045eac1baa0df30715306b8701b2eed102fe",
+   "definitionHash": "sha256:9b15e98232cdac18d8a2c5ecbc62f9e37e4126be98f863be4319adf301ca860e",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:77d20b8aaf77847aee643673aeee045eac1baa0df30715306b8701b2eed102fe",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.contact.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:11b9b3f2b9846fc5067613c9980500b019612538e37f5664bac0fcd11835f781",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "marketing.filter.describe": {
+   "definitionHash": "sha256:29470420d95a71bdabf8fa26426720a71f4922c1deba8c6b6cede20b0089c610",
+   "modules": [
+    "mass_mailing"
+   ],
+   "providerDomain": false,
+   "status": "NOT_RUN_NO_RECORD"
+  },
+  "marketing.filter.list": {
+   "cliHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "definitionHash": "sha256:2e589a95a9cdfde688b7fa296f17bebd550408330c8f4fd6d40814adf9f5e272",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "providerDomain": false,
+   "recordCount": 0,
+   "status": "AGREE_EMPTY"
+  },
+  "marketing.list.describe": {
+   "cliHash": "sha256:19827103162d2049b63c0e53d48eeca74460eaacfa8be0d2e77149a8bca0cb8f",
+   "definitionHash": "sha256:3b56cb2da71193d957699613d49eefee56fd51b4efca7da3e285e7b6e8cda930",
+   "fieldCount": 10,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:19827103162d2049b63c0e53d48eeca74460eaacfa8be0d2e77149a8bca0cb8f",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.list.list": {
+   "cliHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "definitionHash": "sha256:731076705f840b95fb52285c8b52d44fe417d5f9857a23a28f45763b809db1d8",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:a615eeaee21de5179de080de8c3052c8da901138406ba71c38c032845f7d54f4",
+   "providerDomain": false,
+   "recordCount": 3,
+   "status": "AGREE"
+  },
+  "marketing.mailing.describe": {
+   "cliHash": "sha256:3f3b208e89ad4f04cf0d3f2175912daecb46be82b319fd59efa9b7a22f5ed7df",
+   "definitionHash": "sha256:9a5af386f270e8777e8f0881cb23efef7fe4014cf23afdfa00dc38631f1bf49b",
+   "fieldCount": 69,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:fffb84e53a6931c25a2bfaa9043586f96bedb6e8d7972cdd94a508d30b820219",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.mailing.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:f3dcc6a2147b1bb73db2c2e4fd913679978e0244e7c827e0c112d18a569cf431",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "marketing.subscription.describe": {
+   "cliHash": "sha256:7d7d5d8a96cd8c47055e549f7fb97888fcfde70bd531ddad77cb5c14b9b912b7",
+   "definitionHash": "sha256:2a8cbacfc07552a023ecf23afcdb90611399da746d3e79c4cbfaf9b8141583d8",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:7d7d5d8a96cd8c47055e549f7fb97888fcfde70bd531ddad77cb5c14b9b912b7",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.subscription.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:4bf54ee2ccbe9507f8f110225208f71670919374d25b30959db0c02eebf1fa2d",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "marketing.subscription_optout.describe": {
+   "cliHash": "sha256:3ec7decedc8a9693040bb48fe69d78c79526964d8110cdb8efc1af87d905135c",
+   "definitionHash": "sha256:dbd8210ade6e15b5709eda8d9fa162b3fad5a6e223022e6032819acfacd09426",
+   "fieldCount": 4,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:3ec7decedc8a9693040bb48fe69d78c79526964d8110cdb8efc1af87d905135c",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.subscription_optout.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:6e9e8a025615e9ecb8d6eff5bbc2eb6ad5f531f720001ea89a6844ea03988582",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "marketing.template.describe": {
+   "cliHash": "sha256:d84abcb801ece24b8f730977144462069cd1e0065b9fd260a351982f9ce5c715",
+   "definitionHash": "sha256:f38c3a7e0d2aa7eae1bc4e1ad02ea9e8382d5d5feb814af36dd383377fe29587",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:d84abcb801ece24b8f730977144462069cd1e0065b9fd260a351982f9ce5c715",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.template.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:ddb1111fa7133cf3fdbf708ab7c12aa262e8ddda6d638a0365f2b89dd04dbda6",
+   "kind": "list",
+   "modules": [
+    "marketing_card"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "marketing.trace.describe": {
+   "cliHash": "sha256:ad68408248c9dc972cb5e2160cb2d8834c63dd248983cccb8105e821f55ed4f6",
+   "definitionHash": "sha256:01da5e988c80237a773407acfe3d8c73ce95d37d4dd77f407f161efde332fe42",
+   "fieldCount": 19,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:ad68408248c9dc972cb5e2160cb2d8834c63dd248983cccb8105e821f55ed4f6",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "marketing.trace.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:21dfa351c07b18725265cbad22f1470f22365985116cd872035354cdf9ae4aaa",
+   "kind": "list",
+   "modules": [
+    "mass_mailing"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "people.resume_line.describe": {
+   "cliHash": "sha256:569426c79f60bb8a34b54eb3cda63ca40cbae98f56daff46552555e283004676",
+   "definitionHash": "sha256:1df56de9235c7fd73d21d7ecd879c43c323fc864d584d07c2d6549e0580b210e",
+   "fieldCount": 15,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:569426c79f60bb8a34b54eb3cda63ca40cbae98f56daff46552555e283004676",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "people.resume_line.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:8df89fd1a6bb4dd17ad4e46a8e7de4c2e979124d585aed00d9033286c2afd295",
+   "kind": "list",
+   "modules": [
+    "hr_skills"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "sales.loyalty_program.describe": {
+   "cliHash": "sha256:886622793df5a686849c1dd100685e5a1c61bcefa141ca84b83cf2e11e5ba828",
+   "definitionHash": "sha256:5f2404b9f3a39bc2df5213069364eec69430ffb22b69e4c97d6209e45afd7a2b",
+   "fieldCount": 31,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "loyalty"
+   ],
+   "oracleHash": "sha256:886622793df5a686849c1dd100685e5a1c61bcefa141ca84b83cf2e11e5ba828",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.model.describe": {
+   "cliHash": "sha256:92b6ad35fb6f3221430ed7068edb2da81f2f4f433dd6c6abef297836f3791398",
+   "definitionHash": "sha256:54e24835f620e03cb14e9730238567a2cfc4040e822788e6147b95a20af40483",
+   "fieldCount": 17,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleHash": "sha256:92b6ad35fb6f3221430ed7068edb2da81f2f4f433dd6c6abef297836f3791398",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.model.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:55118b8824d71d23bbeb010c05989dde4c779f3e7f0a079ef837db8a31b5328a",
+   "kind": "list",
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "structure.record.describe": {
+   "cliHash": "sha256:0a862eb5260b13b3cde997c54b7ac2de9ab3fc0ffd12dfb8fbc2aedcd84b3be5",
+   "definitionHash": "sha256:5282dc705af300c1af348947162fb822738da11fe178033f5d0c2b924ccb1244",
+   "fieldCount": 9,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleHash": "sha256:0a862eb5260b13b3cde997c54b7ac2de9ab3fc0ffd12dfb8fbc2aedcd84b3be5",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.record.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:6e3a52fdc62aa702bc8c3d4d5639601049b761a12cf094ba8bafebcc5173b651",
+   "kind": "list",
+   "modules": [
+    "data_recycle"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "survey.survey.describe": {
+   "cliHash": "sha256:bcd3dd0a9cd0cfe8fb40e07929fd3cdb9e7d2eb1568aee4e1e5b2ea642cfab41",
+   "definitionHash": "sha256:48a5a79bbcc096261a194d483f45939eaf44ff6aa0e6eb3196117e035dda171e",
+   "fieldCount": 46,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "survey"
+   ],
+   "oracleHash": "sha256:e01842372e2131ab67bcaef57bb5e9c35f32d95e645f6af5259982e168525a02",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "website.checkout_step.describe": {
+   "cliHash": "sha256:c6ff3a3f9cb006e5187842bb2040893f0f45375c8c7e788e2ad64abcd60c4adc",
+   "definitionHash": "sha256:c1deba8975eaf78df902bfcbd401c3259b3d6c485552d876b03840c5128d6fa8",
+   "fieldCount": 13,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:c6ff3a3f9cb006e5187842bb2040893f0f45375c8c7e788e2ad64abcd60c4adc",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "website.checkout_step.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:c7910be2c2bf3e75ced71965ed0d97c29609ef5bf11daeb9ce817bed12af9c03",
+   "kind": "list",
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "website.event_menu.describe": {
+   "cliHash": "sha256:71a1fd7f9950c50e484203f94db801726ac689354a557e8d4a43ebc75da9cd28",
+   "definitionHash": "sha256:8e29fe34c993811e294a0eb9e4e55208f7dfcb8d3d4094cf401605bda4a2a7c2",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_event"
+   ],
+   "oracleHash": "sha256:71a1fd7f9950c50e484203f94db801726ac689354a557e8d4a43ebc75da9cd28",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "website.event_menu.list": {
+   "cliHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "definitionHash": "sha256:8e29fe34c993811e294a0eb9e4e55208f7dfcb8d3d4094cf401605bda4a2a7c2",
+   "kind": "list",
+   "modules": [
+    "website_event"
+   ],
+   "oracleHash": "sha256:f6bd10506e9a4daed7c03eda2f2fde54be3bd58eee49dab471c18a888ffbdb6f",
+   "providerDomain": false,
+   "recordCount": 4,
+   "status": "AGREE"
+  },
+  "website.sale_extra_field.describe": {
+   "cliHash": "sha256:f3eb48c912b7e35c4cf230ee6e7fdfa7f2d82e0e97d46a9401d102c2a4572988",
+   "definitionHash": "sha256:d9c118a2647a01df034d5505d8363e7767d435e939bcee0d4bd106d9a98faf0e",
+   "fieldCount": 7,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:f3eb48c912b7e35c4cf230ee6e7fdfa7f2d82e0e97d46a9401d102c2a4572988",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "website.sale_extra_field.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:18b70cad8856e8194d1446c3d441ec9355a18b3b2297076a834d9ee9ddcbe547",
+   "kind": "list",
+   "modules": [
+    "website_sale"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}
