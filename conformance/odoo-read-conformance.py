@@ -35,6 +35,26 @@ import urllib.request
 LIMIT = 5
 
 
+
+# Baseline (19.0) modules a series no longer ships on its own, with the module that now carries their
+# models. Mirrors packages/odoo/provider_dialect.go mergedModules.
+
+# Fields Odoo computes from the clock at the moment it is read: the CLI and the oracle read a second
+# apart and may see different values. They are still read and reported (volatileFields), never
+# compared. Found by the public conformance run of 2026-10-13 (a mailing's next departure).
+VOLATILE_FIELDS = {
+    "mailing.mailing": {"next_departure"},
+}
+
+MERGED_MODULES = {
+    "20.0": {
+        "stock_picking_batch": "stock",
+        "website_sale_wishlist": "website_sale",
+        "website_sale_comparison": "website_sale",
+        "hr_homeworking": "hr",
+    },
+}
+
 def canonical_hash(value):
     return "sha256:" + hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
@@ -134,6 +154,9 @@ def main():
     listing = cli(options.odoo_bin, options.profile, "catalog", "list", "--strategy", "READ", *selection)
     operation_ids = sorted(item["id"] for item in (listing.get("data") or {}).get("items", []))
     installed = {r["name"] for r in oracle.call("ir.module.module", "search_read", [[["state", "=", "installed"]]], {"fields": ["name"]})}
+    # A module the series merged into another counts as installed when that one is (the Go dialect's
+    # mergedModules, packages/odoo/provider_dialect.go).
+    installed |= {old for old, new in MERGED_MODULES.get(options.series, {}).items() if new in installed}
     renames = load_renames(options.renames)
 
     results = {}
@@ -224,12 +247,14 @@ def main():
                 result["status"] = "ORACLE_ERROR"
                 result["detail"] = str(error)[:200]
                 continue
-            mismatched = [f for f in fields if not same_value(cli_record.get(f), oracle_record.get(series_name.get(f, f)))]
+            volatile = VOLATILE_FIELDS.get(model, set())
+            mismatched = [f for f in fields if f not in volatile and not same_value(cli_record.get(f), oracle_record.get(series_name.get(f, f)))]
             renamed = sorted(f for f in fields if f in series_name)
             status = "DISAGREE" if mismatched else ("AGREE_WITH_UNCHECKED_FIELDS" if unchecked else "AGREE")
             result.update({"kind": "describe", "fieldCount": len(fields), "cliHash": canonical_hash(cli_record),
                            "oracleHash": canonical_hash(oracle_record), "mismatchedFields": mismatched,
-                           "uncheckedFields": unchecked, "renamedFields": renamed, "status": status})
+                           "uncheckedFields": unchecked, "renamedFields": renamed, "status": status,
+                           **({"volatileFields": sorted(volatile & set(fields))} if volatile & set(fields) else {})})
         else:
             answer = cli(options.odoo_bin, options.profile, "execute", "--operation", operation_id,
                          "--limit", str(LIMIT), "--order", "id", "--allow-unverified")

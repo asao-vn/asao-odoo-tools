@@ -418,7 +418,8 @@ func (f ProviderFit) Assess(op Odoo19Operation) OperationFit {
 		verdict.Notes = append(verdict.Notes, "this login cannot read the installed modules, so the check cannot tell a stock Odoo from a customised one")
 	}
 	for _, module := range op.RequiredModules {
-		if _, installed := f.origins[module]; !installed && !f.ModulesUnreadable {
+		// A module the series merged into another is installed when that one is (SeriesModule).
+		if _, installed := f.origins[SeriesModule(f.ProviderSeries, module)]; !installed && !f.ModulesUnreadable {
 			verdict.MissingModules = append(verdict.MissingModules, module)
 		}
 	}

@@ -33,6 +33,7 @@ import (
 	"strings"
 
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
+	"github.com/asao-platform/atoc/packages/odoo"
 	"github.com/asao-platform/atoc/packages/odoo/direct"
 )
 
@@ -70,8 +71,8 @@ type Surface struct {
 	IncludeSurface bool
 	// IncludeGovernedSurface makes this surface list, describe and accept the surface operations the
 	// governed product executes (direct.GovernedOperations): every READ, under its family's read
-	// capability (DEC-2026-0156), and the verified low- and medium-risk writes, actions and dialogs,
-	// under its family's write capability (DEC-2026-0160).
+	// capability (DEC-2026-0156), and the verified writes, actions and dialogs, under its family's
+	// write capability (DEC-2026-0160), the high-risk ones behind an approval (DEC-2026-0161).
 	IncludeGovernedSurface bool
 }
 
@@ -112,6 +113,16 @@ func Provenance() direct.Provenance { return direct.CatalogProvenance() }
 // UnknownOperationError names the closest catalog ids, so a caller that mistyped an operation can
 // correct itself from the error alone rather than re-listing the whole catalog.
 func (s Surface) UnknownOperationError(operationID string, cause error) error {
+	// A surface operation the governed product does not execute (unverified, a delete or a print,
+	// DEC-2026-0160) is not unknown: say why, and where it runs instead.
+	if why := odoo.WhyNotGoverned(operationID); s.IncludeGovernedSurface && why != "" {
+		return clicore.NewError(clicore.CategoryUsage, "AERP_UNKNOWN_OPERATION",
+			strconv.Quote(operationID)+" is not executed through the governed product: "+why).
+			WithResource("aerp.operation", operationID).
+			WithCause(cause).
+			WithContextValue("notGovernedReason", why).
+			WithRemediation("Run it with the standalone odoo-cli against a profile of your own.")
+	}
 	suggestions := []string{}
 	prefix, _, _ := strings.Cut(operationID, ".")
 	for _, candidate := range s.operationIDs() {
@@ -197,6 +208,11 @@ func (s Surface) ListCatalog(invocation *clicore.Invocation, authorization map[s
 		if operation.Surface {
 			item["surface"] = true
 			item["providerModel"] = operation.ProviderModel
+		}
+		// The governed product runs a high- or critical-risk operation only with a colleague's
+		// approval (DEC-2026-0161); the standalone tool has no approval step to report.
+		if s.IncludeGovernedSurface && (operation.Risk == "HIGH" || operation.Risk == "CRITICAL") {
+			item["approvalRequired"] = true
 		}
 		items = append(items, item)
 	}

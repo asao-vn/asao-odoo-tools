@@ -1077,6 +1077,63 @@ three labs and set to capture manually.
 - **Result:** the 20.0 manifest holds 1081 records, 83% of the 1297 operations that 20.0 can
   run.
 
+## Odoo 20.0 past 90% (2026-10-13)
+
+**A 20.0 lab with demo data.** `lab20demo` is a second 20.0 database on the same image digest
+(`sha256:cdd83e83…`).
+- It has the 271 modules vn20 has, created `--with-demo`, plus sale_stock and sale_timesheet.
+- It is served by `odoo20demo-research-web` on 127.0.0.1:58717.
+- The lab seeder and four records made in `odoo shell` filled the models it left empty: an analytic
+  distribution model, an SInvoice symbol, a weekly recurrence, a counted quant.
+
+**What 20.0 removed, now in the dialect** (`packages/odoo/provider_dialect.go`):
+- **Four more models.** `stock.return.picking` (a transfer's own `action_return`/`action_return_all`
+  replace it), `hr.expense.post.wizard`, `hr.version.wizard` and `l10n_vn_edi_viettel.cancellation`.
+- **Fourteen business methods** that are defined nowhere in the 20.0 source:
+  - mailing favorites;
+  - `sale.order.action_update_taxes`;
+  - POS session closing control;
+  - `repair.order.action_repair_start`;
+  - attendance overtime approval and refusal;
+  - calendar type switches;
+  - and others.
+
+  `CallMethod` refuses each before the provider is contacted.
+- **`UnavailableOnSeries`.** It says why an operation cannot run on a series. 62 of the 1358
+  operations cannot run on 20.0, so **1296 apply**. Not applicable is different from unverified: no
+  run can ever verify those.
+- **Four merged modules.** 20.0 ships `stock_picking_batch` inside `stock`,
+  `website_sale_wishlist` and `website_sale_comparison` inside `website_sale`, and `hr_homeworking`
+  inside `hr`. The provider-fit check counts the old name as installed when the new one is
+  (`SeriesModule`), and so do the runners.
+
+**Runner fixtures on 20.0.** The action fixtures ask the series (`Fixtures.v20`). On 20.0 they use:
+- a stock move's `uom_id`;
+- an untracked product with tracking `False`, not `'none'`;
+- an active payment provider, not one by `state`;
+- `active` instead of a maintenance request's `archive`;
+- `hr.work.entry.type` for a leave;
+- no repair start step.
+
+Twin vehicles now get distinct plates.
+
+**Curated money flows on 20.0.** With `--only`, 16 of 18 agree:
+- sales and purchase confirm, cancel and draft;
+- invoice post and cancel;
+- payment register;
+- transfer reserve, validate and cancel;
+- the bill and invoice creation;
+- opportunity win and lose.
+
+**Result:** the 20.0 manifest holds **1170 records, 90.3% of the 1296 applicable operations**.
+- Promoted from `*-20.0-lab20demo-*-20261013.json`: 89 new records.
+- Still unverified on 20.0:
+  - business rules a generic record does not meet, as on 19.0;
+  - eight buttons the 20.0 forms do not show;
+  - payment token operations, which the promotion's guarded-word rule holds back on both series;
+  - four describes whose rebuilt or unchecked fields the oracle cannot compare (`company_type`,
+    `rounding`, `tz`).
+
 **Governed writes (DEC-2026-0160).** The governed product now executes the surface's verified low-
 and medium-risk creates, updates, actions and dialogs, under one write key per domain. That is 593
 operations. `REVIEWED_HIGH_RISK` lists 17 more high-risk operations: posting and reopening the

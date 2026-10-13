@@ -106,9 +106,10 @@ func SurfaceWriteCapability(op Odoo19Operation) string {
 
 // LookupGovernedOperation finds an operation the governed product executes: a curated one; a
 // surface READ, under its family's read capability (SurfaceReadCapability, DEC-2026-0156); or a
-// surface create, update, business action or dialog that is verified on 19.0 and of low or medium
-// risk, under its family's write capability (SurfaceWriteCapability, DEC-2026-0160). The rest of the
-// surface stays standalone-only, and WhyNotGoverned says why.
+// surface create, update, business action or dialog that is verified on 19.0, under its family's
+// write capability (SurfaceWriteCapability, DEC-2026-0160). One of high or critical risk is admitted
+// too, and runs only with a second person's approval (RequiresApproval, DEC-2026-0161). The rest of
+// the surface stays standalone-only, and WhyNotGoverned says why.
 func LookupGovernedOperation(id string) (Odoo19Operation, bool) {
 	if op, ok := CatalogByID[id]; ok {
 		return op, true
@@ -128,11 +129,16 @@ func LookupGovernedOperation(id string) (Odoo19Operation, bool) {
 	return Odoo19Operation{}, false
 }
 
+// RequiresApproval reports whether the governed product runs op only after a second person approved
+// the exact request (DEC-2026-0161): every operation of high or critical risk, curated or surface.
+func RequiresApproval(op Odoo19Operation) bool {
+	return op.Risk == RiskHigh || op.Risk == RiskCritical
+}
+
 // WhyNotGoverned says why a surface operation is not executed by the governed product, or "" when
-// it is (and for an id outside the surface catalog). A write that moves money, posts to the books
-// or reaches outside Odoo is high risk and waits for an approval step the governed product does not
-// have yet; an unverified one is not offered to a business at all; deletes, prints and module
-// installs stay with the standalone tool.
+// it is (and for an id outside the surface catalog). An unverified one is not offered to a business
+// at all; deletes, prints and module installs stay with the standalone tool. A verified write of high
+// risk IS governed, behind an approval (RequiresApproval).
 func WhyNotGoverned(id string) string {
 	op, ok := SurfaceCatalogByID[id]
 	if !ok {
@@ -144,9 +150,6 @@ func WhyNotGoverned(id string) string {
 	case StrategyFieldWrite, StrategyMethodCall, StrategyWizard:
 	default:
 		return "a surface " + strings.ToLower(string(op.Strategy)) + " operation runs only through the standalone tool (odoo-cli)"
-	}
-	if op.Risk != RiskLow && op.Risk != RiskMedium {
-		return "a " + strings.ToLower(string(op.Risk)) + "-risk surface operation needs an approval step the governed product does not have yet; run it through the standalone tool (odoo-cli)"
 	}
 	if readiness, _ := ReadinessOf(id); readiness != ReadinessCurrentVerified {
 		return "a surface write that is not verified on 19.0 is not offered through the governed product"

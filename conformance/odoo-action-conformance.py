@@ -78,8 +78,24 @@ EXACT_TYPES = {"selection", "boolean"}
 SCALAR_TYPES = COMPARED_TYPES | {"html"}
 EXTERNAL_MODULES = {"l10n_vn_edi_viettel"}
 TWIN_FIELDS = ("state", "partner_id", "company_id", "picking_type_id", "move_type", "journal_id", "type", "payment_mode")
+# Fields a model's buttons refuse without, which twins must share even when matched loosely. An
+# expense without a category cannot be submitted: the public conformance run of 2026-10-13 paired a
+# category-less expense (the CLI's twin, rightly refused) with one that had a category.
+TWIN_FIELDS_BY_MODEL = {"hr.expense": ("product_id",)}
 MAX_DIALOGS = 4
 
+
+
+# Baseline (19.0) modules a series no longer ships on its own, with the module that now carries their
+# models. Mirrors packages/odoo/provider_dialect.go mergedModules.
+MERGED_MODULES = {
+    "20.0": {
+        "stock_picking_batch": "stock",
+        "website_sale_wishlist": "website_sale",
+        "website_sale_comparison": "website_sale",
+        "hr_homeworking": "hr",
+    },
+}
 
 def canonical_hash(value):
     return "sha256:" + hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
@@ -311,6 +327,8 @@ class Fixtures:
 
     def __init__(self, oracle):
         self.oracle = oracle
+        # 20.0 renamed or removed what some fixtures write; each fixture below that differs asks this.
+        self.v20 = oracle.version.get("server_serie") == "20.0"
 
     def call(self, model, method, args, kwargs=None):
         return self.oracle.call(model, method, args, kwargs)
@@ -410,7 +428,7 @@ class Fixtures:
 
         def make():
             request = self.call("maintenance.request", "create", [{"name": f"Conformance twin request {STAMP}-{next(serial)}"}])
-            self.call("maintenance.request", "write", [[request], {"archive": True}])
+            self.call("maintenance.request", "write", [[request], {"active": False} if self.v20 else {"archive": True}])
             return request
         return self.twice(make)
 
@@ -442,7 +460,7 @@ class Fixtures:
         (on="invoice") or nothing (on="transaction"). The customer's side is the module's own
         simulation route, which a browser posts; with manual capture, a paid simulation leaves the
         transaction authorized."""
-        provider = self.first("payment.provider", [["code", "=", "demo"], ["state", "!=", "disabled"]], ("payment_method_ids",))
+        provider = self.first("payment.provider", [["code", "=", "demo"], ["active", "=", True] if self.v20 else ["state", "!=", "disabled"]], ("payment_method_ids",))
         self.call("payment.provider", "write", [[provider["id"]], {"capture_manually": True}])
         partner = self.first("res.partner", [["customer_rank", ">", 0]])["id"]
         product = self.first("product.product", [["sale_ok", "=", True], ["type", "=", "service"]])["id"]
@@ -590,13 +608,13 @@ class Fixtures:
     def full_receipts(self):
         """Receipts of 10 with all 10 picked: Validate needs no dialog."""
         kind = self.first("stock.picking.type", [["code", "=", "incoming"]], ("id", "default_location_src_id", "default_location_dest_id"))
-        product = self.first("product.product", [["is_storable", "=", True], ["tracking", "=", "none"]], ("id", "uom_id"))
+        product = self.first("product.product", [["is_storable", "=", True], ["tracking", "=", False if self.v20 else "none"]], ("id", "uom_id"))
         source, destination = kind["default_location_src_id"][0], kind["default_location_dest_id"][0]
 
         def make():
             picking = self.call("stock.picking", "create", [{"picking_type_id": kind["id"], "location_id": source, "location_dest_id": destination,
                                                              "move_ids": [[0, 0, {"product_id": product["id"], "product_uom_qty": 10,
-                                                                                  "product_uom": product["uom_id"][0], "location_id": source,
+                                                                                  ("uom_id" if self.v20 else "product_uom"): product["uom_id"][0], "location_id": source,
                                                                                   "location_dest_id": destination}]]}])
             self.call("stock.picking", "action_confirm", [[picking]])
             move = self.first("stock.move", [["picking_id", "=", picking]])["id"]
@@ -641,7 +659,7 @@ class Fixtures:
         def make():
             picking = self.call("stock.picking", "create", [{"picking_type_id": kind["id"], "location_id": source, "location_dest_id": destination,
                                                              "move_ids": [[0, 0, {"product_id": product["id"], "product_uom_qty": 1,
-                                                                                  "product_uom": product["uom_id"][0], "location_id": source,
+                                                                                  ("uom_id" if self.v20 else "product_uom"): product["uom_id"][0], "location_id": source,
                                                                                   "location_dest_id": destination}]]}])
             self.call("stock.picking", "action_confirm", [[picking]])
             self.call("stock.picking", "do_unreserve", [[picking]])
@@ -650,13 +668,13 @@ class Fixtures:
 
     def partial_receipts(self):
         kind = self.first("stock.picking.type", [["code", "=", "incoming"]], ("id", "default_location_src_id", "default_location_dest_id"))
-        product = self.first("product.product", [["is_storable", "=", True], ["tracking", "=", "none"]], ("id", "uom_id"))
+        product = self.first("product.product", [["is_storable", "=", True], ["tracking", "=", False if self.v20 else "none"]], ("id", "uom_id"))
         source, destination = kind["default_location_src_id"][0], kind["default_location_dest_id"][0]
 
         def make():
             picking = self.call("stock.picking", "create", [{"picking_type_id": kind["id"], "location_id": source, "location_dest_id": destination,
                                                              "move_ids": [[0, 0, {"product_id": product["id"], "product_uom_qty": 10,
-                                                                                  "product_uom": product["uom_id"][0], "location_id": source,
+                                                                                  ("uom_id" if self.v20 else "product_uom"): product["uom_id"][0], "location_id": source,
                                                                                   "location_dest_id": destination}]]}])
             self.call("stock.picking", "action_confirm", [[picking]])
             move = self.first("stock.move", [["picking_id", "=", picking]])["id"]
@@ -668,7 +686,7 @@ class Fixtures:
         """Manufacturing orders of 5 with `produced` made. Consistent: the components consumed match
         the bill of materials, so the only question is the backorder; otherwise none are consumed,
         so Odoo first asks about the consumption."""
-        bom = self.first("mrp.bom", [["type", "=", "normal"], ["product_tmpl_id.tracking", "=", "none"]], ("id", "product_tmpl_id"))
+        bom = self.first("mrp.bom", [["type", "=", "normal"], ["product_tmpl_id.tracking", "=", False if self.v20 else "none"]], ("id", "product_tmpl_id"))
         variant = self.first("product.product", [["product_tmpl_id", "=", bom["product_tmpl_id"][0]]])["id"]
 
         def make():
@@ -688,7 +706,7 @@ class Fixtures:
 
     def own_future_leaves(self):
         employee = self.first("hr.employee", [["user_id", "=", self.oracle.uid]])["id"]
-        kind = self.first("hr.leave.type", [["requires_allocation", "=", False]])["id"]
+        kind = self.first("hr.work.entry.type" if self.v20 else "hr.leave.type", [["requires_allocation", "=", False]])["id"]
         days = iter(range(60, 400))
 
         def make():
@@ -696,7 +714,7 @@ class Fixtures:
                 day = datetime.date.today() + datetime.timedelta(days=next(days))
                 if day.weekday() < 5:
                     break
-            leave = self.call("hr.leave", "create", [{"employee_id": employee, "holiday_status_id": kind,
+            leave = self.call("hr.leave", "create", [{"employee_id": employee, ("work_entry_type_id" if self.v20 else "holiday_status_id"): kind,
                                                       "request_date_from": str(day), "request_date_to": str(day)}])
             for method in ("action_approve", "action_validate"):
                 if self.call("hr.leave", "read", [[leave], ["state"]])[0]["state"] != "validate":
@@ -786,7 +804,7 @@ class Fixtures:
                 self.call("repair.order", "action_assign", [[repair]])
             if part == "released":
                 self.call("repair.order", "action_unreserve", [[repair]])
-            if state == "under_repair":
+            if state == "under_repair" and not self.v20:  # 20.0 has no separate start step
                 self.call("repair.order", "action_repair_start", [[repair]])
             return repair
         return self.twice(make)
@@ -823,7 +841,7 @@ class Fixtures:
         if len(drivers) < 2:
             raise Unsupported("fewer than two people to drive")
         return [self.call("fleet.vehicle", "create", [{"model_id": model, "future_driver_id": driver,
-                                                        "license_plate": f"CF-{STAMP[-6:]}"}]) for driver in drivers]
+                                                        "license_plate": f"CF-{STAMP[-6:]}-{index}"}]) for index, driver in enumerate(drivers)]
 
     def live_surveys(self, started):
         """Two live-session surveys of one question, their session started when the button ends it."""
@@ -863,7 +881,7 @@ class Fixtures:
         return self.twice(make)
 
     def orders_with_operations(self, planned):
-        bom = self.first("mrp.bom", [["type", "=", "normal"], ["operation_ids", "!=", False], ["product_tmpl_id.tracking", "=", "none"]],
+        bom = self.first("mrp.bom", [["type", "=", "normal"], ["operation_ids", "!=", False], ["product_tmpl_id.tracking", "=", False if self.v20 else "none"]],
                          ("id", "product_tmpl_id"))
         variant = self.first("product.product", [["product_tmpl_id", "=", bom["product_tmpl_id"][0]]])["id"]
 
@@ -1168,6 +1186,9 @@ def main():
                                + m.get("views", {}).get("list", {}).get("buttons", []))
                   for m in inventory["models"] if "error" not in m}
     installed = {r["name"] for r in oracle.call("ir.module.module", "search_read", [[["state", "=", "installed"]]], {"fields": ["name"]})}
+    # A module the series merged into another counts as installed when that one is (the Go dialect's
+    # mergedModules, packages/odoo/provider_dialect.go).
+    installed |= {old for old, new in MERGED_MODULES.get(options.series, {}).items() if new in installed}
 
     # Surface operations by default. A curated operation runs only when --only names it: the curated
     # money flows (sales.order.confirm, finance.invoice.post, ...) carry historical evidence, and a run
@@ -1242,8 +1263,9 @@ def main():
             # partner (an SMS to a customer with a phone), the company and the kind of record.
             # Twins agreeing on those are sought first; failing that, twins agreeing on the state
             # and on what the button reads.
-            strict = button_reads | {f for f in TWIN_FIELDS if f in meta}
-            loose = button_reads | ({"state"} if "state" in meta else set())
+            required = {f for f in TWIN_FIELDS_BY_MODEL.get(model, ()) if f in meta}
+            strict = button_reads | required | {f for f in TWIN_FIELDS if f in meta}
+            loose = button_reads | required | ({"state"} if "state" in meta else set())
             # Archived records too: the form shows them, and some buttons are for them (restore).
             # Inside the operation's provider domain: a record outside it is one the CLI refuses, rightly.
             candidates = oracle.call(model, "search_read", [described.get("providerDomain") or []],

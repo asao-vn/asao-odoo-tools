@@ -317,6 +317,9 @@ func (t *ClientTransport) CallMethod(ctx context.Context, model string, ids []in
 	if err := d.checkModel(model); err != nil {
 		return nil, err
 	}
+	if err := d.checkMethod(model, method); err != nil {
+		return nil, err
+	}
 	args := append([]interface{}{idArgs(ids)}, extraArgs...)
 	kwargs := map[string]interface{}{}
 	if len(providerCtx) > 0 {

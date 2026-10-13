@@ -99,14 +99,14 @@ func TestDirectExecutorRunsACandidateSeriesOnlyWhenUnverifiedResultsAreAccepted(
 	// A 20.0 answer reports 20.0's readiness, never 19.0's, in both directions: an operation with a
 	// 20.0 record reads CURRENT_VERIFIED, one verified on 19.0 only reads UNVERIFIED.
 	assertCandidateReadiness(t, outcome, "identity.contact.list", odoo.ReadinessCurrentVerified)
-	other, err := executor.Execute(context.Background(), direct.Request{Operation: "finance.bank_statement.list", Limit: 1, AllowUnverified: true})
+	other, err := executor.Execute(context.Background(), direct.Request{Operation: "identity.contact.describe", ProviderTargetID: 1, AllowUnverified: true})
 	if err != nil {
-		t.Fatalf("execute finance.bank_statement.list: %v", err)
+		t.Fatalf("execute identity.contact.describe: %v", err)
 	}
-	if baseline, _ := odoo.ReadinessOf("finance.bank_statement.list"); baseline != odoo.ReadinessCurrentVerified {
-		t.Fatalf("test premise: finance.bank_statement.list must be CURRENT_VERIFIED on 19.0 so a leak would show; it is %s", baseline)
+	if baseline, _ := odoo.ReadinessOf("identity.contact.describe"); baseline != odoo.ReadinessCurrentVerified {
+		t.Fatalf("test premise: identity.contact.describe must be CURRENT_VERIFIED on 19.0 so a leak would show; it is %s", baseline)
 	}
-	assertCandidateReadiness(t, other, "finance.bank_statement.list", odoo.ReadinessUnverified)
+	assertCandidateReadiness(t, other, "identity.contact.describe", odoo.ReadinessUnverified)
 }
 
 func assertCandidateReadiness(t *testing.T, outcome direct.Outcome, operation string, want odoo.OperationReadiness) {

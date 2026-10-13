@@ -237,8 +237,9 @@ func DescribeOperation(semanticID string) (Operation, error) {
 }
 
 // GovernedOperations are the operations the governed product executes: the curated catalog, the
-// surface's reads and its verified low- and medium-risk writes, actions and dialogs, each under the
-// capability the governed product enforces for it (odoo.LookupGovernedOperation).
+// surface's reads and its verified writes, actions and dialogs (the high-risk ones behind an
+// approval), each under the capability the governed product enforces for it
+// (odoo.LookupGovernedOperation).
 func GovernedOperations() []Operation {
 	out := Operations()
 	for _, op := range odoo.SurfaceCatalog() {

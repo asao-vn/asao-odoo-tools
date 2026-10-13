@@ -1,5 +1,7 @@
 # odoo-cli
 
+[![conformance](https://github.com/asao-vn/asao-odoo-tools/actions/workflows/conformance.yml/badge.svg)](https://github.com/asao-vn/asao-odoo-tools/actions/workflows/conformance.yml)
+
 A command-line client for **Odoo Community**. It is built on a catalog of business operations, each
 checked against what Odoo itself does on the stock image. Every command answers in one JSON envelope:
 the data, or an error with a code, the reason and what to do next. Scripts, notebooks and AI agents
@@ -11,7 +13,9 @@ can drive Odoo through it as dependably as a person does through the web client.
 ## What it covers
 
 1358 operations over the business apps of Odoo Community 19.0. 1267 of them are verified on the stock
-image.
+image. On Odoo Community 20.0, a candidate series (run with `--allow-unverified` until it is
+supported), 1170 of the 1296 operations 20.0 can run are verified; the other 62 need models, dialogs
+or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 
 | Kind | Operations | Verified |
 |---|---:|---:|
@@ -42,6 +46,26 @@ image.
 **How "verified" is earned.** Each operation runs on a lab with the stock Odoo image. Its result is
 then compared with what Odoo itself reads, writes or prints. The tooling is in `conformance/` and
 the evidence in `docs/odoo-surface/evidence/`.
+
+**Check it yourself.** The [conformance workflow](.github/workflows/conformance.yml) does it in the
+open, every week and on every release:
+- It builds Odoo 19.0 and 20.0 from the public images pinned by digest in
+  `conformance/odoo-conformance-labs.json`, with demo data and every module an operation needs.
+- It runs every operation through odoo-cli.
+- It checks each result against Odoo through an independent JSON-RPC reader.
+
+The run fails when an operation the manifest calls verified now disagrees with Odoo. Its evidence is
+attached to the run and to the release. **[docs/conformance.md](docs/conformance.md)** explains:
+- what "agree" means for a read, a write, a button, a dialog and a print;
+- how to read the report;
+- what the check does not prove (your own Odoo's customisations, Enterprise, Odoo Online).
+
+The same script runs on any machine with Docker or Podman, in about an hour per series:
+
+```sh
+conformance/odoo-conformance-lab.sh --series 20.0 --out /tmp/conformance-20
+cat /tmp/conformance-20/summary.md
+```
 
 Every operation carries its readiness: `CURRENT_VERIFIED`, `UNVERIFIED` or `HISTORICAL_ONLY`. An
 `UNVERIFIED` operation runs only with `--allow-unverified`.
@@ -164,7 +188,21 @@ Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 `odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1358 thao tác nghiệp vụ, trong đó 1267 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
-có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent.
+có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent. Trên Odoo 20.0, 1170 trong
+1296 thao tác áp dụng được đã được kiểm chứng.
+
+**Tự kiểm lại được.** Workflow `conformance` chạy công khai mỗi tuần và mỗi lần phát hành:
+- dựng Odoo 19.0 và 20.0 từ image chính hãng (ghim theo digest);
+- chạy mọi thao tác qua odoo-cli;
+- đối chiếu từng kết quả với chính Odoo qua một bộ đọc JSON-RPC độc lập.
+
+Workflow báo lỗi khi một thao tác đã kiểm chứng nay lệch với Odoo. Trên máy có Docker hoặc Podman, bạn
+chạy `conformance/odoo-conformance-lab.sh --series 20.0 --out /tmp/conformance-20`.
+
+[docs/conformance.md](docs/conformance.md) (có phần tiếng Việt) giải thích:
+- "khớp" nghĩa là gì;
+- cách đọc báo cáo;
+- những gì việc kiểm chứng này **không** chứng minh.
 
 Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 - có phải Odoo không, và phiên bản nào;

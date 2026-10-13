@@ -60,8 +60,9 @@ type Adapter struct {
 	Surface bool
 	// GovernedSurface lets a governed adapter execute the surface operations the governed product
 	// admits (LookupGovernedOperation): every READ, under its family's read capability, and the
-	// verified low- and medium-risk writes, actions and dialogs, under its family's write capability.
-	// No other surface operation (WhyNotGoverned).
+	// verified writes, actions and dialogs, under its family's write capability. No other surface
+	// operation (WhyNotGoverned). A high-risk one also needs an approval, which the governed
+	// executor (aerpbridge) checks before it reaches this adapter.
 	GovernedSurface bool
 	// ModuleBusyWaits are the waits before each new attempt of a module install that Odoo refused
 	// while a scheduled action ran (execModuleInstall); nil means defaultModuleBusyWaits.

@@ -1,0 +1,54 @@
+name: conformance
+
+# Builds a throwaway Odoo 19.0 and 20.0 from the public images pinned in
+# conformance/odoo-conformance-labs.json, runs every catalog operation through odoo-cli, checks each
+# result against Odoo itself through an independent JSON-RPC reader, and compares the outcome with the
+# manifests the releases ship (third_party/packages/odoo/odoo*_conformance_manifest.json).
+#
+# It fails when an operation the manifest calls verified now disagrees with Odoo. Operations the lab's
+# data cannot exercise are reported, not failed. The same script runs on any machine with Docker or
+# Podman: conformance/odoo-conformance-lab.sh --series 20.0 --out /tmp/conf-20
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * 1"
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  lab:
+    strategy:
+      fail-fast: false
+      matrix:
+        series: ["19.0", "20.0"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Build the lab and run every operation
+        run: conformance/odoo-conformance-lab.sh --series "${{ matrix.series }}" --out "$RUNNER_TEMP/conformance" --engine docker
+      - name: Summary
+        if: always()
+        run: cat "$RUNNER_TEMP/conformance/summary.md" >> "$GITHUB_STEP_SUMMARY" || echo "The run stopped before the comparison; see the logs." >> "$GITHUB_STEP_SUMMARY"
+      - name: Pack the evidence (never the lab's secrets)
+        if: always()
+        run: |
+          cd "$RUNNER_TEMP/conformance"
+          tar czf "$RUNNER_TEMP/conformance-${{ matrix.series }}.tar.gz" --exclude=secret --exclude=xdg --exclude=odoo-cli --exclude='inventory-*.json' .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: conformance-${{ matrix.series }}
+          path: ${{ runner.temp }}/conformance-${{ matrix.series }}.tar.gz
+      - name: Attach the evidence to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" "$RUNNER_TEMP/conformance-${{ matrix.series }}.tar.gz" --clobber

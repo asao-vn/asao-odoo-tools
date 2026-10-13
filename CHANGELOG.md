@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+- **Check it yourself.** A public conformance workflow runs weekly and on every release:
+  - it builds Odoo 19.0 and 20.0 from the official images pinned by digest, with demo data;
+  - it runs every operation through odoo-cli and checks each result against Odoo through an
+    independent JSON-RPC reader;
+  - it fails when a verified operation disagrees with Odoo.
+
+  `conformance/odoo-conformance-lab.sh` does the same on any machine with Docker or Podman. See
+  [docs/conformance.md](docs/conformance.md).
+- **Odoo 20.0.** 1170 of the 1296 operations 20.0 can run are verified, up from 1081. The other 62
+  need models, dialogs or buttons 20.0 removed, and odoo-cli now refuses them before contacting Odoo,
+  with the reason. Four modules 20.0 ships inside others (batch transfers in Inventory, wishlists and
+  product comparison in eCommerce, remote work in Employees) no longer make an operation look
+  uninstalled.
+- **Rights holder.** The copyright holder is Nguyễn Hữu Hoàng, who publishes ASAO (see NOTICE). The
+  licence is unchanged: Apache-2.0.
+
 ## 0.8.0 (2026-10-13)
 
 - Payments: with Odoo's Demo provider (`payment_demo`), capturing and voiding authorized payments are

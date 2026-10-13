@@ -7,9 +7,10 @@ import (
 )
 
 // The governed product reads what the surface reaches, under each family's read capability
-// (DEC-2026-0156), and changes it through the verified low- and medium-risk writes, actions and
-// dialogs, under each family's write capability (DEC-2026-0160). High-risk, unverified, delete and
-// print operations stay standalone-only, and the refusal says why.
+// (DEC-2026-0156), and changes it through the verified writes, actions and dialogs, under each
+// family's write capability (DEC-2026-0160). A high-risk one is governed too and requires a
+// colleague's approval (DEC-2026-0161). Unverified, delete and print operations stay
+// standalone-only, and the refusal says why.
 func TestTheGovernedProductReadsTheSurfaceAndWritesOnlyItsSafeVerifiedPart(t *testing.T) {
 	read, ok := LookupGovernedOperation("crm.stage.list")
 	if !ok || read.RequiredCapability != "crm.records.read" {
@@ -19,17 +20,29 @@ func TestTheGovernedProductReadsTheSurfaceAndWritesOnlyItsSafeVerifiedPart(t *te
 		t.Fatalf("a curated read keeps its own capability, got %v", curated.RequiredCapability)
 	}
 	write, ok := LookupGovernedOperation("crm.stage.create")
-	if !ok || write.RequiredCapability != "crm.records.write" {
-		t.Fatalf("crm.stage.create governed as %v (%v), want crm.records.write", write.RequiredCapability, ok)
+	if !ok || write.RequiredCapability != "crm.records.write" || RequiresApproval(write) {
+		t.Fatalf("crm.stage.create governed as %v (%v, approval %v), want crm.records.write without approval", write.RequiredCapability, ok, RequiresApproval(write))
 	}
-	refusals := map[string]string{
-		"finance.journal_entry.post": "approval step", // high risk: posts to the books
-		"finance.payment.post":       "approval step", // reviewed high risk
-		"structure.settings.update":  "approval step",
-		"crm.stage.delete":           "standalone tool",
-		"finance.invoice.print":      "standalone tool",
+	for id, capability := range map[string]string{
+		"finance.journal_entry.post": "finance.records.write",   // posts to the books
+		"finance.payment.post":       "finance.records.write",   // reviewed high risk
+		"structure.company.update":   "structure.records.write", // identity and fiscal settings
+	} {
+		op, ok := LookupGovernedOperation(id)
+		if !ok || string(op.RequiredCapability) != capability || !RequiresApproval(op) {
+			t.Fatalf("high-risk %s governed=%v as %v, approval %v; want %s behind an approval", id, ok, op.RequiredCapability, RequiresApproval(op), capability)
+		}
+		if why := WhyNotGoverned(id); why != "" {
+			t.Fatalf("high-risk %s is governed but WhyNotGoverned says %q", id, why)
+		}
 	}
-	for id, reason := range refusals {
+	if curated, ok := LookupGovernedOperation("finance.invoice.post"); !ok || !RequiresApproval(curated) {
+		t.Fatalf("the curated high-risk finance.invoice.post must require an approval too (governed %v)", ok)
+	}
+	for id, reason := range map[string]string{
+		"crm.stage.delete":      "standalone tool",
+		"finance.invoice.print": "standalone tool",
+	} {
 		if _, ok := LookupGovernedOperation(id); ok {
 			t.Fatalf("%s is governed", id)
 		}
@@ -56,14 +69,6 @@ func TestTheGovernedProductReadsTheSurfaceAndWritesOnlyItsSafeVerifiedPart(t *te
 	if _, err := governed.Execute(context.Background(), &ExecutionIntent{ID: "test", Operation: "crm.stage.list", Input: `{}`}); err != nil {
 		t.Fatalf("a governed adapter refused a surface read: %v", err)
 	}
-	refused := &fakeTransport{}
-	governed = NewAdapter(refused)
-	governed.GovernedSurface = true
-	_, err := governed.Execute(context.Background(), &ExecutionIntent{ID: "test", Operation: "finance.journal_entry.post", Input: `{"provider_target_id":1}`})
-	if err == nil || !strings.Contains(err.Error(), "approval step") {
-		t.Fatalf("a governed adapter ran a high-risk surface action, or did not say why: %v", err)
-	}
-	assertNoMutation(t, refused, "governed high-risk surface action")
 	if _, err := NewAdapter(&fakeTransport{}).Execute(context.Background(), &ExecutionIntent{ID: "test", Operation: "crm.stage.list", Input: `{}`}); err == nil {
 		t.Fatal("an adapter without GovernedSurface executed a surface read")
 	}

@@ -553,6 +553,60 @@ func TestOdoo20DialectRefusesARemovedModelBeforeContactingTheProvider(t *testing
 	}
 }
 
+// A business method 20.0 no longer defines is refused like a removed model, before any provider call;
+// the operations that need one, or a removed model or dialog, are not applicable on 20.0, which is
+// different from unverified (UnavailableOnSeries).
+func TestOdoo20DialectRefusesARemovedMethodBeforeContactingTheProvider(t *testing.T) {
+	fake := newFakeOdoo20()
+	server := httptest.NewServer(fake.handler(t))
+	defer server.Close()
+	client := NewRPCClient(server.URL, "db", "admin", "secret")
+	client.AdmitCandidateSeries(true)
+	transport := NewClientTransport(client)
+
+	_, err := transport.CallMethod(context.Background(), "sale.order", []int64{1}, "action_update_taxes", nil, nil)
+	var unavailable *ModelUnavailableError
+	if !errors.As(err, &unavailable) || unavailable.Model != "sale.order.action_update_taxes" {
+		t.Fatalf("err = %v, want a ModelUnavailableError for the removed method", err)
+	}
+	if calls := fake.callsTo("sale.order", "action_update_taxes"); len(calls) != 0 {
+		t.Fatal("the provider was asked for a method 20.0 does not have")
+	}
+	if err := dialectFor(Odoo19ProviderSeries).checkMethod("sale.order", "action_update_taxes"); err != nil {
+		t.Fatalf("19.0 refused a method it has: %v", err)
+	}
+
+	for id, want := range map[string]string{
+		"sales.order.update_taxes":  "sale.order.action_update_taxes",
+		"inventory.transfer.return": "stock.return.picking",
+		"finance.bank.describe":     "res.bank",
+		"sales.order.confirm":       "",
+	} {
+		if got := UnavailableOnSeries(Odoo20ProviderSeries, id); (want == "") != (got == "") || !strings.HasPrefix(got, want) {
+			t.Fatalf("UnavailableOnSeries(20.0, %s) = %q, want it to name %q", id, got, want)
+		}
+		if got := UnavailableOnSeries(Odoo19ProviderSeries, id); got != "" {
+			t.Fatalf("UnavailableOnSeries(19.0, %s) = %q, want applicable", id, got)
+		}
+	}
+	// Pinned: of the 1358 operations, 62 cannot run on 20.0. A change here is a dialect change and
+	// moves the 20.0 coverage figure.
+	unavailable20 := 0
+	for _, op := range SurfaceCatalog() {
+		if UnavailableOnSeries(Odoo20ProviderSeries, op.SemanticID) != "" {
+			unavailable20++
+		}
+	}
+	for id := range CatalogByID {
+		if UnavailableOnSeries(Odoo20ProviderSeries, id) != "" {
+			unavailable20++
+		}
+	}
+	if unavailable20 != 62 {
+		t.Fatalf("%d operations are not applicable on 20.0, pinned 62", unavailable20)
+	}
+}
+
 // TestOdoo20RenamesAreMergedIntoTheDialect: the generated renames reach the dialect next to its
 // hand-written entries, including the ones that used to be written by hand.
 func TestOdoo20RenamesAreMergedIntoTheDialect(t *testing.T) {
@@ -637,5 +691,23 @@ func TestOdoo20ManifestWasVerifiedUnderTheCurrentRenames(t *testing.T) {
 	sum := sha256.Sum256(encoded)
 	if got := "sha256:" + hex.EncodeToString(sum[:]); got != odoo20RenamesVerified {
 		t.Fatalf("odoo20Renames is %s, the 20.0 manifest was verified under %s: re-run the 20.0 conformance, rebuild the manifest, then update odoo20RenamesVerified", got, odoo20RenamesVerified)
+	}
+}
+
+// A module 20.0 merged into another is installed when that one is: batch transfers are in stock, so an
+// operation that requires stock_picking_batch runs on a 20.0 with stock, and is still refused on a
+// 19.0 without stock_picking_batch.
+func TestOdoo20MergedModulesCountAsInstalled(t *testing.T) {
+	op := Odoo19Operation{SemanticID: "inventory.batch_transfer.list", Strategy: StrategyRead, RequiredModules: []string{"stock_picking_batch"}}
+	on20 := ProviderFit{ProviderSeries: Odoo20ProviderSeries, origins: map[string]ModuleOrigin{"base": ModuleStandard, "stock": ModuleStandard}}
+	if verdict := on20.Assess(op); verdict.Verdict == FitRefused {
+		t.Fatalf("20.0 with stock refused a batch transfer operation: %v", verdict.Reasons)
+	}
+	on19 := ProviderFit{ProviderSeries: Odoo19ProviderSeries, origins: map[string]ModuleOrigin{"base": ModuleStandard, "stock": ModuleStandard}}
+	if verdict := on19.Assess(op); verdict.Verdict != FitRefused || len(verdict.MissingModules) != 1 {
+		t.Fatalf("19.0 without stock_picking_batch: %+v", verdict)
+	}
+	if SeriesModule(Odoo20ProviderSeries, "website_sale_wishlist") != "website_sale" || SeriesModule(Odoo19ProviderSeries, "website_sale_wishlist") != "website_sale_wishlist" {
+		t.Fatal("SeriesModule does not map the merged wishlist module on 20.0 only")
 	}
 }

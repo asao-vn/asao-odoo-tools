@@ -26,6 +26,24 @@ type providerDialect struct {
 	// absentModels are baseline models the series no longer has, with what became of them. An
 	// operation on one is refused before the provider is contacted.
 	absentModels map[string]string
+	// absentMethods are baseline business methods (model -> method -> what became of it) the series
+	// no longer defines anywhere in its source. Calling one is refused before the provider is
+	// contacted, as for an absent model.
+	absentMethods map[string]map[string]string
+	// mergedModules are baseline modules the series no longer ships on their own, with the module
+	// that now carries their models. An operation that requires one requires the other there.
+	mergedModules map[string]string
+}
+
+// SeriesModule is the module that carries baseline module's models on series: itself, or the
+// module the series merged it into.
+func SeriesModule(series, module string) string {
+	if d := dialectFor(series); d != nil {
+		if merged, ok := d.mergedModules[module]; ok {
+			return merged
+		}
+	}
+	return module
 }
 
 // modelDialect is what one provider model changed in a series.
@@ -146,6 +164,43 @@ func (d *providerDialect) checkModel(model string) error {
 		return &ModelUnavailableError{Series: d.series, Model: model, Reason: reason}
 	}
 	return nil
+}
+
+// checkMethod refuses a business method the series removed.
+func (d *providerDialect) checkMethod(model, method string) error {
+	if d == nil {
+		return nil
+	}
+	if reason, absent := d.absentMethods[model][method]; absent {
+		return &ModelUnavailableError{Series: d.series, Model: model + "." + method, Reason: reason}
+	}
+	return nil
+}
+
+// UnavailableOnSeries says why operationID cannot run on series, or "" when it can as far as the
+// series' dialect knows: its model, its dialog's model, or the business method it or its dialog
+// calls was removed in that series. The operation is then not applicable on the series, which is
+// different from unverified: no conformance run can ever verify it there.
+func UnavailableOnSeries(series, operationID string) string {
+	d := dialectFor(series)
+	if d == nil {
+		return ""
+	}
+	op, ok := LookupStandaloneOperation(operationID)
+	if !ok {
+		return ""
+	}
+	for _, model := range []string{op.ProviderModel, op.WizardModel} {
+		if reason, absent := d.absentModels[model]; model != "" && absent {
+			return model + ": " + reason
+		}
+	}
+	for _, call := range [][2]string{{op.ProviderModel, op.Method}, {op.ProviderModel, op.WizardOpenerMethod}, {op.WizardModel, op.WizardMethod}} {
+		if reason, absent := d.absentMethods[call[0]][call[1]]; call[1] != "" && absent {
+			return call[0] + "." + call[1] + ": " + reason
+		}
+	}
+	return ""
 }
 
 // dialectFor returns the dialect of series, or nil for the baseline series (no translation).
@@ -499,6 +554,35 @@ var odoo20Dialect = &providerDialect{
 		"hr.attendance.overtime.ruleset":        "the overtime rule models were removed",
 		"l10n_vn_edi_viettel.sinvoice.template": "SInvoice templates became a code on the symbol (l10n_vn_edi_viettel.sinvoice.symbol.invoice_template_code)",
 		"im_livechat.conversation.tag":          "live chat conversation tags were removed",
+		// Measured 2026-10-13 against the 20.0 lab's ir_model with the same modules installed.
+		"stock.return.picking":             "removed; stock.picking has action_return and action_return_all",
+		"hr.expense.post.wizard":           "removed; hr.expense has action_approve and action_pay",
+		"hr.version.wizard":                "removed",
+		"l10n_vn_edi_viettel.cancellation": "removed; the module extends the credit note dialog (account.move.reversal) instead",
+	},
+	// Measured 2026-10-13: the 20.0 image ships none of these modules; their models are defined by
+	// the module named (stock.picking.batch in stock, product.wishlist and product.attribute.category
+	// in website_sale, hr.employee.location in hr).
+	mergedModules: map[string]string{
+		"stock_picking_batch":     "stock",
+		"website_sale_wishlist":   "website_sale",
+		"website_sale_comparison": "website_sale",
+		"hr_homeworking":          "hr",
+	},
+	// Measured 2026-10-13: none of these methods is defined anywhere in the 20.0 source (odoo and
+	// every addon of the image).
+	absentMethods: map[string]map[string]string{
+		"payment.provider":    {"action_recompute_pending_msg": "removed"},
+		"res.partner.bank":    {"action_archive_bank": "removed"},
+		"maintenance.request": {"archive_equipment_request": "removed"},
+		"mrp.bom":             {"action_compute_bom_days": "removed"},
+		"mailing.mailing":     {"action_set_favorite": "removed", "action_remove_favorite": "removed"},
+		"hr.employee":         {"action_load_template": "removed"},
+		"pos.session":         {"action_pos_session_closing_control": "removed"},
+		"repair.order":        {"action_repair_start": "removed; repair.order keeps action_validate and action_repair_end"},
+		"sale.order":          {"action_update_taxes": "removed"},
+		"hr.attendance":       {"action_approve_overtime": "removed; hr.attendance has action_validate and action_refuse", "action_refuse_overtime": "removed; hr.attendance has action_validate and action_refuse"},
+		"resource.calendar":   {"switch_based_on_duration": "removed", "switch_calendar_type": "removed"},
 	},
 	models: map[string]modelDialect{
 		"res.partner": {
