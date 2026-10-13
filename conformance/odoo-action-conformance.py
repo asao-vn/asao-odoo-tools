@@ -69,7 +69,15 @@ VOLATILE = {"write_date", "write_uid", "create_date", "create_uid", "__last_upda
 VOLATILE_PREFIXES = ("message_", "activity_", "website_message", "rating_", "has_message", "my_activity")
 # Fields that measure time running since the action: they differ by the seconds between the two
 # clicks, not by what the action did.
-MODEL_VOLATILE = {"mrp.workorder": {"duration", "duration_percent", "duration_unit"}}
+MODEL_VOLATILE = {
+    "mrp.workorder": {"duration", "duration_percent", "duration_unit"},
+    # Stamped from the clock when the button is pressed, to the second: twins pressed a second apart
+    # differ, and a twin made in the same second as it is pressed looks unchanged. Found by the public
+    # conformance runs of 2026-10-13 (winning an opportunity, confirming a quotation, approving an order).
+    "crm.lead": {"date_last_stage_update", "day_close", "day_open"},
+    "sale.order": {"date_order"},
+    "purchase.order": {"date_calendar_start"},
+}
 COMPARED_TYPES = {"char", "text", "selection", "boolean", "integer", "float", "monetary", "date", "datetime", "many2one"}
 # A relation is compared by how many records it holds, which is how an action that creates records
 # shows on its source (a credit note in reversal_move_ids, a return in return_ids).
