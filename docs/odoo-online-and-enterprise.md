@@ -12,7 +12,7 @@ Online and Odoo Enterprise, how that was found out, and what it does not promise
 |---|---|---|
 | Community 19.0, self-hosted | 1272 of 1358 operations verified | Yes: the conformance workflow, every week |
 | Community 20.0, self-hosted | 1170 of the 1296 operations 20.0 can run verified; runs with `--allow-unverified` | Yes, the same workflow |
-| Enterprise 20.0 on Odoo Online | reached and read on 2026-10-14 (below); writes not verified | Only on a database of your own, with the read check below |
+| Enterprise 20.0 on Odoo Online | checked once on 2026-10-14 (below): reads, writes and buttons; not counted as verified | Only on a database of your own, with the read check below |
 | Enterprise, self-hosted or on Odoo.sh | not tested: Enterprise is not public, so no lab can be built from it | — |
 
 ## The test of 2026-10-14
@@ -34,7 +34,17 @@ Online and Odoo Enterprise, how that was found out, and what it does not promise
 
   The evidence (hashes and statuses only) is
   `docs/odoo-surface/evidence/read-conformance-20.0e-odoo-online-trial-20261014.json`.
-- **Writes, buttons and dialogs:** not run on Odoo Online.
+- **Writes, buttons and dialogs**, with the same comparison, on the trial's own sample data:
+  - creates and updates: **415 of 553 agreed** with Odoo. One disagreed, `catalog.pricelist_item.create`
+    (its `applied_on`), as it does on Community 20.0, where it is not counted as verified either. The
+    rest found no record, no value a generic test satisfies, or a model 20.0 removed;
+  - business buttons and dialogs: **75 of 192 agreed**. One disagreed on Enterprise only:
+    `finance.reconcile_model.set_manual` also changes `can_be_proposed`, which the Enterprise web client
+    leaves alone. Most of the others found no pair of identical records in the trial's small data set.
+
+  This is why odoo-cli holds writes back on Enterprise until you accept them: Enterprise extends
+  Community's models, and a button can behave differently there. Evidence:
+  `docs/odoo-surface/evidence/{write,action}-conformance-20.0e-odoo-online-trial-20261014.json`.
 
 ## What that means for you
 
@@ -83,8 +93,8 @@ The two answer different needs:
 
 | | Odoo's MCP server | odoo-cli |
 |---|---|---|
-| Odoo editions | Enterprise | Community (verified), Enterprise (reads checked once, above) |
-| What it offers by default | five read tools: search, read and group on any model | 587 named reads; with `--allow-writes`, writes, business buttons, dialogs and guarded deletes too (high-risk ones after the person confirms) |
+| Odoo editions | Enterprise | Community (verified), Enterprise (checked once, above) |
+| What it offers by default | five read tools: search, read and group on any model | 587 verified reads, plus the same generic reads on any model (`explore`); with `--allow-writes`, writes, business buttons, dialogs and guarded deletes too (high-risk ones after the person confirms) |
 | A business button (confirm, post, validate) | only through a server action an administrator writes | an operation compared with the web client's own result |
 | Before acting | Odoo's access rights | Odoo's access rights, plus the pre-flight check and `--confirm-impact` on deletes |
 | How an agent uses it | MCP | MCP (`odoo-cli mcp serve`), or as a command from any agent that runs commands |
@@ -112,7 +122,13 @@ những gì đã biết về Odoo Online và Enterprise.
   - 194 khớp trên dữ liệu thật, 172 khớp trên model rỗng;
   - phần còn lại không chạy được vì bản dùng thử không có bản ghi, thiếu module, hoặc model đã bị bản 20
     bỏ.
-- **Thao tác ghi, nút nghiệp vụ và hộp thoại:** chưa chạy trên Odoo Online.
+- **Thao tác ghi, nút nghiệp vụ và hộp thoại** (trên dữ liệu mẫu của bản dùng thử):
+  - tạo và sửa: **415/553 khớp**. 1 lệch (`catalog.pricelist_item.create`), lệch y như trên Community 20;
+  - nút nghiệp vụ và hộp thoại: **75/192 khớp**. 1 lệch riêng trên Enterprise: `finance.reconcile_model.set_manual`
+    đổi thêm một trường mà giao diện web của Enterprise không đổi;
+  - phần lớn số còn lại không chạy được vì dữ liệu mẫu ít.
+
+  Đây là lý do odoo-cli giữ lại thao tác ghi trên Enterprise cho đến khi bạn chấp nhận.
 
 **Cần biết:**
 - **API cần gói Custom.** Theo bảng giá của Odoo, "External API" chỉ có ở gói Custom. Bản dùng thử thì

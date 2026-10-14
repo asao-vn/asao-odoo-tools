@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+- **`odoo-cli explore`: read any model.**
+  - Four commands: models, fields, search, group.
+  - They also run as MCP tools.
+  - They reach what the catalog does not: Enterprise apps, third-party modules, custom fields.
+  - This is what Odoo 20 Enterprise's MCP server offers, and it runs on Community too.
+  - Credentials, secret fields and binaries are never shown.
+  - Answers say they are generic and unverified.
+- **Correction to 0.9.0's README:** with `--allow-writes` the MCP server offered 1361 tools, 54 of them
+  waiting for confirmation (not 1362 and 55). Installing a module was never offered.
+- **Odoo Online and Enterprise: writes and buttons checked too**, on the same Enterprise 20.0 trial:
+  - creates and updates: 415 of 553 agreed with Odoo;
+  - buttons and dialogs: 75 of 192 agreed;
+  - `finance.reconcile_model.set_manual` behaves differently on Enterprise;
+  - see [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md).
+
 ## 0.9.0 (2026-10-14)
 
 - **Check it yourself.** A public conformance workflow runs weekly and on every release:

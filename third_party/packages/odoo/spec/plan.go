@@ -210,7 +210,9 @@ func (p *planner) resource(ctx context.Context, r Resource) error {
 	if err != nil {
 		var refused *direct.OperationError
 		if errors.As(err, &refused) {
-			if p.installing && refused.Class == string(odoo.ErrClassNotFound) {
+			// The catalog refuses an operation whose modules are missing before it reaches Odoo
+			// (MODULE_NOT_INSTALLED); a model the catalog does not gate reaches Odoo and is not found.
+			if p.installing && (refused.Class == string(odoo.ErrClassNotFound) || refused.Class == string(odoo.ErrClassModuleNotInstalled)) {
 				step.Action, step.Reason = ActionAfterModules, "the model comes with a module this plan installs: "+refused.Message
 			} else {
 				step.Action, step.Reason = ActionUnsupported, fmt.Sprintf("%s refused the search: %s", find, refused.Message)

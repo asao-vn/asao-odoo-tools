@@ -126,8 +126,12 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 591 tools (the 587 reads, catalog discovery and the pre-flight check).
-- **With `--allow-writes`:** 1362 tools. The 55 high-risk and destructive operations run only after
+- **Reads by default:** 595 tools:
+  - the 587 verified reads;
+  - catalog discovery and the pre-flight check;
+  - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
+    Enterprise app's or a customisation's included, and never a credential.
+- **With `--allow-writes`:** 1365 tools. The 54 high-risk and destructive operations run only after
   you confirm each call in the agent host.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
@@ -139,6 +143,26 @@ The server acts with the full authority of the profile's Odoo credential. It bou
 *offered*; it is not a sandbox. An agent that can run commands can run odoo-cli directly. See
 [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md) for how it compares with
 Odoo's own MCP server.
+
+## Any model: `odoo-cli explore`
+
+The catalog covers the business apps of Odoo Community. To read anything else, such as an Enterprise
+app, a third-party module or a field added in Studio, use the generic reads. They are what Odoo 20
+Enterprise's own MCP server offers, and they also run on Community:
+
+```sh
+odoo-cli explore models --profile my-odoo --search planning --output json
+odoo-cli explore fields --profile my-odoo --model planning.slot --output json
+odoo-cli explore search --profile my-odoo --model planning.slot --filter '[["state","=","published"]]' --limit 5 --output json
+odoo-cli explore group  --profile my-odoo --model helpdesk.ticket --group-by stage_id --output json
+```
+
+They read and never write. Their answers are Odoo's own and are not checked by conformance, so each
+one says `"generic": true`. They never show:
+- models that hold credentials (system parameters, mail servers, payment providers, API keys,
+  certificates, bank links);
+- fields whose names mark a secret, whether as a value, a filter or a group;
+- binary fields.
 
 ## Before it acts
 
@@ -182,8 +206,8 @@ pip install asao-erp
 ## Not yet
 
 - **Odoo Enterprise and Odoo Online** are not verified. On 2026-10-14 odoo-cli reached an Enterprise
-  20.0 trial on Odoo Online and ran 269 of its 291 list reads without an error; writes were not run
-  there. Odoo Online allows the external API on its Custom plan only. See
+  20.0 trial on Odoo Online: none of its 580 reads disagreed with Odoo, 415 of 553 writes and 75 of 192
+  buttons and dialogs agreed, and one button behaved differently on Enterprise. Odoo Online allows the external API on its Custom plan only. See
   [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md), which also compares
   odoo-cli with Odoo's own MCP server.
 - **Business actions left out on purpose:**
@@ -244,15 +268,16 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 591 công cụ.
-- **Thêm `--allow-writes`:** agent được ghi. 55 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
+- **Mặc định chỉ đọc:** 595 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+  thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
+- **Thêm `--allow-writes`:** agent được ghi. 54 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
   từng lần.
 - **Agent không tự chọn được:** profile, việc chấp nhận kết quả chưa kiểm chứng, hay việc ghi file lên máy
   bạn.
 
 **Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
-nó chạy được 269/291 thao tác đọc trên một bản dùng thử Enterprise 20.0, không lỗi nào; thao tác ghi chưa
-được thử ở đó. Chi tiết: [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md).
+trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệch thao tác nào; 415/553 thao tác ghi và
+75/192 nút nghiệp vụ khớp với Odoo; một nút chạy khác trên Enterprise. Chi tiết: [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md).
 
 **ASAO chỉ kiểm chứng trên bản Odoo chuẩn.** Với Odoo đã tuỳ biến, ASAO không thể kiểm chứng và không
 bảo đảm thao tác chạy đúng; chạy trên Odoo đó là do người dùng tự chịu rủi ro. Chi tiết:

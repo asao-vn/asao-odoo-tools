@@ -35,6 +35,9 @@ type RawRequest struct {
 	Method string                 `json:"method"`
 	Args   []interface{}          `json:"args,omitempty"`
 	Kwargs map[string]interface{} `json:"kwargs,omitempty"`
+	// AdmitCandidateSeries lets this call reach a candidate series (20.0): a generic read has no
+	// catalog translation to rely on, and its answer is labelled unverified by its caller.
+	AdmitCandidateSeries bool `json:"-"`
 }
 
 // RawOutcome represents the unmediated provider response from a raw call.
@@ -73,6 +76,10 @@ func (e *Executor) Call(ctx context.Context, req RawRequest, allowMutation bool)
 	kwargs := req.Kwargs
 	if kwargs == nil {
 		kwargs = map[string]interface{}{}
+	}
+	if req.AdmitCandidateSeries {
+		e.client.AdmitCandidateSeries(true)
+		defer e.client.AdmitCandidateSeries(false)
 	}
 	res, err := e.client.ExecuteKw(ctx, req.Model, req.Method, args, kwargs)
 	if err != nil {

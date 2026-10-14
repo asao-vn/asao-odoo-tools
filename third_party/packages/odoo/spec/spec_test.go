@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	odoo "github.com/asao-platform/atoc/packages/odoo"
 	"github.com/asao-platform/atoc/packages/odoo/direct"
 )
 
@@ -208,6 +209,35 @@ func TestARecordOnlyAModuleBringsIsPlannedAfterTheModules(t *testing.T) {
 	}
 	if step := plan.Steps[0]; step.Action != ActionUnsupported || !strings.Contains(step.Reason, "website.layout.create") {
 		t.Fatalf("step %+v: with nothing to install, a missing record the catalog cannot create is a gap", step)
+	}
+}
+
+// A record whose operation the catalog refuses for a missing module (MODULE_NOT_INSTALLED, before
+// Odoo is asked) is planned after the modules when the plan installs some, as a model Odoo does not
+// know yet is: a restaurant's tables come with pos_restaurant.
+func TestARecordWhoseOperationNeedsAModuleToComeIsPlannedAfterTheModules(t *testing.T) {
+	table := Resource{Entity: "pos.table", Match: map[string]interface{}{"table_number": 1}, Values: map[string]interface{}{"table_number": 1}}
+	exec := &fakeExecutor{
+		reads: map[string][]map[string]interface{}{
+			"structure.module.list|[[name = pos_restaurant]]": {row("id", 9.0, "name", "pos_restaurant", "state", "uninstalled")},
+		},
+		fail: map[string]error{"pos.table.list": &direct.OperationError{Class: string(odoo.ErrClassModuleNotInstalled),
+			Message: "pos.table.list needs Odoo modules that are not installed: pos_restaurant; nothing was executed"}},
+	}
+	s := Spec{APIVersion: APIVersion, Kind: Kind, Metadata: Metadata{Name: "nha-hang"}, Modules: []string{"pos_restaurant"}, Resources: []Resource{table}}
+	plan, err := BuildPlan(context.Background(), exec, s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if step := plan.Steps[1]; step.Action != ActionAfterModules || len(plan.Gaps()) != 0 {
+		t.Fatalf("step %+v, %d gaps: want the table planned after pos_restaurant", step, len(plan.Gaps()))
+	}
+	s.Modules = nil
+	if plan, err = BuildPlan(context.Background(), exec, s); err != nil {
+		t.Fatal(err)
+	}
+	if step := plan.Steps[0]; step.Action != ActionUnsupported {
+		t.Fatalf("step %+v: with nothing to install, a missing module is a gap", step)
 	}
 }
 

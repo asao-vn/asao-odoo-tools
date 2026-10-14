@@ -201,7 +201,9 @@ branch on "code".`,
 		completionGroup(root),
 	}
 	if odooFlavour(config.name) {
-		root.Children = append(root.Children, callCommand(config), adminGroup(config))
+		// Generic reads of any model sit with the raw call: the odoo-cli product offers them, the
+		// historical aerp name keeps the catalog as its only contract.
+		root.Children = append(root.Children, callCommand(config), adminGroup(config), exploreGroup(config))
 	}
 	mountOperationCommands(root, config)
 	openAgentSurface(root)
