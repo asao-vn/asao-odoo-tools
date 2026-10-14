@@ -42,9 +42,13 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// wizards. 2026-10-13: payments authorized by the Demo provider (payment_demo), captured through
 	// the capture dialog and voided on the transaction, the invoice and the quotation: 132 actions
 	// and wizards. 2026-10-14, the weekly run's new agreements: POS sessions and a job's skills, 501
-	// creates/updates; invoicing a POS order and validating a repair, 134 actions and wizards.
-	if len(report.Records) != 103+521+501+134+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 1169 surface", len(report.Records))
+	// creates/updates; invoicing a POS order and validating a repair, 134 actions and wizards. Then the
+	// payment tokens, once an operation id stopped counting as material: 503 creates/updates. Then ten
+	// writes the runner had given values Odoo refuses (a recurrence rule, days of a term, a percentage,
+	// a bank journal, the tax group's country): 513 creates/updates. Then a loyalty card's create, once
+	// it took its program: 514.
+	if len(report.Records) != 103+521+514+134+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 1182 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}
@@ -214,27 +218,28 @@ func TestConformanceManifestRejectsInvalidOrUnsafeRecords(t *testing.T) {
 	whitespaceModule.Modules = []string{" base"}
 
 	for name, document := range map[string][]byte{
-		"unknown id":              manifest(unknown),
-		"missing id":              manifest(missingID),
-		"duplicate id":            manifest(validRecord, validRecord),
-		"missing version":         manifest(missingVersion),
-		"non-19 version":          manifest(version18),
-		"invalid digest":          manifest(badDigest),
-		"empty modules":           manifest(emptyModules),
-		"duplicate module":        manifest(duplicateModules),
-		"whitespace module":       manifest(whitespaceModule),
-		"historical status":       manifest(badStatus),
-		"invalid time":            manifest(badTime),
-		"credential URL":          manifest(credentialURL),
-		"traversal evidence ref":  manifest(traversalRef),
-		"absolute evidence ref":   manifest(absoluteRef),
-		"raw response keyword":    []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"rawResponse":{"password":"secret"}}`),
-		"token keyword":           []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"token":"secret"}`),
-		"cookie keyword":          []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"cookie":"session"}`),
-		"response body keyword":   []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"response_body":"data"}`),
-		"unknown field in root":   []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"extraField":true}`),
-		"unknown field in record": []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[{"operationId":"people.employee.list","providerVersion":"19.0","imageDigest":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","modules":["base"],"status":"CURRENT_VERIFIED","evidenceRef":"ref.json","verifiedAt":"2026-09-14T08:30:00Z","extraField":true}]}`),
-		"multiple JSON documents": []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[]}{"schemaVersion":"odoo19.conformance/v1","records":[]}`),
+		"unknown id":               manifest(unknown),
+		"missing id":               manifest(missingID),
+		"duplicate id":             manifest(validRecord, validRecord),
+		"missing version":          manifest(missingVersion),
+		"non-19 version":           manifest(version18),
+		"invalid digest":           manifest(badDigest),
+		"empty modules":            manifest(emptyModules),
+		"duplicate module":         manifest(duplicateModules),
+		"whitespace module":        manifest(whitespaceModule),
+		"historical status":        manifest(badStatus),
+		"invalid time":             manifest(badTime),
+		"credential URL":           manifest(credentialURL),
+		"traversal evidence ref":   manifest(traversalRef),
+		"absolute evidence ref":    manifest(absoluteRef),
+		"raw response keyword":     []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"rawResponse":{"password":"secret"}}`),
+		"token keyword":            []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"token":"secret"}`),
+		"token in an evidence ref": []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[{"operationId":"finance.payment_token.create","providerVersion":"19.0","imageDigest":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","modules":["payment"],"status":"CURRENT_VERIFIED","evidenceRef":"token-dump.json","verifiedAt":"2026-09-14T08:30:00Z"}]}`),
+		"cookie keyword":           []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"cookie":"session"}`),
+		"response body keyword":    []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"response_body":"data"}`),
+		"unknown field in root":    []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[],"extraField":true}`),
+		"unknown field in record":  []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[{"operationId":"people.employee.list","providerVersion":"19.0","imageDigest":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","modules":["base"],"status":"CURRENT_VERIFIED","evidenceRef":"ref.json","verifiedAt":"2026-09-14T08:30:00Z","extraField":true}]}`),
+		"multiple JSON documents":  []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[]}{"schemaVersion":"odoo19.conformance/v1","records":[]}`),
 	} {
 		t.Run(name, func(t *testing.T) {
 			if _, err := parseConformanceManifest(document); err == nil {
@@ -263,5 +268,15 @@ func TestReleaseReadinessFailsClosedWithoutARecord(t *testing.T) {
 	err = ValidateReleaseReadiness()
 	if !errors.Is(err, ErrCatalogNotReleaseReady) || !strings.Contains(err.Error(), "structure.operation_type.list") {
 		t.Fatalf("ValidateReleaseReadiness() without the record = %v; want a refusal naming structure.operation_type.list", err)
+	}
+}
+
+// An operation whose id contains a guarded word (finance.payment_token.create) is a catalog operation,
+// not material: its record parses, while the word anywhere else is still refused (above).
+func TestAnOperationIDIsNotMaterial(t *testing.T) {
+	document := []byte(`{"schemaVersion":"odoo19.conformance/v1","records":[{"operationId":"finance.payment_token.create","providerVersion":"19.0","imageDigest":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","modules":["payment"],"status":"CURRENT_VERIFIED","evidenceRef":"ref.json","verifiedAt":"2026-09-14T08:30:00Z"}]}`)
+	records, err := parseConformanceManifest(document)
+	if err != nil || len(records) != 1 {
+		t.Fatalf("records %v, err %v", records, err)
 	}
 }

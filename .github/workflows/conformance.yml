@@ -15,6 +15,14 @@ on:
     - cron: "17 2 * * 1"
   release:
     types: [published]
+  # A release made by the release workflow's GITHUB_TOKEN raises no "release" event for other
+  # workflows, so the release workflow calls this one itself, naming its tag.
+  workflow_call:
+    inputs:
+      tag:
+        description: The release to attach the evidence to.
+        type: string
+        required: false
 
 permissions:
   contents: write
@@ -48,7 +56,7 @@ jobs:
           name: conformance-${{ matrix.series }}
           path: ${{ runner.temp }}/conformance-${{ matrix.series }}.tar.gz
       - name: Attach the evidence to the release
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' || inputs.tag != ''
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" "$RUNNER_TEMP/conformance-${{ matrix.series }}.tar.gz" --clobber
+        run: gh release upload "${{ inputs.tag || github.event.release.tag_name }}" "$RUNNER_TEMP/conformance-${{ matrix.series }}.tar.gz" --clobber

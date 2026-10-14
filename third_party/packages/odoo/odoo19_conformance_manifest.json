@@ -15190,6 +15190,162 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/action-conformance-19.0-20261014.json",
       "verifiedAt": "2026-10-14T10:56:42Z",
       "definitionHash": "sha256:80e66520d3d745c0d5d5257eb05a55c56dc14d3223e28ae0458dd1c793831e34"
+    },
+    {
+      "operationId": "finance.payment_token.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-20261014.json",
+      "verifiedAt": "2026-10-14T10:46:51Z",
+      "definitionHash": "sha256:ed047a4a78b3c15841d0cfba1ab03a21940ea4cd86e7e80a893fe651416e6cbd"
+    },
+    {
+      "operationId": "finance.payment_token.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "payment"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-20261014.json",
+      "verifiedAt": "2026-10-14T10:46:51Z",
+      "definitionHash": "sha256:7941a9f32b4935de83168f87a1b8c6b4bada3b6a3f1be862e5b031cb20a59cac"
+    },
+    {
+      "operationId": "catalog.pricelist_item.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "product"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:f8ae5841fbceef30c5e9c64271f5604aef45b408d6f21b6a51e865f13f3ab822"
+    },
+    {
+      "operationId": "crm.team_member.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "sales_team"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:3df82f211f5f1243d996cf6b755d28055b761988417c71e7b78a053a29cea45f"
+    },
+    {
+      "operationId": "finance.account.chart.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:9fb8734b0e577577ed0778bc9f6e4e899551d76b65cf787933971a95c4f0bc56"
+    },
+    {
+      "operationId": "finance.payment.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:a4ce63915b2a6502dcd0eee318f5f2b76d48e77a6770d48cd75f68e3b47e8a37"
+    },
+    {
+      "operationId": "finance.payment_term_line.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:2d297fc06f1e4dfe9f28b2073c04087604c0cc8d4995679274747b9966031cef"
+    },
+    {
+      "operationId": "finance.reconcile_model_line.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:e12583d766ff8d7dea8a2d4b1491edcab4d47b3c9b2e5adcb0baad3ccbd0052a"
+    },
+    {
+      "operationId": "finance.tax.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:7c6444b77a0b58aafd7717c6a7329de842684c52248604fd4eee480782f4736d"
+    },
+    {
+      "operationId": "sales.quotation_template_line.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "sale_management"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:66b0029b57a55ec88c111ba3516903d2cb1fe06e483b3cb3a846c109c60f6862"
+    },
+    {
+      "operationId": "schedule.recurrence.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "calendar"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:01fe9421a9bb76f258b66bdd3df0cd4318c8319d8a733ae089f66497259296b7"
+    },
+    {
+      "operationId": "schedule.recurrence.update",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "calendar"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-fixtures-20261014.json",
+      "verifiedAt": "2026-10-14T16:41:05Z",
+      "definitionHash": "sha256:4f63a0bf72544aab92f132e68552bf96922504b698156523cc0788df2be316aa"
+    },
+    {
+      "operationId": "sales.loyalty_card.create",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "loyalty"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/write-conformance-19.0-loyalty-card-20261014.json",
+      "verifiedAt": "2026-10-14T16:47:51Z",
+      "definitionHash": "sha256:fb78a7ef7ac0236172caa8933f61ce4f7ba4caf8cadfaf2e7f89b7a5cdb36e23"
     }
   ]
 }

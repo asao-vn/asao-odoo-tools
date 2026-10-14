@@ -149,6 +149,26 @@ def _open_pos_session(oracle, values):
     return found[0] if found else None
 
 
+def _first(oracle, model, domain):
+    found = oracle.call(model, "search", [domain], {"limit": 1, "order": "id"})
+    return found[0] if found else None
+
+
+def _company_country(oracle):
+    company = oracle.call("res.company", "search_read", [[]], {"fields": ["account_fiscal_country_id"], "limit": 1})[0]
+    return (company.get("account_fiscal_country_id") or [False])[0]
+
+
+def _tax_group_of_company_country(oracle, values):
+    return _first(oracle, "account.tax.group", [["country_id", "=", values.get("country_id") or _company_country(oracle)]])
+
+
+def _payment_method_line(oracle, values):
+    journal = values.get("journal_id") or _first(oracle, "account.journal", [["type", "=", "bank"]])
+    kind = values.get("payment_type") or "inbound"
+    return _first(oracle, "account.payment.method.line", [["journal_id", "=", journal], ["payment_type", "=", kind]])
+
+
 def _inside_event(oracle, values):
     if not values.get("event_id"):
         return None
@@ -165,7 +185,32 @@ GIVEN_VALUES = {
     ("event.slot", "end_hour"): lambda o, v: 11.0,  # later than the start
     ("event.slot", "date"): _inside_event,  # inside the event's dates
     ("event.registration.answer", "value_text_box"): lambda o, v: "Conformance answer",
+    ("account.account", "code"): lambda o, v: "9" + STAMP[-5:],  # a code for the company it belongs to
+    ("account.bank.statement.line", "journal_id"): lambda o, v: _first(o, "account.journal", [["type", "=", "bank"]]),
+    ("account.tax", "tax_group_id"): _tax_group_of_company_country,  # the group's country must be the tax's
+    ("account.payment", "journal_id"): lambda o, v: _first(o, "account.journal", [["type", "=", "bank"]]),
+    ("account.payment", "payment_method_line_id"): _payment_method_line,  # after the journal it belongs to
+    ("account.tax", "country_id"): lambda o, v: _company_country(o),  # the country of the tax group below
+    ("account.reconcile.model.line", "amount_string"): lambda o, v: "100",  # a percentage of the line, never 0
+    ("calendar.recurrence", "rrule"): lambda o, v: "FREQ=WEEKLY;INTERVAL=1;COUNT=2",
+    ("sale.order.template.line", "product_id"): lambda o, v: _first(o, "product.product", [["sale_ok", "=", True]]),
+    ("sale.order.template.line", "product_uom_id"): lambda o, v: (
+        o.call("product.product", "read", [[v["product_id"]], ["uom_id"]])[0]["uom_id"][0] if v.get("product_id") else None),
+    ("loyalty.card", "program_id"): lambda o, v: _first(o, "loyalty.program", []),
 }
+
+# An update changes one simple field; these fields hold a format, not free text, so an update gives them
+# a valid new value instead of a marked text.
+GIVEN_UPDATES = {
+    ("calendar.recurrence", "rrule"): "FREQ=WEEKLY;INTERVAL=2;COUNT=3",
+    ("account.payment.term.line", "days_next_month"): "15",
+    ("account.reconcile.model.line", "amount_string"): "50",
+    ("crm.team.member", "assignment_domain"): "[]",
+}
+
+# Typed fields an update must not pick: changing them makes the record need other fields first.
+UPDATE_SKIP = {("product.pricelist.item", "applied_on"), ("product.pricelist.item", "compute_price"),
+               ("product.pricelist.item", "base")}
 
 
 # Odoo's refusals of a record that already exists: the first related record chosen (the first team,
@@ -241,6 +286,10 @@ def typed_fields(accepted, series_meta, inputs):
     return sorted((f for f in accepted if typed(f)), key=lambda f: (series_meta(f)["type"] == "many2one", f))
 
 
+def updatable(model, candidates):
+    return [f for f in candidates if (model, f) not in UPDATE_SKIP]
+
+
 def typed_value(oracle, meta, current):
     """A value of the field's type that differs from the current one, or None when there is none."""
     kind = meta["type"]
@@ -314,6 +363,8 @@ def main():
     parser.add_argument("--renames", help="dialect renames evidence (dialect-renames-<series>.json) for a candidate series")
     parser.add_argument("--readiness", default="UNVERIFIED", choices=["UNVERIFIED", "ANY"],
                         help="which operations to run; the listed readiness is the baseline series', so a candidate series runs ANY")
+    parser.add_argument("--only", help="comma-separated models' bases (catalog.pricelist_item): run their create and update "
+                                       "and nothing else, to try a fixture without the whole pass")
     options = parser.parse_args()
     password = os.environ.get(options.password_env)
     if not password:
@@ -330,8 +381,11 @@ def main():
     results = {}
     renames = load_renames(options.renames)
 
+    only = {name.strip() for name in (options.only or "").split(",") if name.strip()}
     for operation_id in sorted(i for i in operations if i.endswith(".create")):
         base = operation_id[: -len(".create")]
+        if only and base not in only:
+            continue
         update_id = base + ".update"
         described = (cli(options.odoo_bin, options.profile, "catalog", "describe", "--operation", operation_id).get("data") or {})
         model = described.get("providerModel")
@@ -458,7 +512,7 @@ def main():
         candidates = simple_fields(accepted & set(update_accepts), series_meta, update_accepts)
         typed = not candidates
         if typed:
-            candidates = typed_fields(accepted & set(update_accepts), series_meta, update_accepts)
+            candidates = updatable(model, typed_fields(accepted & set(update_accepts), series_meta, update_accepts))
         if not candidates:
             update_result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
             continue
@@ -470,7 +524,7 @@ def main():
                 update_result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
                 continue
         else:
-            new_value = update_value(field, series_meta(field))
+            new_value = GIVEN_UPDATES.get((model, field)) or update_value(field, series_meta(field))
         answer = cli(options.odoo_bin, options.profile, "execute", "--operation", update_id, "--provider-target-id", str(record_id),
                      "--values", json.dumps({field: new_value}), "--allow-unverified")
         if answer.get("status") != "OK":
@@ -491,6 +545,8 @@ def main():
     # family's missing verb: one simple field of the newest existing record is updated through the
     # CLI, read back by the oracle, and restored, so the lab keeps its data.
     for update_id in sorted(i for i in operations if i.endswith(".update") and i not in results):
+        if only and update_id[: -len(".update")] not in only:
+            continue
         described = (cli(options.odoo_bin, options.profile, "catalog", "describe", "--operation", update_id).get("data") or {})
         model = described.get("providerModel")
         accepted = {f["name"] for f in described.get("inputs") or []}
@@ -507,7 +563,7 @@ def main():
         candidates = simple_fields(accepted, series_meta, update_inputs(described))
         typed = not candidates
         if typed:
-            candidates = typed_fields(accepted, series_meta, update_inputs(described))
+            candidates = updatable(model, typed_fields(accepted, series_meta, update_inputs(described)))
         if not candidates:
             result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
             continue
@@ -520,7 +576,8 @@ def main():
             result.update({"status": "NOT_RUN_NO_RECORD"})
             continue
         record_id, original = existing[0]["id"], existing[0].get(provider_field)
-        new_value = typed_value(oracle, meta[provider_field], original) if typed else update_value(field, meta.get(provider_field))
+        new_value = (typed_value(oracle, meta[provider_field], original) if typed
+                     else GIVEN_UPDATES.get((model, field)) or update_value(field, meta.get(provider_field)))
         if new_value is None:
             result.update({"status": "NOT_RUN_NO_SIMPLE_FIELD"})
             continue

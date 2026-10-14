@@ -589,7 +589,7 @@ func TestOdoo20DialectRefusesARemovedMethodBeforeContactingTheProvider(t *testin
 			t.Fatalf("UnavailableOnSeries(19.0, %s) = %q, want applicable", id, got)
 		}
 	}
-	// Pinned: of the 1358 operations, 62 cannot run on 20.0. A change here is a dialect change and
+	// Pinned: of the 1353 operations, 62 cannot run on 20.0. A change here is a dialect change and
 	// moves the 20.0 coverage figure.
 	unavailable20 := 0
 	for _, op := range SurfaceCatalog() {

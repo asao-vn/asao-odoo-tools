@@ -21,8 +21,6 @@ import argparse
 import json
 import subprocess
 
-# The manifest parser refuses a document containing these words anywhere (credential guard).
-GUARDED_WORDS = ("password", "token", "cookie", "rawresponse", "raw_response", "responsebody", "response_body")
 
 
 def main():
@@ -57,7 +55,9 @@ def main():
     for operation_id, result in sorted(evidence["records"].items()):
         if result.get("status") != "AGREE" or operation_id in existing or (only is not None and operation_id not in only):
             continue
-        if any(word in operation_id.lower() for word in GUARDED_WORDS) or not result.get("definitionHash"):
+        # An operation id names a catalog operation (finance.payment_token.create), never material: the
+        # manifest parser exempts it, and the guard stays on every other field.
+        if not result.get("definitionHash"):
             skipped.append(operation_id)
             continue
         added.append({
@@ -72,7 +72,7 @@ def main():
         })
     manifest["records"].extend(added)
     write(options.manifest, manifest)
-    print(f"promoted {len(added)}; skipped {len(skipped)} (guarded word or no definition hash): {skipped}")
+    print(f"promoted {len(added)}; skipped {len(skipped)} (no definition hash): {skipped}")
 
 
 def current_definition(binary, operation_id):

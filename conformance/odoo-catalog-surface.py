@@ -425,6 +425,19 @@ SKIP = {
     "im_livechat.report.channel",
 }
 
+# Writes Odoo grants to no group (its access rules refuse them to everyone, administrators included):
+# the catalog offers only what an Odoo can do, so no caller is handed an operation every Odoo refuses.
+UNOFFERED_WRITES = {
+    "account.payment.method": ("create",),  # updating one is allowed and verified
+    "im_livechat.channel.member.history": ("create", "update"),
+    "mrp.workcenter.productivity.loss.type": ("create", "update"),
+}
+
+# Inputs a create needs that the form view does not show: a loyalty card is made inside its program,
+# so the card's form never has the program, yet Odoo cannot create a card without one. Only the create
+# takes them, so the update keeps its definition (and its evidence).
+CREATE_ONLY_INPUTS = {"loyalty.card": ("program_id",)}
+
 # Business buttons only: no navigation, printing, messaging, wizards, installs or account creation.
 SKIP_METHOD_PREFIXES = (
     "action_view_", "action_open_", "action_see_", "action_show_", "open_", "print_", "preview_",
@@ -1080,8 +1093,20 @@ def main():
         has_state = "state" in fields
         entry = {"model": model, "operations": []}
 
-        made, projections, allowed = standard_operations(model, record, base, ("list", "describe", "create", "update"),
+        verbs = tuple(v for v in ("list", "describe", "create", "update") if v not in UNOFFERED_WRITES.get(model, ()))
+        made, projections, allowed = standard_operations(model, record, base, verbs,
                                                          capability(family, entity, "read"), capability(family, entity, "write"))
+        for op in made:
+            extra = [f for f in CREATE_ONLY_INPUTS.get(model, ()) if op["id"].endswith(".create") and f not in op["allowed"]]
+            if extra:
+                op["allowed"] = op["allowed"] + extra
+                op["types"], op["enums"] = input_typing(fields, op["allowed"])
+                for name in extra:
+                    target = by_model.get(fields[name]["relation"]) if fields[name]["type"] == "many2one" else None
+                    if target:
+                        name_field = target["fields"].get("name")
+                        op["relations"] = dict(op["relations"], **{name: {"model": fields[name]["relation"],
+                            "search": "name" if name_field and name_field["type"] == "char" else ""}})
         list_fields, describe_fields = projections["list"], projections["describe"]
         for op in made:
             add(op)

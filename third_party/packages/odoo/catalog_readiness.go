@@ -133,6 +133,9 @@ var (
 	manifestErr     error
 	digestPattern   = regexp.MustCompile(`^sha256:[0-9a-f]{64}$`)
 	credentialURL   = regexp.MustCompile(`(?i)://[^/@[:space:]]+:[^/@[:space:]]+@`)
+	// manifestOperationID is a record's operationId, which must name a catalog operation and so can
+	// carry no material: finance.payment_token.create is an operation, not a token.
+	manifestOperationID = regexp.MustCompile(`"operationId"\s*:\s*"[a-z0-9_.]+"`)
 )
 
 // ErrCatalogNotReleaseReady identifies a release gate blocked by UNVERIFIED operations.
@@ -181,7 +184,7 @@ func parseConformanceManifest(document []byte) ([]ConformanceRecord, error) {
 }
 
 func parseSeriesConformanceManifest(document []byte, schema, series string) ([]ConformanceRecord, error) {
-	lower := strings.ToLower(string(document))
+	lower := strings.ToLower(manifestOperationID.ReplaceAllString(string(document), `"operationId":""`))
 	for _, forbidden := range []string{"password", "token", "cookie", "rawresponse", "raw_response", "responsebody", "response_body"} {
 		if strings.Contains(lower, forbidden) {
 			return nil, fmt.Errorf("odoo conformance manifest contains forbidden material %s", forbidden)

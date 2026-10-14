@@ -2293,14 +2293,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 	},
 	// account.payment.method (Payment Methods)
 	{
-		SemanticID: "finance.payment_method.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
-		RequiredModules: []string{"account"}, RequiredCapability: "finance.paymentmethod.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment.method",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"name", "payment_type", "code"},
-		InputEnums: map[string][]string{"payment_type": []string{"inbound", "outbound"}},
-	},
-	// account.payment.method (Payment Methods)
-	{
 		SemanticID: "finance.payment_method.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"account"}, RequiredCapability: "finance.paymentmethod.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "account.payment.method",
@@ -5979,22 +5971,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		ReadFields:         []string{"id", "display_name"},
 		OptionalReadFields: []string{"member_id", "channel_id", "partner_id", "livechat_member_type", "guest_id", "chatbot_script_id", "agent_expertise_ids", "conversation_tag_ids", "session_country_id", "session_outcome", "session_week_day", "session_livechat_channel_id", "session_start_hour", "session_duration_hour", "rating", "call_history_ids", "has_call", "call_percentage", "response_time_hour", "call_count", "call_duration_hour", "help_status"},
 	},
-	// im_livechat.channel.member.history (Keep the channel member history)
-	{
-		SemanticID: "livechat.channel_member_history.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
-		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelmemberhistory.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.member.history",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"member_id", "response_time_hour"},
-		InputTypes: map[string]string{"member_id": "reference", "response_time_hour": "number"},
-	},
-	// im_livechat.channel.member.history (Keep the channel member history)
-	{
-		SemanticID: "livechat.channel_member_history.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
-		RequiredModules: []string{"im_livechat"}, RequiredCapability: "livechat.channelmemberhistory.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "im_livechat.channel.member.history",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"member_id", "response_time_hour"},
-		InputTypes: map[string]string{"member_id": "reference", "response_time_hour": "number"},
-	},
 	// im_livechat.channel.rule (Livechat Channel Rules)
 	{
 		SemanticID: "livechat.channel_rule.list", Kind: KindRead, Strategy: StrategyRead,
@@ -6188,10 +6164,11 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		SemanticID: "sales.loyalty_card.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules: []string{"loyalty"}, RequiredCapability: "sales.loyaltycard.write",
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "loyalty.card",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"code", "expiration_date", "partner_id", "source_pos_order_id"},
-		InputTypes: map[string]string{"partner_id": "reference", "source_pos_order_id": "reference"},
+		WriteMode: WriteModeCreate, AllowedFields: []string{"code", "expiration_date", "partner_id", "source_pos_order_id", "program_id"},
+		InputTypes: map[string]string{"partner_id": "reference", "program_id": "reference", "source_pos_order_id": "reference"},
 		Relations: map[string]RelationSpec{
 			"partner_id":          {TargetModel: "res.partner", SearchField: "name"},
+			"program_id":          {TargetModel: "loyalty.program", SearchField: "name"},
 			"source_pos_order_id": {TargetModel: "pos.order", SearchField: "name"},
 		},
 	},
@@ -7956,22 +7933,6 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.workcenter.productivity.loss.type",
 		ReadFields:         []string{"id", "display_name"},
 		OptionalReadFields: []string{"loss_type"},
-	},
-	// mrp.workcenter.productivity.loss.type (MRP Workorder productivity losses)
-	{
-		SemanticID: "manufacturing.workcenter_productivity_loss_type.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
-		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.workcenterproductivitylosstype.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.workcenter.productivity.loss.type",
-		WriteMode: WriteModeCreate, AllowedFields: []string{"loss_type"},
-		InputEnums: map[string][]string{"loss_type": []string{"availability", "performance", "quality", "productive"}},
-	},
-	// mrp.workcenter.productivity.loss.type (MRP Workorder productivity losses)
-	{
-		SemanticID: "manufacturing.workcenter_productivity_loss_type.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
-		RequiredModules: []string{"mrp"}, RequiredCapability: "manufacturing.workcenterproductivitylosstype.write",
-		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mrp.workcenter.productivity.loss.type",
-		WriteMode: WriteModeUpdate, AllowedFields: []string{"loss_type"},
-		InputEnums: map[string][]string{"loss_type": []string{"availability", "performance", "quality", "productive"}},
 	},
 	// mrp.workcenter.tag (Add tag for the workcenter)
 	{

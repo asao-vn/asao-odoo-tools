@@ -1,6 +1,8 @@
 package standalone
 
 import (
+	"bytes"
+	"context"
 	"strings"
 	"testing"
 
@@ -69,6 +71,31 @@ func TestExploreIsOfferedToAnAgentAsReadsOnTheServersProfile(t *testing.T) {
 		}
 		if _, offered := tool.InputSchema["properties"].(map[string]interface{})["profile"]; offered {
 			t.Errorf("%s lets the agent choose the profile", name)
+		}
+	}
+}
+
+func TestReviewListsItsChecksAndIsOfferedToAnAgent(t *testing.T) {
+	var out, diag bytes.Buffer
+	code := clicore.Run(context.Background(), RootFor("odoo-cli"), []string{"review", "checks", "--output", "json"}, clicore.Streams{Out: &out, Diagnostics: &diag})
+	if code != clicore.ExitOK || !strings.Contains(out.String(), `"O17"`) || !strings.Contains(out.String(), "## Hay báo nhầm khi") {
+		t.Fatalf("review checks: code %d, %.300s", code, out.String())
+	}
+	tools, err := agentsurface.ProjectAs(RootFor("odoo-cli"), "odoo-cli", agentsurface.Filter{ReadOnly: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	offered := map[string]agentsurface.Tool{}
+	for _, tool := range tools {
+		offered[tool.Name] = tool
+	}
+	run, ok := offered["review_run"]
+	if !ok || offered["review_checks"].Name == "" {
+		t.Fatal("review is not offered to an agent")
+	}
+	for _, personal := range []string{"profile", "allow-unverified", "markdown-file"} {
+		if _, given := run.InputSchema["properties"].(map[string]interface{})[personal]; given {
+			t.Errorf("an agent may set --%s", personal)
 		}
 	}
 }

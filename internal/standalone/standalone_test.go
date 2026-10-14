@@ -63,7 +63,9 @@ const AcceptedCatalogSize = 105
 // connector (none in Community).
 // 1254 -> 1253: a payment transaction's Post Process, a button whose invisible is the constant 1
 // (only Odoo's cron runs it); the transaction's Capture becomes the capture dialog's operation.
-const AcceptedSurfaceSize = 1253
+// 1253 -> 1248: writes Odoo grants to no group (UNOFFERED_WRITES): creating a payment method, and
+// creating or updating live chat member history and work-center productivity loss types.
+const AcceptedSurfaceSize = 1248
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -93,8 +95,11 @@ var acceptedUnverifiedOperations = []string{}
 // actions and wizards 128.
 // Then payments authorized by the Demo provider, captured and voided: actions and wizards 132.
 // 2026-10-14, the weekly run's new agreements: POS sessions and a job's skills, writes 501; invoicing a
-// POS order and validating a repair, actions and wizards 134.
-const AcceptedSurfaceCurrent = 521 + 501 + 134 + 7 + 6
+// POS order and validating a repair, actions and wizards 134. Then the payment tokens, once an
+// operation id stopped counting as manifest material: writes 503. Then ten writes given values Odoo
+// accepts (recurrence rules, term days, percentages, bank journals, tax groups): writes 513. Then a
+// loyalty card's create, with its program: writes 514.
+const AcceptedSurfaceCurrent = 521 + 514 + 134 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

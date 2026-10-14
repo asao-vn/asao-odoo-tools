@@ -27,3 +27,12 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Every release is checked against Odoo in the open, and its evidence is attached to it.
+  conformance:
+    needs: release
+    uses: ./.github/workflows/conformance.yml
+    with:
+      tag: ${{ github.ref_name }}
+    permissions:
+      contents: write

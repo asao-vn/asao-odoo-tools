@@ -2,7 +2,7 @@
 
 *Tiếng Việt ở cuối trang.*
 
-`odoo-cli` offers 1358 operations on Odoo Community: reads, creates and updates, business buttons,
+`odoo-cli` offers 1353 operations on Odoo Community: reads, creates and updates, business buttons,
 dialogs, prints and deletes. An operation is called **verified** only after it was run on a real Odoo
 and its result was compared with what Odoo itself did. This page explains how that comparison works,
 how to read the report it produces, what it does **not** prove, and how to run it yourself.
@@ -124,7 +124,7 @@ Odoo you use: it creates and changes records.
 
 ## Tiếng Việt: odoo-cli được kiểm chứng thế nào, và đọc kết quả ra sao
 
-`odoo-cli` có 1358 thao tác trên Odoo Community. Một thao tác chỉ được gọi là **đã kiểm chứng** khi nó đã
+`odoo-cli` có 1353 thao tác trên Odoo Community. Một thao tác chỉ được gọi là **đã kiểm chứng** khi nó đã
 chạy trên một Odoo thật và kết quả được đối chiếu với chính Odoo.
 
 **Tóm tắt.** Một script dựng Odoo mới tinh từ image chính hãng, có dữ liệu demo của Odoo. Nó chạy mọi thao

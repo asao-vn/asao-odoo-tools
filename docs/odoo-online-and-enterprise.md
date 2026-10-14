@@ -10,8 +10,8 @@ Online and Odoo Enterprise, how that was found out, and what it does not promise
 
 | Odoo | What is known | Can you re-check it? |
 |---|---|---|
-| Community 19.0, self-hosted | 1272 of 1358 operations verified | Yes: the conformance workflow, every week |
-| Community 20.0, self-hosted | 1170 of the 1296 operations 20.0 can run verified; runs with `--allow-unverified` | Yes, the same workflow |
+| Community 19.0, self-hosted | 1285 of 1353 operations verified | Yes: the conformance workflow, every week |
+| Community 20.0, self-hosted | 1170 of the 1291 operations 20.0 can run verified; runs with `--allow-unverified` | Yes, the same workflow |
 | Enterprise 20.0 on Odoo Online | checked once on 2026-10-14 (below): reads, writes and buttons; not counted as verified | Only on a database of your own, with the read check below |
 | Enterprise, self-hosted or on Odoo.sh | not tested: Enterprise is not public, so no lab can be built from it | — |
 
@@ -145,6 +145,6 @@ những gì đã biết về Odoo Online và Enterprise.
 - Trên bản dùng thử ngày 14/10/2026, nó đưa ra **5 công cụ, đều chỉ đọc**: danh sách model, danh sách
   trường, ngữ cảnh người dùng, tìm kiếm, gom nhóm.
 - Muốn ghi, bấm nút nghiệp vụ hay in, quản trị viên phải tự viết và mở từng server action.
-- odoo-cli thì có sẵn 1358 thao tác đặt tên rõ (đọc, ghi, nút nghiệp vụ, hộp thoại, in, xoá có kiểm soát),
+- odoo-cli thì có sẵn 1353 thao tác đặt tên rõ (đọc, ghi, nút nghiệp vụ, hộp thoại, in, xoá có kiểm soát),
   đã đối chiếu với chính Odoo, chạy được trên Community, trong script và notebook.
 - Hai thứ dùng chung được trong một agent.

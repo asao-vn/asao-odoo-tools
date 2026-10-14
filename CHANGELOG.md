@@ -1,7 +1,33 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 (2026-10-15)
 
+- **Every release is checked against Odoo, automatically.** A release made by the release workflow
+  raised no event for the conformance workflow, so "every release" depended on someone starting it by
+  hand (0.9.0's was). The release workflow now calls it, and the evidence is attached to the release.
+- **1353 operations, every one an Odoo allows.** Five writes Odoo grants to no group, administrators
+  included, are no longer offered:
+  - creating a payment method;
+  - creating or updating live chat member history;
+  - creating or updating work-center productivity loss types.
+
+  Creating a loyalty card now takes its program, without which Odoo cannot create one, and it is
+  verified: 1285 on 19.0.
+- **`odoo-cli review`: review the books of a period.**
+  - 14 checks over the catalog's own reads, for mistakes, duplicates and signs of fraud, plus the
+    period's figures month by month.
+  - Each finding carries its formula, its thresholds and its evidence.
+  - Proven on a simulated business: 16 of 16 planted cases found, no decoy flagged.
+  - Offered to agents as MCP tools, with each check's reading note.
+- **Odoo 19.0: 1284 verified.** Ten more writes agree with Odoo:
+  - pricelist items, CRM team members, accounts, payment terms, reconciliation lines, quotation
+    template lines, payments, taxes and calendar recurrences;
+  - the conformance runner now gives the values those models check: a recurrence rule, a term's days,
+    a percentage, a bank journal, the tax group's country.
+- **Odoo 19.0: 1274 verified.** Creating and updating payment tokens agreed with Odoo but could not be
+  recorded: the manifest refused the word "token" anywhere, its own operation ids included. An
+  operation id now passes, since it can only name a catalog operation, and the word is still refused
+  everywhere else.
 - **`odoo-cli explore`: read any model.**
   - Four commands: models, fields, search, group.
   - They also run as MCP tools.
@@ -9,6 +35,9 @@
   - This is what Odoo 20 Enterprise's MCP server offers, and it runs on Community too.
   - Credentials, secret fields and binaries are never shown.
   - Answers say they are generic and unverified.
+- **`spec plan`: records whose module the plan itself installs are planned after the modules.**
+  Before, such a record was reported as a gap, so a spec that brought its own apps could not plan their
+  records.
 - **Correction to 0.9.0's README:** with `--allow-writes` the MCP server offered 1361 tools, 54 of them
   waiting for confirmation (not 1362 and 55). Installing a module was never offered.
 - **Odoo Online and Enterprise: writes and buttons checked too**, on the same Enterprise 20.0 trial:

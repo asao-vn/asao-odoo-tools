@@ -1,0 +1,45 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-14T16:47:51Z",
+ "records": {
+  "sales.loyalty_card.create": {
+   "definitionHash": "sha256:fb78a7ef7ac0236172caa8933f61ce4f7ba4caf8cadfaf2e7f89b7a5cdb36e23",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "loyalty"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:bf709a674dde4bc139a5f2ff244cf1c3e6f8f8629f4aaea73bef28cb5c7e6f04",
+   "writtenFields": [
+    "code",
+    "program_id"
+   ]
+  },
+  "sales.loyalty_card.update": {
+   "definitionHash": "sha256:235dfad8dbd654036fd9b8ad1223ec5780fcdd25d541df17968bc239a68e9c0b",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "loyalty"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "code"
+   ]
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

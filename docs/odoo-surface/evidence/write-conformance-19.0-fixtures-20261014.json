@@ -1,0 +1,259 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-14T16:41:05Z",
+ "records": {
+  "catalog.pricelist_item.create": {
+   "definitionHash": "sha256:4663865922ca87ff55faffce4f43ac5efa4feff8abfcb189b92d23d93f314408",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "product"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:dfe9207d0c3271da0fc45035d7f699299fbb5ba5bb6490d7f27eb6541bad3d17",
+   "writtenFields": [
+    "applied_on"
+   ]
+  },
+  "catalog.pricelist_item.update": {
+   "definitionHash": "sha256:f8ae5841fbceef30c5e9c64271f5604aef45b408d6f21b6a51e865f13f3ab822",
+   "fieldType": "selection",
+   "kind": "update",
+   "modules": [
+    "product"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "display_applied_on"
+   ]
+  },
+  "crm.team_member.create": {
+   "definitionHash": "sha256:6cea3559eb85421af1d8affb2c9ef886165078bb489d998e3984352c536c2745",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "sales_team"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:1eede58ff389af112ca744da920a583dbbe01cad4c21907cebf52f39df011c7f",
+   "writtenFields": [
+    "crm_team_id",
+    "user_id"
+   ]
+  },
+  "crm.team_member.update": {
+   "definitionHash": "sha256:3df82f211f5f1243d996cf6b755d28055b761988417c71e7b78a053a29cea45f",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "sales_team"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "assignment_domain"
+   ]
+  },
+  "finance.account.chart.create": {
+   "definitionHash": "sha256:9fb8734b0e577577ed0778bc9f6e4e899551d76b65cf787933971a95c4f0bc56",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:f93f15c863c3cde27e860ddcd8270cb1e9617928573c9cd4252ad886a553fae6",
+   "writtenFields": [
+    "account_type",
+    "code",
+    "name"
+   ]
+  },
+  "finance.account.chart.update": {
+   "definitionHash": "sha256:e35d96b8ee83a60263d9b570305bc189eb9ae2e61d1570eb0a4b16454c432c3b",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "finance.payment.create": {
+   "definitionHash": "sha256:a4ce63915b2a6502dcd0eee318f5f2b76d48e77a6770d48cd75f68e3b47e8a37",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:e245763086059cad0e1dfa63a6ae2565f0f74191e156b5c34d452bb844233625",
+   "writtenFields": [
+    "company_id",
+    "journal_id",
+    "payment_method_line_id"
+   ]
+  },
+  "finance.payment.update": {
+   "definitionHash": "sha256:f2624970efc1330a44b409ceee739feddd9c15b464997c49770e81a299d3de07",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "memo"
+   ]
+  },
+  "finance.payment_term_line.create": {
+   "definitionHash": "sha256:5c9ca214bbceecd43e1d8ffe40ba15b73ce4aca314345bdf92f9439e5977d786",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:f0c8de7167ff8d9ffb4c486ead6bbdd4781c31dd0426a4d80ae56fb2b00c83e9",
+   "writtenFields": [
+    "payment_id"
+   ]
+  },
+  "finance.payment_term_line.update": {
+   "definitionHash": "sha256:2d297fc06f1e4dfe9f28b2073c04087604c0cc8d4995679274747b9966031cef",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "days_next_month"
+   ]
+  },
+  "finance.reconcile_model_line.create": {
+   "definitionHash": "sha256:1459b3c912cc158295801346e1329f23118156c85fb30f1a26d690c1ae05d7d1",
+   "detail": "AERP_ACCESS_DENIED",
+   "message": "Access Denied: Uh-oh! Looks like you have stumbled upon some top-secret records.\n\nSorry, Mitchell Admin (id=2) doesn't have 'create' access to:\n- Rules for the reconciliation model (account.reconcile.",
+   "modules": [
+    "account"
+   ],
+   "status": "CLI_ERROR"
+  },
+  "finance.reconcile_model_line.update": {
+   "definitionHash": "sha256:e12583d766ff8d7dea8a2d4b1491edcab4d47b3c9b2e5adcb0baad3ccbd0052a",
+   "fieldType": "char",
+   "kind": "update-existing",
+   "modules": [
+    "account"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "amount_string"
+   ]
+  },
+  "finance.tax.create": {
+   "definitionHash": "sha256:7c6444b77a0b58aafd7717c6a7329de842684c52248604fd4eee480782f4736d",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:f4073414c5e8ec880d9f973a9e0543d40217dfebcd0a349a23466347c637208b",
+   "writtenFields": [
+    "amount",
+    "country_id",
+    "name",
+    "tax_group_id"
+   ]
+  },
+  "finance.tax.update": {
+   "definitionHash": "sha256:727c2b3027a2ae6ccd5fafbd67d83d9c2403f5f9b9e6394df1447b8b6b7e7089",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "account"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "sales.quotation_template_line.create": {
+   "definitionHash": "sha256:66b0029b57a55ec88c111ba3516903d2cb1fe06e483b3cb3a846c109c60f6862",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "sale_management"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:8a89599adc186ef4586a0e7c9eaa441966d85912027856769d739229404dba06",
+   "writtenFields": [
+    "name",
+    "product_id",
+    "product_uom_id",
+    "sale_order_template_id"
+   ]
+  },
+  "sales.quotation_template_line.update": {
+   "definitionHash": "sha256:5db7ca6e9af765ee87619180bd4b28ce3e9a88ec9d4bb53b1a7357a697efbe2f",
+   "fieldType": "text",
+   "kind": "update",
+   "modules": [
+    "sale_management"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  },
+  "schedule.recurrence.create": {
+   "definitionHash": "sha256:01fe9421a9bb76f258b66bdd3df0cd4318c8319d8a733ae089f66497259296b7",
+   "kind": "create",
+   "mismatchedFields": [],
+   "modules": [
+    "calendar"
+   ],
+   "renamedFields": [],
+   "status": "AGREE",
+   "valuesHash": "sha256:abfb8e7e56809eef1f8a6c6914f74e2769038f85e4ca43aae84f729a79ce3054",
+   "writtenFields": [
+    "rrule"
+   ]
+  },
+  "schedule.recurrence.update": {
+   "definitionHash": "sha256:4f63a0bf72544aab92f132e68552bf96922504b698156523cc0788df2be316aa",
+   "fieldType": "char",
+   "kind": "update",
+   "modules": [
+    "calendar"
+   ],
+   "status": "AGREE",
+   "writtenFields": [
+    "rrule"
+   ]
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}
