@@ -197,12 +197,14 @@ branch on "code".`,
 		executeCommand(config),
 		specGroup(config),
 		updateCommand(config),
+		mcpGroup(config),
 		completionGroup(root),
 	}
 	if odooFlavour(config.name) {
 		root.Children = append(root.Children, callCommand(config), adminGroup(config))
 	}
 	mountOperationCommands(root, config)
+	openAgentSurface(root)
 	rewriteProgramReferences(root, config.name)
 	declareBoundaries(root)
 	clicore.Prepare(root)

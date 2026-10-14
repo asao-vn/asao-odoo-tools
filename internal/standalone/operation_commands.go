@@ -98,6 +98,14 @@ func buildOperationCommandFlags(op direct.Operation) []clicore.Flag {
 		clicore.Flag{Name: "provider-context", Kind: clicore.KindJSON, Description: "Provider execution context, as a JSON object."},
 	)
 	for _, f := range common {
+		// What an agent on `odoo-cli mcp serve` may not choose: the Odoo it reaches and whether
+		// unverified results are accepted (both fixed by the person who started the server), where
+		// a file is written on this machine, and the provider context (which can switch off Odoo's
+		// own tracking).
+		switch f.Name {
+		case "profile", "allow-unverified", "save-file", "provider-context":
+			f.PersonOnly = true
+		}
 		if !seen[f.Name] {
 			seen[f.Name] = true
 			flags = append(flags, f)
@@ -153,6 +161,7 @@ func mountOperationCommands(root *clicore.Command, config programConfig) {
 			TargetRule:  op.TargetRequirement,
 			Readiness:   op.Readiness,
 			Risk:        op.Risk,
+			AgentAccess: agentAccessFor(op),
 			Flags:       buildOperationCommandFlags(op),
 			Examples: []string{
 				fmt.Sprintf("%s %s --profile lab-a --output json", config.name, strings.Join(parts, " ")),

@@ -1,0 +1,338 @@
+{
+  "policies": [
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate. This is the highest-stakes ABE C4 operation (produces RiskLevel/RedFlags/citations) and requires an explicit, separately-reviewed promotion decision, not a default flip of this flag.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Composed AssessmentResult is RESULT_STATUS_PRELIMINARY. Promotion to a status a guardian or clinician may act on goes through the existing doctor-review workflow (services/abe-service internal/review), not through this operation alone; this policy requires that review path, it does not implement it.",
+        "required": true,
+        "reviewerRole": "abe_doctor_reviewer"
+      },
+      "operationId": "AbeAssessment.Compose",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": true
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": true,
+        "required": true
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": true
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Read-only, raw (unredacted) internal view of an already-composed AssessmentResult, for operator/reviewer use; guardian-facing projection goes through AbeResult.Explain instead, which carries its own stricter policy.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeResult.Describe",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": true
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": true,
+        "required": true
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": false
+    },
+    {
+      "allowedAudiences": [
+        "GUARDIAN",
+        "REVIEWER"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate. The guardian-facing audience makes this the single most exposure-sensitive ABE C4 operation: any future eligibility change here requires independent review specifically re-verifying the numeric-probability redaction and forbidden-claims constraints, not a routine promotion.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Read-only, server-redacted projection of an already-composed AssessmentResult; REVIEWER-mode content is for the existing doctor-review workflow, not produced fresh by this operation.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeResult.Explain",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": true
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": true,
+        "required": true
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": false
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Read-only list of prior AssessmentResult revisions; no new clinical claim is produced.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeResult.History",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": true
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": true,
+        "required": true
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": false
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Read-only session metadata (status/revision/counts); no clinical claim is produced.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeSession.Describe",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": false
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": false,
+        "required": false
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": false
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Creates only a bare session container (subject_ref/guardian_id/purpose); no clinical claim is produced by this operation.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeSession.Start",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": false
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": false,
+        "required": false
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": true
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate. This operation calls a real HTTP model provider (services/abe-service ADR-0013 DEV_TEST authority) — AI-actor invocation of an operation that itself invokes another model is a compounding-authority risk not evaluated by this gate.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Model output (assistant_text/proposed_inputs) is PROPOSED ONLY and never becomes authoritative through this route; the safeguard is the AcceptedInput fact boundary (AbeSessionInput.Record), not human review of this turn itself.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeSessionChat.Send",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": false
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": false,
+        "required": true
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": true
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "Read-only completeness/missing-field summary; no clinical claim is produced.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeSessionCompleteness.Describe",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": false
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": false,
+        "required": false
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": false
+    },
+    {
+      "allowedAudiences": [
+        "OPERATOR"
+      ],
+      "blockReason": "INTERNAL CLI visibility; no approved AI/MCP exposure decision exists for this DEV_TEST gate. A future AI-triggered mutation on this route would additionally require the accepted PROPOSE->VALIDATE->AUTHORIZE->EXECUTE->VERIFY mutation lifecycle, which does not exist yet.",
+      "consent": {
+        "realDataRequiresSeparateApproval": true,
+        "required": false,
+        "scope": ""
+      },
+      "exposure": {
+        "aiToolEligible": false,
+        "cliEligible": true,
+        "environmentRestrictions": [
+          "DEV_TEST_ONLY"
+        ],
+        "mcpExposure": false
+      },
+      "humanReview": {
+        "reason": "This is the ONLY route that can promote a proposed observation into an authoritative AcceptedInput; the safeguard is the mandatory source/originating-proposal-ref fact-boundary provenance check, not a separate human-review gate on top of it.",
+        "required": false,
+        "reviewerRole": ""
+      },
+      "operationId": "AbeSessionInput.Record",
+      "outputSafety": {
+        "forbidsClinicalClaims": true,
+        "forbidsNumericGuardianProbability": true,
+        "riskAuthorityIsDeterministicRuleEngine": false
+      },
+      "policyVersion": 1,
+      "provenance": {
+        "citationRequired": false,
+        "required": true
+      },
+      "realSensitiveDataAllowed": false,
+      "stateChanging": true
+    }
+  ]
+}

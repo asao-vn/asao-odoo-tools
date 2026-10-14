@@ -323,6 +323,23 @@ type Command struct {
 	// SideEffect WRITE_LOCAL_FILES; no network, no canonical state, no provider, no ASAO service, and
 	// no existing file is replaced without an explicit --force.
 	ClientLocalFiles bool
+	// ClientLocalWorkspace is the seventh narrow CLIENT_LOCAL exception: a leaf that keeps a working folder
+	// on this machine (`asao alop workspace ...`, `asao alop path push`, DEC-2026-0158 amendment 12). It writes
+	// files only under the folder the person named, and it reaches ASAO ONLY by relaying ordinary invocations
+	// of other leaves through the executable's one execution path (RelayFrom), exactly as `asao mcp serve`
+	// relays a tool call: each relayed call is parsed, authenticated, authorized and audited as if it had
+	// been typed. It never opens a database, a provider or a runtime connection of its own. SideEffect READ,
+	// WRITE_LOCAL_FILES, or WRITE_CANONICAL when it relays writes (its AgentAccess is then no lower than
+	// any leaf it relays).
+	ClientLocalWorkspace bool
+	// ClientLocalOps is the eighth narrow CLIENT_LOCAL exception: a leaf of `asao ops` (DEC-2026-0166) that
+	// calls the Ops Console API of ops-service as the platform operator, with the operator's own token of
+	// the console's Keycloak client. ops-service authenticates, authorizes (its member roles) and journals
+	// every call exactly as for the web console; the ASAO authority runtime is not involved because
+	// platform operations are not an organization's business. SideEffect READ, WRITE_LOCAL_CONFIG (the
+	// operator session file) or WRITE_CANONICAL (an account status, a verification, a plan). Never
+	// offered to an agent.
+	ClientLocalOps bool
 	// AgentAccess is this leaf's tool-protocol exposure. See the AgentAccess type. Empty on a group
 	// and on the standalone products' trees, which have no MCP projection.
 	AgentAccess AgentAccess
@@ -519,6 +536,10 @@ type CommandSpec struct {
 	ClientLocalHost bool `json:"clientLocalHost,omitempty"`
 	// ClientLocalFiles projects the sixth: the leaf writes files the person named on this machine.
 	ClientLocalFiles bool `json:"clientLocalFiles,omitempty"`
+	// ClientLocalWorkspace projects the seventh: the leaf keeps a working folder and relays other leaves.
+	ClientLocalWorkspace bool `json:"clientLocalWorkspace,omitempty"`
+	// ClientLocalOps projects the eighth: the leaf calls the Ops Console API as the platform operator.
+	ClientLocalOps bool `json:"clientLocalOps,omitempty"`
 	// AgentAccess and HumanStep publish the leaf's tool-protocol exposure and whether its result is a
 	// link a person must open. agentAccess is published on every governed leaf (NONE included) so a
 	// reader never has to interpret an absence.
@@ -603,6 +624,8 @@ func Specify(command *Command, deep bool) CommandSpec {
 		spec.ClientLocalSettings = command.ClientLocalSettings
 		spec.ClientLocalHost = command.ClientLocalHost
 		spec.ClientLocalFiles = command.ClientLocalFiles
+		spec.ClientLocalWorkspace = command.ClientLocalWorkspace
+		spec.ClientLocalOps = command.ClientLocalOps
 		spec.AgentAccess = command.AgentAccess
 		spec.AgentConfirmWhen = command.AgentConfirmWhen
 		spec.HumanStep = command.HumanStep

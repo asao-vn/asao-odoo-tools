@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 (2026-10-14)
 
 - **Check it yourself.** A public conformance workflow runs weekly and on every release:
   - it builds Odoo 19.0 and 20.0 from the official images pinned by digest, with demo data;
@@ -15,6 +15,38 @@
   with the reason. Four modules 20.0 ships inside others (batch transfers in Inventory, wishlists and
   product comparison in eCommerce, remote work in Employees) no longer make an operation look
   uninstalled.
+- **`odoo-cli mcp serve`: the catalog for AI agents.** It serves the catalog over the Model Context
+  Protocol, on Community as on Enterprise.
+  - Reads by default.
+  - Writes with `--allow-writes`. High-risk and destructive operations then wait for your
+    confirmation in the agent host.
+  - Above 60 tools it offers four catalog tools: `odoo_find`, `odoo_describe`, `odoo_read` and
+    `odoo_write`.
+  - The profile, unverified results, local files and the provider context stay yours.
+
+  `odoo-cli mcp tools` shows what an agent would get.
+- **Odoo 19.0: 1272 verified**, up from 1267: creating and updating POS sessions, updating a job's
+  skills, invoicing a POS order and validating a repair order. The weekly run of 2026-10-14 found no
+  regression on 19.0 or 20.0.
+- **Grouped reads on Odoo 20.0.** `--group-by` and `--aggregate` (the SDK's `group()`) were refused on
+  20.0 and therefore on Odoo Online. They now run there:
+  - the grouping, the sums and the sort are translated like a read's;
+  - the groups come back under the 19.0 field names.
+- **Odoo Online and Enterprise.** Tested for the first time, on an Enterprise 20.0 trial on Odoo
+  Online (2026-10-14): odoo-cli connects through the JSON-2 API with an RPC key and ran 269 of its 291
+  list reads without an error. Compared one by one with Odoo, none of the 580 reads disagreed (366
+  agreed; the rest found no record, a missing module or a model 20.0 removed). Writes were not run
+  there. See [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md),
+  which also compares odoo-cli with Odoo's own MCP server.
+- **Fields for review and analysis.** Six reads return more, when the Odoo has them:
+  - invoices: the supplier's reference, the invoice a credit note reverses, who created it, when;
+  - invoice lines: their taxes and document type;
+  - contacts: tax code, street, city, who created it, when;
+  - products: the cost;
+  - employees: their own contact (which holds their bank accounts);
+  - payments: whether they are reconciled, and their memo.
+
+  They agree with Odoo on 19.0 again (conformance run of 2026-10-14).
 - **Rights holder.** The copyright holder is Nguyễn Hữu Hoàng, who publishes ASAO (see NOTICE). The
   licence is unchanged: Apache-2.0.
 

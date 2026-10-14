@@ -137,25 +137,6 @@ func (e *ModelUnavailableError) StructuredDetail() map[string]interface{} {
 var _ StructuredError = (*ModelUnavailableError)(nil)
 
 // checkModel refuses a model the series removed.
-// SeriesFeatureError refuses a feature this build does not translate for a candidate series yet
-// (grouped reads on 20.0). Nothing was sent to the provider.
-type SeriesFeatureError struct {
-	Series  string
-	Feature string
-}
-
-func (e *SeriesFeatureError) Error() string {
-	return fmt.Sprintf("%s are not translated for odoo %s yet", e.Feature, e.Series)
-}
-
-func (e *SeriesFeatureError) ErrorClass() string {
-	return string(ErrClassOperationUnavailableOnSeries)
-}
-
-func (e *SeriesFeatureError) StructuredDetail() map[string]interface{} {
-	return map[string]interface{}{"provider_series": e.Series, "feature": e.Feature}
-}
-
 func (d *providerDialect) checkModel(model string) error {
 	if d == nil {
 		return nil
@@ -384,6 +365,58 @@ func (d *providerDialect) orderOut(model, order string) (string, error) {
 		terms[i] = strings.Join(words, " ")
 	}
 	return strings.Join(terms, ", "), nil
+}
+
+// groupSpecOut translates one grouping, aggregate or sort term of a grouped read ("stage_id",
+// "date:month", "amount:sum", "amount:sum desc"): the field is renamed like a read's; a derived field
+// is refused, since a value rebuilt after reading cannot be grouped on by the provider.
+func (d *providerDialect) groupSpecOut(model, spec string) (string, error) {
+	m, ok := d.model(model)
+	if !ok {
+		return spec, nil
+	}
+	words := strings.Fields(spec)
+	if len(words) == 0 {
+		return spec, nil
+	}
+	field, suffix, hasSuffix := strings.Cut(words[0], ":")
+	if series, renamed := m.renamed[field]; renamed {
+		words[0] = series
+		if hasSuffix {
+			words[0] += ":" + suffix
+		}
+	} else if derived, isDerived := m.derived[field]; isDerived {
+		return "", d.refuse(model, field, derived.why)
+	}
+	return strings.Join(words, " "), nil
+}
+
+// groupsIn renames a grouped answer's keys ("uom_id", "uom_id:sum") back to the baseline fields.
+func (d *providerDialect) groupsIn(model string, groups []map[string]interface{}) {
+	m, ok := d.model(model)
+	if !ok {
+		return
+	}
+	baseline := make(map[string]string, len(m.renamed))
+	for base, series := range m.renamed {
+		baseline[series] = base
+	}
+	for _, group := range groups {
+		renames := map[string]string{}
+		for key := range group {
+			field, suffix, hasSuffix := strings.Cut(key, ":")
+			if base, renamed := baseline[field]; renamed {
+				if hasSuffix {
+					base += ":" + suffix
+				}
+				renames[key] = base
+			}
+		}
+		for series, base := range renames {
+			group[base] = group[series]
+			delete(group, series)
+		}
+	}
 }
 
 // valuesOut translates the values of a create or write.

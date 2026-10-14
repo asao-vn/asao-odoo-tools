@@ -25,6 +25,7 @@ import (
 	"context"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // Transport is the minimal surface the generic executor needs from the
@@ -133,9 +134,9 @@ func (t *ClientTransport) SearchReadPage(ctx context.Context, model string, doma
 }
 
 // ReadGroup groups and aggregates on the provider through formatted_read_group, the call Odoo's web
-// client makes for grouped lists and pivots. Arguments go by name, which both protocols accept. A
-// candidate series' renames are not translated into grouping specifications, so grouping runs on
-// the baseline series only.
+// client makes for grouped lists and pivots. Arguments go by name, which both protocols accept. On a
+// candidate series the domain, the grouping, the aggregates and the order are translated like a
+// read's, and the groups come back in baseline vocabulary.
 func (t *ClientTransport) ReadGroup(ctx context.Context, model string, domain interface{}, groupBy, aggregates []string, offset, limit int, order string, providerCtx map[string]interface{}) ([]map[string]interface{}, error) {
 	d, err := t.dialect(ctx)
 	if err != nil {
@@ -145,7 +146,33 @@ func (t *ClientTransport) ReadGroup(ctx context.Context, model string, domain in
 		return nil, err
 	}
 	if d != nil {
-		return nil, &SeriesFeatureError{Series: d.series, Feature: "grouped reads"}
+		if domain, err = d.domainOut(model, domain); err != nil {
+			return nil, err
+		}
+		translate := func(specs []string) ([]string, error) {
+			out := make([]string, 0, len(specs))
+			for _, spec := range specs {
+				series, err := d.groupSpecOut(model, spec)
+				if err != nil {
+					return nil, err
+				}
+				out = append(out, series)
+			}
+			return out, nil
+		}
+		if groupBy, err = translate(groupBy); err != nil {
+			return nil, err
+		}
+		if aggregates, err = translate(aggregates); err != nil {
+			return nil, err
+		}
+		if order != "" {
+			terms, err := translate(strings.Split(order, ","))
+			if err != nil {
+				return nil, err
+			}
+			order = strings.Join(terms, ", ")
+		}
 	}
 	kwargs := map[string]interface{}{"domain": domain, "groupby": groupBy, "aggregates": aggregates}
 	if offset > 0 {
@@ -164,7 +191,11 @@ func (t *ClientTransport) ReadGroup(ctx context.Context, model string, domain in
 	if err != nil {
 		return nil, err
 	}
-	return toRecordSlice(res)
+	groups, err := toRecordSlice(res)
+	if err == nil && d != nil {
+		d.groupsIn(model, groups)
+	}
+	return groups, err
 }
 
 // CallMethodKwargs calls a record method with its arguments by name, which both protocols accept.

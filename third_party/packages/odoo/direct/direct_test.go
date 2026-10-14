@@ -283,8 +283,9 @@ func TestDirectExecutor_ReadRetriesOnHTTP503(t *testing.T) {
 		MaxDelay:    5 * time.Millisecond,
 	})
 
+	// An operation without optional fields, so every call counted is the read itself.
 	out, err := e.Execute(context.Background(), direct.Request{
-		Operation: "people.employee.list",
+		Operation: "people.department.list",
 	})
 	if err != nil {
 		t.Fatalf("expected read retry to succeed on 3rd attempt, got error: %v", err)
@@ -342,8 +343,9 @@ func TestDirectExecutor_ReadRetriesOnECONNRESET(t *testing.T) {
 		MaxDelay:    5 * time.Millisecond,
 	})
 
+	// An operation without optional fields, so every call counted is the read itself.
 	out, err := e.Execute(context.Background(), direct.Request{
-		Operation: "people.employee.list",
+		Operation: "people.department.list",
 	})
 	if err != nil {
 		t.Fatalf("expected read retry to succeed on 3rd attempt, got error: %v", err)
@@ -407,8 +409,10 @@ func TestDirectExecutor_ReadDoesNotRetryOnAuthOrNotFound(t *testing.T) {
 				MaxDelay:    5 * time.Millisecond,
 			})
 
+			// An operation without optional fields: their probe is a call of its own, which an
+			// access-denied answer would add to the count without being a retry.
 			_, err = e.Execute(context.Background(), direct.Request{
-				Operation: "people.employee.list",
+				Operation: "people.department.list",
 			})
 			if err == nil {
 				t.Fatal("expected error, got nil")

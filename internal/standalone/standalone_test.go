@@ -92,7 +92,9 @@ var acceptedUnverifiedOperations = []string{}
 // Then typed updates, creates without required fields, line states and more fixtures: writes 498,
 // actions and wizards 128.
 // Then payments authorized by the Demo provider, captured and voided: actions and wizards 132.
-const AcceptedSurfaceCurrent = 521 + 498 + 132 + 7 + 6
+// 2026-10-14, the weekly run's new agreements: POS sessions and a job's skills, writes 501; invoicing a
+// POS order and validating a repair, actions and wizards 134.
+const AcceptedSurfaceCurrent = 521 + 501 + 134 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

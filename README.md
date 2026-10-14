@@ -12,7 +12,7 @@ can drive Odoo through it as dependably as a person does through the web client.
 
 ## What it covers
 
-1358 operations over the business apps of Odoo Community 19.0. 1267 of them are verified on the stock
+1358 operations over the business apps of Odoo Community 19.0. 1272 of them are verified on the stock
 image. On Odoo Community 20.0, a candidate series (run with `--allow-unverified` until it is
 supported), 1170 of the 1296 operations 20.0 can run are verified; the other 62 need models, dialogs
 or buttons 20.0 removed, and odoo-cli refuses them with the reason.
@@ -20,8 +20,8 @@ or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 | Kind | Operations | Verified |
 |---|---:|---:|
 | Read, list, group and paginate | 580 | 578 |
-| Create and update | 558 | 523 |
-| Business actions (form and list buttons) | 177 | 130 |
+| Create and update | 558 | 526 |
+| Business actions (form and list buttons) | 177 | 132 |
 | Dialogs (wizards) | 27 | 20 |
 | Print a document's PDF | 7 | 7 |
 | Guarded deletes | 8 | 8 |
@@ -46,6 +46,10 @@ or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 **How "verified" is earned.** Each operation runs on a lab with the stock Odoo image. Its result is
 then compared with what Odoo itself reads, writes or prints. The tooling is in `conformance/` and
 the evidence in `docs/odoo-surface/evidence/`.
+
+**Odoo Online and Enterprise.** odoo-cli connects to them through the JSON-2 API, and runs their reads
+with a note that they are unverified. [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md)
+says what was tested and what it does not promise.
 
 **Check it yourself.** The [conformance workflow](.github/workflows/conformance.yml) does it in the
 open, every week and on every release:
@@ -110,6 +114,32 @@ odoo-cli execute --profile my-odoo --operation finance.invoice.print --provider-
 - **Interactive help:** `odoo-cli --help`, and `odoo-cli <command> --help --output json` for one
   command's contract.
 
+## AI agents (MCP)
+
+`odoo-cli mcp serve` offers the catalog to an AI agent over the Model Context Protocol, on Community
+as on Enterprise. Each tool is one odoo-cli command, run against the profile you start the server
+with, with the same checks as a typed command.
+
+```sh
+claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo                 # reads only
+claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # and writes
+odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
+```
+
+- **Reads by default:** 591 tools (the 587 reads, catalog discovery and the pre-flight check).
+- **With `--allow-writes`:** 1362 tools. The 55 high-risk and destructive operations run only after
+  you confirm each call in the agent host.
+- **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
+  `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
+  operation.
+- **What the agent cannot choose:** the profile, accepting unverified results, writing a file on your
+  machine, or the provider context. Installing a module is never offered.
+
+The server acts with the full authority of the profile's Odoo credential. It bounds what is
+*offered*; it is not a sandbox. An agent that can run commands can run odoo-cli directly. See
+[docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md) for how it compares with
+Odoo's own MCP server.
+
 ## Before it acts
 
 Before running an operation, `odoo-cli` checks the Odoo it reaches.
@@ -118,7 +148,7 @@ Before running an operation, `odoo-cli` checks the Odoo it reaches.
 |---|---|
 | The endpoint does not answer as Odoo | Refuses (`AERP_PROVIDER_NOT_ODOO`). Nothing is sent, not even the credential |
 | A series it does not support | Refuses, and says why: older than 19.0, newer than it knows, or an intermediate Odoo Online release (`saas~`) |
-| 20.0 | Runs only with `--allow-unverified`. A translation layer maps 19.0's names onto 20.0's; 1081 of the 1358 operations are verified on 20.0 so far (61 cannot exist there: their models or modules are gone) |
+| 20.0 | Runs only with `--allow-unverified`. A translation layer maps 19.0's names onto 20.0's; 1170 of the 1296 operations 20.0 can run are verified (62 cannot exist there: their models, dialogs or buttons are gone) |
 | The operation's modules are not installed | Refuses before sending (`AERP_MODULE_NOT_INSTALLED`) |
 | A write where this Odoo is customised: a model that Enterprise or third-party modules extend, an automation watching it, or a required field added by hand | Holds it back (`AERP_ENVIRONMENT_UNVERIFIED`) until you pass `--allow-unverified` |
 | Reads on a customised Odoo | Runs them, with a note |
@@ -151,15 +181,18 @@ pip install asao-erp
 
 ## Not yet
 
-- **Odoo Enterprise and Odoo Online** are not verified. Odoo Online allows the external API on its
-  Custom plan only.
+- **Odoo Enterprise and Odoo Online** are not verified. On 2026-10-14 odoo-cli reached an Enterprise
+  20.0 trial on Odoo Online and ran 269 of its 291 list reads without an error; writes were not run
+  there. Odoo Online allows the external API on its Custom plan only. See
+  [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md), which also compares
+  odoo-cli with Odoo's own MCP server.
 - **Business actions left out on purpose:**
   - Sending email or SMS: a quotation, an RFQ or an invoice (odoo-cli prints the PDF instead), a
     mailing (launching, scheduling, testing it), invitations to a course or an event, coupons,
     abandoned-cart reminders, survey reminders, lunch notifications.
   - Creating a user or a company from another record.
   - Paid IAP services (lead generation, enrichment, SMS credits).
-- **Not verified yet:** 91 operations, most of them writes and actions whose records the lab's data
+- **Not verified yet:** 86 operations, most of them writes and actions whose records the lab's data
   cannot supply, or whose business rules refuse generic values.
 - **Self-update:** `odoo-cli update` needs a signed release channel that is not published yet. To
   update, run the installer again.
@@ -186,7 +219,7 @@ Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 ## Tiếng Việt
 
-`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1358 thao tác nghiệp vụ, trong đó 1267 thao
+`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1358 thao tác nghiệp vụ, trong đó 1272 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
 có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent. Trên Odoo 20.0, 1170 trong
 1296 thao tác áp dụng được đã được kiểm chứng.
@@ -208,6 +241,18 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 - có phải Odoo không, và phiên bản nào;
 - thiếu module gì;
 - có bị tuỳ biến không.
+
+**AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
+Community lẫn Enterprise.
+- **Mặc định chỉ đọc:** 591 công cụ.
+- **Thêm `--allow-writes`:** agent được ghi. 55 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
+  từng lần.
+- **Agent không tự chọn được:** profile, việc chấp nhận kết quả chưa kiểm chứng, hay việc ghi file lên máy
+  bạn.
+
+**Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
+nó chạy được 269/291 thao tác đọc trên một bản dùng thử Enterprise 20.0, không lỗi nào; thao tác ghi chưa
+được thử ở đó. Chi tiết: [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md).
 
 **ASAO chỉ kiểm chứng trên bản Odoo chuẩn.** Với Odoo đã tuỳ biến, ASAO không thể kiểm chứng và không
 bảo đảm thao tác chạy đúng; chạy trên Odoo đó là do người dùng tự chịu rủi ro. Chi tiết:

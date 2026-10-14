@@ -20,6 +20,14 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	// `odoo-cli mcp serve` owns standard output for the protocol, so it runs outside clicore.Run,
+	// which would write a result envelope onto it.
+	if standalone.IsMCPServe(os.Args[1:]) {
+		code := standalone.ServeMCP(ctx, "odoo-cli", os.Args[3:], os.Stdin, os.Stdout, os.Stderr)
+		stop()
+		os.Exit(code)
+	}
+
 	code := clicore.Run(ctx, standalone.RootFor("odoo-cli"), os.Args[1:], clicore.Streams{
 		Out:         os.Stdout,
 		Diagnostics: os.Stderr,

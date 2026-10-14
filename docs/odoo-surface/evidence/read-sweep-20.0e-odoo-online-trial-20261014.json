@@ -1,0 +1,1173 @@
+{
+ "endpoint": "asao.odoo.com",
+ "version": "20.0+e",
+ "apps": 80,
+ "date": "2026-10-14",
+ "results": {
+  "catalog.attribute.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.attribute_category.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.attribute_value.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.category.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.combo.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.combo_item.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.document.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.feed.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.image.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.pricelist.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.pricelist_item.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.product.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.product_uom.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.product_variant.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.public_category.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.ribbon.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "catalog.tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.template_attribute_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.template_attribute_value.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.vendor_price.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "catalog.wishlist.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "crm.lead.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "crm.lead.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "crm.lost_reason.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "crm.recurring_plan.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "crm.stage.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "crm.tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "crm.team.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "crm.team_member.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "elearning.answer.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.channel.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.channel_partner.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.channel_tag.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "elearning.channel_tag_group.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "elearning.embed.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.question.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.slide.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.slide_partner.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.slide_resource.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "elearning.tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.event.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.lead_rule.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.mail_schedule.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.question.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "event.question_answer.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.registration.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.registration_answer.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.slot.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.stage.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "event.tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.tag_category.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.template.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.template_mail.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.template_ticket.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "event.ticket.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.account.chart.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.account_group.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no account.group: account groups were replaced by parent accounts on account.account"
+  },
+  "finance.account_tag.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.analytic_account.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.analytic_distribution_model.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.analytic_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.bank.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no res.bank: bank details are fields of res.partner.bank (bank_name, bank_bic)"
+  },
+  "finance.bank_statement.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.bank_statement_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.cash_rounding.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.currency.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.currency_rate.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.einvoice_symbol.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "finance.einvoice_symbol.list needs Odoo modules that are not installed: l10n_vn_edi_viettel; nothing was executed"
+  },
+  "finance.einvoice_template.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "finance.einvoice_template.list needs Odoo modules that are not installed: l10n_vn_edi_viettel; nothing was executed"
+  },
+  "finance.fiscal_position.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.fiscal_position_account.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.incoterms.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.invoice.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.invoice.line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.invoice.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.journal.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.journal_entry.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.journal_entry.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.journal_group.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.online_payment_method.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.payment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.payment_method.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.payment_method_line.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.payment_provider.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.payment_term.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.payment_term_line.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.payment_token.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.payment_transaction.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "finance.reconcile_model.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.reconcile_model_line.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.tax.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.tax_group.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "finance.taxevidence.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.driver_history.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.odometer.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.service_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "fleet.vehicle.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.vehicle_brand.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "fleet.vehicle_category.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.vehicle_contract.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.vehicle_model.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.vehicle_service.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "fleet.vehicle_status.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "fleet.vehicle_tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "identity.bank_account.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "identity.contact.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "identity.contact.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "identity.industry.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "identity.phone_blacklist.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "identity.tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.batch_transfer.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.count.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.landed_cost.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "inventory.landed_cost.list needs Odoo modules that are not installed: stock_landed_costs; nothing was executed"
+  },
+  "inventory.landed_cost_line.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "inventory.landed_cost_line.list needs Odoo modules that are not installed: stock_landed_costs; nothing was executed"
+  },
+  "inventory.location.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "inventory.lot.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.move_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.package.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.package_history.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.package_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "inventory.putaway_rule.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.quant.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.reorder_rule.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.route.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "inventory.rule.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "inventory.scrap.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no stock.scrap: a scrap is a stock.move with is_scrap set"
+  },
+  "inventory.scrap_reason.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.shipping_method.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "inventory.shipping_price_rule.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.shipping_zip_prefix.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.storage_category.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.storage_category_capacity.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.transfer.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.transfer.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "inventory.valuation_adjustment_line.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "inventory.valuation_adjustment_line.list needs Odoo modules that are not installed: stock_landed_costs; nothing was executed"
+  },
+  "livechat.channel.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "livechat.channel_member_history.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "livechat.channel_rule.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "livechat.conversation_tag.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no im_livechat.conversation.tag: live chat conversation tags were removed"
+  },
+  "livechat.expertise.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "livechat.message.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "livechat.script.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "livechat.script_answer.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "livechat.script_step.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "lunch.alert.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "lunch.cashmove.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "lunch.location.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "lunch.order.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "lunch.product.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "lunch.product_category.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "lunch.supplier.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "lunch.topping.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "maintenance.equipment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "maintenance.equipment_category.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "maintenance.request.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "maintenance.stage.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "maintenance.team.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "manufacturing.bom.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.bom_byproduct.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.bom_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.operation.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.order.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.production_group.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.unbuild.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.workcenter.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.workcenter_capacity.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.workcenter_productivity.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.workcenter_productivity_loss.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "manufacturing.workcenter_productivity_loss_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "manufacturing.workcenter_tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "manufacturing.workorder.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "marketing.campaign.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "marketing.campaign_tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "marketing.card.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "marketing.contact.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "marketing.filter.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "marketing.list.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "marketing.mailing.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "marketing.subscription.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "marketing.subscription_optout.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "marketing.template.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "marketing.trace.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.contract_type.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no hr.contract.type: contract types were removed; contract terms live on hr.version"
+  },
+  "people.department.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.departure_reason.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.employee.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.employee_location.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.employee_skill.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.employee_tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.employee_version.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.expense.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.expense.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.job.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.job_skill.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.payroll_structure_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.resume_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "people.resume_line_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.skill.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.skill_level.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.skill_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "people.work_location.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "pos.category.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "pos.config.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.floor.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.order.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.order_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.payment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.payment_method.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.preset.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "pos.session.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "pos.table.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "procurement.agreement.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "procurement.agreement.list needs Odoo modules that are not installed: purchase_requisition; nothing was executed"
+  },
+  "procurement.agreement_line.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "procurement.agreement_line.list needs Odoo modules that are not installed: purchase_requisition; nothing was executed"
+  },
+  "procurement.order.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "procurement.rfq.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "recruitment.applicant.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "recruitment.applicant_skill.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "recruitment.applicant_tag.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "recruitment.degree.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "recruitment.job_platform.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "recruitment.refuse_reason.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "recruitment.source.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "recruitment.stage.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "recruitment.talent_pool.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "repair.order.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "repair.tag.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "sales.loyalty_card.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "sales.loyalty_card.list needs Odoo modules that are not installed: loyalty; nothing was executed"
+  },
+  "sales.loyalty_history.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "sales.loyalty_history.list needs Odoo modules that are not installed: loyalty; nothing was executed"
+  },
+  "sales.loyalty_mail.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "sales.loyalty_mail.list needs Odoo modules that are not installed: loyalty; nothing was executed"
+  },
+  "sales.loyalty_program.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "sales.loyalty_program.list needs Odoo modules that are not installed: loyalty; nothing was executed"
+  },
+  "sales.loyalty_reward.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "sales.loyalty_reward.list needs Odoo modules that are not installed: loyalty; nothing was executed"
+  },
+  "sales.loyalty_rule.list": {
+   "status": "AERP_MODULE_NOT_INSTALLED",
+   "message": "sales.loyalty_rule.list needs Odoo modules that are not installed: loyalty; nothing was executed"
+  },
+  "sales.order.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "sales.quotation.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "sales.quotation_template.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "sales.quotation_template_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "schedule.alarm.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "schedule.attendee.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "schedule.event.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "schedule.event_type.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "schedule.recurrence.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "structure.company.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.country.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.country_group.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.country_state.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.location.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.model.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "structure.module.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.operation_type.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.record.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "structure.system_parameter.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.warehouse.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "structure.website.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "survey.question.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "survey.question_answer.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "survey.response.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "survey.response_line.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "survey.survey.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "website.checkout_step.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "website.event_menu.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "website.layout.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "website.media.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "website.menu.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "website.page.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "website.sale_extra_field.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.collaborator.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.milestone.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.project.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.project.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "work.project_stage.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "work.project_update.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.role.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.tag.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "work.task.attachment.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.task.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "work.task_recurrence.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "work.task_stage.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "workforce.accrual_level.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.accrual_plan.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.attendance.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "workforce.attendance_log.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.calendar.list": {
+   "status": "OK",
+   "rows": 1
+  },
+  "workforce.calendar_leave.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.leave.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.leave_allocation.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.leave_type.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no hr.leave.type: leave types became work entry types (hr.work.entry.type)"
+  },
+  "workforce.mandatory_day.list": {
+   "status": "OK",
+   "rows": 0
+  },
+  "workforce.overtime_line.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no hr.attendance.overtime.line: the overtime rule models were removed"
+  },
+  "workforce.overtime_rule.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no hr.attendance.overtime.rule: the overtime rule models were removed"
+  },
+  "workforce.overtime_ruleset.list": {
+   "status": "AERP_OPERATION_UNAVAILABLE_ON_SERIES",
+   "message": "odoo 20.0 has no hr.attendance.overtime.ruleset: the overtime rule models were removed"
+  },
+  "workforce.resource.list": {
+   "status": "OK",
+   "rows": 0
+  }
+ },
+ "note": "odoo-cli list reads, one record each, against an Odoo Online Enterprise 20.0 trial with 80 apps: statuses and record counts only"
+}

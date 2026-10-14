@@ -711,3 +711,33 @@ func TestOdoo20MergedModulesCountAsInstalled(t *testing.T) {
 		t.Fatal("SeriesModule does not map the merged wishlist module on 20.0 only")
 	}
 }
+
+// A grouped read on 20.0 is translated like a read: the grouping, the aggregates and the order name
+// the series' fields, the groups come back under the baseline's, and a derived field is refused.
+func TestOdoo20DialectTranslatesGroupedReads(t *testing.T) {
+	d := dialectFor(Odoo20ProviderSeries)
+	for spec, want := range map[string]string{
+		"product_uom_id":       "uom_id",
+		"product_uom_id:count": "uom_id:count",
+		"quantity:sum":         "quantity:sum",
+		"product_uom_id desc":  "uom_id desc",
+		"in_date:month":        "in_date:month",
+		"__count":              "__count",
+	} {
+		if got, err := d.groupSpecOut("stock.quant", spec); err != nil || got != want {
+			t.Errorf("groupSpecOut(%q) = %q, %v; want %q", spec, got, err, want)
+		}
+	}
+	var refusal *DialectRefusalError
+	if _, err := d.groupSpecOut("res.partner", "company_type"); !errors.As(err, &refusal) {
+		t.Fatalf("grouping on a derived field was not refused: %v", err)
+	}
+	groups := []map[string]interface{}{{"uom_id": []interface{}{1.0, "Units"}, "uom_id:count": 2.0, "quantity:sum": 5.0, "__count": 2.0}}
+	d.groupsIn("stock.quant", groups)
+	if want := "[map[__count:2 product_uom_id:[1 Units] product_uom_id:count:2 quantity:sum:5]]"; fmt.Sprint(groups) != want {
+		t.Fatalf("groups = %v, want %s", groups, want)
+	}
+	if baseline := dialectFor(Odoo19ProviderSeries); baseline != nil {
+		t.Fatal("the baseline series is translated")
+	}
+}

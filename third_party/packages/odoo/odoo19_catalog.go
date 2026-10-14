@@ -346,9 +346,10 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredCapability: "identity.contact.read", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		// type (contact/invoice/delivery/other) is a SOURCE_DISCOVERED addition, NOT covered by
 		// the live evidence: the retail handoff reads it back to reuse an order's delivery address.
-		ProviderModel:      "res.partner",
-		ReadFields:         []string{"id", "name", "is_company", "company_type", "email", "phone", "parent_id"},
-		OptionalReadFields: []string{"customer_rank", "supplier_rank", "company_id", "ref", "type"},
+		ProviderModel: "res.partner",
+		ReadFields:    []string{"id", "name", "is_company", "company_type", "email", "phone", "parent_id"},
+		// Tax code, address and creation: what a review needs to find duplicate or incomplete partners.
+		OptionalReadFields: []string{"customer_rank", "supplier_rank", "company_id", "ref", "type", "vat", "street", "city", "create_date", "create_uid"},
 	},
 	{
 		SemanticID: "identity.contact.describe", Kind: KindRead, Strategy: StrategyRead,
@@ -392,6 +393,8 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"hr"},
 		RequiredCapability: "people.employee.read", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		ProviderModel: "hr.employee", ReadFields: []string{"id", "name", "department_id", "parent_id", "job_id", "active", "resource_calendar_id"},
+		// The employee's own contact, which holds their bank accounts: a review matches it with suppliers'.
+		OptionalReadFields: []string{"work_contact_id"},
 	},
 	{
 		SemanticID: "people.employee.describe", Kind: KindRead, Strategy: StrategyRead,
@@ -938,8 +941,11 @@ var odoo19Catalog = []Odoo19Operation{
 		ProviderModel: "account.move", ReadFields: []string{"id", "name", "move_type", "state", "payment_state", "amount_total", "partner_id"},
 		// Dates, amounts due and untaxed, salesperson and journal: what a revenue or receivables
 		// statistic groups and sums by.
-		OptionalReadFields: []string{"invoice_date", "invoice_date_due", "date", "amount_untaxed", "amount_residual", "currency_id", "invoice_user_id", "journal_id"},
-		ProviderDomain:     invoiceDocumentDomain,
+		// The supplier's own reference, the invoice a credit note reverses, and who created it when:
+		// what a review needs to find a bill entered twice or a refund after payment.
+		OptionalReadFields: []string{"invoice_date", "invoice_date_due", "date", "amount_untaxed", "amount_residual", "currency_id", "invoice_user_id", "journal_id",
+			"ref", "reversed_entry_id", "create_uid", "create_date"},
+		ProviderDomain: invoiceDocumentDomain,
 	},
 	{
 		SemanticID: "finance.invoice.describe", Kind: KindRead, Strategy: StrategyRead,
@@ -972,6 +978,8 @@ var odoo19Catalog = []Odoo19Operation{
 		// invoice but can never widen it back to journal-entry lines.
 		ProviderDomain: invoiceLineDocumentDomain,
 		ReadFields:     []string{"id", "name", "move_id", "account_id", "partner_id", "quantity", "price_unit", "price_subtotal", "balance", "debit", "credit", "product_id", "date", "display_type"},
+		// The taxes a line carries and its document's type: a review compares them with the product's.
+		OptionalReadFields: []string{"tax_ids", "move_type"},
 	},
 	{
 		SemanticID: "finance.invoice.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
@@ -1118,9 +1126,10 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"product"},
 		RequiredCapability: "catalog.product.read", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		// is_storable moved to OptionalReadFields because module `stock` is optional in Odoo 19 (V2_16 F5).
-		ProviderModel:      "product.template",
-		ReadFields:         []string{"id", "name", "type", "list_price", "sale_ok", "purchase_ok"},
-		OptionalReadFields: []string{"is_storable"},
+		ProviderModel: "product.template",
+		ReadFields:    []string{"id", "name", "type", "list_price", "sale_ok", "purchase_ok"},
+		// The cost: what a review compares a sale price with.
+		OptionalReadFields: []string{"is_storable", "standard_price"},
 	},
 	{
 		SemanticID: "catalog.product.describe", Kind: KindRead, Strategy: StrategyRead,
@@ -1224,6 +1233,7 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"account"},
 		RequiredCapability: "finance.invoice.read", Risk: RiskLow, Confidence: "LIVE_READ_VERIFIED",
 		ProviderModel: "account.payment", ReadFields: []string{"id", "name", "partner_id", "amount", "currency_id", "date", "state", "payment_type", "journal_id", "move_id"},
+		OptionalReadFields: []string{"is_reconciled", "memo"},
 	},
 	{
 		SemanticID: "finance.payment.describe", Kind: KindRead, Strategy: StrategyRead,
