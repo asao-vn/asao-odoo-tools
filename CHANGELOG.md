@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.12.0 (2026-10-16)
+
+1368 operations: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.
+
+- **Alerts: K09-K11 in `odoo-cli controls`.** Notify-only Odoo automation rules (module
+  `base_automation`, which you install) whose only action schedules an activity for the person you name:
+  - K09: a bank account is added, or its number, holder or trusted flag changes;
+  - K10: a posted entry is reset to draft (posting it again adds nothing);
+  - K11: a partner that has invoices changes its tax number or name (one that never traded is not
+    reported).
+
+  Plan and apply them like any control: `--param K09.user="Ngọc Lan"` (or the user's id) and
+  `K09.lang=vi|en` for the activity's summary. A plan of an alert already on is NO_CHANGE. There is no
+  alert for a changed lock date: Odoo cannot schedule an activity on a company, and the change history
+  shows it.
+- **Eleven operations under them, all verified:**
+  - rules (`structure.alert_rule.list|describe|create|update`) held to names that start with `odoo-cli: `;
+  - their actions (`structure.alert_action.*`), whose type is forced to an activity;
+  - three reads that resolve what a rule names (`structure.registry_model.list`,
+    `structure.registry_field.list`, `structure.activity_type.list`).
+
+  A rule or action you made is out of their reach. An action that runs code, writes records, sends a
+  message or calls a webhook is refused before Odoo is reached. Proven by
+  `conformance/odoo-alerts-conformance.py`, now part of the lab run; the labs install `base_automation`.
+- **Fixed: an archived record of an operation's own subset can be updated.** The check that a target
+  belongs to an operation's subset ran with Odoo's default active test, so an archived record (an alert
+  rule switched off) could never be brought back. It now sees archived records; the subset still decides.
+- **Fixed: a plan compares lists of ids as sets.** A list of two ids was read as a many2one's
+  `[id, name]`, so a record with a two-record many2many was planned as a change on every run.
+- **Conformance:** the action runner leaves a payment transaction's state-change stamp out of the twin
+  comparison. It is a clock stamp to the second, and it failed 0.11.0's release run on 19.0.
+
 ## 0.11.0 (2026-10-16)
 
 1357 operations: 1290 verified on 19.0, and 1176 of the 1295 that 20.0 can run.

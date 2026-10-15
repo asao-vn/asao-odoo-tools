@@ -1,9 +1,9 @@
 {
  "by_strategy": {
   "StrategyDestructiveGuarded": 6,
-  "StrategyFieldWrite": 526,
+  "StrategyFieldWrite": 530,
   "StrategyMethodCall": 161,
-  "StrategyRead": 527,
+  "StrategyRead": 534,
   "StrategyReport": 7,
   "StrategyWizard": 25
  },
@@ -442,6 +442,20 @@
     "tax_calculation_rounding_method",
     "timesheet_encode_method"
    ]
+  },
+  {
+   "model": "base.automation",
+   "operations": [
+    "structure.alert_rule.list",
+    "structure.alert_rule.describe",
+    "structure.alert_rule.create",
+    "structure.alert_rule.update",
+    "structure.alert_action.list",
+    "structure.alert_action.describe",
+    "structure.alert_action.create",
+    "structure.alert_action.update"
+   ],
+   "scope": "odoo-cli: "
   },
   {
    "dependents": [
@@ -4129,7 +4143,7 @@
    ]
   }
  ],
- "operations": 1252,
+ "operations": 1263,
  "series": {
   "server_serie": "19.0",
   "server_version": "19.0-20260803"

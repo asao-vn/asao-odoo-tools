@@ -282,6 +282,15 @@ WEBSITE_LAYOUT_KEYS = ("website.header_call_to_action", "website.header_text_ele
 # Creating and updating always makes the file public and binary.
 WEBSITE_MEDIA_PREFIX = "/media/"
 
+# Alerts (docs/design/CONTROLS_v0_1.md §6): notify-only automation rules odoo-cli makes and keeps. A rule
+# is a base.automation, and its provider domain holds every rule operation to names that start with
+# ALERT_PREFIX, so none reads or changes a rule odoo-cli did not make. Its action is an
+# ir.actions.server whose type is forced to next_activity: it only schedules an activity for a named
+# user. An action that runs code, calls a webhook, writes or creates records, posts a message or sends
+# an SMS is never offered, and a rule triggers on create and edit only (never a webhook or a timer).
+# The metadata reads find what a rule names: a model, its fields, an activity type.
+ALERT_PREFIX = "odoo-cli: "
+
 # Settings a business sets as code: fields of res.config.settings, Odoo's Settings page, with their
 # CLI type or, for a choice, its values. They are the feature switches (group_*) and the preferences
 # that are a business's own choice, for the modules a business spec installs. Never a module_* field
@@ -1010,6 +1019,51 @@ def main():
     report["models"].append({"model": "res.config.settings", "settings": settings,
                              "operations": ["structure.settings.describe", "structure.settings.update"]})
 
+    # Alerts (ALERT_PREFIX) and the metadata reads they resolve names with.
+    for op_id, model, module, label, fields in (
+            ("structure.registry_model.list", "ir.model", "base", "Registered model", ["model", "name", "is_mail_thread", "is_mail_activity"]),
+            ("structure.registry_field.list", "ir.model.fields", "base", "Registered field", ["name", "model", "ttype", "relation", "field_description"]),
+            ("structure.activity_type.list", "mail.activity.type", "mail", "Activity type", ["name", "category", "res_model", "sequence", "summary"])):
+        family, entity, _ = op_id.split(".")
+        add({"id": op_id, "kind": "KindRead", "strategy": "StrategyRead", "model": model, "module": module,
+             "capability": capability(family, entity, "read"), "risk": "RiskLow", "read": ["id", "display_name"],
+             "optional": fields, "label": label})
+    rule_domain = [["name", "=like", ALERT_PREFIX + "%"]]
+    action_domain = [["usage", "=", "base_automation"], ["state", "=", "next_activity"],
+                     ["base_automation_id.name", "=like", ALERT_PREFIX + "%"]]
+    rule_fields = ["name", "model_id", "trigger", "trigger_field_ids", "filter_pre_domain", "filter_domain", "active"]
+    action_fields = ["name", "model_id", "base_automation_id", "activity_type_id", "activity_summary",
+                     "activity_date_deadline_range", "activity_date_deadline_range_type", "activity_user_id"]
+    for entity, model, domain, read, label in (
+            ("alert_rule", "base.automation", rule_domain, rule_fields + ["action_server_ids", "last_run"], "Alert rule"),
+            ("alert_action", "ir.actions.server", action_domain, action_fields + ["state", "usage", "activity_user_type"], "Alert action")):
+        for verb in ("list", "describe"):
+            add({"id": f"structure.{entity}.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": model,
+                 "module": "base_automation", "capability": capability("structure", entity, "read"), "risk": "RiskLow",
+                 "read": ["id", "display_name"], "optional": read, "label": label, "domain": domain})
+    rule_write = {"allowed": rule_fields, "domain": rule_domain, "forced": {}, "label": "Alert rule",
+                  "relations": {"model_id": {"model": "ir.model", "search": "model"},
+                                "trigger_field_ids": {"model": "ir.model.fields", "search": "name", "multi": True}},
+                  "types": {"active": "boolean", "model_id": "reference", "trigger_field_ids": "reference_list"},
+                  "enums": {"trigger": ["on_create_or_write"]}}
+    action_write = {"allowed": action_fields, "domain": action_domain, "label": "Alert action",
+                    "forced": {"state": "next_activity", "usage": "base_automation", "activity_user_type": "specific"},
+                    "relations": {"model_id": {"model": "ir.model", "search": "model"},
+                                  "base_automation_id": {"model": "base.automation", "search": "name", "domain": rule_domain},
+                                  "activity_type_id": {"model": "mail.activity.type", "search": "name"},
+                                  "activity_user_id": {"model": "res.users", "search": "name"}},
+                    "types": {"model_id": "reference", "base_automation_id": "reference", "activity_type_id": "reference",
+                              "activity_user_id": "reference", "activity_date_deadline_range": "integer"},
+                    "enums": {"activity_date_deadline_range_type": ["days", "weeks", "months"]}}
+    for entity, model, spec in (("alert_rule", "base.automation", rule_write), ("alert_action", "ir.actions.server", action_write)):
+        for verb, mode in (("create", "WriteModeCreate"), ("update", "WriteModeUpdate")):
+            add({"id": f"structure.{entity}.{verb}", "kind": "KindCommand", "strategy": "StrategyFieldWrite", "model": model,
+                 "module": "base_automation", "capability": capability("structure", entity, "write"), "risk": "RiskHigh",
+                 "mode": mode, "prefixes": {"name": ALERT_PREFIX}, **spec})
+    report["models"].append({"model": "base.automation", "scope": ALERT_PREFIX,
+                             "operations": [f"structure.{e}.{v}" for e in ("alert_rule", "alert_action")
+                                            for v in ("list", "describe", "create", "update")]})
+
     # Guarded deletes (GUARDED_DELETES).
     for op_id, (model, module, impacts) in sorted(GUARDED_DELETES.items()):
         family, entity, _ = op_id.split(".")
@@ -1256,7 +1310,8 @@ def render_relation(rel):
     search = f", SearchField: {json.dumps(rel['search'])}" if rel.get("search") else ""
     domain = (", Domain: []interface{}{" + ", ".join(go_value(c) for c in rel["domain"]) + "}") if rel.get("domain") else ""
     by_name = ", ByName: true" if rel.get("by_name") else ""
-    return f"{{TargetModel: {json.dumps(rel['model'])}{search}{domain}{by_name}}}"
+    multi = ", Multi: true" if rel.get("multi") else ""
+    return f"{{TargetModel: {json.dumps(rel['model'])}{search}{domain}{by_name}{multi}}}"
 
 
 def render(operations, provider):

@@ -36,6 +36,8 @@ type fakeTransport struct {
 	// createdValues and createdContexts are the values and provider contexts Create was called with.
 	createdValues   []map[string]interface{}
 	createdContexts []map[string]interface{}
+	// searchContexts are the provider contexts SearchRead was called with, in order.
+	searchContexts []map[string]interface{}
 }
 
 func (f *fakeTransport) record(op, model string, fields []string) {
@@ -46,8 +48,9 @@ func (f *fakeTransport) recordMutation(op, model string) {
 	f.mutations = append(f.mutations, recordedCall{Op: op, Model: model})
 }
 
-func (f *fakeTransport) SearchRead(_ context.Context, model string, domain interface{}, fields []string, _ int, _ string, _ map[string]interface{}) ([]map[string]interface{}, error) {
+func (f *fakeTransport) SearchRead(_ context.Context, model string, domain interface{}, fields []string, _ int, _ string, providerCtx map[string]interface{}) ([]map[string]interface{}, error) {
 	f.record("SearchRead", model, fields)
+	f.searchContexts = append(f.searchContexts, providerCtx)
 	if f.searchRead != nil {
 		return f.searchRead(model, domain, fields)
 	}
@@ -166,6 +169,23 @@ func TestErrorClass_ProviderDomainRefusalIsBusinessPrecondition(t *testing.T) {
 		t.Fatalf("want BUSINESS_PRECONDITION_FAILED, got %s (%v)", got, err)
 	}
 	assertNoMutation(t, tr, "ineligible target")
+}
+
+// An archived record is still in an operation's subset: the eligibility search sees archived records,
+// so an update can bring back an alert rule odoo-cli archived (found by the alerts runner, 2026-10-16).
+func TestEligibilityOfATargetSeesArchivedRecords(t *testing.T) {
+	tr := &fakeTransport{}
+	surface := NewAdapter(tr)
+	surface.Surface = true
+	_, err := surface.Execute(context.Background(), &ExecutionIntent{ID: "test", Operation: "structure.alert_rule.update",
+		Input: `{"target_id":12,"values":{"active":true}}`})
+	if err == nil {
+		t.Fatal("the fake holds no record: the update must be refused")
+	}
+	if len(tr.searchContexts) == 0 || tr.searchContexts[0]["active_test"] != false {
+		t.Fatalf("eligibility searched with %v, want active_test false", tr.searchContexts)
+	}
+	assertNoMutation(t, tr, "ineligible archived target")
 }
 
 // A destructive operation with live dependents refuses until the caller confirms the impact, and

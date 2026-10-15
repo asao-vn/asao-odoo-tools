@@ -328,7 +328,14 @@ func (a *Adapter) ensureTargetEligible(ctx context.Context, entry Odoo19Operatio
 	dom := make([]interface{}, 0, len(entry.ProviderDomain)+1)
 	dom = append(dom, entry.ProviderDomain...)
 	dom = append(dom, []interface{}{"id", "=", targetID})
-	recs, err := a.Transport.SearchRead(ctx, entry.ProviderModel, dom, []string{"id"}, 1, "", providerCtx)
+	// An archived record is still in the subset the domain names: eligibility is not about being
+	// active, and an update is how an archived record comes back (an alert rule odoo-cli archived).
+	// A caller's own active_test still wins.
+	searchCtx := map[string]interface{}{"active_test": false}
+	for key, value := range providerCtx {
+		searchCtx[key] = value
+	}
+	recs, err := a.Transport.SearchRead(ctx, entry.ProviderModel, dom, []string{"id"}, 1, "", searchCtx)
 	if err != nil {
 		return err
 	}

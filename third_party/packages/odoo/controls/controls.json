@@ -1,10 +1,13 @@
 {
   "schemaVersion": "asao.odoo-controls/v0.1",
-  "about": "Odoo's own switches that stop what odoo-cli review finds (docs/design/CONTROLS_v0_1.md). What each does was read in the Odoo 19.0 source named in source; odoo-cli adds nothing to Odoo. enforced: SERVER (every caller, the API included), WEB_CLIENT (the screens only) or WARNING (Odoo warns and lets the user go on). A control that cannot be turned off again is never applied by odoo-cli: applies is false and manual says how to do it in Odoo.",
+  "about": "Odoo's own switches that stop what odoo-cli review finds (docs/design/CONTROLS_v0_1.md). What each does was read in the Odoo 19.0 source named in source; odoo-cli adds nothing to Odoo. enforced: SERVER (every caller, the API included), WEB_CLIENT (the screens only) or WARNING (Odoo warns and lets the user go on) or NOTIFY (an alert: Odoo schedules an activity for a named person and blocks nothing). A control that cannot be turned off again is never applied by odoo-cli: applies is false and manual says how to do it in Odoo.",
   "controls": [
     {
       "id": "K01",
-      "title": {"vi": "Duyệt đơn mua từ một mức tiền", "en": "Approval of purchase orders from an amount"},
+      "title": {
+        "vi": "Duyệt đơn mua từ một mức tiền",
+        "en": "Approval of purchase orders from an amount"
+      },
       "prevents": {
         "vi": "Một người tự xác nhận đơn mua lớn mà không ai duyệt. Chia nhỏ đơn để lọt dưới mức duyệt thì phép kiểm O16 tìm ra.",
         "en": "One person confirming a large purchase order that nobody approved. Orders split to stay under the amount are what check O16 finds."
@@ -13,19 +16,43 @@
         "vi": "Đơn mua có tổng tiền từ mức đã đặt trở lên chỉ được xác nhận bởi người có quyền Quản trị mua hàng; người khác bấm Xác nhận thì đơn chuyển sang Chờ duyệt. Odoo kiểm tra ở máy chủ: gọi nút Duyệt qua API cũng bỏ qua đơn người gọi không được duyệt.",
         "en": "An order whose total reaches the amount is confirmed only by a Purchase Administrator; anyone else's Confirm puts it in To Approve. Odoo checks it on the server: the Approve button called through the API also skips orders the caller may not approve."
       },
-      "source": ["purchase/models/purchase_order.py: button_confirm, button_approve, _approval_allowed", "purchase/models/res_config_settings.py: po_order_approval, po_double_validation_amount"],
+      "source": [
+        "purchase/models/purchase_order.py: button_confirm, button_approve, _approval_allowed",
+        "purchase/models/res_config_settings.py: po_order_approval, po_double_validation_amount"
+      ],
       "enforced": "SERVER",
       "reversible": true,
       "applies": true,
-      "modules": ["purchase"],
-      "checks": ["O16"],
-      "patterns": ["P2P-002", "P2P-016", "P2P-022"],
+      "modules": [
+        "purchase"
+      ],
+      "checks": [
+        "O16"
+      ],
+      "patterns": [
+        "P2P-002",
+        "P2P-016",
+        "P2P-022"
+      ],
       "settings": [
-        {"field": "po_order_approval", "set": true},
-        {"field": "po_double_validation_amount", "param": "amount"}
+        {
+          "field": "po_order_approval",
+          "set": true
+        },
+        {
+          "field": "po_double_validation_amount",
+          "param": "amount"
+        }
       ],
       "params": [
-        {"name": "amount", "kind": "amount", "description": {"vi": "Mức tiền, theo tiền của công ty, từ đó đơn mua phải được duyệt. Bỏ trống thì giữ mức Odoo đang có.", "en": "The amount, in the company's currency, from which an order needs approval. Left out, Odoo's current amount stays."}}
+        {
+          "name": "amount",
+          "kind": "amount",
+          "description": {
+            "vi": "Mức tiền, theo tiền của công ty, từ đó đơn mua phải được duyệt. Bỏ trống thì giữ mức Odoo đang có.",
+            "en": "The amount, in the company's currency, from which an order needs approval. Left out, Odoo's current amount stays."
+          }
+        }
       ],
       "changes": {
         "vi": "Người mua hàng thấy đơn lớn nằm ở Chờ duyệt. Quản trị mua hàng duyệt trong Mua hàng > Đơn mua, lọc Chờ duyệt.",
@@ -34,7 +61,10 @@
     },
     {
       "id": "K02",
-      "title": {"vi": "Khoá đơn mua đã duyệt", "en": "Lock approved purchase orders"},
+      "title": {
+        "vi": "Khoá đơn mua đã duyệt",
+        "en": "Lock approved purchase orders"
+      },
       "prevents": {
         "vi": "Sửa hoặc huỷ một đơn mua sau khi đã duyệt.",
         "en": "Changing or cancelling a purchase order after it was approved."
@@ -43,15 +73,23 @@
         "vi": "Đơn mua vừa được duyệt bị khoá: giao diện web không cho sửa, và Odoo từ chối huỷ đơn đang khoá. Chỉ Quản trị mua hàng thấy nút Mở khoá trên giao diện web; Odoo không kiểm tra điều này ở máy chủ, nên người gọi API vẫn mở khoá được.",
         "en": "An approved order is locked: the web client shows it read-only and Odoo refuses to cancel it while it is locked. Only Purchase Administrators see Unlock in the web client; Odoo does not check this on the server, so a caller of the API can still unlock."
       },
-      "source": ["purchase/models/purchase_order.py: button_approve, button_cancel, button_unlock", "purchase/views/purchase_views.xml: button_unlock groups"],
+      "source": [
+        "purchase/models/purchase_order.py: button_approve, button_cancel, button_unlock",
+        "purchase/views/purchase_views.xml: button_unlock groups"
+      ],
       "enforced": "WEB_CLIENT",
       "reversible": true,
       "applies": true,
-      "modules": ["purchase"],
+      "modules": [
+        "purchase"
+      ],
       "checks": [],
       "patterns": [],
       "settings": [
-        {"field": "lock_confirmed_po", "set": true}
+        {
+          "field": "lock_confirmed_po",
+          "set": true
+        }
       ],
       "changes": {
         "vi": "Muốn sửa đơn đã duyệt, Quản trị mua hàng bấm Mở khoá rồi sửa.",
@@ -60,7 +98,10 @@
     },
     {
       "id": "K03",
-      "title": {"vi": "Khoá đơn bán đã xác nhận", "en": "Lock confirmed sales orders"},
+      "title": {
+        "vi": "Khoá đơn bán đã xác nhận",
+        "en": "Lock confirmed sales orders"
+      },
       "prevents": {
         "vi": "Sửa hoặc huỷ một đơn bán sau khi đã xác nhận với khách.",
         "en": "Changing or cancelling a sales order after it was confirmed to the customer."
@@ -69,15 +110,23 @@
         "vi": "Đơn bán vừa xác nhận bị khoá: giao diện web không cho sửa, và Odoo từ chối huỷ đơn đang khoá. Chỉ Quản trị bán hàng thấy nút Mở khoá trên giao diện web; Odoo không kiểm tra điều này ở máy chủ.",
         "en": "A confirmed order is locked: the web client shows it read-only and Odoo refuses to cancel it while it is locked. Only Sales Administrators see Unlock in the web client; Odoo does not check this on the server."
       },
-      "source": ["sale/models/sale_order.py: action_confirm, _should_be_locked, action_cancel", "sale/views/sale_order_views.xml: action_unlock groups"],
+      "source": [
+        "sale/models/sale_order.py: action_confirm, _should_be_locked, action_cancel",
+        "sale/views/sale_order_views.xml: action_unlock groups"
+      ],
       "enforced": "WEB_CLIENT",
       "reversible": true,
       "applies": true,
-      "modules": ["sale"],
+      "modules": [
+        "sale"
+      ],
       "checks": [],
       "patterns": [],
       "settings": [
-        {"field": "group_auto_done_setting", "set": true}
+        {
+          "field": "group_auto_done_setting",
+          "set": true
+        }
       ],
       "changes": {
         "vi": "Muốn sửa đơn đã xác nhận, Quản trị bán hàng bấm Mở khoá rồi sửa.",
@@ -86,7 +135,10 @@
     },
     {
       "id": "K04",
-      "title": {"vi": "Khoá sổ đến một ngày", "en": "Lock the books up to a date"},
+      "title": {
+        "vi": "Khoá sổ đến một ngày",
+        "en": "Lock the books up to a date"
+      },
       "prevents": {
         "vi": "Ghi lùi ngày hạch toán vào kỳ đã báo cáo (phép kiểm O26); sửa hay đưa về nháp chứng từ của kỳ đã chốt.",
         "en": "Accounting dates moved back into a period already reported (check O26); changing or resetting the entries of a closed period."
@@ -95,16 +147,40 @@
         "vi": "Sổ của kỳ đã khoá không đổi được nữa: chứng từ đã ghi sổ trong kỳ đó không sửa, không đưa về nháp được. Chứng từ mới ghi ngày vào kỳ đã khoá vẫn ghi sổ được, nhưng Odoo giữ ngày chứng từ và dời ngày hạch toán sang sau ngày khoá (không muộn hơn hôm nay), nên số liệu của kỳ đã khoá không đổi. Áp dụng cho mọi người dùng; một ngoại lệ khoá sổ có thể mở cho một người. Odoo Community không có màn hình đặt ngày khoá (bản Enterprise đặt trong ứng dụng Kế toán): odoo-cli đặt chúng qua API.",
         "en": "The books of the locked period can no longer change: an entry posted in it cannot be changed or reset to draft. A new document dated in the locked period is still posted, but Odoo keeps its document date and moves its accounting date after the lock date (no later than today), so the locked period's figures stay as they were. It applies to every user; a lock date exception can open it for one person. Odoo Community has no screen for lock dates (Enterprise sets them in its accounting app): odoo-cli sets them through the API."
       },
-      "source": ["account/models/company.py: sale_lock_date, purchase_lock_date, tax_lock_date, fiscalyear_lock_date, _validate_locks", "account/models/account_move.py: write (_check_fiscal_lock_dates), _post and _get_accounting_date (the accounting date moved after the lock)"],
+      "source": [
+        "account/models/company.py: sale_lock_date, purchase_lock_date, tax_lock_date, fiscalyear_lock_date, _validate_locks",
+        "account/models/account_move.py: write (_check_fiscal_lock_dates), _post and _get_accounting_date (the accounting date moved after the lock)"
+      ],
       "enforced": "SERVER",
       "reversible": true,
       "applies": true,
-      "modules": ["account"],
-      "checks": ["O26"],
-      "patterns": ["R2R-004", "O2C-008", "R2R-006"],
-      "companyFields": ["sale_lock_date", "purchase_lock_date", "tax_lock_date", "fiscalyear_lock_date"],
+      "modules": [
+        "account"
+      ],
+      "checks": [
+        "O26"
+      ],
+      "patterns": [
+        "R2R-004",
+        "O2C-008",
+        "R2R-006"
+      ],
+      "companyFields": [
+        "sale_lock_date",
+        "purchase_lock_date",
+        "tax_lock_date",
+        "fiscalyear_lock_date"
+      ],
       "params": [
-        {"name": "date", "kind": "date", "required": true, "description": {"vi": "Ngày cuối của kỳ đã chốt, YYYY-MM-DD. odoo-cli không bao giờ tự chọn ngày khoá, và không lùi một ngày khoá đã có.", "en": "The last day of the closed period, YYYY-MM-DD. odoo-cli never picks a lock date, and never moves one back."}}
+        {
+          "name": "date",
+          "kind": "date",
+          "required": true,
+          "description": {
+            "vi": "Ngày cuối của kỳ đã chốt, YYYY-MM-DD. odoo-cli không bao giờ tự chọn ngày khoá, và không lùi một ngày khoá đã có.",
+            "en": "The last day of the closed period, YYYY-MM-DD. odoo-cli never picks a lock date, and never moves one back."
+          }
+        }
       ],
       "reversibleNote": {
         "vi": "Quản trị viên lùi được ngày khoá, và lịch sử thay đổi của công ty giữ lại việc đó (mẫu R2R-006). Ngày khoá cứng thì Odoo không cho lùi: odoo-cli chỉ đọc nó, không đặt.",
@@ -117,7 +193,10 @@
     },
     {
       "id": "K05",
-      "title": {"vi": "Không cho xoá dấu vết kế toán", "en": "Restrictive audit trail"},
+      "title": {
+        "vi": "Không cho xoá dấu vết kế toán",
+        "en": "Restrictive audit trail"
+      },
       "prevents": {
         "vi": "Xoá một chứng từ đã ghi sổ, tệp đính kèm hay nhật ký thay đổi của nó để che một việc đã làm.",
         "en": "Deleting a posted entry, its attachments or its change log to hide what was done."
@@ -126,15 +205,26 @@
         "vi": "Chứng từ kế toán đã từng ghi sổ không xoá được nữa, chỉ huỷ được; tệp PDF, XML đính kèm và nhật ký thay đổi của nó cũng không xoá được. Odoo kiểm tra ở máy chủ.",
         "en": "An entry that was ever posted can no longer be deleted, only cancelled; its PDF and XML attachments and its change log cannot be deleted either. Odoo checks it on the server."
       },
-      "source": ["account/models/account_move.py: _unlink_account_audit_trail_except_once_post", "account/models/ir_attachment.py: _except_audit_trail", "account/models/mail_message.py: _except_audit_log"],
+      "source": [
+        "account/models/account_move.py: _unlink_account_audit_trail_except_once_post",
+        "account/models/ir_attachment.py: _except_audit_trail",
+        "account/models/mail_message.py: _except_audit_log"
+      ],
       "enforced": "SERVER",
       "reversible": true,
       "applies": true,
-      "modules": ["account"],
+      "modules": [
+        "account"
+      ],
       "checks": [],
-      "patterns": ["R2R-012"],
+      "patterns": [
+        "R2R-012"
+      ],
       "settings": [
-        {"field": "restrictive_audit_trail", "set": true}
+        {
+          "field": "restrictive_audit_trail",
+          "set": true
+        }
       ],
       "reversibleNote": {
         "vi": "Tắt lại được, trừ khi bản địa hoá kế toán của nước đó bắt buộc bật.",
@@ -147,7 +237,10 @@
     },
     {
       "id": "K06",
-      "title": {"vi": "Niêm phong bút toán bằng mã băm", "en": "Hash posted entries"},
+      "title": {
+        "vi": "Niêm phong bút toán bằng mã băm",
+        "en": "Hash posted entries"
+      },
       "prevents": {
         "vi": "Đưa một chứng từ đã ghi sổ về nháp để sửa nội dung rồi ghi sổ lại.",
         "en": "Resetting a posted entry to draft to change it and post it again."
@@ -156,14 +249,26 @@
         "vi": "Khi bật cho một sổ bán hàng, mua hàng hay tổng hợp, mọi bút toán ghi sổ sau đó được băm ngay lúc ghi sổ: không bao giờ đưa về nháp, sửa hay xoá được nữa, chỉ ghi đảo được.",
         "en": "Once on for a sales, purchase or general journal, every entry posted afterwards is hashed when it is posted: it can never be reset to draft, changed or deleted, only reversed."
       },
-      "source": ["account/models/account_move.py: write (_hash_moves on posting), _compute_show_reset_to_draft_button, _can_be_unlinked", "account/models/account_journal.py: write (restrict_mode_hash_table)"],
+      "source": [
+        "account/models/account_move.py: write (_hash_moves on posting), _compute_show_reset_to_draft_button, _can_be_unlinked",
+        "account/models/account_journal.py: write (restrict_mode_hash_table)"
+      ],
       "enforced": "SERVER",
       "reversible": false,
       "applies": false,
-      "modules": ["account"],
+      "modules": [
+        "account"
+      ],
       "checks": [],
-      "patterns": ["R2R-012", "R2R-017"],
-      "journalTypes": ["sale", "purchase", "general"],
+      "patterns": [
+        "R2R-012",
+        "R2R-017"
+      ],
+      "journalTypes": [
+        "sale",
+        "purchase",
+        "general"
+      ],
       "reversibleNote": {
         "vi": "Khi sổ đã có một bút toán được băm, Odoo không cho tắt nữa.",
         "en": "Once the journal holds a hashed entry, Odoo refuses to turn it off."
@@ -179,7 +284,10 @@
     },
     {
       "id": "K07",
-      "title": {"vi": "Hạn mức nợ của khách", "en": "Customer credit limit"},
+      "title": {
+        "vi": "Hạn mức nợ của khách",
+        "en": "Customer credit limit"
+      },
       "prevents": {
         "vi": "Bán chịu tiếp cho khách đã nợ quá mức mà không ai để ý.",
         "en": "Selling on credit to a customer who already owes too much, unnoticed."
@@ -188,19 +296,42 @@
         "vi": "Hoá đơn bán đang nháp và báo giá hiện cảnh báo khi công nợ của khách cộng với chứng từ này vượt hạn mức. Odoo chỉ cảnh báo, không chặn. Hạn mức đặt cho từng khách trên hồ sơ khách, hoặc một hạn mức mặc định cho mọi khách.",
         "en": "A draft customer invoice or quotation shows a warning when the customer's debt with it would pass the limit. Odoo only warns; it blocks nothing. The limit is set per customer on the customer, or as a default for every customer."
       },
-      "source": ["account/models/account_move.py: _compute_partner_credit_warning", "sale/models/sale_order.py: _compute_partner_credit_warning", "account/models/res_config_settings.py: account_use_credit_limit, account_default_credit_limit"],
+      "source": [
+        "account/models/account_move.py: _compute_partner_credit_warning",
+        "sale/models/sale_order.py: _compute_partner_credit_warning",
+        "account/models/res_config_settings.py: account_use_credit_limit, account_default_credit_limit"
+      ],
       "enforced": "WARNING",
       "reversible": true,
       "applies": true,
-      "modules": ["account"],
-      "checks": ["O15"],
-      "patterns": ["O2C-011"],
+      "modules": [
+        "account"
+      ],
+      "checks": [
+        "O15"
+      ],
+      "patterns": [
+        "O2C-011"
+      ],
       "settings": [
-        {"field": "account_use_credit_limit", "set": true},
-        {"field": "account_default_credit_limit", "param": "default_limit"}
+        {
+          "field": "account_use_credit_limit",
+          "set": true
+        },
+        {
+          "field": "account_default_credit_limit",
+          "param": "default_limit"
+        }
       ],
       "params": [
-        {"name": "default_limit", "kind": "amount", "description": {"vi": "Hạn mức mặc định cho khách chưa có hạn mức riêng, theo tiền của công ty. Bỏ trống thì giữ mức Odoo đang có (0: không có hạn mức mặc định).", "en": "The default limit of customers without their own, in the company's currency. Left out, Odoo's current one stays (0: no default limit)."}}
+        {
+          "name": "default_limit",
+          "kind": "amount",
+          "description": {
+            "vi": "Hạn mức mặc định cho khách chưa có hạn mức riêng, theo tiền của công ty. Bỏ trống thì giữ mức Odoo đang có (0: không có hạn mức mặc định).",
+            "en": "The default limit of customers without their own, in the company's currency. Left out, Odoo's current one stays (0: no default limit)."
+          }
+        }
       ],
       "changes": {
         "vi": "Người bán thấy cảnh báo trên báo giá và hoá đơn nháp của khách nợ quá hạn mức; quyết định bán tiếp vẫn là của họ.",
@@ -209,7 +340,10 @@
     },
     {
       "id": "K08",
-      "title": {"vi": "Xác thực hai bước cho nhân viên", "en": "Two-step sign-in for employees"},
+      "title": {
+        "vi": "Xác thực hai bước cho nhân viên",
+        "en": "Two-step sign-in for employees"
+      },
       "prevents": {
         "vi": "Người khác đăng nhập bằng mật khẩu bị lộ hoặc dùng chung của một nhân viên.",
         "en": "Someone else signing in with an employee's leaked or shared password."
@@ -218,19 +352,250 @@
         "vi": "Nhân viên chưa dùng ứng dụng xác thực sẽ nhận mã qua email mỗi lần đăng nhập web. Đồng thời Odoo không còn nhận mật khẩu của nhân viên khi gọi API: kết nối nào dùng mật khẩu phải chuyển sang khoá API (odoo-cli đã dùng khoá API).",
         "en": "An employee without an authenticator app is sent a code by email at each web sign-in. Odoo then also refuses an employee's password over the API: a connection that signs in with a password must use an API key instead (odoo-cli already does)."
       },
-      "source": ["auth_totp_mail/models/res_config_settings.py: auth_totp_policy", "auth_totp_mail/models/res_users.py: _mfa_type, _rpc_api_keys_only"],
+      "source": [
+        "auth_totp_mail/models/res_config_settings.py: auth_totp_policy",
+        "auth_totp_mail/models/res_users.py: _mfa_type, _rpc_api_keys_only"
+      ],
       "enforced": "SERVER",
       "reversible": true,
       "applies": true,
-      "modules": ["auth_totp_mail"],
+      "modules": [
+        "auth_totp_mail"
+      ],
       "checks": [],
       "patterns": [],
       "settings": [
-        {"field": "auth_totp_policy", "set": "employee_required", "on": ["employee_required", "all_required"]}
+        {
+          "field": "auth_totp_policy",
+          "set": "employee_required",
+          "on": [
+            "employee_required",
+            "all_required"
+          ]
+        }
       ],
       "changes": {
         "vi": "Mỗi nhân viên cần một email dùng được. Ứng dụng hay script nào đang đăng nhập Odoo bằng mật khẩu nhân viên sẽ bị từ chối cho đến khi dùng khoá API.",
         "en": "Each employee needs a working email. An app or script that signs in to Odoo with an employee's password is refused until it uses an API key."
+      }
+    },
+    {
+      "id": "K09",
+      "title": {
+        "vi": "Báo khi tài khoản ngân hàng được thêm hay đổi",
+        "en": "Alert when a bank account is added or changed"
+      },
+      "prevents": {
+        "vi": "Chi tiền vào một tài khoản vừa được thêm hay đổi mà chưa ai gọi đối tác xác nhận (mẫu P2P-004, P2P-005).",
+        "en": "Paying into an account just added or changed before anyone called the partner to confirm it (patterns P2P-004, P2P-005)."
+      },
+      "odoo": {
+        "vi": "Một luật tự động của Odoo (module base_automation): khi một tài khoản ngân hàng được tạo, hay số tài khoản, chủ tài khoản hoặc dấu tin cậy của nó đổi, Odoo tạo ngay một việc cần làm cho người được chỉ định, gắn trên tài khoản đó. Odoo không chặn việc gì.",
+        "en": "An Odoo automation rule (module base_automation): when a bank account is created, or its number, holder or trusted flag changes, Odoo schedules an activity for the person named, on that account. Odoo blocks nothing."
+      },
+      "source": [
+        "base_automation/models/base_automation.py: trigger on_create_or_write, trigger_field_ids, filter_pre_domain, filter_domain",
+        "mail/models/ir_actions_server.py: _run_action_next_activity"
+      ],
+      "enforced": "NOTIFY",
+      "reversible": true,
+      "reversibleNote": {
+        "vi": "Lưu trữ luật trong Odoo là tắt (Cài đặt > Kỹ thuật > Luật tự động, ở chế độ nhà phát triển); odoo-cli chỉ bật.",
+        "en": "Archive the rule in Odoo to turn it off (Settings > Technical > Automation Rules, in developer mode); odoo-cli only turns alerts on."
+      },
+      "applies": true,
+      "modules": [
+        "base_automation"
+      ],
+      "checks": [],
+      "patterns": [
+        "P2P-004",
+        "P2P-005"
+      ],
+      "alert": {
+        "model": "res.partner.bank",
+        "fields": [
+          [
+            "acc_number",
+            "account_number"
+          ],
+          [
+            "partner_id"
+          ],
+          [
+            "allow_out_payment"
+          ]
+        ],
+        "summary": {
+          "vi": "Tài khoản ngân hàng vừa được thêm hay đổi: gọi đối tác xác nhận trước khi chi",
+          "en": "A bank account was added or changed: call the partner to confirm before paying"
+        }
+      },
+      "params": [
+        {
+          "name": "user",
+          "kind": "user",
+          "required": true,
+          "description": {
+            "vi": "Người nhận việc cần làm: tên người dùng trong Odoo, hoặc mã số (id) của họ.",
+            "en": "Who gets the activity: the Odoo user's name, or their id."
+          }
+        },
+        {
+          "name": "lang",
+          "kind": "choice",
+          "description": {
+            "vi": "Ngôn ngữ của lời nhắc trong Odoo: vi (mặc định) hoặc en.",
+            "en": "The language of the activity's summary in Odoo: vi (the default) or en."
+          }
+        }
+      ],
+      "changes": {
+        "vi": "Người được chỉ định thấy một việc cần làm trong Odoo mỗi lần có thay đổi. Gọi xác nhận vẫn là việc của họ.",
+        "en": "The person named sees an activity in Odoo on every change. Calling to confirm is still theirs to do."
+      }
+    },
+    {
+      "id": "K10",
+      "title": {
+        "vi": "Báo khi chứng từ đã ghi sổ bị đưa về nháp",
+        "en": "Alert when a posted entry is reset to draft"
+      },
+      "prevents": {
+        "vi": "Sửa một chứng từ đã ghi sổ rồi ghi sổ lại mà không ai biết (mẫu R2R-017).",
+        "en": "Changing a posted entry and posting it again unnoticed (pattern R2R-017)."
+      },
+      "odoo": {
+        "vi": "Một luật tự động của Odoo: khi một hoá đơn, giảm trừ hay bút toán đang ở trạng thái đã ghi sổ bị đưa về nháp, Odoo tạo một việc cần làm cho người được chỉ định, gắn trên chứng từ đó. Ghi sổ lại không tạo thêm việc.",
+        "en": "An Odoo automation rule: when an invoice, credit note or entry that was posted is reset to draft, Odoo schedules an activity for the person named, on that document. Posting it again schedules nothing."
+      },
+      "source": [
+        "base_automation/models/base_automation.py: trigger on_create_or_write, trigger_field_ids, filter_pre_domain, filter_domain",
+        "mail/models/ir_actions_server.py: _run_action_next_activity"
+      ],
+      "enforced": "NOTIFY",
+      "reversible": true,
+      "reversibleNote": {
+        "vi": "Lưu trữ luật trong Odoo là tắt (Cài đặt > Kỹ thuật > Luật tự động, ở chế độ nhà phát triển); odoo-cli chỉ bật.",
+        "en": "Archive the rule in Odoo to turn it off (Settings > Technical > Automation Rules, in developer mode); odoo-cli only turns alerts on."
+      },
+      "applies": true,
+      "modules": [
+        "base_automation"
+      ],
+      "checks": [],
+      "patterns": [
+        "R2R-017"
+      ],
+      "alert": {
+        "model": "account.move",
+        "fields": [
+          [
+            "state"
+          ]
+        ],
+        "before": "[('state', '=', 'posted')]",
+        "after": "[('state', '=', 'draft')]",
+        "summary": {
+          "vi": "Chứng từ đã ghi sổ vừa bị đưa về nháp: xem ai sửa gì trước khi ghi sổ lại",
+          "en": "A posted entry was reset to draft: see who changes what before it is posted again"
+        }
+      },
+      "params": [
+        {
+          "name": "user",
+          "kind": "user",
+          "required": true,
+          "description": {
+            "vi": "Người nhận việc cần làm: tên người dùng trong Odoo, hoặc mã số (id) của họ.",
+            "en": "Who gets the activity: the Odoo user's name, or their id."
+          }
+        },
+        {
+          "name": "lang",
+          "kind": "choice",
+          "description": {
+            "vi": "Ngôn ngữ của lời nhắc trong Odoo: vi (mặc định) hoặc en.",
+            "en": "The language of the activity's summary in Odoo: vi (the default) or en."
+          }
+        }
+      ],
+      "changes": {
+        "vi": "Người được chỉ định thấy một việc cần làm mỗi lần một chứng từ bị đưa về nháp. Với chốt K06 hay K04, chứng từ đã niêm phong hay thuộc kỳ đã khoá không đưa về nháp được.",
+        "en": "The person named sees an activity each time an entry is reset. With K06 or K04, a hashed entry or one of a locked period cannot be reset at all."
+      }
+    },
+    {
+      "id": "K11",
+      "title": {
+        "vi": "Báo khi mã số thuế hay tên của đối tác đã giao dịch bị đổi",
+        "en": "Alert when a trading partner's tax number or name changes"
+      },
+      "prevents": {
+        "vi": "Đổi tên hay mã số thuế của một đối tác đã có hoá đơn, làm sổ sách chỉ sang một người khác (mẫu MD-002).",
+        "en": "Changing the name or tax number of a partner that has invoices, so the books point at someone else (pattern MD-002)."
+      },
+      "odoo": {
+        "vi": "Một luật tự động của Odoo: khi mã số thuế hay tên của một đối tác đã có hoá đơn đổi, Odoo tạo một việc cần làm cho người được chỉ định, gắn trên đối tác đó. Đối tác chưa giao dịch đổi tên thì không báo.",
+        "en": "An Odoo automation rule: when the tax number or name of a partner that has invoices changes, Odoo schedules an activity for the person named, on that partner. A partner that never traded is not reported."
+      },
+      "source": [
+        "base_automation/models/base_automation.py: trigger on_create_or_write, trigger_field_ids, filter_pre_domain, filter_domain",
+        "mail/models/ir_actions_server.py: _run_action_next_activity"
+      ],
+      "enforced": "NOTIFY",
+      "reversible": true,
+      "reversibleNote": {
+        "vi": "Lưu trữ luật trong Odoo là tắt (Cài đặt > Kỹ thuật > Luật tự động, ở chế độ nhà phát triển); odoo-cli chỉ bật.",
+        "en": "Archive the rule in Odoo to turn it off (Settings > Technical > Automation Rules, in developer mode); odoo-cli only turns alerts on."
+      },
+      "applies": true,
+      "modules": [
+        "base_automation"
+      ],
+      "checks": [],
+      "patterns": [
+        "MD-002"
+      ],
+      "alert": {
+        "model": "res.partner",
+        "fields": [
+          [
+            "vat"
+          ],
+          [
+            "name"
+          ]
+        ],
+        "before": "[('invoice_ids', '!=', False)]",
+        "after": "[('invoice_ids', '!=', False)]",
+        "summary": {
+          "vi": "Mã số thuế hoặc tên của đối tác đã có hoá đơn vừa đổi: đối chiếu với giấy tờ của họ",
+          "en": "The tax number or name of a partner with invoices changed: check it against their papers"
+        }
+      },
+      "params": [
+        {
+          "name": "user",
+          "kind": "user",
+          "required": true,
+          "description": {
+            "vi": "Người nhận việc cần làm: tên người dùng trong Odoo, hoặc mã số (id) của họ.",
+            "en": "Who gets the activity: the Odoo user's name, or their id."
+          }
+        },
+        {
+          "name": "lang",
+          "kind": "choice",
+          "description": {
+            "vi": "Ngôn ngữ của lời nhắc trong Odoo: vi (mặc định) hoặc en.",
+            "en": "The language of the activity's summary in Odoo: vi (the default) or en."
+          }
+        }
+      ],
+      "changes": {
+        "vi": "Người được chỉ định thấy một việc cần làm mỗi lần có thay đổi như vậy.",
+        "en": "The person named sees an activity on every such change."
       }
     }
   ]

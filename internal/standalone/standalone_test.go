@@ -67,7 +67,10 @@ const AcceptedCatalogSize = 105
 // creating or updating live chat member history and work-center productivity loss types.
 // 1248 -> 1252: the change history a review reads (2026-10-15): field changes and the notes that carry
 // them, held to payee bank accounts, document states and dates, lock dates, prices and tax codes.
-const AcceptedSurfaceSize = 1252
+// 1252 -> 1263: alerts (2026-10-16), notify-only automation rules held to odoo-cli's own (list,
+// describe, create and update of the rule and of its activity-only action), and the three reads that
+// resolve what a rule names: registered models, their fields, activity types.
+const AcceptedSurfaceSize = 1263
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -104,7 +107,9 @@ var acceptedUnverifiedOperations = []string{}
 // 2026-10-15: the change history's four reads, on 19.0 and on 20.0 with mail_tracking: reads 525.
 // Then the Settings page's save, verified field by field (odoo-settings-conformance.py): actions and
 // wizards 135.
-const AcceptedSurfaceCurrent = 525 + 514 + 135 + 7 + 6
+// 2026-10-16: the alerts' rules and actions and the metadata reads they resolve names with
+// (odoo-alerts-conformance.py): reads 532, writes 518.
+const AcceptedSurfaceCurrent = 532 + 518 + 135 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

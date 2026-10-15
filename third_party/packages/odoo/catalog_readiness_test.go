@@ -50,8 +50,10 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// notes), and the journal entries and payments re-verified with the fields it reads: reads 525.
 	// Then the Settings page's save, set field by field and read back by an oracle that opens the page
 	// (odoo-settings-conformance.py), with the controls' settings and lock dates: 135 actions and wizards.
-	if len(report.Records) != 103+525+514+135+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 1187 surface", len(report.Records))
+	// 2026-10-16: the alerts (odoo-alerts-conformance.py), rules and actions read, created and updated
+	// through odoo-cli controls, with the metadata reads that resolve them: reads 532, writes 518.
+	if len(report.Records) != 103+532+518+135+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 1198 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}

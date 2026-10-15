@@ -393,6 +393,14 @@ func sameValue(want, have interface{}) bool {
 	if isEmpty(want) && isEmpty(have) {
 		return true
 	}
+	// A many2many named by ids holds the same records in any order; a two-id list is not a many2one.
+	if w, ok := want.([]interface{}); ok {
+		if h, ok := have.([]interface{}); ok {
+			if same, numeric := sameIDs(w, h); numeric {
+				return same
+			}
+		}
+	}
 	switch h := have.(type) {
 	case []interface{}:
 		if len(h) == 2 {
@@ -550,4 +558,34 @@ func sameContent(field string, want interface{}, current map[string]interface{})
 	}
 	sum := sha1.Sum(data)
 	return hex.EncodeToString(sum[:]) == have
+}
+
+// sameIDs compares two lists of record ids as sets; numeric is false when either holds anything else.
+func sameIDs(want, have []interface{}) (same, numeric bool) {
+	ids := func(list []interface{}) ([]float64, bool) {
+		out := make([]float64, 0, len(list))
+		for _, item := range list {
+			n, ok := number(item)
+			if !ok {
+				return nil, false
+			}
+			out = append(out, n)
+		}
+		sort.Float64s(out)
+		return out, true
+	}
+	w, wOK := ids(want)
+	h, hOK := ids(have)
+	if !wOK || !hOK {
+		return false, false
+	}
+	if len(w) != len(h) {
+		return false, true
+	}
+	for i := range w {
+		if w[i] != h[i] {
+			return false, true
+		}
+	}
+	return true, true
 }

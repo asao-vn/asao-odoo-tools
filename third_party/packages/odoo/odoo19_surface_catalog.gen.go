@@ -972,6 +972,132 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		InputTypes:          map[string]string{"account_default_credit_limit": "number", "account_use_credit_limit": "boolean", "auth_signup_reset_password": "boolean", "crm_use_auto_assignment": "boolean", "digest_emails": "boolean", "display_invoice_amount_total_words": "boolean", "group_analytic_accounting": "boolean", "group_auto_done_setting": "boolean", "group_cash_rounding": "boolean", "group_discount_per_so_line": "boolean", "group_multi_currency": "boolean", "group_product_pricelist": "boolean", "group_product_variant": "boolean", "group_proforma_sales": "boolean", "group_project_stages": "boolean", "group_sale_delivery_address": "boolean", "group_sale_order_template": "boolean", "group_send_reminder": "boolean", "group_uom": "boolean", "group_use_lead": "boolean", "group_use_recurring_revenues": "boolean", "group_warning_purchase": "boolean", "group_warning_sale": "boolean", "hr_presence_control_login": "boolean", "lock_confirmed_po": "boolean", "pay_invoices_online": "boolean", "po_double_validation_amount": "number", "po_order_approval": "boolean", "portal_confirmation_pay": "boolean", "portal_confirmation_sign": "boolean", "qr_code": "boolean", "quotation_validity_days": "integer", "restrict_template_rendering": "boolean", "restrictive_audit_trail": "boolean"},
 		InputEnums:          map[string][]string{"account_price_include": []string{"tax_included", "tax_excluded"}, "auth_signup_uninvited": []string{"b2b", "b2c"}, "auth_totp_policy": []string{"employee_required", "all_required"}, "default_invoice_policy": []string{"order", "delivery"}, "tax_calculation_rounding_method": []string{"round_per_line", "round_globally"}, "timesheet_encode_method": []string{"hours", "days"}},
 	},
+	// ir.model (Registered model)
+	{
+		SemanticID: "structure.registry_model.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"base"}, RequiredCapability: "structure.registrymodel.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.model",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"model", "name", "is_mail_thread", "is_mail_activity"},
+	},
+	// ir.model.fields (Registered field)
+	{
+		SemanticID: "structure.registry_field.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"base"}, RequiredCapability: "structure.registryfield.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.model.fields",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "model", "ttype", "relation", "field_description"},
+	},
+	// mail.activity.type (Activity type)
+	{
+		SemanticID: "structure.activity_type.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"mail"}, RequiredCapability: "structure.activitytype.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "mail.activity.type",
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "category", "res_model", "sequence", "summary"},
+	},
+	// base.automation (Alert rule)
+	{
+		SemanticID: "structure.alert_rule.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "base.automation",
+		ProviderDomain:     []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}},
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "model_id", "trigger", "trigger_field_ids", "filter_pre_domain", "filter_domain", "active", "action_server_ids", "last_run"},
+	},
+	// base.automation (Alert rule)
+	{
+		SemanticID: "structure.alert_rule.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertrule.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "base.automation",
+		ProviderDomain:     []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}},
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "model_id", "trigger", "trigger_field_ids", "filter_pre_domain", "filter_domain", "active", "action_server_ids", "last_run"},
+	},
+	// ir.actions.server (Alert action)
+	{
+		SemanticID: "structure.alert_action.list", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertaction.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.actions.server",
+		ProviderDomain:     []interface{}{[]interface{}{"usage", "=", "base_automation"}, []interface{}{"state", "=", "next_activity"}, []interface{}{"base_automation_id.name", "=like", "odoo-cli: %"}},
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "model_id", "base_automation_id", "activity_type_id", "activity_summary", "activity_date_deadline_range", "activity_date_deadline_range_type", "activity_user_id", "state", "usage", "activity_user_type"},
+	},
+	// ir.actions.server (Alert action)
+	{
+		SemanticID: "structure.alert_action.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertaction.read",
+		Risk: RiskLow, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.actions.server",
+		ProviderDomain:     []interface{}{[]interface{}{"usage", "=", "base_automation"}, []interface{}{"state", "=", "next_activity"}, []interface{}{"base_automation_id.name", "=like", "odoo-cli: %"}},
+		ReadFields:         []string{"id", "display_name"},
+		OptionalReadFields: []string{"name", "model_id", "base_automation_id", "activity_type_id", "activity_summary", "activity_date_deadline_range", "activity_date_deadline_range_type", "activity_user_id", "state", "usage", "activity_user_type"},
+	},
+	// base.automation (Alert rule)
+	{
+		SemanticID: "structure.alert_rule.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertrule.write",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "base.automation",
+		ProviderDomain: []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}},
+		WriteMode:      WriteModeCreate, AllowedFields: []string{"name", "model_id", "trigger", "trigger_field_ids", "filter_pre_domain", "filter_domain", "active"},
+		InputPrefixes: map[string]string{"name": "odoo-cli: "},
+		InputTypes:    map[string]string{"active": "boolean", "model_id": "reference", "trigger_field_ids": "reference_list"},
+		InputEnums:    map[string][]string{"trigger": []string{"on_create_or_write"}},
+		Relations: map[string]RelationSpec{
+			"model_id":          {TargetModel: "ir.model", SearchField: "model"},
+			"trigger_field_ids": {TargetModel: "ir.model.fields", SearchField: "name", Multi: true},
+		},
+	},
+	// base.automation (Alert rule)
+	{
+		SemanticID: "structure.alert_rule.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertrule.write",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "base.automation",
+		ProviderDomain: []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}},
+		WriteMode:      WriteModeUpdate, AllowedFields: []string{"name", "model_id", "trigger", "trigger_field_ids", "filter_pre_domain", "filter_domain", "active"},
+		InputPrefixes: map[string]string{"name": "odoo-cli: "},
+		InputTypes:    map[string]string{"active": "boolean", "model_id": "reference", "trigger_field_ids": "reference_list"},
+		InputEnums:    map[string][]string{"trigger": []string{"on_create_or_write"}},
+		Relations: map[string]RelationSpec{
+			"model_id":          {TargetModel: "ir.model", SearchField: "model"},
+			"trigger_field_ids": {TargetModel: "ir.model.fields", SearchField: "name", Multi: true},
+		},
+	},
+	// ir.actions.server (Alert action)
+	{
+		SemanticID: "structure.alert_action.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertaction.write",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.actions.server",
+		ProviderDomain: []interface{}{[]interface{}{"usage", "=", "base_automation"}, []interface{}{"state", "=", "next_activity"}, []interface{}{"base_automation_id.name", "=like", "odoo-cli: %"}},
+		WriteMode:      WriteModeCreate, AllowedFields: []string{"name", "model_id", "base_automation_id", "activity_type_id", "activity_summary", "activity_date_deadline_range", "activity_date_deadline_range_type", "activity_user_id"},
+		ForcedValues:  map[string]interface{}{"activity_user_type": "specific", "state": "next_activity", "usage": "base_automation"},
+		InputPrefixes: map[string]string{"name": "odoo-cli: "},
+		InputTypes:    map[string]string{"activity_date_deadline_range": "integer", "activity_type_id": "reference", "activity_user_id": "reference", "base_automation_id": "reference", "model_id": "reference"},
+		InputEnums:    map[string][]string{"activity_date_deadline_range_type": []string{"days", "weeks", "months"}},
+		Relations: map[string]RelationSpec{
+			"activity_type_id":   {TargetModel: "mail.activity.type", SearchField: "name"},
+			"activity_user_id":   {TargetModel: "res.users", SearchField: "name"},
+			"base_automation_id": {TargetModel: "base.automation", SearchField: "name", Domain: []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}}},
+			"model_id":           {TargetModel: "ir.model", SearchField: "model"},
+		},
+	},
+	// ir.actions.server (Alert action)
+	{
+		SemanticID: "structure.alert_action.update", Kind: KindCommand, Strategy: StrategyFieldWrite,
+		RequiredModules: []string{"base_automation"}, RequiredCapability: "structure.alertaction.write",
+		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.actions.server",
+		ProviderDomain: []interface{}{[]interface{}{"usage", "=", "base_automation"}, []interface{}{"state", "=", "next_activity"}, []interface{}{"base_automation_id.name", "=like", "odoo-cli: %"}},
+		WriteMode:      WriteModeUpdate, AllowedFields: []string{"name", "model_id", "base_automation_id", "activity_type_id", "activity_summary", "activity_date_deadline_range", "activity_date_deadline_range_type", "activity_user_id"},
+		ForcedValues:  map[string]interface{}{"activity_user_type": "specific", "state": "next_activity", "usage": "base_automation"},
+		InputPrefixes: map[string]string{"name": "odoo-cli: "},
+		InputTypes:    map[string]string{"activity_date_deadline_range": "integer", "activity_type_id": "reference", "activity_user_id": "reference", "base_automation_id": "reference", "model_id": "reference"},
+		InputEnums:    map[string][]string{"activity_date_deadline_range_type": []string{"days", "weeks", "months"}},
+		Relations: map[string]RelationSpec{
+			"activity_type_id":   {TargetModel: "mail.activity.type", SearchField: "name"},
+			"activity_user_id":   {TargetModel: "res.users", SearchField: "name"},
+			"base_automation_id": {TargetModel: "base.automation", SearchField: "name", Domain: []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}}},
+			"model_id":           {TargetModel: "ir.model", SearchField: "model"},
+		},
+	},
 	// crm.lost.reason (Opp. Lost Reason)
 	{
 		SemanticID: "crm.lost_reason.delete", Kind: KindCommand, Strategy: StrategyDestructiveGuarded,

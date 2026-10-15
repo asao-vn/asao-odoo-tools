@@ -16,6 +16,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/asao-platform/atoc/packages/odoo"
 	"github.com/asao-platform/atoc/packages/odoo/direct"
 	"github.com/asao-platform/atoc/packages/odoo/spec"
 )
@@ -31,6 +32,8 @@ const (
 	EnforcedWebClient = "WEB_CLIENT"
 	// EnforcedWarning: Odoo warns and lets the user go on.
 	EnforcedWarning = "WARNING"
+	// EnforcedNotify: an alert. Odoo schedules an activity for a named person and blocks nothing.
+	EnforcedNotify = "NOTIFY"
 )
 
 // The state of a control in one Odoo.
@@ -52,6 +55,14 @@ const (
 	journalDescribe = "finance.journal.describe"
 	hardLockField   = "hard_lock_date"
 	hashField       = "restrict_mode_hash_table"
+	ruleList        = "structure.alert_rule.list"
+	actionList      = "structure.alert_action.list"
+	modelList       = "structure.registry_model.list"
+	fieldList       = "structure.registry_field.list"
+	activityTypes   = "structure.activity_type.list"
+	// alertPrefix starts the name of every rule and action odoo-cli makes: the alert operations are
+	// held to it, so they never reach a rule a person made.
+	alertPrefix = "odoo-cli: "
 )
 
 // Text is a sentence in Vietnamese (vi) and English (en).
@@ -95,8 +106,26 @@ type Control struct {
 	Settings       []Setting `json:"settings,omitempty"`
 	CompanyFields  []string  `json:"companyFields,omitempty"`
 	JournalTypes   []string  `json:"journalTypes,omitempty"`
+	Alert          *Alert    `json:"alert,omitempty"`
 	Params         []Param   `json:"params,omitempty"`
 	Changes        Text      `json:"changes"`
+}
+
+// Alert is a notify-only automation rule: when a record of Model is created, or one of Fields
+// changes, and it matched Before and now matches After, Odoo schedules an activity with Summary.
+type Alert struct {
+	Model string `json:"model"`
+	// Fields are the watched fields, each with the names a series may give it (acc_number, then
+	// 20.0's account_number): the first one the database has is watched.
+	Fields  [][]string `json:"fields"`
+	Before  string     `json:"before,omitempty"`
+	After   string     `json:"after,omitempty"`
+	Summary Text       `json:"summary"`
+}
+
+// RuleName is the name of the alert rule and of its action in Odoo.
+func (c Control) RuleName() string {
+	return alertPrefix + c.ID + " " + c.Title["en"]
 }
 
 // Catalogue is every control.
@@ -292,6 +321,8 @@ func Read(ctx context.Context, exec spec.Executor, options Options) (Report, err
 			}
 		case len(control.JournalTypes) > 0:
 			status.State, status.Detail, status.Reason = r.hashState(ctx, control, company)
+		case control.Alert != nil:
+			status.State, status.Detail, status.Reason = r.alertState(ctx, control)
 		}
 		report.Summary[status.State]++
 		report.Controls = append(report.Controls, status)
@@ -421,6 +452,37 @@ func (r *reader) hashState(ctx context.Context, control Control, company *Compan
 		return StateOff, detail, ""
 	}
 	return StatePartial, detail, ""
+}
+
+// alertState: ON when odoo-cli's rule for the alert is active and has its activity action.
+func (r *reader) alertState(ctx context.Context, control Control) (string, map[string]interface{}, string) {
+	rules, err := r.read(ctx, direct.Request{Operation: ruleList, Domain: []interface{}{[]interface{}{"name", "=", control.RuleName()}},
+		ProviderContext: map[string]interface{}{"active_test": false}, Limit: 2})
+	if err != nil {
+		var refused *direct.OperationError
+		if errors.As(err, &refused) && refused.Class == string(odoo.ErrClassModuleNotInstalled) {
+			return StateNotAvailable, nil, "this Odoo has no automation rules: module base_automation is not installed (odoo-cli does not install modules)"
+		}
+		return StateUnread, nil, err.Error()
+	}
+	if len(rules) == 0 {
+		return StateOff, nil, ""
+	}
+	rule := rules[0]
+	detail := map[string]interface{}{"rule": rule["name"], "model": rule["model_id"]}
+	if rule["active"] != true {
+		return StateOff, detail, "the rule is archived"
+	}
+	actions, err := r.read(ctx, direct.Request{Operation: actionList, Domain: []interface{}{[]interface{}{"base_automation_id", "=", idOf(rule)}}, Limit: 5})
+	if err != nil {
+		return StateUnread, detail, err.Error()
+	}
+	if len(actions) == 0 {
+		return StatePartial, detail, "the rule has no activity action"
+	}
+	detail["user"] = actions[0]["activity_user_id"]
+	detail["summary"] = actions[0]["activity_summary"]
+	return StateOn, detail, ""
 }
 
 // Selection is what the person asks to turn on.
@@ -561,6 +623,13 @@ func Render(ctx context.Context, exec spec.Executor, selection Selection, option
 			company = at
 			document.Resources = append(document.Resources, resource)
 		}
+		if control.Alert != nil {
+			resources, err := r.alertResources(ctx, control, selection.Params)
+			if err != nil {
+				return spec.Spec{}, nil, nil, nil, err
+			}
+			document.Resources = append(document.Resources, resources...)
+		}
 	}
 	if len(document.Settings) == 0 {
 		document.Settings = nil
@@ -618,6 +687,91 @@ func (r *reader) lockResource(ctx context.Context, control Control, params map[s
 	}
 	return spec.Resource{Entity: "structure.company", Match: map[string]interface{}{"id": company.ID}, Values: values,
 		Note: fmt.Sprintf("%s: lock the books of %s through %s", control.ID, company.Name, date)}, company, nil
+}
+
+// alertResources are the alert's rule and its activity action, with the ids of the model, the watched
+// fields and the activity type read from this database, so a plan of an alert already on is NO_CHANGE.
+func (r *reader) alertResources(ctx context.Context, control Control, params map[string]string) ([]spec.Resource, error) {
+	alert := control.Alert
+	raw, given := params[control.ID+".user"]
+	if !given || strings.TrimSpace(raw) == "" {
+		return nil, selectionError("%s needs the person who gets the activity: --param %s.user=\"<Odoo user name>\" (or their id)", control.ID, control.ID)
+	}
+	var user interface{} = strings.TrimSpace(raw)
+	if id, err := strconv.ParseInt(strings.TrimSpace(raw), 10, 64); err == nil {
+		user = id
+	}
+	lang := strings.TrimSpace(params[control.ID+".lang"])
+	if lang == "" {
+		lang = "vi"
+	}
+	summary, known := alert.Summary[lang]
+	if !known {
+		return nil, selectionError("%s.lang must be vi or en, got %q", control.ID, lang)
+	}
+	models, err := r.read(ctx, direct.Request{Operation: modelList, Domain: []interface{}{[]interface{}{"model", "=", alert.Model}}, Limit: 1})
+	if err != nil {
+		return nil, err
+	}
+	if len(models) == 0 {
+		return nil, selectionError("%s watches %s, which this Odoo does not have", control.ID, alert.Model)
+	}
+	if models[0]["is_mail_activity"] != true {
+		return nil, selectionError("%s watches %s, which cannot carry activities in this Odoo", control.ID, alert.Model)
+	}
+	var names []interface{}
+	for _, group := range alert.Fields {
+		for _, name := range group {
+			names = append(names, name)
+		}
+	}
+	found, err := r.read(ctx, direct.Request{Operation: fieldList, Domain: []interface{}{
+		[]interface{}{"model", "=", alert.Model}, []interface{}{"name", "in", names}}, Limit: 50})
+	if err != nil {
+		return nil, err
+	}
+	byName := map[string]int64{}
+	for _, row := range found {
+		byName[fmt.Sprint(row["name"])] = idOf(row)
+	}
+	var fields []interface{}
+	for _, group := range alert.Fields {
+		id := int64(0)
+		for _, name := range group {
+			if id = byName[name]; id != 0 {
+				break
+			}
+		}
+		if id == 0 {
+			return nil, selectionError("%s watches %s.%s, which this Odoo does not have", control.ID, alert.Model, strings.Join(group, " or "))
+		}
+		fields = append(fields, id)
+	}
+	types, err := r.read(ctx, direct.Request{Operation: activityTypes, Domain: []interface{}{
+		[]interface{}{"res_model", "=", false}, []interface{}{"category", "=", "default"}}, Order: "sequence, id", Limit: 1})
+	if err != nil {
+		return nil, err
+	}
+	if len(types) == 0 {
+		return nil, selectionError("this Odoo has no general activity type to schedule (a To-Do)")
+	}
+	rule := map[string]interface{}{"name": control.RuleName(), "model_id": idOf(models[0]), "trigger": "on_create_or_write",
+		"trigger_field_ids": fields, "active": true}
+	if alert.Before != "" {
+		rule["filter_pre_domain"] = alert.Before
+	}
+	if alert.After != "" {
+		rule["filter_domain"] = alert.After
+	}
+	action := map[string]interface{}{"name": control.RuleName(), "model_id": idOf(models[0]), "base_automation_id": control.RuleName(),
+		"activity_type_id": idOf(types[0]), "activity_summary": summary, "activity_date_deadline_range": 0,
+		"activity_date_deadline_range_type": "days", "activity_user_id": user}
+	return []spec.Resource{
+		{Entity: "structure.alert_rule", Match: map[string]interface{}{"name": control.RuleName()}, Values: rule,
+			Note: control.ID + ": " + control.Title["en"]},
+		{Entity: "structure.alert_action", Match: map[string]interface{}{"name": control.RuleName()}, Values: action,
+			Note: control.ID + ": the activity the rule schedules"},
+	}, nil
 }
 
 // PlanControls renders a selection and plans it with the spec engine.

@@ -479,3 +479,22 @@ func sha1Hex(data []byte) string {
 	sum := sha1.Sum(data)
 	return hex.EncodeToString(sum[:])
 }
+
+// A many2many named by ids is the same whatever the order, and a list of two ids is not read as a
+// many2one's [id, name] (an alert rule watching two fields was planned as a change on every run).
+func TestSameValueComparesIDListsAsSets(t *testing.T) {
+	for _, c := range []struct {
+		want, have interface{}
+		same       bool
+	}{
+		{[]interface{}{int64(14), int64(12)}, []interface{}{12.0, 14.0}, true},
+		{[]interface{}{int64(12), int64(13)}, []interface{}{12.0, 14.0}, false},
+		{[]interface{}{int64(12)}, []interface{}{12.0, 13.0}, false},
+		{int64(7), []interface{}{7.0, "Mitchell Admin"}, true},
+		{"Mitchell Admin", []interface{}{7.0, "Mitchell Admin"}, true},
+	} {
+		if got := sameValue(c.want, c.have); got != c.same {
+			t.Errorf("sameValue(%v, %v) = %v, want %v", c.want, c.have, got, c.same)
+		}
+	}
+}

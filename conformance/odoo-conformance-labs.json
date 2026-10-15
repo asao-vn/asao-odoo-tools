@@ -1,5 +1,5 @@
 {
-  "$comment": "The labs the conformance runs build, from public images pinned by digest. Each installs, with demo data, every module some catalog operation requires (packages/odoo RequiredModules), plus the Demo payment provider, the stock bridges sales and purchases need, and hr_timesheet, whose settings structure.settings.update offers. 20.0 ships four 19.0 modules inside others (the dialect's mergedModules), so its list leaves them out. scripts/dev/odoo-conformance-lab.sh reads this file; so does the public repository's conformance workflow.",
+  "$comment": "The labs the conformance runs build, from public images pinned by digest. Each installs, with demo data, every module some catalog operation requires (packages/odoo RequiredModules), plus the Demo payment provider, the stock bridges sales and purchases need, hr_timesheet, whose settings structure.settings.update offers, and base_automation, which the alert rules need. 20.0 ships four 19.0 modules inside others (the dialect's mergedModules), so its list leaves them out. scripts/dev/odoo-conformance-lab.sh reads this file; so does the public repository's conformance workflow.",
   "postgres": "docker.io/library/postgres@sha256:7456ef82e5f5bc43d997f4781bbd7c0d6389bff397564649a356e206ba473aee",
   "series": {
     "19.0": {
@@ -8,6 +8,7 @@
         "account",
         "analytic",
         "base",
+        "base_automation",
         "calendar",
         "contacts",
         "crm",
@@ -69,6 +70,7 @@
         "account",
         "analytic",
         "base",
+        "base_automation",
         "calendar",
         "contacts",
         "crm",

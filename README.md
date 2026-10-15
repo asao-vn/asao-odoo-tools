@@ -12,15 +12,15 @@ can drive Odoo through it as dependably as a person does through the web client.
 
 ## What it covers
 
-1357 operations over the business apps of Odoo Community 19.0. 1290 of them are verified on the stock
+1368 operations over the business apps of Odoo Community 19.0. 1301 of them are verified on the stock
 image. On Odoo Community 20.0, a candidate series (run with `--allow-unverified` until it is
-supported), 1176 of the 1295 operations 20.0 can run are verified; the other 62 need models, dialogs
+supported), 1187 of the 1306 operations 20.0 can run are verified; the other 62 need models, dialogs
 or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 
 | Kind | Operations | Verified |
 |---|---:|---:|
-| Read, list, group and paginate | 584 | 582 |
-| Create and update | 553 | 539 |
+| Read, list, group and paginate | 591 | 589 |
+| Create and update | 557 | 543 |
 | Business actions (form and list buttons) | 177 | 132 |
 | Dialogs (wizards) | 27 | 21 |
 | Print a document's PDF | 7 | 7 |
@@ -131,13 +131,13 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 605 tools:
-  - the 591 verified reads;
+- **Reads by default:** 612 tools:
+  - the 598 verified reads;
   - catalog discovery, the pre-flight check, the review (`review run`, `review checks`), the
     controls (`controls list`, `status`, `plan`) and `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1370 tools. The 54 high-risk and destructive operations run only after
+- **With `--allow-writes`:** 1381 tools. The 58 high-risk and destructive operations run only after
   you confirm each call in the agent host.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
@@ -223,9 +223,19 @@ odoo-cli controls apply --profile my-odoo --enable K01,K04 \
 | K06 Hash posted entries | posted entries can only be reversed. **odoo-cli never turns it on**: Odoo never lets it be undone, so `controls plan` says how to do it in Odoo | server |
 | K07 Customer credit limit | a warning on quotations and draft invoices | warning only |
 | K08 Two-step sign-in for employees | a code by email at sign-in; Odoo then refuses employees' passwords over the API, so integrations need API keys | server |
+| K09 Alert: a bank account added or changed | an activity for the person you name, on that account | notify |
+| K10 Alert: a posted entry reset to draft | an activity on that entry; posting it again adds none | notify |
+| K11 Alert: a trading partner's tax number or name changed | an activity on that partner; a partner that never traded is not reported | notify |
 
 - **Odoo's limits are said plainly:** "web client" means a caller of the API is not stopped, and K07
   only warns.
+- **Alerts (K09-K11)** are Odoo automation rules from the `base_automation` module, which you install.
+  - Their only action schedules an activity for the person you name: `--param K09.user="Ngọc Lan"`, or
+    their id.
+  - odoo-cli's alert operations reach only the rules odoo-cli made.
+  - They never offer an action that runs code, writes records, sends a message or calls a webhook.
+  - There is no alert for a changed lock date: Odoo cannot schedule an activity on a company. The
+    change history shows it.
 - **Safe by construction:**
   - `apply` only turns controls on, and refuses a plan that changed since you reviewed it
     (`--plan-hash`);
@@ -365,10 +375,10 @@ no warranty; the license and its terms stay the same.
 
 ## Tiếng Việt
 
-`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1357 thao tác nghiệp vụ, trong đó 1290 thao
+`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1368 thao tác nghiệp vụ, trong đó 1301 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
-có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent. Trên Odoo 20.0, 1176 trong
-1295 thao tác áp dụng được đã được kiểm chứng.
+có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent. Trên Odoo 20.0, 1187 trong
+1306 thao tác áp dụng được đã được kiểm chứng.
 
 **Tự kiểm lại được.** Workflow `conformance` chạy công khai mỗi tuần và mỗi lần phát hành:
 - dựng Odoo 19.0 và 20.0 từ image chính hãng (ghim theo digest);
@@ -390,9 +400,9 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 605 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+- **Mặc định chỉ đọc:** 612 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
-- **Thêm `--allow-writes`:** agent được ghi. 54 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
+- **Thêm `--allow-writes`:** agent được ghi. 58 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
   từng lần.
 - **Agent không tự chọn được:** profile, việc chấp nhận kết quả chưa kiểm chứng, hay việc ghi file lên máy
   bạn.

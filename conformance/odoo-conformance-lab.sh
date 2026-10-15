@@ -147,9 +147,11 @@ pass "settings" "$HERE/odoo-settings-conformance.py" "${COMMON[@]}" --password-e
 # Its records are controls, not operations: the gate does not read them, and a run that stops there
 # does not stop the comparison. Its outcome joins the summary below.
 pass "controls" "$HERE/odoo-controls-conformance.py" "${COMMON[@]}" --password-env AERP_CREDENTIAL_CONFORMANCE --evidence "$E/controls.json" || true
+# The alerts: their operations' records are compared like any other; what Odoo then does joins the summary.
+pass "alerts" "$HERE/odoo-alerts-conformance.py" "${COMMON[@]}" --password-env AERP_CREDENTIAL_CONFORMANCE --evidence "$E/alerts.json"
 
 EVIDENCE=("$E/read-1.json" "$E/read-2.json" "$E/write.json" "$E/action.json" "$E/money-flows.json" "$E/task-recurrence.json"
-          "$E/settings.json")
+          "$E/settings.json" "$E/alerts.json")
 echo "[$(date +%T)] $SERIES: comparing with the manifest"
 if ! python3 "$HERE/odoo-conformance-gate.py" --series "$SERIES" --manifest "$MANIFEST" --evidence "${EVIDENCE[@]}" \
        --summary "$OUT/summary.md" --report "$OUT/gate.json"; then
@@ -174,6 +176,13 @@ try:
         lines.append(f"- {control}: {result['status']}" + (f" ({failures})" if failures else ""))
 except (OSError, ValueError, KeyError):
     lines.append("The controls workflow did not finish; see runs.log.")
+try:
+    alerts = json.load(open(path.replace("controls.json", "alerts.json"), encoding="utf-8"))["alerts"]
+    for control, result in sorted(alerts.items()):
+        failures = "; ".join(result.get("failures") or [])
+        lines.append(f"- {control} (alert): {result['status']}" + (f" ({failures})" if failures else ""))
+except (OSError, ValueError, KeyError):
+    lines.append("The alerts workflow did not finish; see runs.log.")
 with open(summary, "a", encoding="utf-8") as out:
     out.write("\n".join(lines) + "\n")
 PY

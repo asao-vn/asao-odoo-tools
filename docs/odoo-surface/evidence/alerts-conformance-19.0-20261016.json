@@ -1,0 +1,274 @@
+{
+ "alerts": {
+  "K09": {
+   "checkedFields": [
+    "a changed account schedules one activity"
+   ],
+   "definitionHash": "",
+   "failures": [],
+   "modules": [],
+   "status": "AGREE"
+  },
+  "K10": {
+   "checkedFields": [
+    "a reset schedules one activity",
+    "posting again schedules none"
+   ],
+   "definitionHash": "",
+   "failures": [],
+   "modules": [],
+   "status": "AGREE"
+  },
+  "K11": {
+   "checkedFields": [
+    "a partner that never traded is not reported",
+    "a traded partner renamed schedules one activity"
+   ],
+   "definitionHash": "",
+   "failures": [],
+   "modules": [],
+   "status": "AGREE"
+  }
+ },
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "the alert operations driven through the CLI (controls plan and apply for K09-K11, then list, describe and update) and read back by an independent JSON-RPC oracle; a rule and an action a person made checked out of reach; an action of another type refused; then a changed bank account, a reset entry and a renamed traded partner each checked to schedule one activity. Names, statuses and hashes only; the run's rules removed.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-15T18:54:16Z",
+ "records": {
+  "structure.activity_type.list": {
+   "checkedFields": [
+    "1.category",
+    "2.category",
+    "3.category",
+    "4.category",
+    "5.category",
+    "count"
+   ],
+   "definitionHash": "sha256:568f9eb95ff299d09d960540aa9079265b832376ffb846ce1ee15c8552fc1f67",
+   "failures": [],
+   "modules": [
+    "mail"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_action.create": {
+   "checkedFields": [
+    "K09.activity_summary",
+    "K09.activity_type_id",
+    "K09.activity_user_id",
+    "K09.activity_user_type",
+    "K09.one action",
+    "K09.state",
+    "K09.usage",
+    "K10.activity_summary",
+    "K10.activity_type_id",
+    "K10.activity_user_id",
+    "K10.activity_user_type",
+    "K10.one action",
+    "K10.state",
+    "K10.usage",
+    "K11.activity_summary",
+    "K11.activity_type_id",
+    "K11.activity_user_id",
+    "K11.activity_user_type",
+    "K11.one action",
+    "K11.state",
+    "K11.usage",
+    "another action type is refused",
+    "applied"
+   ],
+   "definitionHash": "sha256:5857c62b18f5127439b5a0a1f2da9d8403accce7797493cc17ad3d37aeb14116",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_action.describe": {
+   "checkedFields": [
+    "activity_date_deadline_range",
+    "activity_date_deadline_range_type",
+    "activity_summary",
+    "activity_type_id",
+    "activity_user_id",
+    "activity_user_type",
+    "answered",
+    "base_automation_id",
+    "model_id",
+    "name",
+    "state",
+    "the person's is out of reach",
+    "usage"
+   ],
+   "definitionHash": "sha256:f6cc028cb1ec5e8e5d1845146e5ca5de1791ff0ae4a64daa3cdad04e536f56a0",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_action.list": {
+   "checkedFields": [
+    "activity_date_deadline_range",
+    "activity_date_deadline_range_type",
+    "activity_summary",
+    "activity_type_id",
+    "activity_user_id",
+    "activity_user_type",
+    "base_automation_id",
+    "model_id",
+    "name",
+    "never the person's",
+    "only odoo-cli's",
+    "state",
+    "usage"
+   ],
+   "definitionHash": "sha256:f6cc028cb1ec5e8e5d1845146e5ca5de1791ff0ae4a64daa3cdad04e536f56a0",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_action.update": {
+   "checkedFields": [
+    "activity_user_id",
+    "another user",
+    "the person's action is refused"
+   ],
+   "definitionHash": "sha256:8726bfa313fc884753b5a1ecfb7dc035d2187b19b7efcaca1f861c9aede88cbd",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_rule.create": {
+   "checkedFields": [
+    "K09.active",
+    "K09.filter_domain",
+    "K09.filter_pre_domain",
+    "K09.model",
+    "K09.trigger",
+    "K09.trigger_field_ids",
+    "K10.active",
+    "K10.filter_domain",
+    "K10.filter_pre_domain",
+    "K10.model",
+    "K10.trigger",
+    "K10.trigger_field_ids",
+    "K11.active",
+    "K11.filter_domain",
+    "K11.filter_pre_domain",
+    "K11.model",
+    "K11.trigger",
+    "K11.trigger_field_ids",
+    "a second plan is NO_CHANGE",
+    "applied",
+    "three rules"
+   ],
+   "definitionHash": "sha256:80efd8bab7fb2ff378b4e30f46b998afbd2d61cccd5fc1e0c39bc599a758406c",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_rule.describe": {
+   "checkedFields": [
+    "active",
+    "answered",
+    "filter_domain",
+    "filter_pre_domain",
+    "model_id",
+    "name",
+    "the person's is out of reach",
+    "trigger",
+    "trigger_field_ids"
+   ],
+   "definitionHash": "sha256:9ac681de82f5c859cf01a26df62f87e1fb6f44ba0319abf590895720c172479f",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_rule.list": {
+   "checkedFields": [
+    "active",
+    "filter_domain",
+    "filter_pre_domain",
+    "model_id",
+    "name",
+    "never the person's",
+    "only odoo-cli's",
+    "trigger",
+    "trigger_field_ids"
+   ],
+   "definitionHash": "sha256:9ac681de82f5c859cf01a26df62f87e1fb6f44ba0319abf590895720c172479f",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.alert_rule.update": {
+   "checkedFields": [
+    "active",
+    "apply turns it on again",
+    "archived",
+    "the person's rule is refused",
+    "the person's rule unchanged"
+   ],
+   "definitionHash": "sha256:4f47616217a68287900d2fc8a875ed94f6877fa2a39db739970bbf3664f84aca",
+   "failures": [],
+   "modules": [
+    "base_automation"
+   ],
+   "status": "AGREE"
+  },
+  "structure.registry_field.list": {
+   "checkedFields": [
+    "acc_number.id",
+    "acc_number.ttype",
+    "allow_out_payment.id",
+    "allow_out_payment.ttype",
+    "count",
+    "partner_id.id",
+    "partner_id.ttype"
+   ],
+   "definitionHash": "sha256:6cd1b7cacc5ea8e51e8fd6e4924f89be5e63f0384eb45903abcf02ebcd808445",
+   "failures": [],
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE"
+  },
+  "structure.registry_model.list": {
+   "checkedFields": [
+    "account.move.id",
+    "account.move.is_mail_activity",
+    "count",
+    "res.partner.bank.id",
+    "res.partner.bank.is_mail_activity",
+    "res.partner.id",
+    "res.partner.is_mail_activity"
+   ],
+   "definitionHash": "sha256:62a760b4c9d8ae9efd12e99a181477b98cc529d19bd8e3746c166e15df91429f",
+   "failures": [],
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE"
+  }
+ },
+ "schemaVersion": "odoo.alerts-conformance-run/v1"
+}
