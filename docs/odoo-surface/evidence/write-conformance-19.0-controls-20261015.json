@@ -1,0 +1,31 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-15T15:27:14Z",
+ "records": {
+  "structure.company.update": {
+   "definitionHash": "sha256:b3e56b0bbef02554ac17b44650822a20bc4dc78e5b48425e42343ff2fc2b4309",
+   "fieldType": "char",
+   "kind": "update-existing",
+   "modules": [
+    "base"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

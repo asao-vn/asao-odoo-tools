@@ -228,6 +228,14 @@ people, ...); every result is the command's JSON document: branch on status and 
 error.remediation. Reads are offered. %[3]s Before acting, %[1]s checks the Odoo it reaches and refuses
 with a reason (a module not installed, a series it has no catalog for, a customised Odoo for a write).`,
 		program, orDefault(*profile, "the default"), writes)
+	if odooFlavour(program) {
+		instructions += fmt.Sprintf(`
+
+If %[1]s itself lets you down — an INTERNAL error, a result that contradicts the tool's description,
+help that misled you, or a gap you had to work around — tell the person and offer to report it: the
+report draft command (its result says how) builds a scrubbed report on this machine. %[2]s`,
+			program, reportConsentRule)
+	}
 	if err := mcpserver.Serve(ctx, in, out, mcpserver.Options{
 		Tools: tools, Execute: execute, Version: releaseVersion, Instructions: instructions, Mode: chosen, Log: diag,
 		Name: "odoo", Program: program, Product: program,

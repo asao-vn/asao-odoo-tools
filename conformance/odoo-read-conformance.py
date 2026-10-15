@@ -55,6 +55,16 @@ MERGED_MODULES = {
     },
 }
 
+# Modules a series split out of a baseline one, needed there by these operations (family.entity) besides
+# their own: the Go dialect's entityModules (packages/odoo/provider_dialect.go).
+ENTITY_MODULES = {
+    "20.0": {
+        "structure.field_change": ["mail_tracking"],
+        "structure.change_note": ["mail_tracking"],
+    },
+}
+
+
 def canonical_hash(value):
     return "sha256:" + hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
@@ -141,6 +151,8 @@ def main():
     parser.add_argument("--renames", help="dialect renames evidence (dialect-renames-<series>.json) for a candidate series")
     parser.add_argument("--readiness", default="UNVERIFIED", choices=["UNVERIFIED", "ANY"],
                         help="which operations to run; the listed readiness is the baseline series', so a candidate series runs ANY")
+    parser.add_argument("--only", help="comma-separated operation ids: run these and nothing else, to verify a changed or new "
+                                       "operation without the whole pass")
     options = parser.parse_args()
     password = os.environ.get(options.password_env)
     if not password:
@@ -153,6 +165,12 @@ def main():
     selection = ["--readiness", "UNVERIFIED"] if options.readiness == "UNVERIFIED" else []
     listing = cli(options.odoo_bin, options.profile, "catalog", "list", "--strategy", "READ", *selection)
     operation_ids = sorted(item["id"] for item in (listing.get("data") or {}).get("items", []))
+    if options.only:
+        only = {name.strip() for name in options.only.split(",") if name.strip()}
+        unknown = only - set(operation_ids)
+        if unknown:
+            raise SystemExit(f"--only names operations the listing does not hold: {sorted(unknown)}")
+        operation_ids = [i for i in operation_ids if i in only]
     installed = {r["name"] for r in oracle.call("ir.module.module", "search_read", [[["state", "=", "installed"]]], {"fields": ["name"]})}
     # A module the series merged into another counts as installed when that one is (the Go dialect's
     # mergedModules, packages/odoo/provider_dialect.go).
@@ -163,7 +181,7 @@ def main():
     for operation_id in operation_ids:
         described = (cli(options.odoo_bin, options.profile, "catalog", "describe", "--operation", operation_id).get("data") or {})
         model = described.get("providerModel")
-        modules = described.get("requiredModules") or []
+        modules = (described.get("requiredModules") or []) + ENTITY_MODULES.get(options.series, {}).get(operation_id.rsplit(".", 1)[0], [])
         # The definition this run exercises; a promoted record is bound to it.
         result = {"modules": modules, "definitionHash": described.get("definitionHash", "")}
         results[operation_id] = result

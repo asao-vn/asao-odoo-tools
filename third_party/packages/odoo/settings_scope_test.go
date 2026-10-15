@@ -25,7 +25,8 @@ func settingsOperation(t *testing.T, id string) Odoo19Operation {
 func TestSettingsSetOnlySwitchesNumbersAndChoices(t *testing.T) {
 	update := settingsOperation(t, "structure.settings.update")
 	for _, field := range update.WizardAllowedFields {
-		typed := update.InputTypes[field] == "boolean" || update.InputTypes[field] == "integer" || len(update.InputEnums[field]) > 0
+		typed := update.InputTypes[field] == "boolean" || update.InputTypes[field] == "integer" ||
+			update.InputTypes[field] == "number" || len(update.InputEnums[field]) > 0
 		if strings.HasPrefix(field, "module_") || field == "chart_template" || field == "company_id" || !typed {
 			t.Fatalf("structure.settings.update sets %s (type %q)", field, update.InputTypes[field])
 		}

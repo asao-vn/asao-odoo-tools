@@ -1,0 +1,48 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-15T15:27:10Z",
+ "records": {
+  "finance.journal.describe": {
+   "cliHash": "sha256:6561b98b374798068e2a85b55988bac6df3ea3db5b927961ce1215ac89f45a2b",
+   "definitionHash": "sha256:6562321e0da73a681adf75b206b508cab98e17aeda0271966bfcf266d214204d",
+   "fieldCount": 31,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:6561b98b374798068e2a85b55988bac6df3ea3db5b927961ce1215ac89f45a2b",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.company.describe": {
+   "cliHash": "sha256:dd916d80fdf034cf580349a7f413c7b9b919da2570c67fa54bf401178ea97d19",
+   "definitionHash": "sha256:dbf6f7bc14fe250f55c5462925bc64c70bda4ddf9706d16362465c9261b2baf4",
+   "fieldCount": 41,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "base"
+   ],
+   "oracleHash": "sha256:dd916d80fdf034cf580349a7f413c7b9b919da2570c67fa54bf401178ea97d19",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

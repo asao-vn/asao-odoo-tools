@@ -19,6 +19,8 @@ const (
 	opLeave    = "workforce.leave.list"
 	opScrap    = "inventory.scrap.list"
 	opRFQ      = "procurement.rfq.list"
+	opEntry    = "finance.journal_entry.list"
+	opJournal  = "finance.journal.list"
 )
 
 func init() {
@@ -38,6 +40,129 @@ func init() {
 		params:   map[string]float64{"threshold": 20_000_000, "band": 0.8, "window_days": 7, "min_orders": 2},
 		run:      splitPurchases,
 	})
+	register(check{
+		id: "O07", name: "Chia nhỏ khoản chi", kind: kindSign,
+		question: "Có khoản chi nào bị tách thành nhiều lần nhỏ để lọt dưới hạn mức duyệt chi không?",
+		needs:    []string{opPayment},
+		formula:  "outbound payments to one partner within window_days, each below limit, together >= limit, at least min_payments of them, that pay parts of one bill or no bill at all",
+		params:   map[string]float64{"limit": 20_000_000, "window_days": 7, "min_payments": 2},
+		run:      splitPayments,
+	})
+}
+
+// splitPayments finds a payment cut into pieces under the approval limit. Paying several bills of one
+// vendor in a week is ordinary; what is not is several payments that each pay part of the same bill, or
+// pay no bill at all, which is how a large payment is kept under the limit.
+func splitPayments(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {
+	payments, err := b.payments(ctx, false)
+	if err != nil {
+		return nil, err
+	}
+	var outbound []map[string]interface{}
+	for _, payment := range payments {
+		if text(payment["payment_type"]) == "outbound" {
+			outbound = append(outbound, payment)
+		}
+	}
+	if err := requireField(opPayment, "reconciled_bill_ids", outbound); err != nil {
+		return nil, err
+	}
+	byPartner := map[int64][]map[string]interface{}{}
+	var partners []int64
+	for _, payment := range outbound {
+		if num(payment["amount"]) >= p["limit"] {
+			continue
+		}
+		partner := relID(payment["partner"])
+		if _, seen := byPartner[partner]; !seen {
+			partners = append(partners, partner)
+		}
+		byPartner[partner] = append(byPartner[partner], payment)
+	}
+	sort.Slice(partners, func(i, j int) bool { return partners[i] < partners[j] })
+	var out []Finding
+	for _, partner := range partners {
+		list := byPartner[partner]
+		sort.SliceStable(list, func(i, j int) bool {
+			if text(list[i]["date"]) != text(list[j]["date"]) {
+				return text(list[i]["date"]) < text(list[j]["date"])
+			}
+			return relID(list[i]["id"]) < relID(list[j]["id"])
+		})
+		var cluster []map[string]interface{}
+		var reported []string
+		for _, payment := range list {
+			when, _ := parseDay(payment["date"])
+			kept := cluster[:0:0]
+			for _, previous := range cluster {
+				before, _ := parseDay(previous["date"])
+				if float64(before.daysUntil(when)) <= p["window_days"] {
+					kept = append(kept, previous)
+				}
+			}
+			cluster = append(kept, payment)
+			total := 0.0
+			billUses := map[int64]int{}
+			var unbilled, names []string
+			for _, c := range cluster {
+				total += num(c["amount"])
+				names = append(names, text(c["name"]))
+				bills := relIDs(c["reconciled_bill_ids"])
+				if len(bills) == 0 {
+					unbilled = append(unbilled, text(c["name"]))
+				}
+				for _, bill := range bills {
+					billUses[bill]++
+				}
+			}
+			var shared []int64
+			for bill, uses := range billUses {
+				if uses > 1 {
+					shared = append(shared, bill)
+				}
+			}
+			sort.Slice(shared, func(i, j int) bool { return shared[i] < shared[j] })
+			if float64(len(cluster)) < p["min_payments"] || total < p["limit"] || (len(shared) == 0 && len(unbilled) == 0) {
+				continue
+			}
+			first, _ := parseDay(cluster[0]["date"])
+			last, _ := parseDay(cluster[len(cluster)-1]["date"])
+			span := first.daysUntil(last) + 1
+			parts := make([]string, 0, len(cluster))
+			ev := make([]Evidence, 0, len(cluster))
+			for _, c := range cluster {
+				parts = append(parts, fmt.Sprintf("%s %s ngày %s", text(c["name"]), money(num(c["amount"])), text(c["date"])))
+				ev = append(ev, evidence(opPayment, c, ""))
+			}
+			how := "trả từng phần của cùng một hoá đơn"
+			if len(shared) == 0 {
+				how = "không gắn với hoá đơn nào: " + strings.Join(unbilled, ", ")
+			} else if len(unbilled) > 0 {
+				how += "; " + strings.Join(unbilled, ", ") + " không gắn với hoá đơn nào"
+			}
+			severity := NenXuLy
+			if span <= 2 {
+				severity = XemNgay
+			}
+			name := relName(cluster[0]["partner"])
+			finding := Finding{
+				Title: "Một khoản chi có thể bị tách nhỏ dưới hạn mức duyệt", Severity: severity,
+				Subject: Subject{Type: "partner", ID: fmt.Sprint(partner), Name: name},
+				Why: fmt.Sprintf("%s: %d khoản chi trong %d ngày (%s), mỗi khoản dưới hạn mức %s, cộng lại %s; %s.",
+					name, len(cluster), span, strings.Join(parts, ", "), money(p["limit"]), money(total), how),
+				AmountVND: total, Evidence: ev,
+				Facts: map[string]interface{}{"payments": names, "total": total, "limit": p["limit"], "days": span,
+					"sharedBills": shared, "unbilled": unbilled},
+			}
+			// A growing cluster replaces the finding it grew from.
+			if len(reported) > 0 && containsAll(names, reported) {
+				out = out[:len(out)-1]
+			}
+			out = append(out, finding)
+			reported = names
+		}
+	}
+	return out, nil
 }
 
 func duplicateBills(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {

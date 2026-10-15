@@ -38,6 +38,34 @@ func (d date) before(other date) bool   { return d.t.Before(other.t) }
 func (d date) after(other date) bool    { return d.t.After(other.t) }
 func (d date) daysUntil(other date) int { return int(other.t.Sub(d.t).Hours() / 24) }
 
+// monthEnd is the last day of the date's month.
+func (d date) monthEnd() date {
+	y, m, _ := d.t.Date()
+	return date{time.Date(y, m+1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1)}
+}
+
+// unreadable is a read that answered without a field a check needs (an older odoo-cli, or a field this Odoo
+// does not have): the check is not run, and the report says why, rather than reporting nothing found.
+type unreadable struct{ operation, field string }
+
+func (u unreadable) Error() string { return u.operation + " does not return " + u.field }
+func (u unreadable) Refusal() string {
+	return fmt.Sprintf("%s does not return %s: update odoo-cli (0.11 or later), or this Odoo lacks the field", u.operation, u.field)
+}
+
+// requireField answers unreadable when rows exist and none carries field.
+func requireField(operation, field string, rows []map[string]interface{}) error {
+	for _, row := range rows {
+		if _, ok := row[field]; ok {
+			return nil
+		}
+	}
+	if len(rows) == 0 {
+		return nil
+	}
+	return unreadable{operation, field}
+}
+
 // books are the records of one Odoo over one period, read once and shared by every check.
 type books struct {
 	reader       Reader
@@ -131,6 +159,19 @@ func (b *books) payments(ctx context.Context, history bool) ([]map[string]interf
 
 func (b *books) contacts(ctx context.Context) ([]map[string]interface{}, error) {
 	return b.read(ctx, "identity.contact.list", nil)
+}
+
+// journalTypes maps each journal to its type: sale, purchase, cash, bank, general.
+func (b *books) journalTypes(ctx context.Context) (map[int64]string, error) {
+	rows, err := b.read(ctx, opJournal, nil)
+	if err != nil {
+		return nil, err
+	}
+	types := make(map[int64]string, len(rows))
+	for _, row := range rows {
+		types[relID(row["id"])] = text(row["type"])
+	}
+	return types, nil
 }
 
 // cost is a product variant's cost: its template's standard price.

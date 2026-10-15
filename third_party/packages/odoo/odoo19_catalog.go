@@ -525,25 +525,34 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"project"},
 		RequiredCapability: "work.task.read", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		ProviderModel: "project.task", ReadFields: []string{"id", "name", "project_id", "stage_id", "state", "user_ids"},
-		// Dates, hours and customer: what a delivery or workload statistic groups and sums by.
-		OptionalReadFields: []string{"create_date", "date_deadline", "date_last_stage_update", "allocated_hours", "effective_hours", "partner_id", "milestone_id"},
+		// Dates, hours and customer: what a delivery or workload statistic groups and sums by. Priority,
+		// tags and the recurrence: how a routine sorts the day's work into daily, weekly and monthly.
+		OptionalReadFields: []string{"create_date", "date_deadline", "date_last_stage_update", "allocated_hours", "effective_hours", "partner_id", "milestone_id",
+			"priority", "tag_ids", "recurring_task", "repeat_interval", "repeat_unit", "repeat_type", "repeat_until"},
 	},
 	{
 		SemanticID: "work.task.describe", Kind: KindRead, Strategy: StrategyRead,
 		RequiredModules:    []string{"project"},
 		RequiredCapability: "work.task.read", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		ProviderModel: "project.task", ReadFields: []string{"id", "name", "project_id", "stage_id", "state", "user_ids", "parent_id", "milestone_id"},
+		OptionalReadFields: []string{"description", "date_deadline", "priority", "tag_ids", "recurring_task", "recurring_count",
+			"repeat_interval", "repeat_unit", "repeat_type", "repeat_until"},
 	},
 	{
 		SemanticID: "work.task.create", Kind: KindCommand, Strategy: StrategyFieldWrite,
 		RequiredModules:    []string{"project"},
 		RequiredCapability: "work.task.write", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		ProviderModel: "project.task", WriteMode: WriteModeCreate,
-		AllowedFields: []string{"name", "project_id", "user_ids", "parent_id"},
+		// A recurring task: recurring_task with the repeat fields makes Odoo create the task's
+		// project.task.recurrence itself (project_task.py create). Odoo then makes the next occurrence
+		// when this one is closed (done or cancelled), not on a calendar.
+		AllowedFields: []string{"name", "project_id", "user_ids", "parent_id", "description", "date_deadline", "priority", "tag_ids",
+			"recurring_task", "repeat_interval", "repeat_unit", "repeat_type", "repeat_until"},
 		Relations: map[string]RelationSpec{
 			"project_id": {TargetModel: "project.project", SearchField: "name"},
 			"parent_id":  {TargetModel: "project.task", SearchField: "name"},
 			"user_ids":   {TargetModel: "res.users", SearchField: "name", Multi: true},
+			"tag_ids":    {TargetModel: "project.tags", SearchField: "name", Multi: true},
 		},
 	},
 	{
@@ -555,10 +564,12 @@ var odoo19Catalog = []Odoo19Operation{
 		// core Odoo drives this lifecycle via direct field writes, so
 		// FIELD_WRITE is the empirically-correct strategy, not METHOD_CALL.
 		ProviderModel: "project.task", WriteMode: WriteModeUpdate,
-		AllowedFields: []string{"name", "state", "stage_id", "user_ids", "date_deadline"},
+		AllowedFields: []string{"name", "state", "stage_id", "user_ids", "date_deadline", "description", "priority", "tag_ids",
+			"recurring_task", "repeat_interval", "repeat_unit", "repeat_type", "repeat_until"},
 		Relations: map[string]RelationSpec{
 			"stage_id": {TargetModel: "project.task.type", SearchField: "name"},
 			"user_ids": {TargetModel: "res.users", SearchField: "name", Multi: true},
+			"tag_ids":  {TargetModel: "project.tags", SearchField: "name", Multi: true},
 		},
 		PostconditionVerifyOperation: "work.task.describe",
 		PostconditionComparison:      "EQUALS",
@@ -1233,7 +1244,11 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"account"},
 		RequiredCapability: "finance.invoice.read", Risk: RiskLow, Confidence: "LIVE_READ_VERIFIED",
 		ProviderModel: "account.payment", ReadFields: []string{"id", "name", "partner_id", "amount", "currency_id", "date", "state", "payment_type", "journal_id", "move_id"},
-		OptionalReadFields: []string{"is_reconciled", "memo"},
+		// The bank account paid into, the bills and invoices the payment settles, and who made it when:
+		// what a review needs to see a payment split under a limit, sent to another account, or made
+		// by the person who created the vendor.
+		OptionalReadFields: []string{"is_reconciled", "memo", "partner_type", "partner_bank_id", "reconciled_bill_ids", "reconciled_invoice_ids",
+			"create_uid", "create_date"},
 	},
 	{
 		SemanticID: "finance.payment.describe", Kind: KindRead, Strategy: StrategyRead,

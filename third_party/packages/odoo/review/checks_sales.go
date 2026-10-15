@@ -29,7 +29,7 @@ func init() {
 		id: "O21", name: "Giảm trừ sau khi đã thu tiền", kind: kindSign,
 		question: "Có hoá đơn đã thu đủ tiền rồi mới bị giảm trừ và chi trả lại không?",
 		needs:    []string{opInvoice},
-		formula:  "a credit note reversing a customer invoice, dated >= min_days after it, and paid out",
+		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out (a credit note that only cancels an unpaid invoice moves no money and is not one)",
 		params:   map[string]float64{"min_days": 7},
 		run:      creditNoteAfterPayment,
 	})
@@ -40,6 +40,14 @@ func init() {
 		formula:  "two inbound payments of one customer with the same amount, <= window_days apart, at least one not reconciled",
 		params:   map[string]float64{"window_days": 3},
 		run:      duplicatePayments,
+	})
+	register(check{
+		id: "O02", name: "Hoá đơn bán trùng", kind: kindErr,
+		question: "Có khách nào bị xuất hoá đơn hai lần cho cùng một lần bán không?",
+		needs:    []string{opInvoice, opLine},
+		formula:  "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed by a credit note; XEM_NGAY when their lines are the same",
+		params:   map[string]float64{"window_days": 3},
+		run:      duplicateInvoices,
 	})
 	register(check{
 		id: "O15", name: "Công nợ quá hạn", kind: kindStat,
@@ -243,6 +251,14 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 		gap := d1.daysUntil(d2)
 		status := text(refund["payment_status"])
 		refunded := status == "paid" || status == "in_payment"
+		// A credit note that cancels an unpaid invoice is settled by that invoice: Odoo marks the credit
+		// note paid and the invoice reversed, and no money moved. Only an invoice the customer had paid,
+		// then refunded, is this check's case.
+		switch text(original["payment_status"]) {
+		case "paid", "in_payment", "partial":
+		default:
+			continue
+		}
 		if float64(gap) < p["min_days"] || !refunded {
 			continue
 		}
@@ -383,6 +399,90 @@ func receivablesAging(ctx context.Context, b *books, p map[string]float64) ([]Fi
 			AmountVND: total, Evidence: ev,
 			Facts: map[string]interface{}{"customer": customer, "buckets": overdue[customer], "total": total, "oldestDays": worst[customer]},
 		})
+	}
+	return out, nil
+}
+
+// duplicateInvoices finds a customer invoiced twice for one sale: the same customer and total within a few
+// days. The lines decide how sure it is: the same products, quantities and prices are a re-issued invoice;
+// different lines that happen to total the same are worth a look, no more. An invoice already reversed by a
+// credit note was dealt with.
+func duplicateInvoices(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {
+	invoices, err := b.invoices(ctx, false, "out_invoice")
+	if err != nil {
+		return nil, err
+	}
+	refunds, err := b.invoices(ctx, true, "out_refund")
+	if err != nil {
+		return nil, err
+	}
+	reversed := map[int64]bool{}
+	for _, refund := range refunds {
+		reversed[relID(refund["reversed_entry_id"])] = true
+	}
+	lines, err := b.invoiceLines(ctx)
+	if err != nil {
+		return nil, err
+	}
+	signature := map[int64][]string{}
+	for _, line := range lines {
+		move := relID(line["move_id"])
+		signature[move] = append(signature[move], fmt.Sprintf("%d:%g:%g", relID(line["product_id"]), num(line["quantity"]), num(line["price_unit"])))
+	}
+	sameLines := func(a, z int64) bool {
+		x, y := append([]string(nil), signature[a]...), append([]string(nil), signature[z]...)
+		sort.Strings(x)
+		sort.Strings(y)
+		return len(x) > 0 && strings.Join(x, "|") == strings.Join(y, "|")
+	}
+	byKey := map[string][]map[string]interface{}{}
+	var keys []string
+	for _, invoice := range invoices {
+		if reversed[relID(invoice["id"])] {
+			continue
+		}
+		key := fmt.Sprintf("%d/%d", relID(invoice["partner"]), int64(math.Round(num(invoice["total_amount"]))))
+		if _, seen := byKey[key]; !seen {
+			keys = append(keys, key)
+		}
+		byKey[key] = append(byKey[key], invoice)
+	}
+	sort.Strings(keys)
+	var out []Finding
+	for _, key := range keys {
+		same := byKey[key]
+		sort.SliceStable(same, func(i, j int) bool {
+			if text(same[i]["invoice_date"]) != text(same[j]["invoice_date"]) {
+				return text(same[i]["invoice_date"]) < text(same[j]["invoice_date"])
+			}
+			return relID(same[i]["id"]) < relID(same[j]["id"])
+		})
+		for i := 0; i+1 < len(same); i++ {
+			first, second := same[i], same[i+1]
+			d1, _ := parseDay(first["invoice_date"])
+			d2, _ := parseDay(second["invoice_date"])
+			gap := d1.daysUntil(d2)
+			if float64(gap) > p["window_days"] {
+				continue
+			}
+			identical := sameLines(relID(first["id"]), relID(second["id"]))
+			severity, lineWords := NenXuLy, "các dòng hàng khác nhau"
+			if identical {
+				severity, lineWords = XemNgay, "cùng các dòng hàng, số lượng và đơn giá"
+			}
+			customer := relName(first["partner"])
+			out = append(out, Finding{
+				Title: "Một lần bán có thể bị xuất hoá đơn hai lần", Severity: severity,
+				Subject: Subject{Type: "customer", ID: fmt.Sprint(relID(first["partner"])), Name: customer},
+				Why: fmt.Sprintf("%s: %s (%s) và %s (%s), cùng %s, %s; chưa hoá đơn nào bị giảm trừ.",
+					customer, text(first["name"]), text(first["invoice_date"]), text(second["name"]), text(second["invoice_date"]),
+					money(num(first["total_amount"])), lineWords),
+				AmountVND: num(second["total_amount"]),
+				Evidence:  []Evidence{evidence(opInvoice, first, ""), evidence(opInvoice, second, "")},
+				Facts: map[string]interface{}{"daysApart": gap, "sameLines": identical,
+					"paymentStatus": []string{text(first["payment_status"]), text(second["payment_status"])}},
+			})
+		}
 	}
 	return out, nil
 }

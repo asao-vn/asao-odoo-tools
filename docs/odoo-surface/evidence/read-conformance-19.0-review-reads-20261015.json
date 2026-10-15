@@ -1,0 +1,111 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-15T13:56:55Z",
+ "records": {
+  "finance.journal_entry.describe": {
+   "cliHash": "sha256:f61a7a4ba6effd8e87d060e5b3c908a9c4adbd6ea5a495a8ce38dd1eb06cef1e",
+   "definitionHash": "sha256:2f1924b612471aa21de91fe9aebd6ff0fb75ba216cb794320739d152f0e0bca5",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:3c54d17519d90713af7cae0e0a732d464cfb826b341266469ff2e0e51c4efe73",
+   "providerDomain": true,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.journal_entry.list": {
+   "cliHash": "sha256:62053f5f6d6e2ea3430d32baf5bb6f766e0881c2788b01e2d0185cd6af2246e7",
+   "definitionHash": "sha256:2f1924b612471aa21de91fe9aebd6ff0fb75ba216cb794320739d152f0e0bca5",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:62053f5f6d6e2ea3430d32baf5bb6f766e0881c2788b01e2d0185cd6af2246e7",
+   "providerDomain": true,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.payment.list": {
+   "cliHash": "sha256:e333d85ee7eb33b296cd703526c26267d1da5b0fdb1594c19042c32f34143925",
+   "definitionHash": "sha256:cb4df6413b5db511fefaeb91a11395d016f5a97510628624406e158c32a34471",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:e333d85ee7eb33b296cd703526c26267d1da5b0fdb1594c19042c32f34143925",
+   "providerDomain": false,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "structure.change_note.describe": {
+   "cliHash": "sha256:d57ecc963eb0d359b23a679c4efbbe41e7b2538b8400962b730a7d064a9c55fc",
+   "definitionHash": "sha256:7f9f38c0850d70e64d0add68c83b6ddfa5f90b50acfff7f153e6ab0db3bcfcaa",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mail"
+   ],
+   "oracleHash": "sha256:d57ecc963eb0d359b23a679c4efbbe41e7b2538b8400962b730a7d064a9c55fc",
+   "providerDomain": true,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.change_note.list": {
+   "cliHash": "sha256:58ab9b36c0a79ee3047f89984a6276476c66bb371aa76a9add8743df56c39e4b",
+   "definitionHash": "sha256:7f9f38c0850d70e64d0add68c83b6ddfa5f90b50acfff7f153e6ab0db3bcfcaa",
+   "kind": "list",
+   "modules": [
+    "mail"
+   ],
+   "oracleHash": "sha256:58ab9b36c0a79ee3047f89984a6276476c66bb371aa76a9add8743df56c39e4b",
+   "providerDomain": true,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "structure.field_change.describe": {
+   "cliHash": "sha256:8df64e74c8d3949fca80ec32dd7e7f71a6fabca2cd91160e7122a7484230cb7f",
+   "definitionHash": "sha256:f905bcb0d291c31a4a4224f27e7f7cb5bd6e37c36e646e227ec1282e94076737",
+   "fieldCount": 17,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mail"
+   ],
+   "oracleHash": "sha256:919d6b7cbdc335d4b3c56cd930ba7219fc3472e2cdbbbef2592d1e7484eb9d6a",
+   "providerDomain": true,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.field_change.list": {
+   "cliHash": "sha256:a98dd05739c6af5dba2e1fd63fbb67a5557872b643dbe3418733a379929315da",
+   "definitionHash": "sha256:f905bcb0d291c31a4a4224f27e7f7cb5bd6e37c36e646e227ec1282e94076737",
+   "kind": "list",
+   "modules": [
+    "mail"
+   ],
+   "oracleHash": "sha256:a98dd05739c6af5dba2e1fd63fbb67a5557872b643dbe3418733a379929315da",
+   "providerDomain": true,
+   "recordCount": 5,
+   "status": "AGREE"
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

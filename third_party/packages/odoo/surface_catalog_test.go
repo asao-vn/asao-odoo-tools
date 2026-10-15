@@ -68,9 +68,18 @@ func TestSurfaceOperationsClaimNothing(t *testing.T) {
 		// (scripts/dev/odoo-write-conformance.py) each have their oracle-backed run. An action or a
 		// wizard, or a guarded delete, is promoted only on the action runner's evidence
 		// (scripts/dev/odoo-action-conformance.py: the CLI and an independent web-client oracle effected
-		// the same transition on twin records, or deleted fresh twins and nothing else).
+		// the same transition on twin records, or deleted fresh twins and nothing else). The Settings
+		// page's save has no record and no button for that runner to reach: it is promoted only on the
+		// settings runner's evidence (scripts/dev/odoo-settings-conformance.py: every setting set
+		// through the CLI, read back by an oracle that opens the page, and restored).
 		if op.Strategy == StrategyMethodCall || op.Strategy == StrategyWizard || op.Strategy == StrategyDestructiveGuarded {
 			for _, ref := range evidenceOf[op.SemanticID] {
+				if op.SemanticID == "structure.settings.update" {
+					if !strings.Contains(ref, "/settings-conformance-") {
+						t.Fatalf("%s is promoted on %s, which is not settings conformance evidence", op.SemanticID, ref)
+					}
+					continue
+				}
 				if !strings.Contains(ref, "/action-conformance-") {
 					t.Fatalf("%s is promoted on %s, which is not action conformance evidence", op.SemanticID, ref)
 				}

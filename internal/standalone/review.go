@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
+	"github.com/asao-platform/atoc/packages/odoo/controls"
 	"github.com/asao-platform/atoc/packages/odoo/direct"
 	"github.com/asao-platform/atoc/packages/odoo/review"
 )
@@ -78,7 +79,8 @@ reason. "review checks" lists the checks with the note an agent reads before it 
 					continue
 				}
 				out = append(out, map[string]interface{}{"id": c.ID, "name": c.Name, "question": c.Question, "kind": c.Kind,
-					"needs": c.Needs, "formula": c.Formula, "params": c.Params, "knowledge": review.Knowledge(c.ID)})
+					"needs": c.Needs, "formula": c.Formula, "params": c.Params, "knowledge": review.Knowledge(c.ID),
+					"preventedBy": controls.PreventedBy(c.ID)})
 			}
 			return map[string]interface{}{"checks": out, "count": len(out)}, nil
 		},

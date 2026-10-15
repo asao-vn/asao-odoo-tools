@@ -1,0 +1,31 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "create through the CLI with every required, non-defaulted field (related records: the provider's first of the target model), read back by an independent JSON-RPC oracle and compared value by value; then one simple field updated through the CLI and read back; an update with no create beside it updates one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written under its baseline name and read back under the series name. Field names, statuses and hashes only.",
+ "provider": {
+  "endpointHash": "sha256:89e72142c100b61b9e2f341da2b43adbbf5d742ce9622b3cdd70652f9023383b",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-15T16:01:18Z",
+ "records": {
+  "structure.company.update": {
+   "definitionHash": "sha256:b3e56b0bbef02554ac17b44650822a20bc4dc78e5b48425e42343ff2fc2b4309",
+   "fieldType": "char",
+   "kind": "update-existing",
+   "modules": [
+    "base"
+   ],
+   "restored": true,
+   "status": "AGREE",
+   "writtenFields": [
+    "name"
+   ]
+  }
+ },
+ "renames": "docs/architecture/provider-research/odoo-surface/dialect-renames-20.0.json",
+ "schemaVersion": "odoo.write-conformance-run/v1"
+}

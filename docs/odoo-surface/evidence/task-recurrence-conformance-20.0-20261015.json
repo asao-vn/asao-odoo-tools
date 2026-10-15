@@ -1,0 +1,99 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "a recurring task created through the CLI with project and tags by name, priority, deadline, description and a weekly recurrence; read back by an independent JSON-RPC oracle and through the CLI's describe and list, compared field by field; updated to a monthly recurrence with an end date, another priority and tags, read back; then closed through the CLI, after which the provider must hold exactly one new open task in the same recurrence, due one month later. Field names, statuses and hashes only. The tasks were deleted afterwards.",
+ "provider": {
+  "endpointHash": "sha256:89e72142c100b61b9e2f341da2b43adbbf5d742ce9622b3cdd70652f9023383b",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-15T11:13:23Z",
+ "records": {
+  "work.task.create": {
+   "checkedFields": [
+    "description",
+    "due_on",
+    "name",
+    "priority",
+    "project",
+    "recurrence",
+    "recurring",
+    "repeat_every",
+    "repeat_type",
+    "repeat_unit",
+    "tags"
+   ],
+   "definitionHash": "sha256:c693bf5bb210edb68f27f1635e31d0910f9b41c6ba37eb73de0641f9fb642498",
+   "failures": [],
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE"
+  },
+  "work.task.describe": {
+   "checkedFields": [
+    "due_on",
+    "name",
+    "occurrences",
+    "priority",
+    "project",
+    "recurring",
+    "repeat_every",
+    "repeat_type",
+    "repeat_unit",
+    "repeat_until",
+    "tags"
+   ],
+   "definitionHash": "sha256:4a02a25db183b19bbf1c69da6dcebbbef4fe9653ba4911817c7ac0dd76ad621e",
+   "failures": [],
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE"
+  },
+  "work.task.list": {
+   "checkedFields": [
+    "due_on",
+    "name",
+    "priority",
+    "project",
+    "recurring",
+    "repeat_every",
+    "repeat_type",
+    "repeat_unit",
+    "repeat_until",
+    "tags"
+   ],
+   "definitionHash": "sha256:b879f47f319406e8aa8b428073c3c1bebf71cabf60e70f8e9cb192a4b59c06de",
+   "failures": [],
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE"
+  },
+  "work.task.update": {
+   "checkedFields": [
+    "description",
+    "next_occurrence",
+    "next_occurrence_due_on",
+    "next_occurrence_open",
+    "priority",
+    "repeat_type",
+    "repeat_unit",
+    "repeat_until",
+    "state",
+    "tags"
+   ],
+   "definitionHash": "sha256:51a0c457dd4ca45d0019a24d3b67ed41c07bc1fc756968e7fa2ff96909a9de5b",
+   "failures": [],
+   "modules": [
+    "project"
+   ],
+   "status": "AGREE"
+  }
+ },
+ "schemaVersion": "odoo.task-recurrence-conformance-run/v1"
+}

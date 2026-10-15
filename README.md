@@ -12,23 +12,24 @@ can drive Odoo through it as dependably as a person does through the web client.
 
 ## What it covers
 
-1353 operations over the business apps of Odoo Community 19.0. 1285 of them are verified on the stock
+1357 operations over the business apps of Odoo Community 19.0. 1290 of them are verified on the stock
 image. On Odoo Community 20.0, a candidate series (run with `--allow-unverified` until it is
-supported), 1170 of the 1291 operations 20.0 can run are verified; the other 62 need models, dialogs
+supported), 1176 of the 1295 operations 20.0 can run are verified; the other 62 need models, dialogs
 or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 
 | Kind | Operations | Verified |
 |---|---:|---:|
-| Read, list, group and paginate | 580 | 578 |
+| Read, list, group and paginate | 584 | 582 |
 | Create and update | 553 | 539 |
 | Business actions (form and list buttons) | 177 | 132 |
-| Dialogs (wizards) | 27 | 20 |
+| Dialogs (wizards) | 27 | 21 |
 | Print a document's PDF | 7 | 7 |
 | Guarded deletes | 8 | 8 |
 | Install a module | 1 | 1 |
 
 - **Apps:**
-  - Contacts, CRM, Sales, Invoicing and accounting, Purchase, Inventory, Manufacturing and Project.
+  - Contacts, CRM, Sales, Invoicing and accounting, Purchase, Inventory, Manufacturing and Project
+    (recurring tasks included).
   - Employees, Skills, Time Off, Attendances, Expenses and Recruitment.
   - Point of Sale with Restaurant, Calendar, Website, Discuss and To-Do.
   - Fleet, Maintenance, Repairs, Events and Surveys.
@@ -41,6 +42,10 @@ or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 - **Business as code:** `odoo-cli spec plan|apply` brings an Odoo to a YAML description of a company:
   settings, products, website pages and more. The same spec rebuilds the same company on a blank
   database.
+- **Change history:** who changed which field of a record, when, and from what to what
+  (`structure.field_change.list`, `structure.change_note.list`), for the fields a review needs: payee
+  bank accounts, partners' tax numbers, document states and dates, lock dates, prices. Odoo shows it
+  to administrators only; on 20.0 it needs the `mail_tracking` module.
 - **Prints:** the PDFs equal the browser's own download, page for page and word for word.
 
 **How "verified" is earned.** Each operation runs on a lab with the stock Odoo image. Its result is
@@ -126,12 +131,13 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 597 tools:
-  - the 587 verified reads;
-  - catalog discovery, the pre-flight check and the review (`review run`, `review checks`);
+- **Reads by default:** 605 tools:
+  - the 591 verified reads;
+  - catalog discovery, the pre-flight check, the review (`review run`, `review checks`), the
+    controls (`controls list`, `status`, `plan`) and `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1367 tools. The 54 high-risk and destructive operations run only after
+- **With `--allow-writes`:** 1370 tools. The 54 high-risk and destructive operations run only after
   you confirm each call in the agent host.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
@@ -144,9 +150,26 @@ The server acts with the full authority of the profile's Odoo credential. It bou
 [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md) for how it compares with
 Odoo's own MCP server.
 
+### When odoo-cli gets it wrong: `odoo-cli report draft`
+
+An agent is told, in the server's instructions and in every internal error, to offer you a report
+when odoo-cli itself fails it: an internal error, a result that contradicts the command's
+description, misleading help, or a gap it had to work around. It runs `odoo-cli report draft`, which
+builds the report **on your machine and sends nothing**. Endpoints, databases, logins and profile
+names from your profile file, URLs, e-mail addresses, IP addresses, phone-like numbers, long tokens
+and `password=`-style values are scrubbed first, and command flags and values are dropped. The agent
+shows you the draft and asks. If you agree, it gives you a link that opens a prefilled issue in this
+repository, and GitHub shows you the report again before you press Submit. The fingerprint in the
+title finds earlier reports of the same fault, so you can add to one instead.
+
+```sh
+odoo-cli report draft --kind WORKAROUND_USED --command "inventory transfer list" \
+  --summary "no scheduled_date in the list" --workaround "read stock.picking with explore" --output json
+```
+
 ## Review the books: `odoo-cli review`
 
-Fourteen fixed checks find mistakes, duplicates and signs of fraud in a period of your Odoo's books,
+Twenty fixed checks find mistakes, duplicates and signs of fraud in a period of your Odoo's books,
 and the period's figures month by month:
 
 ```sh
@@ -155,21 +178,67 @@ odoo-cli review checks --output json      # each check: question, formula, thres
 ```
 
 - **What the checks look for:**
-  - bills or payments entered twice, duplicate partners;
+  - bills, customer invoices or payments entered twice, duplicate partners;
   - a supplier paid into an employee's account, a new supplier paid fast;
-  - orders split under the approval threshold;
+  - orders split under the approval threshold, a payment cut into pieces under it;
   - sales below cost, a tax rate unlike the product's;
   - refunds after payment;
+  - documents dated back into a month that had ended, revenue booked at a month's end and credited
+    early in the next;
+  - in Vietnam, purchases of 5 million đồng or more paid in cash, as one bill or as several bills of
+    one seller on one day: they lose the input VAT deduction (Nghị định 181/2025/NĐ-CP, Điều 26);
   - expenses claimed twice, on leave or in round amounts;
   - valuable scrap;
   - overdue receivables.
 - **What each finding carries:** its formula, its thresholds (`--param O01.window_days=10`) and the
   records that are its evidence.
 - **How to read a finding:** it says *cần xem lại*, "look at again", and is never a verdict.
-- **A check that cannot read** (a module not installed, a model the series removed) is listed as not
-  run, with the reason.
-- **Proof:** the checks were proven on a simulated business with 16 planted cases (all found, no
-  decoy flagged). Agents get them as MCP tools, and the reading notes come with them.
+- **A check that cannot read** (a module not installed, a model the series removed, a field the read
+  does not return) is listed as not run, with the reason, never as clean.
+- **Proof:** the checks were proven on a simulated business with 24 planted cases, all found, and 11
+  look-alikes, none flagged. Agents get them as MCP tools, and the reading notes come with them.
+
+## Turn on Odoo's own controls: `odoo-cli controls`
+
+The review finds problems after they happened. Most of them have a switch in Odoo that would have
+stopped them. `odoo-cli controls` says which, reads whether each is on, and turns the reversible ones
+on through verified operations. Nothing is added to Odoo.
+
+```sh
+odoo-cli controls list --output json                       # what each does, where Odoo enforces it, whether it can be undone
+odoo-cli controls status --profile my-odoo --output json   # ON, OFF, PARTIAL or NOT_AVAILABLE
+odoo-cli controls plan --profile my-odoo --enable K01,K04 \
+    --param K01.amount=20000000 --param K04.date=2026-09-30 --output json
+odoo-cli controls apply --profile my-odoo --enable K01,K04 \
+    --param K01.amount=20000000 --param K04.date=2026-09-30 --plan-hash sha256:... --output json
+```
+
+| Control | What Odoo does once it is on | Where Odoo enforces it |
+|---|---|---|
+| K01 Purchase approval from an amount | an order at or over the amount waits for a Purchase Administrator | server |
+| K02 Lock approved purchase orders | read-only in the web client; cannot be cancelled while locked | web client |
+| K03 Lock confirmed sales orders | the same, for sales orders | web client |
+| K04 Lock the books up to a date | entries of the locked period cannot change; a late document is posted after the lock date. Community has no screen for lock dates | server |
+| K05 Restrictive audit trail | posted entries, their attachments and their change log cannot be deleted | server |
+| K06 Hash posted entries | posted entries can only be reversed. **odoo-cli never turns it on**: Odoo never lets it be undone, so `controls plan` says how to do it in Odoo | server |
+| K07 Customer credit limit | a warning on quotations and draft invoices | warning only |
+| K08 Two-step sign-in for employees | a code by email at sign-in; Odoo then refuses employees' passwords over the API, so integrations need API keys | server |
+
+- **Odoo's limits are said plainly:** "web client" means a caller of the API is not stopped, and K07
+  only warns.
+- **Safe by construction:**
+  - `apply` only turns controls on, and refuses a plan that changed since you reviewed it
+    (`--plan-hash`);
+  - it never moves a lock date back, never sets the hard lock date, and never weakens a stronger
+    setting already on;
+  - an agent can list, read and plan; applying stays with you.
+- **The review points at them:** a finding of `O16` or `O26` names the control that would have
+  prevented it (`review checks` lists them as `preventedBy`).
+- **Proof:** on Odoo 19.0 and 20.0 labs, each control was turned on through odoo-cli, and what Odoo then
+  does was exercised: an order over the amount waited for approval, an entry of a locked period could
+  not be reset to draft, a posted bill could not be deleted, a password was refused over RPC. Then
+  everything was put back (`conformance/odoo-controls-conformance.py`). Saving the Settings page is now
+  verified setting by setting on both series.
 
 ## Any model: `odoo-cli explore`
 
@@ -243,7 +312,7 @@ pip install asao-erp
     abandoned-cart reminders, survey reminders, lunch notifications.
   - Creating a user or a company from another record.
   - Paid IAP services (lead generation, enrichment, SMS credits).
-- **Not verified yet:** 68 operations, most of them writes and actions whose records the lab's data
+- **Not verified yet:** 67 operations, most of them writes and actions whose records the lab's data
   cannot supply, or whose business rules refuse generic values.
 - **Self-update:** `odoo-cli update` needs a signed release channel that is not published yet. To
   update, run the installer again.
@@ -296,10 +365,10 @@ no warranty; the license and its terms stay the same.
 
 ## Tiếng Việt
 
-`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1353 thao tác nghiệp vụ, trong đó 1285 thao
+`odoo-cli` là công cụ dòng lệnh cho **Odoo Community**. Nó có 1357 thao tác nghiệp vụ, trong đó 1290 thao
 tác đã được kiểm chứng trên bản Odoo 19.0 chuẩn: đọc, ghi, bấm nút nghiệp vụ, hộp thoại, in PDF và xoá
-có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent. Trên Odoo 20.0, 1170 trong
-1291 thao tác áp dụng được đã được kiểm chứng.
+có kiểm soát. Mọi lệnh trả về JSON, dùng được cho script, notebook và AI agent. Trên Odoo 20.0, 1176 trong
+1295 thao tác áp dụng được đã được kiểm chứng.
 
 **Tự kiểm lại được.** Workflow `conformance` chạy công khai mỗi tuần và mỗi lần phát hành:
 - dựng Odoo 19.0 và 20.0 từ image chính hãng (ghim theo digest);
@@ -321,12 +390,19 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 597 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+- **Mặc định chỉ đọc:** 605 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
 - **Thêm `--allow-writes`:** agent được ghi. 54 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
   từng lần.
 - **Agent không tự chọn được:** profile, việc chấp nhận kết quả chưa kiểm chứng, hay việc ghi file lên máy
   bạn.
+
+**Chốt kiểm soát của chính Odoo:** `odoo-cli controls` cho biết công tắc nào trong Odoo chặn trước được
+việc phép kiểm tìm ra: duyệt đơn mua từ một mức tiền, khoá sổ đến một ngày, không cho xoá dấu vết kế toán,
+hạn mức nợ của khách, xác thực hai bước cho nhân viên... Nó đọc xem công tắc nào đang bật, và bật những cái
+tắt lại được qua thao tác đã kiểm chứng, có kế hoạch để bạn xem trước.
+- Odoo Community không có màn hình đặt ngày khoá sổ; odoo-cli đặt được, và không bao giờ lùi ngày khoá.
+- Niêm phong bút toán bằng mã băm thì odoo-cli không bật, vì Odoo không cho tắt lại.
 
 **Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
 trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệch thao tác nào; 415/553 thao tác ghi và

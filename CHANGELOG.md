@@ -1,5 +1,78 @@
 # Changelog
 
+## 0.11.0 (2026-10-16)
+
+1357 operations: 1290 verified on 19.0, and 1176 of the 1295 that 20.0 can run.
+
+- **`odoo-cli controls`: Odoo's own switches that stop what the review finds.** Eight controls:
+  purchase approval from an amount, locked purchase and sales orders, lock dates, the restrictive
+  audit trail, hashed entries, customer credit limits and two-step sign-in for employees. Each says
+  what Odoo does once it is on (read in Odoo's source), where Odoo enforces it (server, web client
+  only, or a warning) and whether it can be undone.
+  - `controls status` reads them; `controls plan` and `controls apply --plan-hash` turn the reversible
+    ones on through the spec engine and the catalog's verified operations.
+  - It never moves a lock date back, never sets the hard lock date, never hashes a journal (Odoo never
+    lets that be undone) and never weakens a stronger setting already on.
+  - Odoo Community has no screen for lock dates: odoo-cli sets them.
+  - Agents may list, read and plan; applying stays with the person. `review checks` and the markdown
+    report name the control that would have prevented a finding.
+  - Proven on 19.0 and 20.0 by `conformance/odoo-controls-conformance.py`: each control turned on
+    through the CLI, then what Odoo does exercised through an independent oracle (an order over the
+    amount waits for approval, an entry of a locked period cannot be reset to draft, a posted bill
+    cannot be deleted, an employee's password is refused over RPC), then everything restored.
+  - Two things the run found in Odoo itself are now in the controls' text. A document dated in a
+    locked period is posted with its accounting date moved after the lock, not refused. Once two-step
+    sign-in is required of employees, their passwords no longer work over RPC.
+- **Saving the Settings page is verified.** `structure.settings.update` had no runner: it has no
+  record and no button. `conformance/odoo-settings-conformance.py` sets every setting through the
+  CLI, reads it back as the page opens it, and restores it. Verified on 19.0 and 20.0; the two
+  settings 20.0 removed are left out of the read and refused on write.
+  - New settings: the purchase approval amount, the restrictive audit trail, the customer credit
+    limit and its default.
+  - The timesheet reminders are gone: Community declares them but keeps neither.
+  - Company reads and writes take the four soft lock dates. Reads also show the hard lock date and a
+    journal's hash switch, which the catalog never writes.
+  - The labs install `hr_timesheet`, whose settings the page offers, and run both new workflows.
+
+- **Agents can report a fault in odoo-cli, and you decide whether it is filed.** `odoo-cli report
+  draft` builds a scrubbed report on your machine and sends nothing; you file it through a prefilled
+  GitHub link. Internal errors and the MCP server's instructions point agents at it.
+
+- **Six more review checks, 20 in all.** Each was planted, with a look-alike it must leave alone, in the
+  simulated business the review is proven on:
+  - `O02` a customer invoiced twice for one sale (the same lines are XEM_NGAY);
+  - `O07` a payment cut into pieces under the approval limit: parts of one bill, or no bill at all;
+  - `O26` documents dated back into a month that had ended: customer invoices, credit notes and manual
+    journal entries, with a closing allowance;
+  - `O27` revenue booked in the last days of a month and credited early in the next;
+  - `O28` and `O29`, Vietnam: purchases of 5 million đồng or more paid in cash, alone or as several bills of
+    one seller on one day, lose their input VAT deduction (Nghị định 181/2025/NĐ-CP, Điều 26, read in the
+    Official Gazette).
+
+  A check whose read does not return a field it needs is reported as not run, with the reason, never as
+  clean.
+- **The change history, read.** `structure.field_change.list|describe` (old and new values) and
+  `structure.change_note.list|describe` (who changed which record, when), held to the fields a review
+  needs: payee bank accounts, partners' tax numbers, document states and dates, lock dates, prices.
+  Odoo shows them to administrators only. On 20.0 they need the `mail_tracking` module (Discuss
+  Tracking), which 20.0 split out of `mail`; the check before a call says so.
+- **Payments and journal entries say more.** `finance.payment.list` returns the bank account paid into, the
+  bills and invoices a payment settles, and who made it when; `finance.journal_entry.list|describe`, who made
+  an entry when and whether a payment or a bank statement line made it. All verified again on 19.0 and 20.0.
+- `conformance/odoo-read-conformance.py --only` runs a few reads; `odoo-conformance-lab.sh --setup-only` builds
+  a lab and keeps it, without a pass.
+
+- **Recurring tasks.** `work.task.create` and `work.task.update` take `recurring`, `repeat_every`,
+  `repeat_unit` (day, week, month, year), `repeat_type` (forever, until) and `repeat_until`, with
+  `due_on`, `priority` (low, medium, high, urgent), `tags` (by name or id) and `description`;
+  `work.task.list` and `work.task.describe` return them. Odoo makes the next occurrence when the
+  current one is closed (done or cancelled), not on a calendar date.
+- **Verified as a workflow, on 19.0 and 20.0.** A new conformance pass
+  (`conformance/odoo-task-recurrence-conformance.py`, part of the weekly lab run) creates a recurring
+  task with every new field, reads it back through an independent JSON-RPC oracle and through the
+  CLI, changes its recurrence, closes it, and checks that Odoo opened exactly one next occurrence a
+  month later.
+
 ## 0.10.0 (2026-10-15)
 
 - **Every release is checked against Odoo, automatically.** A release made by the release workflow

@@ -64,6 +64,10 @@ type Guard func(ctx context.Context, inv *Invocation) (context.Context, *Error)
 // never allowed to rewrite an already-real provider outcome.
 type OutcomeRecorder func(ctx context.Context, inv *Invocation, runErr *Error)
 
+// ErrorAdvisor annotates a refusal that a command's Run (or a panic in it) produced, just before it
+// is rendered. It runs on the client, sees the resolved error and may only add context to it.
+type ErrorAdvisor func(inv *Invocation, err *Error)
+
 type countingWriter struct {
 	w       io.Writer
 	written int64
@@ -104,6 +108,7 @@ func Run(ctx context.Context, root *Command, args []string, streams Streams) (ex
 	var commandPath string
 	jsonOutput := wantsJSON(args)
 	var emitted bool
+	var advisedInvocation *Invocation
 
 	defer func() {
 		if r := recover(); r != nil {
@@ -123,6 +128,9 @@ func Run(ctx context.Context, root *Command, args []string, streams Streams) (ex
 				cmd = root.PathString()
 			}
 			panicErr := NewError(CategoryInternal, "INTERNAL_ERROR", fmt.Sprintf("unexpected panic: %v", r))
+			if root != nil && root.ErrorAdvisor != nil && advisedInvocation != nil {
+				root.ErrorAdvisor(advisedInvocation, panicErr)
+			}
 			exitCode = emit(streams, program, cmd, jsonOutput, nil, panicErr)
 			emitted = true
 		}
@@ -234,6 +242,7 @@ func Run(ctx context.Context, root *Command, args []string, streams Streams) (ex
 		ctx = guardedCtx
 	}
 
+	advisedInvocation = invocation
 	data, runErr := invocation.Command.Run(ctx, invocation)
 	if runErr != nil {
 		var resolved *Error
@@ -253,6 +262,9 @@ func Run(ctx context.Context, root *Command, args []string, streams Streams) (ex
 		}
 		if root.OutcomeRecorder != nil {
 			root.OutcomeRecorder(ctx, invocation, resolved)
+		}
+		if root.ErrorAdvisor != nil {
+			root.ErrorAdvisor(invocation, resolved)
 		}
 		exitCode = emit(streams, programOf(root), invocation.Command.PathString(), jsonOutput, nil, resolved)
 		emitted = true

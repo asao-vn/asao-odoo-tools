@@ -236,9 +236,11 @@ REPLACED_METHODS = {(w["model"], w["opener"]) for w in OPENED_WIZARDS if w.get("
 # writing them directly bypasses the documents that keep the books and the stock consistent; and a
 # company is updated, not created, because a new company is a provisioning step (chart, journals).
 # An entry may name extra fields the form does not show but a business sets as code: a page's QWeb
-# content (arch), a logo or favicon (base64 images), the website's <head> code.
+# content (arch), a logo or favicon (base64 images), the website's <head> code, a company's lock dates
+# (Odoo Community has no screen for them; closing a period is a control, docs/design/CONTROLS_v0_1.md).
 CURATED_GAPS = {
-    "res.company": ("structure.company", ("describe", "update"), None, ("logo",)),
+    "res.company": ("structure.company", ("describe", "update"), None,
+                    ("logo", "sale_lock_date", "purchase_lock_date", "tax_lock_date", "fiscalyear_lock_date")),
     "website": ("website.site", ("update",), None, ("logo", "favicon", "custom_code_head", "custom_code_footer", "homepage_url")),
     "website.page": ("website.page", ("describe", "create", "update"), None, ("arch", "key")),
     "website.menu": ("website.menu", ("describe", "create", "update"), None, ()),
@@ -256,6 +258,14 @@ CURATED_GAPS = {
     "uom.uom": ("catalog.uom", ("create", "update"), None, ()),
     "product.product": ("catalog.product_variant", ("update",), None, ()),
     "project.milestone": ("work.milestone", ("update",), None, ()),
+}
+
+# Fields no form shows that a review or a control reads, added to a CURATED_GAPS model's describe only:
+# the catalog never writes them, because Odoo never lets them be undone (a company's hard lock date; a
+# journal's hash of posted entries, permanent once one entry is hashed).
+READ_EXTRAS = {
+    "res.company": ("hard_lock_date",),
+    "account.journal": ("restrict_mode_hash_table",),
 }
 
 # The website layout views a business sets as code (header call to action, text, search and sign-in,
@@ -290,14 +300,18 @@ SETTINGS_FIELDS = {
     "group_product_variant": "boolean", "group_product_pricelist": "boolean", "group_uom": "boolean",
     "group_sale_delivery_address": "boolean", "group_send_reminder": "boolean",
     "group_warning_purchase": "boolean", "lock_confirmed_po": "boolean", "po_order_approval": "boolean",
+    "po_double_validation_amount": "number",
     # Projects, timesheets and people
+    # (Not the timesheet reminders, reminder_allow and reminder_user_allow: Community declares them and keeps
+    # neither; Enterprise's timesheet app stores them. Settings conformance, 2026-10-15.)
     "group_project_stages": "boolean", "timesheet_encode_method": ("hours", "days"),
-    "reminder_user_allow": "boolean", "reminder_allow": "boolean", "hr_presence_control_login": "boolean",
+    "hr_presence_control_login": "boolean",
     # Accounting
     "group_analytic_accounting": "boolean", "group_multi_currency": "boolean", "group_cash_rounding": "boolean",
     "tax_calculation_rounding_method": ("round_per_line", "round_globally"),
     "account_price_include": ("tax_included", "tax_excluded"),
     "qr_code": "boolean", "display_invoice_amount_total_words": "boolean", "pay_invoices_online": "boolean",
+    "restrictive_audit_trail": "boolean", "account_use_credit_limit": "boolean", "account_default_credit_limit": "number",
     # Access and mail
     "auth_signup_uninvited": ("b2b", "b2c"), "auth_signup_reset_password": "boolean",
     "auth_totp_policy": ("employee_required", "all_required"), "restrict_template_rendering": "boolean",
@@ -308,6 +322,25 @@ SETTINGS_FIELDS = {
 # unbalanced, even in draft, so an entry is made with all its lines in one call; a line names its
 # account by code (1111) and its partner by name.
 ENTRY_DOMAIN = [["move_type", "=", "entry"]]
+# The field changes Odoo tracks that a review reads: payee bank accounts, the state, date and payee of a document,
+# lock dates, prices, tax codes. Odoo keeps them in mail.tracking.value, readable by administrators only; the
+# operations below are held to these fields so they never show a wage or a private address. 20.0 renames the bank
+# account's fields, so both spellings are listed.
+CHANGE_FIELDS = {
+    "res.partner.bank": ["acc_number", "account_number", "acc_holder_name", "holder_name", "partner_id", "allow_out_payment", "active"],
+    "res.partner": ["vat", "name", "email", "phone"],
+    "account.move": ["state", "date", "partner_id", "partner_bank_id", "amount_untaxed", "ref", "payment_reference", "invoice_user_id"],
+    "account.payment": ["state", "date", "partner_id", "partner_bank_id", "amount_signed", "payment_reference", "memo"],
+    "account.journal": ["bank_acc_number", "bank_id"],
+    "res.company": ["fiscalyear_lock_date", "sale_lock_date", "purchase_lock_date", "tax_lock_date", "hard_lock_date", "restrictive_audit_trail"],
+    "product.template": ["list_price"],
+    "purchase.order": ["state", "partner_id", "amount_untaxed", "user_id"],
+    "sale.order": ["state", "partner_id", "amount_total", "pricelist_id", "user_id"],
+    "hr.expense": ["state", "total_amount", "employee_id", "manager_id"],
+    "stock.picking": ["state", "scheduled_date", "user_id"],
+}
+CHANGE_DOMAIN = ["|"] * (len(CHANGE_FIELDS) - 1) + [term for model, fields in sorted(CHANGE_FIELDS.items()) for term in
+                                                     ("&", ["field_id.model", "=", model], ["field_id.name", "in", fields])]
 INVOICE_DOMAIN = [["move_type", "in", ["out_invoice", "out_refund", "in_invoice", "in_refund", "out_receipt", "in_receipt"]]]
 
 # Inventory counts (stock.quant in inventory mode): a count is set on the quant of a product and an
@@ -828,7 +861,8 @@ def main():
                         "button": f'{form_buttons[entry["opener"]]["string"]} > {button["string"]}'})
         return out
 
-    def standard_operations(model, record, base, verbs, read_capability, write_capability, write_risk=None, extra=()):
+    def standard_operations(model, record, base, verbs, read_capability, write_capability, write_risk=None, extra=(),
+                            read_extra=()):
         """The list/describe READ and create/update FIELD_WRITE operations of a model, for the verbs
         asked: reads project the list and form views' own fields; writes allow the form's writable
         scalar fields and every required stored field, resolving many2one names through relations."""
@@ -844,6 +878,10 @@ def main():
         if missing:
             raise SystemExit(f"CURATED_GAPS extra fields of {model} are not writable fields: {missing}")
         projections["describe"] += [f for f in extra if readable(fields, f) and f not in projections["describe"]]
+        unreadable = [f for f in read_extra if not readable(fields, f)]
+        if unreadable:
+            raise SystemExit(f"READ_EXTRAS fields of {model} are not readable fields: {unreadable}")
+        projections["describe"] += [f for f in read_extra if f not in projections["describe"]]
         for verb in ("list", "describe"):
             if verb in verbs:
                 out.append({"id": f"{base}.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": model,
@@ -909,6 +947,9 @@ def main():
             report["models"].append(entry)
 
     # Standard operations the curated catalog lacks for models it owns (CURATED_GAPS).
+    for model in READ_EXTRAS:
+        if "describe" not in CURATED_GAPS.get(model, (None, ()))[1]:
+            raise SystemExit(f"READ_EXTRAS names {model}, whose describe CURATED_GAPS does not make")
     for model, (base, verbs, risk, extra) in sorted(CURATED_GAPS.items()):
         record = by_model.get(model)
         if record is None:
@@ -920,7 +961,8 @@ def main():
             raise SystemExit(f"CURATED_GAPS asks {base}.{sorted(taken & set(verbs))}, which the curated catalog has")
         family, entity = base.split(".", 1)
         made, _, _ = standard_operations(model, record, base, verbs, capability(family, entity, "read"),
-                                         CURATED_WRITE_CAPABILITY.get(model) or capability(family, entity, "write"), risk, extra)
+                                         CURATED_WRITE_CAPABILITY.get(model) or capability(family, entity, "write"), risk, extra,
+                                         READ_EXTRAS.get(model, ()))
         for op in made:
             add(op)
         report["models"].append({"model": model, "curated_entity": base, "operations": [op["id"] for op in made]})
@@ -982,8 +1024,25 @@ def main():
     for verb in ("list", "describe"):
         add({"id": f"finance.journal_entry.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": "account.move",
              "module": "account", "capability": "finance.journalentry.read", "risk": "RiskLow", "read": ["id", "display_name"],
-             "optional": ["name", "date", "ref", "journal_id", "state", "amount_total", "partner_id", "company_id"],
+             # Who made an entry and when, and whether a payment or a bank statement line made it: what a
+             # review needs to tell a manual entry, and a backdated one, from the rest.
+             "optional": ["name", "date", "ref", "journal_id", "state", "amount_total", "partner_id", "company_id",
+                          "create_date", "create_uid", "origin_payment_id", "statement_line_id"],
              "label": "Journal entry", "domain": ENTRY_DOMAIN})
+    # Field changes (CHANGE_FIELDS) and the notes that carry them: who changed what, when, on which record.
+    for verb in ("list", "describe"):
+        add({"id": f"structure.field_change.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": "mail.tracking.value",
+             "module": "mail", "capability": capability("structure", "field_change", "read"), "risk": "RiskLow",
+             "read": ["id", "display_name"],
+             "optional": ["field_id", "old_value_char", "new_value_char", "old_value_integer", "new_value_integer",
+                          "old_value_float", "new_value_float", "old_value_datetime", "new_value_datetime",
+                          "old_value_text", "new_value_text", "currency_id", "mail_message_id", "create_date", "create_uid"],
+             "label": "Field change", "domain": CHANGE_DOMAIN})
+        add({"id": f"structure.change_note.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": "mail.message",
+             "module": "mail", "capability": capability("structure", "change_note", "read"), "risk": "RiskLow",
+             "read": ["id", "display_name"],
+             "optional": ["model", "res_id", "author_id", "date", "tracking_value_ids", "create_uid"],
+             "label": "Change note", "domain": [["tracking_value_ids", "!=", False]]})
     entry_relations = {"journal_id": {"model": "account.journal", "search": "name"}}
     add({"id": "finance.journal_entry.create", "kind": "KindCommand", "strategy": "StrategyFieldWrite", "model": "account.move",
          "module": "account", "capability": "finance.journalentry.write", "risk": "RiskMedium", "mode": "WriteModeCreate",

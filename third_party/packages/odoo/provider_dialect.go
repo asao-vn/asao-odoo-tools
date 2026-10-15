@@ -33,6 +33,23 @@ type providerDialect struct {
 	// mergedModules are baseline modules the series no longer ships on their own, with the module
 	// that now carries their models. An operation that requires one requires the other there.
 	mergedModules map[string]string
+	// entityModules are modules the series split out of a baseline module, with the operations
+	// (family.entity) that need them there besides their own: an Odoo without one cannot run them.
+	entityModules map[string][]string
+}
+
+// SeriesExtraModules are the modules operationID needs on series beyond its RequiredModules: those
+// the series split out of a baseline module (entityModules).
+func SeriesExtraModules(series, operationID string) []string {
+	d := dialectFor(series)
+	if d == nil {
+		return nil
+	}
+	entity := operationID
+	if dot := strings.LastIndex(operationID, "."); dot > 0 {
+		entity = operationID[:dot]
+	}
+	return d.entityModules[entity]
 }
 
 // SeriesModule is the module that carries baseline module's models on series: itself, or the
@@ -601,6 +618,13 @@ var odoo20Dialect = &providerDialect{
 		"website_sale_wishlist":   "website_sale",
 		"website_sale_comparison": "website_sale",
 		"hr_homeworking":          "hr",
+	},
+	// Measured 2026-10-15: 20.0 moved mail.tracking.value, and mail.message's tracking_value_ids, out of
+	// mail into mail_tracking ("Discuss Tracking"), which is not installed by default. Without it 20.0
+	// keeps a change only as formatted text in the message body, so the change history needs it.
+	entityModules: map[string][]string{
+		"structure.field_change": {"mail_tracking"},
+		"structure.change_note":  {"mail_tracking"},
 	},
 	// Measured 2026-10-13: none of these methods is defined anywhere in the 20.0 source (odoo and
 	// every addon of the image).

@@ -1,9 +1,9 @@
 {
  "by_strategy": {
   "StrategyDestructiveGuarded": 6,
-  "StrategyFieldWrite": 531,
+  "StrategyFieldWrite": 526,
   "StrategyMethodCall": 161,
-  "StrategyRead": 523,
+  "StrategyRead": 527,
   "StrategyReport": 7,
   "StrategyWizard": 25
  },
@@ -401,7 +401,9 @@
     "structure.settings.update"
    ],
    "settings": [
+    "account_default_credit_limit",
     "account_price_include",
+    "account_use_credit_limit",
     "auth_signup_reset_password",
     "auth_signup_uninvited",
     "auth_totp_policy",
@@ -429,14 +431,14 @@
     "hr_presence_control_login",
     "lock_confirmed_po",
     "pay_invoices_online",
+    "po_double_validation_amount",
     "po_order_approval",
     "portal_confirmation_pay",
     "portal_confirmation_sign",
     "qr_code",
     "quotation_validity_days",
-    "reminder_allow",
-    "reminder_user_allow",
     "restrict_template_rendering",
+    "restrictive_audit_trail",
     "tax_calculation_rounding_method",
     "timesheet_encode_method"
    ]
@@ -831,7 +833,6 @@
    "operations": [
     "finance.payment_method.list",
     "finance.payment_method.describe",
-    "finance.payment_method.create",
     "finance.payment_method.update"
    ]
   },
@@ -2088,9 +2089,7 @@
    },
    "operations": [
     "livechat.channel_member_history.list",
-    "livechat.channel_member_history.describe",
-    "livechat.channel_member_history.create",
-    "livechat.channel_member_history.update"
+    "livechat.channel_member_history.describe"
    ]
   },
   {
@@ -2739,9 +2738,7 @@
    },
    "operations": [
     "manufacturing.workcenter_productivity_loss_type.list",
-    "manufacturing.workcenter_productivity_loss_type.describe",
-    "manufacturing.workcenter_productivity_loss_type.create",
-    "manufacturing.workcenter_productivity_loss_type.update"
+    "manufacturing.workcenter_productivity_loss_type.describe"
    ]
   },
   {
@@ -4132,7 +4129,7 @@
    ]
   }
  ],
- "operations": 1253,
+ "operations": 1252,
  "series": {
   "server_serie": "19.0",
   "server_version": "19.0-20260803"

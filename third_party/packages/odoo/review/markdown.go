@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/asao-platform/atoc/packages/odoo/controls"
 )
 
 var limits = []string{
@@ -127,6 +129,9 @@ func Markdown(report *Report, company string) string {
 			fmt.Sprintf("`%s` %s (%s). %s", f.Check, nameOf[f.Check], kindOf[f.Check], f.Why), "",
 			fmt.Sprintf("Công thức: %s; tham số %s.", f.Formula, params), "",
 			"Chứng từ: "+strings.Join(docs, ", "), "")
+		if line := preventedBy(f.Check); line != "" {
+			out = append(out, line, "")
+		}
 	}
 
 	if len(state) > 0 {
@@ -156,4 +161,24 @@ func Markdown(report *Report, company string) string {
 		out = append(out, "- "+line)
 	}
 	return strings.Join(out, "\n") + "\n"
+}
+
+// preventedBy names Odoo's own controls that would have stopped what a check finds
+// (packages/odoo/controls), for the reader to turn on.
+func preventedBy(check string) string {
+	ids := controls.PreventedBy(check)
+	if len(ids) == 0 {
+		return ""
+	}
+	all, err := controls.Load()
+	if err != nil {
+		return ""
+	}
+	var names []string
+	for _, id := range ids {
+		if c, ok := all.Find(id); ok {
+			names = append(names, fmt.Sprintf("`%s` %s", c.ID, c.Title["vi"]))
+		}
+	}
+	return "Chốt trong Odoo có thể ngăn trước việc này: " + strings.Join(names, ", ") + " (xem `odoo-cli controls status`)."
 }

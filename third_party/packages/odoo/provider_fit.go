@@ -423,6 +423,12 @@ func (f ProviderFit) Assess(op Odoo19Operation) OperationFit {
 			verdict.MissingModules = append(verdict.MissingModules, module)
 		}
 	}
+	// A module the series split out of a baseline one is needed there besides (SeriesExtraModules).
+	for _, module := range SeriesExtraModules(f.ProviderSeries, op.SemanticID) {
+		if _, installed := f.origins[module]; !installed && !f.ModulesUnreadable {
+			verdict.MissingModules = append(verdict.MissingModules, module)
+		}
+	}
 	if len(verdict.MissingModules) > 0 {
 		verdict.Verdict = FitRefused
 		verdict.Reasons = append(verdict.Reasons, "required modules are not installed: "+strings.Join(verdict.MissingModules, ", "))

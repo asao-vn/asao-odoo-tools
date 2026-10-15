@@ -1,0 +1,115 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:89e72142c100b61b9e2f341da2b43adbbf5d742ce9622b3cdd70652f9023383b",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-15T14:13:24Z",
+ "records": {
+  "finance.journal_entry.describe": {
+   "cliHash": "sha256:38367000fac67be5d0bff087f42f261122d69d136fd3407556443ed322c743af",
+   "definitionHash": "sha256:2f1924b612471aa21de91fe9aebd6ff0fb75ba216cb794320739d152f0e0bca5",
+   "fieldCount": 14,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:6b66220a9c92e5798d3150b305870890a5e47f65509f34398e79063b624cca6e",
+   "providerDomain": true,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "finance.journal_entry.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:2f1924b612471aa21de91fe9aebd6ff0fb75ba216cb794320739d152f0e0bca5",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": true,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "finance.payment.list": {
+   "cliHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "definitionHash": "sha256:cb4df6413b5db511fefaeb91a11395d016f5a97510628624406e158c32a34471",
+   "kind": "list",
+   "modules": [
+    "account"
+   ],
+   "oracleHash": "sha256:49a64717d5d4cb19952e6eac2946415cf6879adacf9908e7d872332d32c6e684",
+   "providerDomain": false,
+   "recordCount": 2,
+   "status": "AGREE"
+  },
+  "structure.change_note.describe": {
+   "cliHash": "sha256:50bc9ee7fe34d3920cccbede9e937c395afa3888f17de611326343f58f344177",
+   "definitionHash": "sha256:7f9f38c0850d70e64d0add68c83b6ddfa5f90b50acfff7f153e6ab0db3bcfcaa",
+   "fieldCount": 8,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mail",
+    "mail_tracking"
+   ],
+   "oracleHash": "sha256:50bc9ee7fe34d3920cccbede9e937c395afa3888f17de611326343f58f344177",
+   "providerDomain": true,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.change_note.list": {
+   "cliHash": "sha256:5e391409ed927fa25964f81cbaea74c22074dd00dff054b90fd1b13a329ede09",
+   "definitionHash": "sha256:7f9f38c0850d70e64d0add68c83b6ddfa5f90b50acfff7f153e6ab0db3bcfcaa",
+   "kind": "list",
+   "modules": [
+    "mail",
+    "mail_tracking"
+   ],
+   "oracleHash": "sha256:5e391409ed927fa25964f81cbaea74c22074dd00dff054b90fd1b13a329ede09",
+   "providerDomain": true,
+   "recordCount": 5,
+   "status": "AGREE"
+  },
+  "structure.field_change.describe": {
+   "cliHash": "sha256:1645cdca7b57ff034b5cee03ac935c9b1b3b03bd4d412700f6919e3a27e703b1",
+   "definitionHash": "sha256:f905bcb0d291c31a4a4224f27e7f7cb5bd6e37c36e646e227ec1282e94076737",
+   "fieldCount": 16,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "mail",
+    "mail_tracking"
+   ],
+   "oracleHash": "sha256:b692804cd4652a45929d5c0be3811803aba5f25502fa87407b252c311191535d",
+   "providerDomain": true,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  },
+  "structure.field_change.list": {
+   "cliHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "definitionHash": "sha256:f905bcb0d291c31a4a4224f27e7f7cb5bd6e37c36e646e227ec1282e94076737",
+   "kind": "list",
+   "modules": [
+    "mail",
+    "mail_tracking"
+   ],
+   "oracleHash": "sha256:f5baf0e4336fd53b4c82b453ece859868475160d36f22e9551a0e9b10ac9cc00",
+   "providerDomain": true,
+   "recordCount": 5,
+   "status": "AGREE"
+  }
+ },
+ "renames": "docs/architecture/provider-research/odoo-surface/dialect-renames-20.0.json",
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

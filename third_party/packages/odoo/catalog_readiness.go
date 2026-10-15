@@ -142,10 +142,18 @@ var (
 var ErrCatalogNotReleaseReady = errors.New("odoo catalog is not release ready")
 
 func currentConformanceRecords() ([]ConformanceRecord, error) {
+	records, err := sharedConformanceRecords()
+	return cloneConformanceRecords(records), err
+}
+
+// sharedConformanceRecords is the parsed manifest itself, for read-only use inside this package.
+// ReadinessOf runs once per operation every time a CLI command tree is built (about 1,350 calls);
+// cloning every record on each of those calls made building the tree quadratic.
+func sharedConformanceRecords() ([]ConformanceRecord, error) {
 	manifestOnce.Do(func() {
 		manifestRecords, manifestErr = parseConformanceManifest(embeddedConformanceManifest)
 	})
-	return cloneConformanceRecords(manifestRecords), manifestErr
+	return manifestRecords, manifestErr
 }
 
 // odoo20_conformance_manifest.json is the accepted evidence for the candidate 20.0 series, kept
@@ -328,7 +336,7 @@ func ReadinessOf(operationID string) (OperationReadiness, bool) {
 	if _, known := lookupOperation(operationID, true); !known {
 		return "", false
 	}
-	records, err := currentConformanceRecords()
+	records, err := sharedConformanceRecords()
 	if err != nil {
 		panic(err)
 	}

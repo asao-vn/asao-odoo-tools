@@ -206,6 +206,12 @@ GIVEN_UPDATES = {
     ("account.payment.term.line", "days_next_month"): "15",
     ("account.reconcile.model.line", "amount_string"): "50",
     ("crm.team.member", "assignment_domain"): "[]",
+    # Lock dates Odoo accepts on a lab: before every demo document, so no unreconciled statement line
+    # or draft entry lies in the locked period (res.company._validate_locks).
+    ("res.company", "sale_lock_date"): "2020-12-31",
+    ("res.company", "purchase_lock_date"): "2020-12-31",
+    ("res.company", "tax_lock_date"): "2020-12-31",
+    ("res.company", "fiscalyear_lock_date"): "2020-12-31",
 }
 
 # Typed fields an update must not pick: changing them makes the record need other fields first.

@@ -1,0 +1,4623 @@
+{
+ "schemaVersion": "asao.odoo-risk-patterns/v0",
+ "about": "Patterns of operational risk, error and fraud in an Odoo business, each mapped to the Odoo data that shows it. A pattern is a sign to look at again, never a verdict. Built patterns are odoo-cli review checks; the others are its backlog.",
+ "kinds": {
+  "error": "sai sót",
+  "sign": "dấu hiệu gian lận",
+  "status": "tình hình",
+  "control": "kiểm soát"
+ },
+ "statuses": {
+  "built": "a check of odoo-cli review",
+  "designed": "designed in REVIEW_CHECKS_v0_1, not built",
+  "new": "proposed here"
+ },
+ "causes": [
+  "process_error",
+  "data_quality",
+  "control_weakness",
+  "abuse",
+  "fraud"
+ ],
+ "designedChecks": {
+  "O02": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O03": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O04": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O05": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O06": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O07": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O08": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O09": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O10": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O11": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O12": "docs/design/REVIEW_CHECKS_v0_1.md §3",
+  "O14": "docs/design/REVIEW_CHECKS_v0_1.md §3"
+ },
+ "sources": {
+  "acfe-fraud-tree": {
+   "title": "ACFE, Occupational Fraud and Abuse Classification System (the Fraud Tree)",
+   "url": "https://www.acfe.com/-/media/files/acfe/pdfs/rttn/2022/2022-rttn-fraud-tree.pdf",
+   "license": "Copyright ACFE. Only the category names are used, to classify each pattern.",
+   "note": "The 2022 chart is linked; the 2026 Report to the Nations carries the current chart, whose leaf names differ slightly."
+  },
+  "ocp-red-flags-2024": {
+   "title": "Open Contracting Partnership, Red Flags in Public Procurement (2024), 73 red flags with formulas over OCDS data",
+   "url": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+   "license": "CC BY-NC-SA 4.0. Cited, never copied: the formulas here are ASAO's own.",
+   "note": "Public procurement; the vendor-side flags (single bidder, concentration, shared contacts) carry over to a company's purchasing."
+  },
+  "sap-erp-fraud-data": {
+   "title": "Schnepf et al., Analyzing Data Sets for ML-driven Fraud Detection in SAP Systems (IEEE BigData 2023), data and wiki",
+   "url": "https://github.com/FraudData/SAP-ERP-Fraud-Data",
+   "license": "CC BY-NC 4.0. Only the eight scheme names inform patterns; the data is not used in ASAO's products.",
+   "note": "Eight schemes simulated in SAP IDES: one-time vendor, vendor flip-flop, redirected payment, similar vendors, kickback (P2P and O2C), personal purchases, theft of materials."
+  },
+  "sec-aaer": {
+   "title": "U.S. SEC, Accounting and Auditing Enforcement Releases",
+   "url": "https://www.sec.gov/enforcement-litigation/accounting-auditing-enforcement-releases",
+   "license": "U.S. government work.",
+   "note": "3,348 releases listed on 2026-10-15 (latest AAER-4605, 2026-10-08); RSS https://www.sec.gov/rss/divisions/enforce/friactions.xml. Real cases for the financial-statement patterns."
+  },
+  "asao-review-design": {
+   "title": "ASAO, Review checks v0.1 (DEC-2026-0165), the Odoo pack",
+   "url": "docs/design/REVIEW_CHECKS_v0_1.md",
+   "license": "ASAO.",
+   "note": "O01-O15 designed on 2026-10-14; O01, O12 (scrap half), O13, O15 and O16-O25 built."
+  },
+  "odoo-19-community": {
+   "title": "Odoo 19 Community: fields, tracked fields (ir.model.fields.tracking) and built-in hints, read on the conformance lab",
+   "url": "https://github.com/odoo/odoo/tree/19.0",
+   "license": "LGPL-3.0.",
+   "note": "Tracked on 19.0: bank account number and holder, move state, date and payee account, product list price, employee bank accounts, wage, company lock dates, attendance times."
+  },
+  "vn-vat-2024": {
+   "title": "Nghị định 181/2025/NĐ-CP hướng dẫn Luật Thuế GTGT 48/2024/QH15, Điều 26; Nghị định 144/2026/NĐ-CP sửa đổi",
+   "url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/7/45371/57302-1-2025899-900181-2025-nd-cp.pdf",
+   "license": "Vietnamese law (public), read in the Official Gazette (Công báo).",
+   "note": "Purchases of 5 million VND or more, VAT included, need a non-cash payment document for input VAT deduction, and so do same-day purchases from one taxpayer that together reach it (clause 3). Amended only in point g of clause 2 by Nghị định 144/2026/NĐ-CP (https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-144-2026-nd-cp-469601.htm)."
+  },
+  "audit-practice": {
+   "title": "General audit and internal-control practice (journal-entry testing, segregation of duties, three-way match)",
+   "url": "",
+   "license": "",
+   "note": "No single text; each such pattern is ASAO's own formulation."
+  }
+ },
+ "patterns": [
+  {
+   "id": "P2P-001",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hoá đơn mua trùng",
+    "en": "Duplicate vendor bill"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.non_accomplice_vendor",
+   "signal": "Cùng nhà cung cấp, cùng số hoá đơn (so theo chữ và số), hoặc cùng số tiền trong vài ngày khi hoá đơn không có số.",
+   "formula": "same vendor and the same reference compared on letters and digits; or same vendor and total within window_days when a bill has no reference",
+   "fields": [
+    "account.move.partner_id",
+    "account.move.ref",
+    "account.move.amount_total",
+    "account.move.invoice_date",
+    "account.move.move_type"
+   ],
+   "status": "built",
+   "check": "O01",
+   "operations": [
+    "finance.invoice.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-002",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Chia nhỏ đơn mua dưới ngưỡng duyệt",
+    "en": "Purchase orders split under the approval threshold"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.conflicts_of_interest.purchasing_schemes",
+   "signal": "Nhiều đơn mua của cùng nhà cung cấp trong vài ngày, mỗi đơn sát dưới ngưỡng duyệt, cộng lại vượt ngưỡng.",
+   "formula": "purchase orders of one vendor within window_days, each total (VAT included) in [band x threshold, threshold), together >= threshold, at least min_orders of them",
+   "fields": [
+    "purchase.order.partner_id",
+    "purchase.order.amount_total",
+    "purchase.order.date_order",
+    "purchase.order.state"
+   ],
+   "status": "built",
+   "check": "O16",
+   "operations": [
+    "procurement.rfq.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "ocp-red-flags-2024"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-003",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Chia nhỏ khoản chi dưới hạn mức",
+    "en": "Outbound payments split under the approval limit"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes",
+   "signal": "Nhiều khoản chi cho cùng một đối tác trong vài ngày, mỗi khoản dưới hạn mức duyệt chi, cộng lại vượt hạn mức.",
+   "formula": "outbound payments to one partner within window_days, each below limit, together >= limit, at least min_payments of them, that pay parts of one bill or no bill at all",
+   "fields": [
+    "account.payment.partner_id",
+    "account.payment.amount",
+    "account.payment.date",
+    "account.payment.payment_type",
+    "account.payment.state",
+    "account.payment.reconciled_bill_ids"
+   ],
+   "status": "built",
+   "check": "O07",
+   "operations": [
+    "finance.payment.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-004",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Chi tiền ngay sau khi đổi tài khoản ngân hàng nhà cung cấp",
+    "en": "Payment right after a vendor's bank account changed"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.check_and_payment_tampering.altered_payee",
+   "signal": "Tài khoản ngân hàng của nhà cung cấp được tạo hoặc sửa số tài khoản, rồi trong vài ngày có khoản chi vào đúng tài khoản đó.",
+   "formula": "an outbound payment to partner_bank_id within window_days after that bank account was created or its acc_number changed (change history of res.partner.bank)",
+   "fields": [
+    "res.partner.bank.create_date",
+    "res.partner.bank.partner_id",
+    "res.partner.bank.acc_number",
+    "account.payment.partner_bank_id",
+    "account.payment.date",
+    "account.payment.payment_type",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "designed",
+   "check": "O05",
+   "params": {
+    "window_days": 14
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "sap-erp-fraud-data",
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim",
+    "sap:redirected_payment"
+   ],
+   "notes": "Odoo 19 tracks acc_number, acc_holder_name, partner_id and allow_out_payment of a bank account."
+  },
+  {
+   "id": "P2P-005",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Đổi tài khoản nhà cung cấp rồi đổi lại quanh một khoản chi",
+    "en": "Vendor bank account switched and switched back around a payment"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.check_and_payment_tampering.altered_payee",
+   "signal": "Số tài khoản của nhà cung cấp bị đổi, có một khoản chi, rồi số tài khoản được đổi về như cũ: hồ sơ nhìn vẫn đúng nhưng tiền đã đi nơi khác.",
+   "formula": "an acc_number change of a vendor's bank account followed, within window_days, by an outbound payment, then by a change back to the old number",
+   "fields": [
+    "res.partner.bank.acc_number",
+    "res.partner.bank.partner_id",
+    "account.payment.partner_bank_id",
+    "account.payment.date",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "params": {
+    "window_days": 30
+   },
+   "priority": 1,
+   "causes": [
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data",
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim",
+    "sap:vendor_flip_flop"
+   ]
+  },
+  {
+   "id": "P2P-006",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Chi vào tài khoản không phải của nhà cung cấp",
+    "en": "Payment to a bank account the vendor does not hold"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.check_and_payment_tampering.altered_payee",
+   "signal": "Khoản chi cho nhà cung cấp A nhưng tài khoản nhận thuộc đối tác khác, hoặc khác tài khoản A vẫn dùng trong các lần chi trước.",
+   "formula": "an outbound payment whose partner_bank_id is held by another partner than the payment's partner, or differs from every account used by the partner's previous min_history payments",
+   "fields": [
+    "account.payment.partner_id",
+    "account.payment.partner_bank_id",
+    "res.partner.bank.partner_id",
+    "account.payment.date"
+   ],
+   "status": "new",
+   "params": {
+    "min_history": 3
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:redirected_payment"
+   ]
+  },
+  {
+   "id": "P2P-007",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Tài khoản nhà cung cấp trùng tài khoản nhân viên",
+    "en": "A vendor's bank account is an employee's"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Số tài khoản của một đối tác trùng tài khoản trên hồ sơ của một nhân viên; kèm tổng tiền đã chi cho đối tác đó.",
+   "formula": "a partner's bank account number equal to an account held by an employee's own contact; amount = everything paid out to that partner",
+   "fields": [
+    "res.partner.bank.acc_number",
+    "res.partner.bank.partner_id",
+    "hr.employee.work_contact_id",
+    "account.payment.amount"
+   ],
+   "status": "built",
+   "check": "O17",
+   "operations": [
+    "identity.bank_account.list",
+    "people.employee.list",
+    "identity.contact.list",
+    "finance.payment.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "fraud",
+    "control_weakness"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-008",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hai đối tác dùng chung một tài khoản ngân hàng",
+    "en": "Two partners share one bank account"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Cùng một số tài khoản ngân hàng nằm trên hồ sơ của hai đối tác khác nhau (không cùng công ty mẹ).",
+   "formula": "the same sanitized_acc_number on bank accounts of partners that are neither the same partner nor contacts of one company (parent_id); amount = payments to the newer partner",
+   "fields": [
+    "res.partner.bank.sanitized_acc_number",
+    "res.partner.bank.partner_id",
+    "res.partner.parent_id",
+    "res.partner.create_date"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Odoo shows the same hint one record at a time (duplicate_bank_partner_ids); the check reviews them all."
+  },
+  {
+   "id": "P2P-009",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Nhà cung cấp mới thiếu thông tin được trả nhanh",
+    "en": "New vendor with missing details, paid fast"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Nhà cung cấp có hoá đơn đầu tiên trong kỳ, thiếu mã số thuế hoặc địa chỉ, đã nhận nhiều tiền, các hoá đơn được trả rất nhanh.",
+   "formula": "a vendor whose first bill is in the period, missing a tax code or an address, paid >= min_paid; XEM_NGAY when every bill was paid within fast_days",
+   "fields": [
+    "res.partner.vat",
+    "res.partner.street",
+    "account.move.invoice_date",
+    "account.payment.amount",
+    "account.payment.date"
+   ],
+   "status": "built",
+   "check": "O18",
+   "operations": [
+    "identity.contact.list",
+    "finance.invoice.list",
+    "finance.payment.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-010",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Nhà cung cấp \"nhái\" một nhà cung cấp có sẵn",
+    "en": "A vendor that mimics an existing one"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Hai nhà cung cấp tên gần giống nhau, khác mã số thuế hoặc khác tài khoản; nhà cung cấp mới hơn bắt đầu nhận tiền.",
+   "formula": "two vendors whose normalised names are alike (token similarity >= similarity) with different vat or bank accounts, the newer one paid in the period",
+   "fields": [
+    "res.partner.name",
+    "res.partner.vat",
+    "res.partner.create_date",
+    "res.partner.bank.partner_id",
+    "account.payment.partner_id"
+   ],
+   "status": "new",
+   "params": {
+    "similarity": 0.85
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:similar_vendors"
+   ]
+  },
+  {
+   "id": "P2P-011",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Chi tiền không có hoá đơn",
+    "en": "Outbound payment without a bill"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes",
+   "signal": "Khoản chi cho nhà cung cấp sau nhiều ngày vẫn chưa được đối trừ với hoá đơn mua nào.",
+   "formula": "an outbound supplier payment not reconciled to any vendor bill min_days after its date",
+   "fields": [
+    "account.payment.reconciled_bill_ids",
+    "account.payment.partner_type",
+    "account.payment.date",
+    "account.payment.amount"
+   ],
+   "status": "designed",
+   "check": "O06",
+   "params": {
+    "min_days": 30
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-012",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hoá đơn mua không qua đơn mua",
+    "en": "Vendor bill without a purchase order"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.non_accomplice_vendor",
+   "signal": "Hoá đơn của một nhà cung cấp thường mua theo đơn lại không gắn với đơn mua nào.",
+   "formula": "a vendor bill with no line linked to a purchase order line, from a vendor whose other bills are linked in >= share of cases",
+   "fields": [
+    "account.move.line.purchase_line_id",
+    "account.move.partner_id",
+    "account.move.move_type"
+   ],
+   "status": "new",
+   "params": {
+    "share": 0.8
+   },
+   "priority": 2,
+   "causes": [
+    "control_weakness",
+    "abuse"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-013",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hoá đơn vượt số lượng đã nhận",
+    "en": "Billed quantity above the received quantity"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.non_accomplice_vendor",
+   "signal": "Dòng đơn mua đã nhận hoá đơn nhiều hơn số lượng hàng thực nhận (khớp ba bên đơn mua, phiếu nhập, hoá đơn không khớp).",
+   "formula": "a purchase order line received through stock moves whose qty_invoiced > qty_received + tolerance",
+   "fields": [
+    "purchase.order.line.qty_invoiced",
+    "purchase.order.line.qty_received",
+    "purchase.order.line.qty_received_method",
+    "purchase.order.line.product_qty"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "ERP-RiskBench reports three-way-match discrepancies as its strongest procurement features (arXiv 2603.06671)."
+  },
+  {
+   "id": "P2P-014",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Giá trên hoá đơn cao hơn giá đơn mua",
+    "en": "Bill price above the purchase order price"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.bribery.invoice_kickbacks",
+   "signal": "Đơn giá trên hoá đơn mua cao hơn đơn giá đã duyệt trên đơn mua.",
+   "formula": "a bill line linked to a purchase order line whose price_unit exceeds the order line's price_unit by more than tolerance",
+   "fields": [
+    "account.move.line.purchase_line_id",
+    "account.move.line.price_unit",
+    "purchase.order.line.price_unit"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0.01
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data",
+    "audit-practice",
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sap:kickback_p2p",
+    "sec-aaer:AAER-3861",
+    "sec-aaer:AAER-4502"
+   ]
+  },
+  {
+   "id": "P2P-015",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Giá mua tăng bất thường so với các lần trước",
+    "en": "Purchase price jump against history"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "corruption.bribery.invoice_kickbacks",
+   "signal": "Cùng một sản phẩm, đơn giá mua lần này cao hơn hẳn trung vị các lần mua trước.",
+   "formula": "an order line whose price_unit >= factor x the median price_unit of the product's previous min_history order lines",
+   "fields": [
+    "purchase.order.line.product_id",
+    "purchase.order.line.price_unit",
+    "purchase.order.line.partner_id",
+    "purchase.order.date_order"
+   ],
+   "status": "new",
+   "params": {
+    "factor": 1.3,
+    "min_history": 3
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data",
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sap:kickback_p2p",
+    "sec-aaer:AAER-3861",
+    "sec-aaer:AAER-4502"
+   ]
+  },
+  {
+   "id": "P2P-016",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Người lập đơn mua tự xác nhận đơn trên ngưỡng duyệt",
+    "en": "Buyer confirms their own order above the approval threshold"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.conflicts_of_interest.purchasing_schemes",
+   "signal": "Đơn mua vượt ngưỡng duyệt hai cấp nhưng người tạo cũng là người xác nhận.",
+   "formula": "a purchase order with amount_total >= the company's po_double_validation_amount whose state change to purchase was made by its creator",
+   "fields": [
+    "purchase.order.create_uid",
+    "purchase.order.amount_total",
+    "purchase.order.state",
+    "res.company.po_double_validation_amount",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "odoo-19-community",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-017",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Đơn mua lập sau hoá đơn",
+    "en": "Purchase order raised after its bill"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes",
+   "signal": "Đơn mua được tạo hoặc duyệt sau ngày của hoá đơn gắn với nó (hợp thức hoá sau khi đã mua).",
+   "formula": "a vendor bill linked to a purchase order whose create_date or date_approve is after the bill's invoice_date",
+   "fields": [
+    "purchase.order.create_date",
+    "purchase.order.date_approve",
+    "account.move.invoice_date",
+    "account.move.line.purchase_line_id"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-018",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hoá đơn mua số tròn bất thường",
+    "en": "Unusually round vendor bills"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Phần lớn hoá đơn của một nhà cung cấp là số tròn triệu.",
+   "formula": "a vendor's share of bills whose total is a multiple of unit > share, with at least min_bills bills",
+   "fields": [
+    "account.move.amount_total",
+    "account.move.partner_id",
+    "account.move.move_type"
+   ],
+   "status": "designed",
+   "check": "O08",
+   "params": {
+    "unit": 1000000,
+    "share": 0.5,
+    "min_bills": 5
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-019",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Một nhà cung cấp chiếm phần lớn chi tiêu một nhóm hàng",
+    "en": "One vendor takes most of a category's spend"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": "corruption.conflicts_of_interest.purchasing_schemes",
+   "signal": "Thị phần của một nhà cung cấp trong một nhóm hàng tăng dần và vượt ngưỡng.",
+   "formula": "a vendor's share of a product category's purchase spend >= share in the period and up by >= rise points on the previous period",
+   "fields": [
+    "purchase.order.line.product_id",
+    "purchase.order.line.price_subtotal",
+    "purchase.order.line.partner_id",
+    "product.template.categ_id"
+   ],
+   "status": "new",
+   "params": {
+    "share": 0.7,
+    "rise": 0.2
+   },
+   "priority": 3,
+   "causes": [
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "ocp-red-flags-2024"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-020",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "So sánh giá chỉ có một báo giá",
+    "en": "A call for tenders with a single quote"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "corruption.bribery.bid_rigging",
+   "signal": "Một đợt so sánh giá (thoả thuận mua) chỉ có một báo giá, hoặc cùng một nhà cung cấp thắng liên tục.",
+   "formula": "a purchase agreement whose orders come from one vendor only; or one vendor winning >= wins of the last calls",
+   "fields": [
+    "purchase.order.requisition_id",
+    "purchase.order.partner_id",
+    "purchase.order.state",
+    "purchase.requisition.state"
+   ],
+   "status": "new",
+   "params": {
+    "wins": 5
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "ocp-red-flags-2024"
+   ],
+   "cases": [
+    "sim",
+    "ocp"
+   ]
+  },
+  {
+   "id": "P2P-021",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Báo giá cạnh tranh từ các bên có chung thông tin liên hệ",
+    "en": "Competing quotes from partners sharing contact details"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.bribery.bid_rigging",
+   "signal": "Các nhà cung cấp cùng chào giá một đợt nhưng dùng chung điện thoại, email, địa chỉ hoặc tài khoản ngân hàng.",
+   "formula": "two vendors with quotes in one purchase agreement who share a phone (9+ digits), an e-mail, a street or a bank account number",
+   "fields": [
+    "purchase.order.requisition_id",
+    "res.partner.phone",
+    "res.partner.email",
+    "res.partner.street",
+    "res.partner.bank.sanitized_acc_number"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "fraud"
+   ],
+   "sources": [
+    "ocp-red-flags-2024"
+   ],
+   "cases": [
+    "sim",
+    "ocp"
+   ]
+  },
+  {
+   "id": "P2P-022",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hoá đơn mua dồn sát dưới ngưỡng duyệt",
+    "en": "Vendor bills bunched just under the approval limit"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes",
+   "signal": "Số hoá đơn rơi vào khoảng sát dưới ngưỡng duyệt nhiều hơn hẳn khoảng ngay trên ngưỡng.",
+   "formula": "count of vendor bills in [band x limit, limit) >= ratio x count in [limit, limit / band), per buyer or vendor, at least min_bills",
+   "fields": [
+    "account.move.amount_total",
+    "account.move.partner_id",
+    "account.move.invoice_user_id",
+    "account.move.move_type"
+   ],
+   "status": "new",
+   "params": {
+    "band": 0.9,
+    "ratio": 3,
+    "min_bills": 5
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-023",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Một số hoá đơn xuất hiện ở hai nhà cung cấp",
+    "en": "One bill number from two vendors"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.non_accomplice_vendor",
+   "signal": "Cùng một số hoá đơn (ký hiệu và số) được ghi cho hai nhà cung cấp khác nhau.",
+   "formula": "vendor bills with the same normalised ref and different commercial partners",
+   "fields": [
+    "account.move.ref",
+    "account.move.partner_id",
+    "account.move.move_type"
+   ],
+   "status": "new",
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-024",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Hàng mua giao về địa chỉ riêng",
+    "en": "Goods bought to a private address"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.personal_purchases",
+   "signal": "Đơn mua giao thẳng về một địa chỉ không phải kho hay văn phòng của công ty, nhất là địa chỉ riêng của nhân viên.",
+   "formula": "a purchase order whose dest_address_id is not a company address, or matches an employee's private street",
+   "fields": [
+    "purchase.order.dest_address_id",
+    "res.partner.street",
+    "hr.employee.private_street"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:personal_purchases"
+   ]
+  },
+  {
+   "id": "P2P-025",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Trả thừa cho nhà cung cấp",
+    "en": "Vendor overpaid"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes",
+   "signal": "Tổng đã trả cho một nhà cung cấp lớn hơn tổng hoá đơn, công nợ phải trả chuyển sang dư Nợ.",
+   "formula": "a vendor whose payable balance (sum of balance on liability_payable lines) is a debit above tolerance at the as-of date",
+   "fields": [
+    "account.move.line.partner_id",
+    "account.move.line.balance",
+    "account.move.line.account_id",
+    "account.account.account_type"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-026",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Giảm trừ của nhà cung cấp chưa được cấn trừ",
+    "en": "Vendor credit notes left open"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Nhà cung cấp đã giảm trừ (trả hàng, chiết khấu) nhưng khoản đó chưa được trừ vào lần trả tiền nào.",
+   "formula": "vendor credit notes (in_refund) still not paid min_days after their date",
+   "fields": [
+    "account.move.move_type",
+    "account.move.payment_state",
+    "account.move.invoice_date",
+    "account.move.amount_residual"
+   ],
+   "status": "new",
+   "params": {
+    "min_days": 60
+   },
+   "priority": 3,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-027",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Nhà cung cấp ngủ đông bỗng được trả lớn",
+    "en": "Dormant vendor suddenly paid a large amount"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Nhà cung cấp không có giao dịch trong nhiều tháng bỗng nhận một khoản chi lớn.",
+   "formula": "a vendor with no bill or payment for dormant_days before an outbound payment >= min_amount",
+   "fields": [
+    "account.payment.partner_id",
+    "account.payment.amount",
+    "account.payment.date",
+    "account.move.invoice_date"
+   ],
+   "status": "new",
+   "params": {
+    "dormant_days": 365,
+    "min_amount": 20000000
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-028",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Trả tiền hai lần cho một hoá đơn mua",
+    "en": "One vendor bill paid twice"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.non_accomplice_vendor",
+   "signal": "Hai khoản chi cho cùng nhà cung cấp, cùng số tiền, cách nhau vài ngày, có một khoản không đối trừ với hoá đơn nào.",
+   "formula": "two outbound payments of one vendor with the same amount, <= window_days apart, at least one not reconciled to a bill",
+   "fields": [
+    "account.payment.partner_id",
+    "account.payment.amount",
+    "account.payment.date",
+    "account.payment.reconciled_bill_ids"
+   ],
+   "status": "new",
+   "params": {
+    "window_days": 14
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "P2P-029",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Đối tác chung chung nhận nhiều khoản chi",
+    "en": "A generic one-time partner used for many payments"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.non_accomplice_vendor",
+   "signal": "Một hồ sơ đối tác kiểu \"khách lẻ\", \"nhà cung cấp vãng lai\" (không mã số thuế) nhận nhiều khoản chi, mỗi lần một tài khoản khác.",
+   "formula": "a partner without vat receiving >= min_payments outbound payments in the period to >= min_accounts different bank accounts",
+   "fields": [
+    "res.partner.vat",
+    "account.payment.partner_id",
+    "account.payment.partner_bank_id",
+    "account.payment.amount"
+   ],
+   "status": "new",
+   "params": {
+    "min_payments": 5,
+    "min_accounts": 2
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:one_time_vendor"
+   ]
+  },
+  {
+   "id": "P2P-030",
+   "process": "purchase_to_pay",
+   "title": {
+    "vi": "Nhà cung cấp trùng địa chỉ, điện thoại hoặc email riêng của nhân viên",
+    "en": "A vendor sharing an employee's private address, phone or e-mail"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.conflicts_of_interest.purchasing_schemes",
+   "signal": "Hồ sơ nhà cung cấp có điện thoại, email hoặc địa chỉ trùng với thông tin riêng của một nhân viên: có thể là xung đột lợi ích.",
+   "formula": "a vendor whose phone (9+ digits), e-mail or street equals an employee's private_phone, private_email or private_street",
+   "fields": [
+    "res.partner.phone",
+    "res.partner.email",
+    "res.partner.street",
+    "hr.employee.private_phone",
+    "hr.employee.private_email",
+    "hr.employee.private_street"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-001",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Hoá đơn bán trùng",
+    "en": "Duplicate customer invoice"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": null,
+   "signal": "Hai hoá đơn bán cho cùng khách, cùng số tiền, cùng ngày, khác số.",
+   "formula": "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed by a credit note; XEM_NGAY when their lines are the same",
+   "fields": [
+    "account.move.partner_id",
+    "account.move.amount_total",
+    "account.move.invoice_date",
+    "account.move.move_type",
+    "account.move.name",
+    "account.move.reversed_entry_id",
+    "account.move.line.move_id",
+    "account.move.line.product_id",
+    "account.move.line.quantity",
+    "account.move.line.price_unit"
+   ],
+   "status": "built",
+   "check": "O02",
+   "operations": [
+    "finance.invoice.list",
+    "finance.invoice.line.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-002",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Bán dưới giá vốn",
+    "en": "Sales below cost"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.conflicts_of_interest.sales_schemes",
+   "signal": "Giá bán thực (sau chiết khấu) thấp hơn giá vốn của sản phẩm, gom theo người bán.",
+   "formula": "sale line net price (subtotal / quantity) below the product's cost, by seller; XEM_NGAY from repeat lines",
+   "fields": [
+    "account.move.line.price_subtotal",
+    "account.move.line.quantity",
+    "product.template.standard_price",
+    "account.move.invoice_user_id"
+   ],
+   "status": "built",
+   "check": "O19",
+   "operations": [
+    "finance.invoice.list",
+    "finance.invoice.line.list",
+    "catalog.product.list",
+    "catalog.product_variant.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:kickback_o2c"
+   ]
+  },
+  {
+   "id": "O2C-003",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Thuế suất khác thường lệ của sản phẩm",
+    "en": "A product's tax differs from its usual tax"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Một dòng hoá đơn bán áp thuế khác với thuế mà phần lớn các dòng của cùng sản phẩm đang dùng.",
+   "formula": "a sale line whose taxes differ from the taxes on >= dominance of that product's sale lines (at least min_lines lines)",
+   "fields": [
+    "account.move.line.tax_ids",
+    "account.move.line.product_id"
+   ],
+   "status": "built",
+   "check": "O20",
+   "operations": [
+    "finance.invoice.list",
+    "finance.invoice.line.list",
+    "finance.tax.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-004",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Giảm trừ sau khi đã thu tiền và chi trả lại",
+    "en": "Credit note after payment, paid out"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.register_disbursements.false_refunds",
+   "signal": "Hoá đơn đã thu tiền, nhiều ngày sau bị lập giảm trừ và tiền được chi trả lại.",
+   "formula": "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out (a credit note that only cancels an unpaid invoice moves no money and is not one)",
+   "fields": [
+    "account.move.reversed_entry_id",
+    "account.move.move_type",
+    "account.move.payment_state",
+    "account.move.invoice_date"
+   ],
+   "status": "built",
+   "check": "O21",
+   "operations": [
+    "finance.invoice.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-005",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Thu tiền trùng",
+    "en": "Duplicate customer receipt"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": null,
+   "signal": "Hai khoản thu của cùng khách, cùng số tiền, cách nhau vài ngày, có khoản chưa đối trừ.",
+   "formula": "two inbound payments of one customer with the same amount, <= window_days apart, at least one not reconciled",
+   "fields": [
+    "account.payment.partner_id",
+    "account.payment.amount",
+    "account.payment.date",
+    "account.payment.is_reconciled"
+   ],
+   "status": "built",
+   "check": "O22",
+   "operations": [
+    "finance.payment.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-006",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Công nợ quá hạn",
+    "en": "Overdue receivables"
+   },
+   "kind": "status",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Hoá đơn bán đã ghi sổ còn nợ quá hạn tại ngày xét, theo khách, theo nhóm số ngày.",
+   "formula": "posted customer invoices with an amount due past their due date at the as-of date, by customer, in buckets of days",
+   "fields": [
+    "account.move.invoice_date_due",
+    "account.move.amount_residual",
+    "account.move.partner_id"
+   ],
+   "status": "built",
+   "check": "O15",
+   "operations": [
+    "finance.invoice.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-007",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Đã giao chưa xuất hoá đơn",
+    "en": "Delivered, not invoiced"
+   },
+   "kind": "status",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Hàng đã giao nhiều ngày nhưng chưa xuất hoá đơn.",
+   "formula": "sale order lines with qty_delivered > qty_invoiced whose delivery was done more than min_days ago",
+   "fields": [
+    "sale.order.line.qty_delivered",
+    "sale.order.line.qty_invoiced",
+    "stock.picking.date_done",
+    "stock.picking.sale_id"
+   ],
+   "status": "designed",
+   "check": "O11",
+   "params": {
+    "min_days": 7
+   },
+   "priority": 1,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-008",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Huỷ, giảm trừ hoá đơn của kỳ đã khoá sổ",
+    "en": "Cancelling or crediting an invoice of a locked period"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "financial_statement_fraud.overstatement.timing_differences",
+   "signal": "Hoá đơn của kỳ đã khoá sổ bị giảm trừ hoặc huỷ sau ngày khoá.",
+   "formula": "a credit note or cancellation dated after the company's sale_lock_date (or fiscalyear_lock_date) for an invoice dated on or before it",
+   "fields": [
+    "account.move.reversed_entry_id",
+    "account.move.date",
+    "account.move.state",
+    "res.company.sale_lock_date",
+    "res.company.fiscalyear_lock_date"
+   ],
+   "status": "designed",
+   "check": "O04",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-009",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Chiết khấu vượt chính sách, gom theo người bán",
+    "en": "Discounts above policy, by salesperson"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.conflicts_of_interest.sales_schemes",
+   "signal": "Một người bán cho chiết khấu cao hơn mức cho phép, hoặc cao hơn hẳn đồng nghiệp, lặp lại với cùng khách.",
+   "formula": "sale order lines with discount > max_discount, by salesperson and customer; XEM_NGAY when one salesperson's share of such lines >= factor x everyone else's",
+   "fields": [
+    "sale.order.line.discount",
+    "sale.order.user_id",
+    "sale.order.partner_id",
+    "sale.order.line.price_subtotal"
+   ],
+   "status": "new",
+   "params": {
+    "max_discount": 20,
+    "factor": 2
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:kickback_o2c"
+   ]
+  },
+  {
+   "id": "O2C-010",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Sửa tay giá bán thấp hơn bảng giá",
+    "en": "Price edited by hand below the price list"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "corruption.conflicts_of_interest.sales_schemes",
+   "signal": "Đơn giá trên đơn bán thấp hơn giá Odoo tự tính theo bảng giá, do người bán sửa tay.",
+   "formula": "sale order lines whose price_unit is below technical_price_unit (the price Odoo computed) by more than tolerance, by salesperson",
+   "fields": [
+    "sale.order.line.price_unit",
+    "sale.order.line.technical_price_unit",
+    "sale.order.user_id"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0.01
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data",
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim",
+    "sap:kickback_o2c"
+   ],
+   "notes": "Confirm on the lab that technical_price_unit keeps the computed price after a manual edit before building."
+  },
+  {
+   "id": "O2C-011",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Xác nhận đơn vượt hạn mức tín dụng của khách",
+    "en": "Order confirmed over the customer's credit limit"
+   },
+   "kind": "control",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Đơn bán được xác nhận khi công nợ của khách cộng giá trị đơn đã vượt hạn mức tín dụng.",
+   "formula": "a sale order confirmed while the partner's credit plus the order's amount_total exceeds credit_limit (use_partner_credit_limit set)",
+   "fields": [
+    "res.partner.credit_limit",
+    "res.partner.use_partner_credit_limit",
+    "res.partner.credit",
+    "sale.order.amount_total",
+    "sale.order.state"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-012",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Giao hàng tới địa chỉ lạ",
+    "en": "Delivery to an address that is not the customer's"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.false_sales_and_shipping",
+   "signal": "Phiếu giao hàng đi tới một địa chỉ không thuộc khách hàng của đơn bán.",
+   "formula": "an outgoing transfer of a sale order whose partner_id is neither the order's customer nor one of its contacts (parent_id)",
+   "fields": [
+    "stock.picking.partner_id",
+    "stock.picking.sale_id",
+    "sale.order.partner_shipping_id",
+    "res.partner.parent_id"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sap-erp-fraud-data"
+   ],
+   "cases": [
+    "sim",
+    "sap:theft_of_materials"
+   ]
+  },
+  {
+   "id": "O2C-013",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Tỷ lệ hàng trả lại cao theo người bán hoặc khách",
+    "en": "High return rate by salesperson or customer"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.false_sales_and_shipping",
+   "signal": "Một người bán hoặc một khách có tỷ lệ hàng trả lại cao hơn hẳn mặt bằng chung.",
+   "formula": "returned quantity / delivered quantity by salesperson or customer >= factor x the overall rate, from min_deliveries deliveries",
+   "fields": [
+    "stock.move.origin_returned_move_id",
+    "stock.move.quantity",
+    "stock.picking.sale_id",
+    "sale.order.user_id"
+   ],
+   "status": "new",
+   "params": {
+    "factor": 3,
+    "min_deliveries": 10
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-014",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Bán rồi trả lại để rút tiền mặt",
+    "en": "Sale then return refunded in cash"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.register_disbursements.false_refunds",
+   "signal": "Hàng đã bán và thu tiền, sau đó bị trả lại và hoàn tiền bằng tiền mặt, thường do cùng một người làm.",
+   "formula": "a credit note reversing a paid customer invoice, refunded through a cash journal, with a return transfer, created by the user who made the sale",
+   "fields": [
+    "account.move.reversed_entry_id",
+    "account.payment.journal_id",
+    "account.journal.type",
+    "stock.move.origin_returned_move_id",
+    "account.move.create_uid"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-015",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Dòng bán giá 0 hoặc chiết khấu 100%",
+    "en": "Lines sold at zero or with a 100% discount"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.false_sales_and_shipping",
+   "signal": "Hàng được bán giá 0 hoặc giảm 100% mà không phải quà tặng của chương trình khuyến mãi.",
+   "formula": "sale order lines with price_unit = 0 or discount = 100 on a storable product, outside loyalty reward lines",
+   "fields": [
+    "sale.order.line.price_unit",
+    "sale.order.line.discount",
+    "sale.order.line.product_id",
+    "sale.order.line.reward_id"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-016",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Xoá nợ phải thu nhỏ lẻ lặp lại",
+    "en": "Small receivable write-offs, repeated"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Nhiều khoản phải thu nhỏ bị xoá (ghi chi phí) thay vì thu, thường bởi cùng một người.",
+   "formula": "receivable lines fully reconciled against a write-off account line, below max_amount each, >= min_count by one user in the period",
+   "fields": [
+    "account.move.line.account_id",
+    "account.move.line.full_reconcile_id",
+    "account.move.line.balance",
+    "account.move.line.partner_id",
+    "account.move.create_uid"
+   ],
+   "status": "new",
+   "params": {
+    "max_amount": 2000000,
+    "min_count": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-017",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Tiền khách này trả cho hoá đơn khách khác",
+    "en": "One customer's payment applied to another's invoice"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Khoản thu của khách A được đối trừ với hoá đơn của khách B: dấu hiệu gối đầu (lapping) để che khoản đã bị giữ lại.",
+   "formula": "an inbound payment reconciled with a customer invoice of a different commercial partner",
+   "fields": [
+    "account.payment.partner_id",
+    "account.payment.reconciled_invoice_ids",
+    "account.move.partner_id"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-018",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Tiền về nhiều ngày mới ghi nhận",
+    "en": "Receipts recorded days after the bank received them"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Ngân hàng đã báo có từ lâu mà khoản thu mới được ghi nhận, nhất là khi đối trừ cho khách khác.",
+   "formula": "a bank statement line matched to an inbound payment created more than lag_days after the statement line's date",
+   "fields": [
+    "account.bank.statement.line.date",
+    "account.bank.statement.line.partner_id",
+    "account.payment.create_date"
+   ],
+   "status": "new",
+   "params": {
+    "lag_days": 5
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "O2C-019",
+   "process": "order_to_cash",
+   "title": {
+    "vi": "Khoản thu chưa đối trừ quá lâu",
+    "en": "Customer receipts left unmatched"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Tiền khách đã trả nhưng chưa được đối trừ với hoá đơn nào sau nhiều ngày.",
+   "formula": "inbound payments not reconciled min_days after their date",
+   "fields": [
+    "account.payment.is_reconciled",
+    "account.payment.payment_type",
+    "account.payment.date",
+    "account.payment.amount"
+   ],
+   "status": "new",
+   "params": {
+    "min_days": 30
+   },
+   "priority": 2,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-001",
+   "process": "inventory",
+   "title": {
+    "vi": "Huỷ hàng giá trị cao bất thường",
+    "en": "Unusual high-value scrap"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.unconcealed",
+   "signal": "Hàng có giá vốn cao bị huỷ, và tháng có giá trị huỷ vượt xa trung vị các tháng.",
+   "formula": "done scraps of products costing >= high_value per unit, by product, with the monthly scrap value and months >= factor x the median month",
+   "fields": [
+    "stock.scrap.product_id",
+    "stock.scrap.scrap_qty",
+    "stock.scrap.state",
+    "product.template.standard_price"
+   ],
+   "status": "built",
+   "check": "O12",
+   "operations": [
+    "inventory.scrap.list",
+    "catalog.product.list",
+    "catalog.product_variant.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-002",
+   "process": "inventory",
+   "title": {
+    "vi": "Điều chỉnh kiểm kê giảm lặp lại bởi cùng người",
+    "en": "Repeated downward stock adjustments by one user"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.unconcealed",
+   "signal": "Cùng một người nhiều lần điều chỉnh giảm tồn kho (kiểm kê thiếu), giá trị lớn.",
+   "formula": "inventory moves (is_inventory) to an inventory-loss location by one user, >= min_count in the period or value in the top share of all adjustments",
+   "fields": [
+    "stock.move.is_inventory",
+    "stock.move.location_dest_usage",
+    "stock.move.quantity",
+    "stock.move.create_uid",
+    "stock.move.price_unit"
+   ],
+   "status": "designed",
+   "check": "O12",
+   "params": {
+    "min_count": 3,
+    "share": 0.05
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "The built O12 covers scrap only; the count-adjustment half of the designed O12 is this pattern."
+  },
+  {
+   "id": "INV-003",
+   "process": "inventory",
+   "title": {
+    "vi": "Chênh lệch kiểm kê lớn",
+    "en": "Large count differences"
+   },
+   "kind": "status",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Số đếm thực tế lệch nhiều so với sổ sách, tính theo giá trị.",
+   "formula": "quants with an applied or pending inventory_diff_quantity whose value (x cost) is in the top share or above min_value",
+   "fields": [
+    "stock.quant.inventory_diff_quantity",
+    "stock.quant.inventory_quantity_set",
+    "stock.quant.product_id",
+    "product.template.standard_price"
+   ],
+   "status": "new",
+   "params": {
+    "min_value": 5000000
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "abuse"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-004",
+   "process": "inventory",
+   "title": {
+    "vi": "Chứng từ kho ghi lùi ngày",
+    "en": "Backdated stock moves"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.asset_requisitions_and_transfers",
+   "signal": "Phiếu kho được làm xong với ngày ghi sổ sớm hơn nhiều so với lúc thực sự tạo, nhất là quanh kỳ kiểm kê.",
+   "formula": "done moves whose date is more than lag_days before their create_date",
+   "fields": [
+    "stock.move.date",
+    "stock.move.create_date",
+    "stock.move.state",
+    "stock.picking.date_done"
+   ],
+   "status": "new",
+   "params": {
+    "lag_days": 3
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-005",
+   "process": "inventory",
+   "title": {
+    "vi": "Xuất hàng không có đơn bán",
+    "en": "Goods shipped without a sale order"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.false_sales_and_shipping",
+   "signal": "Phiếu xuất cho khách đã hoàn tất nhưng không gắn với đơn bán hay đơn POS nào.",
+   "formula": "done outgoing transfers to a customer location with no sale_id, no pos_session_id and no origin",
+   "fields": [
+    "stock.picking.picking_type_code",
+    "stock.picking.sale_id",
+    "stock.picking.pos_session_id",
+    "stock.picking.origin",
+    "stock.picking.state"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-006",
+   "process": "inventory",
+   "title": {
+    "vi": "Nhập hàng không có đơn mua",
+    "en": "Goods received without a purchase order"
+   },
+   "kind": "error",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.purchasing_and_receiving",
+   "signal": "Phiếu nhập từ nhà cung cấp đã hoàn tất nhưng không gắn với đơn mua.",
+   "formula": "done incoming transfers from a supplier location with no purchase_id and no origin",
+   "fields": [
+    "stock.picking.picking_type_code",
+    "stock.picking.purchase_id",
+    "stock.picking.origin",
+    "stock.picking.state"
+   ],
+   "status": "new",
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-007",
+   "process": "inventory",
+   "title": {
+    "vi": "Nhận quá số lượng đặt",
+    "en": "Received more than ordered"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.purchasing_and_receiving",
+   "signal": "Số lượng nhận trên dòng đơn mua vượt số lượng đặt.",
+   "formula": "purchase order lines with qty_received > product_qty x (1 + tolerance)",
+   "fields": [
+    "purchase.order.line.qty_received",
+    "purchase.order.line.product_qty"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0.05
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-008",
+   "process": "inventory",
+   "title": {
+    "vi": "Tồn kho âm",
+    "en": "Negative stock"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Tồn kho ở một vị trí nội bộ xuống dưới 0: xuất trước khi nhập, hoặc nhập sai.",
+   "formula": "quants in internal locations with quantity < 0",
+   "fields": [
+    "stock.quant.quantity",
+    "stock.quant.location_id",
+    "stock.location.usage"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim",
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "INV-009",
+   "process": "inventory",
+   "title": {
+    "vi": "Hao hụt tăng theo nhóm hàng",
+    "en": "Shrinkage rising by category"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Giá trị hao hụt (kiểm kê thiếu cộng huỷ hàng) của một nhóm hàng tăng so với các tháng trước.",
+   "formula": "monthly value of inventory-loss and scrap moves by product category >= factor x the median of the previous months",
+   "fields": [
+    "stock.move.location_dest_usage",
+    "stock.move.quantity",
+    "stock.move.product_id",
+    "product.template.categ_id",
+    "stock.move.date"
+   ],
+   "status": "new",
+   "params": {
+    "factor": 2
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "abuse"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-010",
+   "process": "inventory",
+   "title": {
+    "vi": "Một số serial xuất cho khách hai lần",
+    "en": "One serial number shipped twice"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.false_sales_and_shipping",
+   "signal": "Cùng một số serial được giao cho khách hai lần mà không có lần trả về ở giữa.",
+   "formula": "done move lines to customer locations sharing a lot_id of a serial-tracked product, without a return between them",
+   "fields": [
+    "stock.move.line.lot_id",
+    "stock.move.line.location_dest_usage",
+    "stock.move.line.state",
+    "stock.move.line.date"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-011",
+   "process": "inventory",
+   "title": {
+    "vi": "Hàng chuyển tới vị trí ít khi dùng",
+    "en": "Stock moved to a rarely used location"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.asset_requisitions_and_transfers",
+   "signal": "Hàng giá trị lớn được chuyển tới một vị trí kho hiếm khi có giao dịch.",
+   "formula": "moves of value >= min_value into a location that received fewer than rare moves in the previous 90 days",
+   "fields": [
+    "stock.move.location_dest_id",
+    "stock.move.quantity",
+    "stock.move.price_unit",
+    "stock.move.date"
+   ],
+   "status": "new",
+   "params": {
+    "min_value": 10000000,
+    "rare": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "INV-012",
+   "process": "inventory",
+   "title": {
+    "vi": "Hàng tồn lâu không luân chuyển",
+    "en": "Slow-moving stock"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Hàng còn tồn nhưng không có lần xuất nào trong nhiều ngày.",
+   "formula": "quants in internal locations whose product had no outgoing move for idle_days, by value",
+   "fields": [
+    "stock.quant.quantity",
+    "stock.quant.in_date",
+    "stock.move.product_id",
+    "stock.move.date"
+   ],
+   "status": "new",
+   "params": {
+    "idle_days": 180
+   },
+   "priority": 3,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "INV-013",
+   "process": "inventory",
+   "title": {
+    "vi": "Dưới mức tồn tối thiểu mà chưa có đơn bổ sung",
+    "en": "Below the minimum with no replenishment"
+   },
+   "kind": "status",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Tồn dự báo đã dưới mức tối thiểu của quy tắc đặt hàng nhưng chưa có đơn mua hay lệnh sản xuất bổ sung.",
+   "formula": "reordering rules whose qty_forecast < product_min_qty with no open purchase or production for the product",
+   "fields": [
+    "stock.warehouse.orderpoint.product_min_qty",
+    "stock.warehouse.orderpoint.qty_forecast",
+    "stock.warehouse.orderpoint.product_id"
+   ],
+   "status": "new",
+   "priority": 3,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "POS-001",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Tỷ lệ hoàn tiền của thu ngân cao bất thường",
+    "en": "A cashier's refund rate far above the others"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.register_disbursements.false_refunds",
+   "signal": "Một thu ngân hoàn tiền nhiều hơn hẳn đồng nghiệp, tính theo số đơn hoặc giá trị.",
+   "formula": "refund lines (refunded_orderline_id set) / sale lines by employee >= factor x everyone else's rate, from min_orders orders",
+   "fields": [
+    "pos.order.line.refunded_orderline_id",
+    "pos.order.line.price_subtotal_incl",
+    "pos.order.employee_id",
+    "pos.order.user_id"
+   ],
+   "status": "new",
+   "params": {
+    "factor": 3,
+    "min_orders": 30
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-002",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Chiết khấu tay cao lặp lại theo thu ngân",
+    "en": "Repeated manual discounts by one cashier"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Một thu ngân nhiều lần giảm giá 30–50% bằng tay.",
+   "formula": "POS lines with discount >= min_discount by employee, count >= min_count and share >= factor x everyone else's",
+   "fields": [
+    "pos.order.line.discount",
+    "pos.order.employee_id",
+    "pos.order.line.price_subtotal_incl"
+   ],
+   "status": "new",
+   "params": {
+    "min_discount": 30,
+    "min_count": 5,
+    "factor": 3
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-003",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Lệch tiền mặt cuối ca lặp lại",
+    "en": "Repeated cash differences at closing"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.cash_larceny",
+   "signal": "Tiền mặt đếm cuối ca thiếu so với sổ, lặp lại ở cùng một người.",
+   "formula": "closed sessions whose cash_register_difference < -tolerance, by user, >= min_count in the period",
+   "fields": [
+    "pos.session.cash_register_difference",
+    "pos.session.user_id",
+    "pos.session.stop_at",
+    "pos.session.state"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 50000,
+    "min_count": 2
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-004",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Hoàn tiền không có đơn gốc hoặc vượt đơn gốc",
+    "en": "Refund without its original order, or above it"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.register_disbursements.false_refunds",
+   "signal": "Dòng hoàn tiền không gắn với đơn bán gốc, hoặc số lượng hoàn lớn hơn số đã bán.",
+   "formula": "POS lines with qty < 0 and no refunded_orderline_id, or whose refunded quantity exceeds the original line's qty",
+   "fields": [
+    "pos.order.line.qty",
+    "pos.order.line.refunded_orderline_id",
+    "pos.order.line.refunded_qty"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-005",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Đơn đã thanh toán bị huỷ",
+    "en": "Paid orders cancelled"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.register_disbursements.false_voids",
+   "signal": "Đơn POS đã có thanh toán nhưng sau đó bị huỷ.",
+   "formula": "POS orders in state cancel holding pos.payment records",
+   "fields": [
+    "pos.order.state",
+    "pos.payment.pos_order_id",
+    "pos.payment.amount"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-006",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Sửa tay giá bán tại quầy",
+    "en": "Prices edited by hand at the till"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Thu ngân sửa giá bán thấp hơn giá niêm yết, lặp lại.",
+   "formula": "POS lines with price_type manual and price_unit below the product's list price, by employee, count >= min_count",
+   "fields": [
+    "pos.order.line.price_type",
+    "pos.order.line.price_unit",
+    "product.template.list_price",
+    "pos.order.employee_id"
+   ],
+   "status": "new",
+   "params": {
+    "min_count": 5
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-007",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Thu tiền mặt chưa nộp vào ngân hàng",
+    "en": "Cash takings not deposited"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.cash_larceny",
+   "signal": "Tiền mặt thu ở quầy trong kỳ không thấy nộp tương ứng vào ngân hàng.",
+   "formula": "cash taken by POS sessions in the period without matching deposits in the bank statements within lag_days",
+   "fields": [
+    "pos.payment.amount",
+    "pos.payment.payment_method_id",
+    "pos.session.cash_register_balance_end_real",
+    "account.bank.statement.line.amount"
+   ],
+   "status": "designed",
+   "check": "O10",
+   "params": {
+    "lag_days": 3
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-008",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Bán cho nhân viên kèm giảm giá",
+    "en": "Discounted sales to employees"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Đơn POS cho khách là nhân viên (hoặc người nhà) kèm chiết khấu ngoài chính sách.",
+   "formula": "POS orders whose partner is an employee's work or private contact, with a line discount > max_discount",
+   "fields": [
+    "pos.order.partner_id",
+    "pos.order.line.discount",
+    "hr.employee.work_contact_id"
+   ],
+   "status": "new",
+   "params": {
+    "max_discount": 10
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-009",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Điểm thành viên được cộng tay bất thường",
+    "en": "Loyalty points added by hand"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.skimming",
+   "signal": "Thẻ thành viên được cộng nhiều điểm không đến từ đơn hàng nào.",
+   "formula": "loyalty history entries with issued points and no order, total >= min_points per card in the period",
+   "fields": [
+    "loyalty.history.issued",
+    "loyalty.history.card_id",
+    "loyalty.history.order_id",
+    "loyalty.card.points"
+   ],
+   "status": "new",
+   "params": {
+    "min_points": 1000
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "POS-010",
+   "process": "point_of_sale",
+   "title": {
+    "vi": "Phiên bán hàng mở quá lâu hoặc ngoài giờ",
+    "en": "Sessions left open, or selling out of hours"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Phiên POS mở qua nhiều ngày, hoặc có đơn bán ngoài giờ mở cửa.",
+   "formula": "sessions open longer than max_hours, and orders whose date_order is outside open_hour..close_hour",
+   "fields": [
+    "pos.session.start_at",
+    "pos.session.stop_at",
+    "pos.order.date_order"
+   ],
+   "status": "new",
+   "params": {
+    "max_hours": 18,
+    "open_hour": 6,
+    "close_hour": 23
+   },
+   "priority": 3,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-001",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Đứt số chứng từ",
+    "en": "Gaps in document numbering"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Dãy số chứng từ của một sổ nhật ký bị đứt quãng.",
+   "formula": "posted moves flagged made_sequence_gap, by journal and sequence prefix",
+   "fields": [
+    "account.move.made_sequence_gap",
+    "account.move.journal_id",
+    "account.move.sequence_prefix",
+    "account.move.sequence_number"
+   ],
+   "status": "designed",
+   "check": "O03",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "asao-review-design",
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Odoo 19 stores made_sequence_gap on each move, so the check is a filtered read."
+  },
+  {
+   "id": "R2R-002",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Bút toán tay vào quỹ, ngân hàng",
+    "en": "Manual entries on cash or bank journals"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.theft_of_receipts.cash_larceny",
+   "signal": "Bút toán tay ghi vào sổ quỹ hoặc ngân hàng, không đến từ khoản thu chi hay sao kê nào.",
+   "formula": "posted entries (move_type entry) on cash or bank journals with no origin_payment_id and no statement_line_id, by who posted",
+   "fields": [
+    "account.move.journal_id",
+    "account.journal.type",
+    "account.move.move_type",
+    "account.move.origin_payment_id",
+    "account.move.statement_line_id"
+   ],
+   "status": "designed",
+   "check": "O09",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-003",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Người tạo cũng là người ghi sổ",
+    "en": "Creator is also the poster"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": null,
+   "signal": "Hoá đơn hay khoản chi trên hạn mức do cùng một người vừa tạo vừa ghi sổ.",
+   "formula": "bills and payments above limit whose creator also made the state change to posted (change history)",
+   "fields": [
+    "account.move.create_uid",
+    "account.move.state",
+    "account.move.amount_total",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "designed",
+   "check": "O14",
+   "params": {
+    "limit": 50000000
+   },
+   "priority": 1,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "asao-review-design",
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-004",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Chứng từ ghi lùi ngày",
+    "en": "Backdated entries"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "financial_statement_fraud.overstatement.timing_differences",
+   "signal": "Chứng từ được tạo sau khi kỳ đã qua nhưng ghi ngày vào kỳ trước.",
+   "formula": "customer invoices and credit notes created more than invoice_lag_days, and manual journal entries (no payment, no bank statement line) created more than entry_lag_days, after the end of the month of their accounting date",
+   "fields": [
+    "account.move.date",
+    "account.move.create_date",
+    "account.move.create_uid",
+    "account.move.move_type",
+    "account.move.partner_id",
+    "account.move.amount_total",
+    "account.move.origin_payment_id",
+    "account.move.statement_line_id",
+    "account.move.journal_id"
+   ],
+   "status": "built",
+   "check": "O26",
+   "operations": [
+    "finance.invoice.list",
+    "finance.journal_entry.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sec-aaer",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3432",
+    "sec-aaer:AAER-4170",
+    "sec-aaer:AAER-4247",
+    "sec-aaer:AAER-4302"
+   ]
+  },
+  {
+   "id": "R2R-005",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Bút toán tay dồn sát cuối kỳ",
+    "en": "Manual entries bunched at period end"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "financial_statement_fraud.overstatement.timing_differences",
+   "signal": "Bút toán tay giá trị lớn dồn vào vài ngày cuối tháng, cuối quý.",
+   "formula": "manual entries (move_type entry, no origin) dated in the last days of a month, value >= min_amount, by user",
+   "fields": [
+    "account.move.move_type",
+    "account.move.date",
+    "account.move.amount_total",
+    "account.move.create_uid"
+   ],
+   "status": "new",
+   "params": {
+    "days": 3,
+    "min_amount": 50000000
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sec-aaer",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3775",
+    "sec-aaer:AAER-4175",
+    "sec-aaer:AAER-4244"
+   ]
+  },
+  {
+   "id": "R2R-006",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Lùi ngày khoá sổ để sửa kỳ đã khoá",
+    "en": "Lock date moved back to reopen a closed period"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "financial_statement_fraud.overstatement.timing_differences",
+   "signal": "Ngày khoá sổ bị lùi lại, hoặc có ngoại lệ khoá sổ, rồi có chứng từ được ghi vào kỳ đã khoá.",
+   "formula": "a tracked change that sets a company lock date earlier than before, or an account.lock_exception, followed by moves dated on or before the old lock date",
+   "fields": [
+    "res.company.fiscalyear_lock_date",
+    "res.company.sale_lock_date",
+    "res.company.purchase_lock_date",
+    "account.lock_exception.lock_date",
+    "account.lock_exception.create_uid",
+    "account.lock_exception.reason",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community",
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3683",
+    "sec-aaer:AAER-3775",
+    "sec-aaer:AAER-3817",
+    "sec-aaer:AAER-4591"
+   ]
+  },
+  {
+   "id": "R2R-007",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Số tròn vào tài khoản treo hoặc ít dùng",
+    "en": "Round amounts on suspense or rarely used accounts"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "financial_statement_fraud.overstatement.concealed_liabilities_and_expenses",
+   "signal": "Bút toán số tròn, giá trị lớn vào tài khoản treo hay tài khoản hiếm khi có phát sinh.",
+   "formula": "journal items of value >= min_amount and a multiple of unit on accounts with fewer than rare items in the previous 12 months",
+   "fields": [
+    "account.move.line.account_id",
+    "account.move.line.balance",
+    "account.move.line.date",
+    "account.move.line.move_id"
+   ],
+   "status": "new",
+   "params": {
+    "min_amount": 10000000,
+    "unit": 1000000,
+    "rare": 5
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice",
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3683",
+    "sec-aaer:AAER-3775",
+    "sec-aaer:AAER-4244",
+    "sec-aaer:AAER-4373"
+   ]
+  },
+  {
+   "id": "R2R-008",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Doanh thu cuối kỳ bị giảm trừ đầu kỳ sau",
+    "en": "Period-end revenue reversed early next period"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "financial_statement_fraud.overstatement.timing_differences",
+   "signal": "Hoá đơn bán lập trong vài ngày cuối kỳ, rồi bị giảm trừ trong vài ngày đầu kỳ sau: làm đẹp doanh thu.",
+   "formula": "customer invoices dated in the last end_days of a month and reversed, for >= min_share of their total, by credit notes dated in the first start_days of the next month",
+   "fields": [
+    "account.move.invoice_date",
+    "account.move.reversed_entry_id",
+    "account.move.move_type",
+    "account.move.amount_total",
+    "account.move.invoice_user_id"
+   ],
+   "status": "built",
+   "check": "O27",
+   "operations": [
+    "finance.invoice.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3869",
+    "sec-aaer:AAER-4169",
+    "sec-aaer:AAER-4343",
+    "sec-aaer:AAER-4417"
+   ]
+  },
+  {
+   "id": "R2R-009",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Ghi sổ rồi đảo ngay",
+    "en": "Posted and reversed straight after"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "financial_statement_fraud.overstatement.concealed_liabilities_and_expenses",
+   "signal": "Chứng từ được ghi sổ rồi bị đảo trong vài ngày bởi cùng một người.",
+   "formula": "posted moves with a reversal_move_ids entry dated within days, both made by one user",
+   "fields": [
+    "account.move.reversal_move_ids",
+    "account.move.date",
+    "account.move.create_uid"
+   ],
+   "status": "new",
+   "params": {
+    "days": 3
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice",
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-4175",
+    "sec-aaer:AAER-4373",
+    "sec-aaer:AAER-4591"
+   ]
+  },
+  {
+   "id": "R2R-010",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Dòng sao kê chưa đối soát quá lâu",
+    "en": "Bank statement lines left unreconciled"
+   },
+   "kind": "status",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Dòng sao kê ngân hàng nhiều ngày vẫn chưa đối soát với chứng từ nào.",
+   "formula": "bank statement lines with is_reconciled false older than min_days",
+   "fields": [
+    "account.bank.statement.line.is_reconciled",
+    "account.bank.statement.line.date",
+    "account.bank.statement.line.amount"
+   ],
+   "status": "new",
+   "params": {
+    "min_days": 15
+   },
+   "priority": 1,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim",
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "R2R-011",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Số dư sổ ngân hàng lệch số dư sao kê",
+    "en": "Book balance differs from the statement's"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": null,
+   "signal": "Số dư cuối kỳ tính trong Odoo khác số dư cuối trên sao kê ngân hàng.",
+   "formula": "bank statements whose balance_end differs from balance_end_real",
+   "fields": [
+    "account.bank.statement.balance_end",
+    "account.bank.statement.balance_end_real",
+    "account.bank.statement.journal_id"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-012",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Chưa bật khoá chuỗi chứng từ hoặc nhật ký kiểm toán",
+    "en": "Hash chain or audit trail switched off"
+   },
+   "kind": "control",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Sổ bán hàng không khoá chuỗi chứng từ đã ghi sổ, hoặc công ty chưa bật nhật ký kiểm toán bắt buộc.",
+   "formula": "sale and purchase journals with restrict_mode_hash_table off, and the company's restrictive_audit_trail off",
+   "fields": [
+    "account.journal.restrict_mode_hash_table",
+    "account.journal.type",
+    "res.company.restrictive_audit_trail"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "R2R-013",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Hoá đơn mua không đính kèm chứng từ gốc",
+    "en": "Vendor bills without the source document"
+   },
+   "kind": "control",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Hoá đơn mua giá trị lớn đã ghi sổ mà không có file hoá đơn gốc đính kèm.",
+   "formula": "posted vendor bills with amount_total >= min_amount and no message_main_attachment_id",
+   "fields": [
+    "account.move.message_main_attachment_id",
+    "account.move.amount_total",
+    "account.move.move_type",
+    "account.move.state"
+   ],
+   "status": "new",
+   "params": {
+    "min_amount": 5000000
+   },
+   "priority": 2,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-014",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Quỹ tiền mặt âm",
+    "en": "Cash on hand below zero"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.theft_of_cash_on_hand",
+   "signal": "Số dư quỹ tiền mặt trong ngày xuống dưới 0: chi trước khi thu, hoặc ghi sai.",
+   "formula": "running balance of a cash journal's default account below zero on any day of the period",
+   "fields": [
+    "account.move.line.account_id",
+    "account.move.line.balance",
+    "account.move.line.date",
+    "account.journal.default_account_id"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-015",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Ghi sổ ngoài giờ làm việc",
+    "en": "Posting out of working hours"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Chứng từ được ghi sổ vào đêm khuya, cuối tuần hay ngày lễ, nhất là ở người ít khi làm vậy.",
+   "formula": "posting events (change history of account.move state to posted) outside start_hour..end_hour or on days off, by user, share >= factor x the user's usual",
+   "fields": [
+    "account.move.state",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "params": {
+    "start_hour": 7,
+    "end_hour": 20,
+    "factor": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "R2R-016",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Điều chỉnh giá trị tồn kho bằng bút toán tay",
+    "en": "Stock valuation adjusted by manual entries"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "financial_statement_fraud.overstatement.improper_asset_valuations",
+   "signal": "Tài khoản hàng tồn kho bị điều chỉnh bằng bút toán tay thay vì phiếu kho.",
+   "formula": "manual journal items on stock valuation accounts (account_type asset_current used by product categories) not created from stock moves",
+   "fields": [
+    "account.move.line.account_id",
+    "account.move.move_type",
+    "account.move.line.balance",
+    "account.account.account_type"
+   ],
+   "status": "new",
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "sec-aaer",
+    "audit-practice"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3782",
+    "sec-aaer:AAER-3840",
+    "sec-aaer:AAER-3949",
+    "sec-aaer:AAER-4177"
+   ]
+  },
+  {
+   "id": "R2R-017",
+   "process": "record_to_report",
+   "title": {
+    "vi": "Hoá đơn bị sửa sau khi đã ghi sổ",
+    "en": "Invoices changed after posting"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "financial_statement_fraud.overstatement.concealed_liabilities_and_expenses",
+   "signal": "Hoá đơn đã ghi sổ bị đưa về nháp, sửa số tiền, khách hay ngày, rồi ghi sổ lại.",
+   "formula": "moves with posted_before set whose tracked amount, partner or date changed after the first posting, by user",
+   "fields": [
+    "account.move.posted_before",
+    "account.move.amount_untaxed",
+    "account.move.partner_id",
+    "account.move.date",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community",
+    "audit-practice",
+    "sec-aaer"
+   ],
+   "cases": [
+    "sim",
+    "sec-aaer:AAER-3432",
+    "sec-aaer:AAER-3869",
+    "sec-aaer:AAER-3932",
+    "sec-aaer:AAER-4170"
+   ]
+  },
+  {
+   "id": "EXP-001",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí kê hai lần",
+    "en": "Expense claimed twice"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.multiple_reimbursements",
+   "signal": "Hai khoản chi phí của cùng nhân viên, cùng số tiền, cách nhau vài ngày.",
+   "formula": "two claims of one employee with the same amount, <= window_days apart",
+   "fields": [
+    "hr.expense.employee_id",
+    "hr.expense.total_amount",
+    "hr.expense.date"
+   ],
+   "status": "built",
+   "check": "O23",
+   "operations": [
+    "people.expense.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-002",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí vào ngày nghỉ phép",
+    "en": "Expense dated on a day of leave"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.fictitious",
+   "signal": "Khoản chi phí công việc có ngày nằm trong kỳ nghỉ phép đã duyệt của chính người kê.",
+   "formula": "a claim dated inside one of the claimant's validated leaves",
+   "fields": [
+    "hr.expense.date",
+    "hr.expense.employee_id",
+    "hr.leave.date_from",
+    "hr.leave.date_to",
+    "hr.leave.state"
+   ],
+   "status": "built",
+   "check": "O24",
+   "operations": [
+    "people.expense.list",
+    "workforce.leave.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-003",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí toàn số tròn",
+    "en": "Round-number expenses"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.overstated",
+   "signal": "Tỷ lệ khoản chi phí số tròn của một nhân viên cao hơn hẳn mọi người.",
+   "formula": "an employee's share of claims that are multiples of unit >= max(min_share, times_others x everyone else's share), from min_claims claims",
+   "fields": [
+    "hr.expense.total_amount",
+    "hr.expense.employee_id"
+   ],
+   "status": "built",
+   "check": "O25",
+   "operations": [
+    "people.expense.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "asao-review-design",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-004",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí sát dưới hạn mức duyệt",
+    "en": "Expenses just under the approval limit"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.overstated",
+   "signal": "Nhiều khoản chi phí rơi vào khoảng ngay dưới hạn mức phải duyệt (ví dụ 4,9 triệu khi hạn mức là 5 triệu).",
+   "formula": "claims in [band x limit, limit) by employee, count >= min_count",
+   "fields": [
+    "hr.expense.total_amount",
+    "hr.expense.employee_id",
+    "hr.expense.date"
+   ],
+   "status": "new",
+   "params": {
+    "limit": 5000000,
+    "band": 0.9,
+    "min_count": 3
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-005",
+   "process": "expenses",
+   "title": {
+    "vi": "Tách một khoản chi phí thành nhiều khoản",
+    "en": "One expense split into several"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.overstated",
+   "signal": "Một nhân viên kê nhiều khoản cùng ngày, cùng loại, mỗi khoản dưới hạn mức nhưng cộng lại vượt.",
+   "formula": "claims of one employee on one day and one product, each below limit, together >= limit, not made by Odoo's split (split_expense_origin_id empty)",
+   "fields": [
+    "hr.expense.employee_id",
+    "hr.expense.date",
+    "hr.expense.product_id",
+    "hr.expense.total_amount",
+    "hr.expense.split_expense_origin_id"
+   ],
+   "status": "new",
+   "params": {
+    "limit": 5000000
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-006",
+   "process": "expenses",
+   "title": {
+    "vi": "Tự duyệt chi phí của mình",
+    "en": "Approving one's own expense"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.fictitious",
+   "signal": "Khoản chi phí được duyệt bởi chính người kê (người quản lý duyệt cũng là chủ khoản chi).",
+   "formula": "approved claims whose manager_id is the claimant's own user, or whose approval change was made by the claimant",
+   "fields": [
+    "hr.expense.manager_id",
+    "hr.expense.approval_state",
+    "hr.expense.employee_id",
+    "hr.employee.user_id",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "control_weakness",
+    "abuse"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-007",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí không có chứng từ",
+    "en": "Expense without a receipt"
+   },
+   "kind": "control",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.fictitious",
+   "signal": "Khoản chi phí giá trị lớn không có ảnh hay file chứng từ đính kèm.",
+   "formula": "claims with total_amount >= min_amount and no message_main_attachment_id",
+   "fields": [
+    "hr.expense.message_main_attachment_id",
+    "hr.expense.total_amount"
+   ],
+   "status": "new",
+   "params": {
+    "min_amount": 1000000
+   },
+   "priority": 2,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-008",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí công tác vào ngày nghỉ",
+    "en": "Business expenses on days off"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.mischaracterized",
+   "signal": "Chi phí đi lại, tiếp khách vào cuối tuần hoặc ngày lễ, lặp lại ở một người.",
+   "formula": "claims of chosen products dated on weekends or holidays, by employee, count >= min_count",
+   "fields": [
+    "hr.expense.date",
+    "hr.expense.product_id",
+    "hr.expense.employee_id"
+   ],
+   "status": "new",
+   "params": {
+    "min_count": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "EXP-009",
+   "process": "expenses",
+   "title": {
+    "vi": "Chi phí sau ngày nghỉ việc",
+    "en": "Expenses after the leaving date"
+   },
+   "kind": "error",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.expense_reimbursement.fictitious",
+   "signal": "Khoản chi phí có ngày sau ngày nghỉ việc của nhân viên.",
+   "formula": "claims dated after the employee's departure_date",
+   "fields": [
+    "hr.expense.date",
+    "hr.expense.employee_id",
+    "hr.version.departure_date"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-001",
+   "process": "people",
+   "title": {
+    "vi": "Nhiều nhân viên chung một tài khoản ngân hàng",
+    "en": "Several employees share one bank account"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.ghost_employee",
+   "signal": "Cùng một số tài khoản nằm trên hồ sơ của hai nhân viên trở lên: có thể có nhân viên ma nhận lương hộ.",
+   "formula": "the same sanitized_acc_number among the bank accounts of two or more employees",
+   "fields": [
+    "hr.employee.bank_account_ids",
+    "res.partner.bank.sanitized_acc_number"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-002",
+   "process": "people",
+   "title": {
+    "vi": "Đổi tài khoản nhận lương sát ngày trả",
+    "en": "Salary account changed just before payday"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.falsified_wages",
+   "signal": "Tài khoản ngân hàng của nhân viên bị đổi ngay trước một khoản chi cho nhân viên đó.",
+   "formula": "a tracked change of an employee's bank_account_ids or of that account's acc_number within window_days before an outbound payment to the employee",
+   "fields": [
+    "hr.employee.bank_account_ids",
+    "res.partner.bank.acc_number",
+    "account.payment.partner_id",
+    "account.payment.date",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "params": {
+    "window_days": 7
+   },
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree",
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-003",
+   "process": "people",
+   "title": {
+    "vi": "Nhân viên có lương nhưng không có hoạt động",
+    "en": "Paid employee with no activity"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.ghost_employee",
+   "signal": "Nhân viên có mức lương nhưng cả kỳ không chấm công, không nghỉ phép, không đăng nhập, không chi phí.",
+   "formula": "employees with a wage on their current version and no attendance, leave, expense or login in the period",
+   "fields": [
+    "hr.version.wage",
+    "hr.attendance.employee_id",
+    "hr.leave.employee_id",
+    "hr.expense.employee_id",
+    "res.users.log.create_uid"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Odoo Community has no payroll; salary payments are read as outbound payments to the employee's contact."
+  },
+  {
+   "id": "HR-004",
+   "process": "people",
+   "title": {
+    "vi": "Vẫn chi trả sau ngày nghỉ việc",
+    "en": "Payments after the leaving date"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.ghost_employee",
+   "signal": "Có khoản chi cho nhân viên sau ngày nghỉ việc của người đó.",
+   "formula": "outbound payments to an employee's work or private contact dated after their departure_date",
+   "fields": [
+    "hr.version.departure_date",
+    "hr.employee.work_contact_id",
+    "account.payment.partner_id",
+    "account.payment.date"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-005",
+   "process": "people",
+   "title": {
+    "vi": "Giờ làm thêm tăng vọt",
+    "en": "Overtime spike"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.falsified_wages",
+   "signal": "Giờ làm thêm của một người hoặc một nhóm tăng vọt so với các tháng trước.",
+   "formula": "monthly validated_overtime_hours by employee >= factor x the employee's median month, and >= min_hours",
+   "fields": [
+    "hr.attendance.overtime_hours",
+    "hr.attendance.validated_overtime_hours",
+    "hr.attendance.employee_id",
+    "hr.attendance.check_in"
+   ],
+   "status": "new",
+   "params": {
+    "factor": 2,
+    "min_hours": 10
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-006",
+   "process": "people",
+   "title": {
+    "vi": "Giờ chấm công bị sửa sau đó",
+    "en": "Attendance edited afterwards"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.falsified_wages",
+   "signal": "Giờ vào, giờ ra bị sửa sau khi đã ghi, nhất là khi người sửa là chính nhân viên đó.",
+   "formula": "tracked changes of hr.attendance check_in or check_out, by author, count >= min_count in the period",
+   "fields": [
+    "hr.attendance.check_in",
+    "hr.attendance.check_out",
+    "hr.attendance.employee_id",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "params": {
+    "min_count": 3
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-007",
+   "process": "people",
+   "title": {
+    "vi": "Mức lương bị sửa",
+    "en": "Wage changed"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.falsified_wages",
+   "signal": "Mức lương trên hồ sơ bị sửa, nhất là bởi người không phụ trách nhân sự hoặc không kèm phiên bản hợp đồng mới.",
+   "formula": "tracked changes of hr.version wage, with the author and whether a new version (date_version) came with it",
+   "fields": [
+    "hr.version.wage",
+    "hr.version.date_version",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community",
+    "acfe-fraud-tree"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-008",
+   "process": "people",
+   "title": {
+    "vi": "Hồ sơ nhân viên trùng",
+    "en": "Duplicate employee records"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.payroll_schemes.ghost_employee",
+   "signal": "Hai hồ sơ nhân viên trùng số định danh, mã số thuế cá nhân, email hay điện thoại riêng.",
+   "formula": "employees sharing identification_id, ssnid, private_email or private_phone",
+   "fields": [
+    "hr.employee.identification_id",
+    "hr.employee.ssnid",
+    "hr.employee.private_email",
+    "hr.employee.private_phone"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "HR-009",
+   "process": "people",
+   "title": {
+    "vi": "Chấm công trong ngày nghỉ phép",
+    "en": "Attendance during an approved leave"
+   },
+   "kind": "error",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Có giờ chấm công trong một ngày nghỉ phép đã được duyệt.",
+   "formula": "attendances whose check_in falls inside a validated leave of the same employee",
+   "fields": [
+    "hr.attendance.check_in",
+    "hr.attendance.employee_id",
+    "hr.leave.date_from",
+    "hr.leave.date_to",
+    "hr.leave.state"
+   ],
+   "status": "new",
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "AC-001",
+   "process": "access",
+   "title": {
+    "vi": "Một người vừa tạo nhà cung cấp vừa chi tiền cho họ",
+    "en": "One user creates a vendor and pays it"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Cùng một người tạo hồ sơ nhà cung cấp và tự lập khoản chi cho nhà cung cấp đó.",
+   "formula": "outbound payments created by the user who created the paid partner, amount >= min_amount",
+   "fields": [
+    "res.partner.create_uid",
+    "account.payment.create_uid",
+    "account.payment.partner_id",
+    "account.payment.amount"
+   ],
+   "status": "new",
+   "params": {
+    "min_amount": 0
+   },
+   "priority": 1,
+   "causes": [
+    "control_weakness",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "AC-002",
+   "process": "access",
+   "title": {
+    "vi": "Một người làm trọn chu trình mua hàng",
+    "en": "One user runs the whole purchase cycle"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes",
+   "signal": "Cùng một người lập đơn mua, nhận hàng, ghi hoá đơn và lập khoản chi cho một giao dịch.",
+   "formula": "a purchase order whose order, receipt, bill and payment were all created by one user",
+   "fields": [
+    "purchase.order.create_uid",
+    "stock.picking.create_uid",
+    "stock.picking.purchase_id",
+    "account.move.create_uid",
+    "account.payment.create_uid"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "AC-003",
+   "process": "access",
+   "title": {
+    "vi": "Người quản trị hệ thống nhập giao dịch hằng ngày",
+    "en": "Administrators entering day-to-day transactions"
+   },
+   "kind": "control",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Tài khoản có quyền cài đặt hệ thống cũng tạo hoá đơn, khoản chi hằng ngày.",
+   "formula": "users in base.group_system who created invoices or payments in the period",
+   "fields": [
+    "res.groups.user_ids",
+    "account.move.create_uid",
+    "account.payment.create_uid"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "AC-004",
+   "process": "access",
+   "title": {
+    "vi": "Tài khoản của người đã nghỉ việc vẫn hoạt động",
+    "en": "A leaver's account still in use"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": null,
+   "signal": "Người dùng gắn với nhân viên đã nghỉ việc vẫn đăng nhập hoặc vẫn tạo, sửa dữ liệu.",
+   "formula": "users of employees past their departure_date with a login (res.users.log) or records written after that date",
+   "fields": [
+    "hr.version.departure_date",
+    "hr.employee.user_id",
+    "res.users.log.create_uid",
+    "res.users.log.create_date"
+   ],
+   "status": "new",
+   "priority": 1,
+   "causes": [
+    "control_weakness",
+    "abuse"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "AC-005",
+   "process": "access",
+   "title": {
+    "vi": "Khoá API không hết hạn",
+    "en": "API keys that never expire"
+   },
+   "kind": "control",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Có khoá API không đặt ngày hết hạn, hoặc một người giữ nhiều khoá.",
+   "formula": "API keys with no expiration_date, or users holding more than max_keys keys",
+   "fields": [
+    "res.users.apikeys.expiration_date",
+    "res.users.apikeys.user_id"
+   ],
+   "status": "new",
+   "params": {
+    "max_keys": 2
+   },
+   "priority": 3,
+   "causes": [
+    "control_weakness"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "MRP-001",
+   "process": "manufacturing",
+   "title": {
+    "vi": "Tiêu hao nguyên liệu vượt định mức",
+    "en": "Components consumed above the bill of materials"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.misuse",
+   "signal": "Lệnh sản xuất dùng nguyên liệu nhiều hơn định mức, lặp lại ở cùng sản phẩm hay cùng người.",
+   "formula": "done component moves of a production whose quantity > product_uom_qty x (1 + tolerance), by product and user",
+   "fields": [
+    "stock.move.raw_material_production_id",
+    "stock.move.quantity",
+    "stock.move.product_uom_qty",
+    "mrp.production.user_id"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0.05
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MRP-002",
+   "process": "manufacturing",
+   "title": {
+    "vi": "Phế phẩm sản xuất cao",
+    "en": "High production scrap"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.unconcealed",
+   "signal": "Tỷ lệ huỷ trong sản xuất của một sản phẩm hay một ca cao hơn hẳn thường lệ.",
+   "formula": "scraps linked to productions / produced quantity by product >= factor x its usual rate",
+   "fields": [
+    "stock.scrap.production_id",
+    "stock.scrap.scrap_qty",
+    "mrp.production.qty_produced",
+    "mrp.production.product_id"
+   ],
+   "status": "new",
+   "params": {
+    "factor": 2
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MRP-003",
+   "process": "manufacturing",
+   "title": {
+    "vi": "Sản xuất ra ít hơn kế hoạch, lặp lại",
+    "en": "Repeatedly producing less than planned"
+   },
+   "kind": "status",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Lệnh sản xuất hoàn tất với số lượng thành phẩm thấp hơn kế hoạch nhiều lần.",
+   "formula": "done productions with qty_produced < product_qty x (1 - tolerance), by product, count >= min_count",
+   "fields": [
+    "mrp.production.qty_produced",
+    "mrp.production.product_qty",
+    "mrp.production.state",
+    "mrp.production.product_id"
+   ],
+   "status": "new",
+   "params": {
+    "tolerance": 0.05,
+    "min_count": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MRP-004",
+   "process": "manufacturing",
+   "title": {
+    "vi": "Tháo dỡ thành phẩm thường xuyên",
+    "en": "Frequent unbuild orders"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "asset_misappropriation.inventory_and_other_assets.larceny.asset_requisitions_and_transfers",
+   "signal": "Thành phẩm bị tháo dỡ ngược lại thành nguyên liệu nhiều lần, có thể để che hàng thất thoát.",
+   "formula": "unbuild orders by product and user, count >= min_count in the period",
+   "fields": [
+    "mrp.unbuild.product_id",
+    "mrp.unbuild.product_qty",
+    "mrp.unbuild.create_uid",
+    "mrp.unbuild.state"
+   ],
+   "status": "new",
+   "params": {
+    "min_count": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MD-001",
+   "process": "master_data",
+   "title": {
+    "vi": "Đối tác trùng",
+    "en": "Duplicate partners"
+   },
+   "kind": "error",
+   "severity": "THEO_DOI",
+   "scheme": null,
+   "signal": "Khách hàng hoặc nhà cung cấp dùng chung mã số thuế, điện thoại hay email (trừ các liên hệ của cùng một công ty).",
+   "formula": "customers or vendors sharing a tax code, a phone (9+ digits) or an e-mail, excluding contacts of one company",
+   "fields": [
+    "res.partner.vat",
+    "res.partner.phone",
+    "res.partner.email",
+    "res.partner.parent_id"
+   ],
+   "status": "built",
+   "check": "O13",
+   "operations": [
+    "identity.contact.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "asao-review-design"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MD-002",
+   "process": "master_data",
+   "title": {
+    "vi": "Mã số thuế hoặc tên đối tác bị sửa sau khi đã có giao dịch",
+    "en": "A partner's tax code or name changed after trading"
+   },
+   "kind": "sign",
+   "severity": "NEN_XU_LY",
+   "scheme": "asset_misappropriation.cash.fraudulent_disbursements.billing_schemes.shell_company",
+   "signal": "Hồ sơ đối tác đã có hoá đơn bị sửa mã số thuế hay tên.",
+   "formula": "tracked changes of res.partner vat or name on partners holding posted invoices before the change",
+   "fields": [
+    "res.partner.vat",
+    "res.partner.name",
+    "account.move.partner_id",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MD-003",
+   "process": "master_data",
+   "title": {
+    "vi": "Giá bán bị sửa sát lúc bán rồi sửa lại",
+    "en": "List price changed around a sale and back"
+   },
+   "kind": "sign",
+   "severity": "XEM_NGAY",
+   "scheme": "corruption.conflicts_of_interest.sales_schemes",
+   "signal": "Giá bán của sản phẩm bị hạ ngay trước một đơn bán rồi tăng lại ngay sau.",
+   "formula": "a tracked list_price decrease of a product followed, within window_days, by a sale of it and a change back",
+   "fields": [
+    "product.template.list_price",
+    "sale.order.line.product_id",
+    "sale.order.date_order",
+    "mail.tracking.value.field_id",
+    "mail.tracking.value.old_value_char",
+    "mail.tracking.value.new_value_char",
+    "mail.tracking.value.mail_message_id",
+    "mail.message.model",
+    "mail.message.res_id",
+    "mail.message.author_id",
+    "mail.message.date"
+   ],
+   "status": "new",
+   "params": {
+    "window_days": 3
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "MD-004",
+   "process": "master_data",
+   "title": {
+    "vi": "Đối tác giao dịch lớn thiếu thông tin bắt buộc",
+    "en": "Large trading partners missing required details"
+   },
+   "kind": "status",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Khách hàng hoặc nhà cung cấp có giao dịch lớn nhưng thiếu mã số thuế hoặc địa chỉ.",
+   "formula": "partners invoiced or billed >= min_amount in the period with no vat or no street",
+   "fields": [
+    "res.partner.vat",
+    "res.partner.street",
+    "account.move.amount_total",
+    "account.move.partner_id"
+   ],
+   "status": "new",
+   "params": {
+    "min_amount": 20000000
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim",
+    "lab-demo"
+   ]
+  },
+  {
+   "id": "TAX-001",
+   "process": "tax",
+   "title": {
+    "vi": "Mua hàng từ 5 triệu đồng trả bằng tiền mặt",
+    "en": "Purchases of 5 million VND or more paid in cash"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Hoá đơn mua từ 5 triệu đồng (đã gồm thuế) được trả bằng tiền mặt: thuế GTGT đầu vào của hoá đơn đó không được khấu trừ.",
+   "formula": "posted vendor bills in VND with VAT, total (VAT included) >= threshold, settled by payments of a cash journal; the VAT of the share paid in cash is not deductible (Nghị định 181/2025/NĐ-CP, Điều 26)",
+   "fields": [
+    "account.move.amount_total",
+    "account.move.amount_untaxed",
+    "account.move.currency_id",
+    "account.move.move_type",
+    "account.move.invoice_date",
+    "account.move.partner_id",
+    "account.payment.journal_id",
+    "account.payment.reconciled_bill_ids",
+    "account.payment.payment_type",
+    "account.payment.amount",
+    "account.journal.type"
+   ],
+   "status": "built",
+   "check": "O28",
+   "operations": [
+    "finance.invoice.list",
+    "finance.payment.list",
+    "finance.journal.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "vn-vat-2024"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Nghị định 181/2025/NĐ-CP, Điều 26 (Công báo số 899+900, 16/7/2025), read in the gazette text; Nghị định 144/2026/NĐ-CP (Công báo số 278, 18/5/2026) amends only point g of clause 2 (deferred and instalment payments)."
+  },
+  {
+   "id": "TAX-002",
+   "process": "tax",
+   "title": {
+    "vi": "Mua nhiều lần trong ngày, tổng từ 5 triệu, trả tiền mặt",
+    "en": "Same-day purchases totalling 5 million VND, paid in cash"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Nhiều hoá đơn mua của cùng nhà cung cấp trong một ngày, mỗi hoá đơn dưới 5 triệu nhưng tổng từ 5 triệu, trả tiền mặt.",
+   "formula": "posted vendor bills in VND with VAT of one vendor on one invoice date, each below threshold, together >= threshold, some settled by a cash journal (Nghị định 181/2025/NĐ-CP, Điều 26 khoản 3)",
+   "fields": [
+    "account.move.amount_total",
+    "account.move.amount_untaxed",
+    "account.move.currency_id",
+    "account.move.move_type",
+    "account.move.invoice_date",
+    "account.move.partner_id",
+    "account.payment.journal_id",
+    "account.payment.reconciled_bill_ids",
+    "account.payment.payment_type",
+    "account.payment.amount",
+    "account.journal.type"
+   ],
+   "status": "built",
+   "check": "O29",
+   "operations": [
+    "finance.invoice.list",
+    "finance.payment.list",
+    "finance.journal.list"
+   ],
+   "priority": 1,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "vn-vat-2024"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Nghị định 181/2025/NĐ-CP, Điều 26 (Công báo số 899+900, 16/7/2025), read in the gazette text; Nghị định 144/2026/NĐ-CP (Công báo số 278, 18/5/2026) amends only point g of clause 2 (deferred and instalment payments)."
+  },
+  {
+   "id": "TAX-003",
+   "process": "tax",
+   "title": {
+    "vi": "Hoá đơn mua có thuế GTGT nhưng người bán không có mã số thuế",
+    "en": "Input VAT on a bill whose vendor has no tax code"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Hoá đơn mua kê thuế GTGT đầu vào trong khi hồ sơ người bán không có mã số thuế.",
+   "formula": "posted vendor bills with taxed lines (tax_ids not empty) whose partner has no vat",
+   "fields": [
+    "account.move.line.tax_ids",
+    "account.move.partner_id",
+    "res.partner.vat",
+    "account.move.move_type"
+   ],
+   "status": "new",
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "audit-practice"
+   ],
+   "cases": [
+    "sim"
+   ]
+  },
+  {
+   "id": "TAX-004",
+   "process": "tax",
+   "title": {
+    "vi": "Hoá đơn bán chưa phát hành hoá đơn điện tử",
+    "en": "Customer invoices not issued as e-invoices"
+   },
+   "kind": "error",
+   "severity": "NEN_XU_LY",
+   "scheme": null,
+   "signal": "Hoá đơn bán đã ghi sổ nhiều ngày mà chưa phát hành hoá đơn điện tử.",
+   "formula": "posted customer invoices older than min_days whose l10n_vn_edi_invoice_state is not sent",
+   "fields": [
+    "account.move.l10n_vn_edi_invoice_state",
+    "account.move.invoice_date",
+    "account.move.move_type",
+    "account.move.state"
+   ],
+   "status": "new",
+   "params": {
+    "min_days": 1
+   },
+   "priority": 2,
+   "causes": [
+    "process_error",
+    "data_quality"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Needs the Vietnamese e-invoicing module (l10n_vn_edi_viettel)."
+  },
+  {
+   "id": "TAX-005",
+   "process": "tax",
+   "title": {
+    "vi": "Hoá đơn điện tử bị thay thế, điều chỉnh nhiều lần",
+    "en": "E-invoices replaced or adjusted many times"
+   },
+   "kind": "sign",
+   "severity": "THEO_DOI",
+   "scheme": "financial_statement_fraud.overstatement.timing_differences",
+   "signal": "Một khách hoặc một người bán có nhiều hoá đơn điện tử bị thay thế, điều chỉnh.",
+   "formula": "customer invoices with l10n_vn_edi_replacement_origin_id set, by customer and salesperson, count >= min_count",
+   "fields": [
+    "account.move.l10n_vn_edi_replacement_origin_id",
+    "account.move.partner_id",
+    "account.move.invoice_user_id"
+   ],
+   "status": "new",
+   "params": {
+    "min_count": 3
+   },
+   "priority": 3,
+   "causes": [
+    "process_error",
+    "control_weakness",
+    "abuse",
+    "fraud"
+   ],
+   "sources": [
+    "odoo-19-community"
+   ],
+   "cases": [
+    "sim"
+   ],
+   "notes": "Needs the Vietnamese e-invoicing module (l10n_vn_edi_viettel)."
+  }
+ ]
+}

@@ -65,7 +65,9 @@ const AcceptedCatalogSize = 105
 // (only Odoo's cron runs it); the transaction's Capture becomes the capture dialog's operation.
 // 1253 -> 1248: writes Odoo grants to no group (UNOFFERED_WRITES): creating a payment method, and
 // creating or updating live chat member history and work-center productivity loss types.
-const AcceptedSurfaceSize = 1248
+// 1248 -> 1252: the change history a review reads (2026-10-15): field changes and the notes that carry
+// them, held to payee bank accounts, document states and dates, lock dates, prices and tax codes.
+const AcceptedSurfaceSize = 1252
 
 // acceptedUnverifiedOperations are the curated operations allowed to be UNVERIFIED. It is empty: the
 // four Gate 2 retail reads that were (c18a5d95) now carry oracle-agreed records, and the curated
@@ -99,7 +101,10 @@ var acceptedUnverifiedOperations = []string{}
 // operation id stopped counting as manifest material: writes 503. Then ten writes given values Odoo
 // accepts (recurrence rules, term days, percentages, bank journals, tax groups): writes 513. Then a
 // loyalty card's create, with its program: writes 514.
-const AcceptedSurfaceCurrent = 521 + 514 + 134 + 7 + 6
+// 2026-10-15: the change history's four reads, on 19.0 and on 20.0 with mail_tracking: reads 525.
+// Then the Settings page's save, verified field by field (odoo-settings-conformance.py): actions and
+// wizards 135.
+const AcceptedSurfaceCurrent = 525 + 514 + 135 + 7 + 6
 
 func run(t *testing.T, args ...string) (int, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()

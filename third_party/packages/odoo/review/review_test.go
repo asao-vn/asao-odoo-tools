@@ -134,8 +134,8 @@ func TestEveryCheckHasItsKnowledgeAndFormula(t *testing.T) {
 			t.Errorf("%s lacks its formula or its knowledge note", c.ID)
 		}
 	}
-	if len(Catalog()) != 14 {
-		t.Fatalf("%d checks, want 14", len(Catalog()))
+	if len(Catalog()) != 20 {
+		t.Fatalf("%d checks, want 20", len(Catalog()))
 	}
 }
 

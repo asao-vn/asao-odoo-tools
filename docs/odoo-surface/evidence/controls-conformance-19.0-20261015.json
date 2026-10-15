@@ -1,0 +1,106 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "odoo-cli controls plan, apply (with the plan hash) and status for K01-K05 and K07, then K08, on one company; each switch read where Odoo keeps it, and Odoo's behaviour behind each control exercised through an independent JSON-RPC oracle, as the administrator and as a purchase user the run made; every setting and lock date restored through the CLI afterwards. Statuses and names only.",
+ "provider": {
+  "endpointHash": "sha256:c56623ae6fe099827ec33272e01babd0a0fc357931a6791bb4480efc4beb0e32",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-15T16:06:17Z",
+ "records": {
+  "K01": {
+   "checked": [
+    "status ON",
+    "two-step approval",
+    "over the amount waits",
+    "the buyer cannot approve"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K02": {
+   "checked": [
+    "status ON",
+    "orders lock",
+    "approved and locked",
+    "the buyer cannot cancel"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K03": {
+   "checked": [
+    "status ON",
+    "sales lock",
+    "confirmed and locked",
+    "cannot cancel"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K04": {
+   "checked": [
+    "status ON",
+    "lock dates",
+    "an invoice of the locked period cannot be reset to draft",
+    "a new out_invoice dated in the locked period is posted after the lock",
+    "a new in_invoice dated in the locked period is posted after the lock"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K05": {
+   "checked": [
+    "status ON",
+    "audit trail",
+    "a posted bill cannot be deleted"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K06": {
+   "checked": [
+    "read, never applied"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K07": {
+   "checked": [
+    "status ON",
+    "credit limit",
+    "a customer over its limit is warned on a draft"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "K08": {
+   "checked": [
+    "applied",
+    "status ON, the CLI still reads with its API key",
+    "an employee's password is refused over RPC",
+    "the administrator's API key still works"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  },
+  "run": {
+   "checked": [
+    "plan",
+    "apply",
+    "apply refuses another plan",
+    "settings restored through the CLI",
+    "lock dates restored through the CLI",
+    "the oracle sees the first settings",
+    "the oracle sees the first lock dates"
+   ],
+   "failures": [],
+   "status": "AGREE"
+  }
+ },
+ "schemaVersion": "odoo.controls-conformance-run/v1"
+}

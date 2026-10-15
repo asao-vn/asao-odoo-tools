@@ -46,9 +46,12 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// payment tokens, once an operation id stopped counting as material: 503 creates/updates. Then ten
 	// writes the runner had given values Odoo refuses (a recurrence rule, days of a term, a percentage,
 	// a bank journal, the tax group's country): 513 creates/updates. Then a loyalty card's create, once
-	// it took its program: 514.
-	if len(report.Records) != 103+521+514+134+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 1182 surface", len(report.Records))
+	// it took its program: 514. 2026-10-15: the change history a review reads (field changes and their
+	// notes), and the journal entries and payments re-verified with the fields it reads: reads 525.
+	// Then the Settings page's save, set field by field and read back by an oracle that opens the page
+	// (odoo-settings-conformance.py), with the controls' settings and lock dates: 135 actions and wizards.
+	if len(report.Records) != 103+525+514+135+7+6 {
+		t.Fatalf("current manifest has %d records, want 103 curated + 1187 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}

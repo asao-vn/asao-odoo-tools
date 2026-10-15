@@ -712,6 +712,32 @@ func TestOdoo20MergedModulesCountAsInstalled(t *testing.T) {
 	}
 }
 
+// 20.0 split the change history out of mail into mail_tracking: its operations are refused on a 20.0
+// without it, naming the module, and need nothing more on 19.0, where mail carries it.
+func TestOdoo20ChangeHistoryNeedsMailTracking(t *testing.T) {
+	for _, id := range []string{"structure.field_change.list", "structure.change_note.describe"} {
+		op, ok := LookupStandaloneOperation(id)
+		if !ok {
+			t.Fatalf("%s is not in the catalog", id)
+		}
+		without := ProviderFit{ProviderSeries: Odoo20ProviderSeries, origins: map[string]ModuleOrigin{"base": ModuleStandard, "mail": ModuleStandard}}
+		if verdict := without.Assess(op); verdict.Verdict != FitRefused || strings.Join(verdict.MissingModules, ",") != "mail_tracking" {
+			t.Fatalf("20.0 without mail_tracking, %s: %+v", id, verdict)
+		}
+		with := ProviderFit{ProviderSeries: Odoo20ProviderSeries, origins: map[string]ModuleOrigin{"base": ModuleStandard, "mail": ModuleStandard, "mail_tracking": ModuleStandard}}
+		if verdict := with.Assess(op); verdict.Verdict == FitRefused {
+			t.Fatalf("20.0 with mail_tracking refused %s: %v", id, verdict.Reasons)
+		}
+		on19 := ProviderFit{ProviderSeries: Odoo19ProviderSeries, origins: map[string]ModuleOrigin{"base": ModuleStandard, "mail": ModuleStandard}}
+		if verdict := on19.Assess(op); verdict.Verdict == FitRefused {
+			t.Fatalf("19.0 refused %s: %v", id, verdict.Reasons)
+		}
+	}
+	if len(SeriesExtraModules(Odoo20ProviderSeries, "finance.payment.list")) != 0 {
+		t.Fatal("an operation outside the change history needs an extra module on 20.0")
+	}
+}
+
 // A grouped read on 20.0 is translated like a read: the grouping, the aggregates and the order name
 // the series' fields, the groups come back under the baseline's, and a derived field is refused.
 func TestOdoo20DialectTranslatesGroupedReads(t *testing.T) {

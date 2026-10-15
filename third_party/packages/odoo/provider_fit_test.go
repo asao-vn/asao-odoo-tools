@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"reflect"
 	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -296,9 +297,11 @@ func TestTheVersionHandshakeRecognisesAnEndpointThatIsNotOdoo(t *testing.T) {
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			requests := 0
+			// Counted from the server's handler goroutine and read here: atomic, or -race reports it (the
+			// closed-connection case returns to the client before the handler has finished).
+			var requests atomic.Int32
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				requests++
+				requests.Add(1)
 				handler(w, r)
 			}))
 			defer server.Close()
@@ -307,8 +310,8 @@ func TestTheVersionHandshakeRecognisesAnEndpointThatIsNotOdoo(t *testing.T) {
 			if !errors.As(err, &refusal) || refusal.ErrorClass() != string(ErrClassProviderNotOdoo) {
 				t.Fatalf("err = %v (%T), want PROVIDER_NOT_ODOO", err, err)
 			}
-			if requests != 1 {
-				t.Fatalf("requests = %d: nothing may follow the version question", requests)
+			if n := requests.Load(); n != 1 {
+				t.Fatalf("requests = %d: nothing may follow the version question", n)
 			}
 		})
 	}

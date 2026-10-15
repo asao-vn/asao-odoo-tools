@@ -7,20 +7,23 @@
 #
 #   odoo-conformance-lab.sh --series 20.0 --out /tmp/conf-20 [--port 58740] [--engine podman] [--keep]
 #
+# --setup-only builds the lab and keeps it, without running a pass: for one runner's --only.
+#
 # What it does, in order:
 #   1. a private network, a Postgres container and an Odoo database created --with-demo with every
 #      module some catalog operation requires (odoo-conformance-labs.json);
 #   2. the Odoo web server on 127.0.0.1:<port>, and odoo-conformance-lab-setup.py inside it (accounting
 #      group, Demo payment provider, a record in the models demo data leaves empty, an API key);
-#   3. the read pass, the lab seeder, the read pass again, the write pass, the action pass and the
-#      curated money flows, each recorded by the runners as evidence;
+#   3. the read pass, the lab seeder, the read pass again, the write pass, the action pass, the
+#      curated money flows, the recurring-task workflow, the Settings page and the controls workflow,
+#      each recorded by the runners as evidence;
 #   4. the gate: <out>/summary.md and <out>/gate.json, exit 1 when a verified operation regressed.
 #
 # Nothing it writes holds a secret except <out>/secret (mode 700), which is never uploaded: the
 # database password is random, the API key is the lab administrator's and both die with the lab.
 set -euo pipefail
 
-SERIES="" OUT="" PORT="" ENGINE="" KEEP=false ODOO_BIN=""
+SERIES="" OUT="" PORT="" ENGINE="" KEEP=false ODOO_BIN="" SETUP_ONLY=false
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --series) SERIES="$2"; shift 2 ;;
@@ -29,10 +32,11 @@ while [ "$#" -gt 0 ]; do
     --engine) ENGINE="$2"; shift 2 ;;
     --odoo-bin) ODOO_BIN="$2"; shift 2 ;;
     --keep) KEEP=true; shift ;;
+    --setup-only) SETUP_ONLY=true; KEEP=true; shift ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
-[ -n "$SERIES" ] && [ -n "$OUT" ] || { echo "usage: $0 --series 19.0|20.0 --out DIR [--port N] [--engine docker|podman] [--odoo-bin PATH] [--keep]" >&2; exit 2; }
+[ -n "$SERIES" ] && [ -n "$OUT" ] || { echo "usage: $0 --series 19.0|20.0 --out DIR [--port N] [--engine docker|podman] [--odoo-bin PATH] [--keep] [--setup-only]" >&2; exit 2; }
 ENGINE="${ENGINE:-$(command -v docker >/dev/null 2>&1 && echo docker || echo podman)}"
 PORT="${PORT:-$([ "$SERIES" = "19.0" ] && echo 58739 || echo 58740)}"
 
@@ -116,6 +120,11 @@ COMMON=(--odoo-bin "$ODOO_BIN" --profile conformance --endpoint "http://127.0.0.
         --series "$SERIES" --image-digest "$DIGEST")
 RENAME_ARGS=()
 [ -n "$RENAMES" ] && RENAME_ARGS=(--renames "$RESEARCH/$RENAMES")
+if [ "$SETUP_ONLY" = true ]; then
+  # A lab to run one runner against (--only): built, set up and kept, no pass run.
+  echo "[$(date +%T)] $SERIES: lab ready on 127.0.0.1:$PORT (profile conformance, XDG_CONFIG_HOME=$OUT/xdg, key in $OUT/secret/api-key)"
+  exit 0
+fi
 INVENTORY="$OUT/inventory-$SERIES.json"
 gzip -dc "$RESEARCH/inventory-$SERIES.json.gz" > "$INVENTORY"
 E="$OUT/evidence"
@@ -130,8 +139,17 @@ pass "reads after seeding" "$HERE/odoo-read-conformance.py" "${COMMON[@]}" "${RE
 pass "writes" "$HERE/odoo-write-conformance.py" "${COMMON[@]}" "${RENAME_ARGS[@]}" --readiness ANY --evidence "$E/write.json"
 pass "actions and dialogs" "$HERE/odoo-action-conformance.py" "${COMMON[@]}" --inventory "$INVENTORY" --readiness ANY --evidence "$E/action.json"
 pass "curated money flows" "$HERE/odoo-action-conformance.py" "${COMMON[@]}" --inventory "$INVENTORY" --readiness ANY --only "$CURATED" --evidence "$E/money-flows.json"
+pass "recurring tasks" "$HERE/odoo-task-recurrence-conformance.py" "${COMMON[@]}" --evidence "$E/task-recurrence.json"
+# The settings oracle signs in with the API key: a run that requires two-step sign-in of employees
+# would lock a password out of RPC (odoo-settings-conformance.py).
+pass "settings" "$HERE/odoo-settings-conformance.py" "${COMMON[@]}" --password-env AERP_CREDENTIAL_CONFORMANCE --evidence "$E/settings.json"
+# The controls workflow last: it turns controls on, exercises what Odoo then does and restores them.
+# Its records are controls, not operations: the gate does not read them, and a run that stops there
+# does not stop the comparison. Its outcome joins the summary below.
+pass "controls" "$HERE/odoo-controls-conformance.py" "${COMMON[@]}" --password-env AERP_CREDENTIAL_CONFORMANCE --evidence "$E/controls.json" || true
 
-EVIDENCE=("$E/read-1.json" "$E/read-2.json" "$E/write.json" "$E/action.json" "$E/money-flows.json")
+EVIDENCE=("$E/read-1.json" "$E/read-2.json" "$E/write.json" "$E/action.json" "$E/money-flows.json" "$E/task-recurrence.json"
+          "$E/settings.json")
 echo "[$(date +%T)] $SERIES: comparing with the manifest"
 if ! python3 "$HERE/odoo-conformance-gate.py" --series "$SERIES" --manifest "$MANIFEST" --evidence "${EVIDENCE[@]}" \
        --summary "$OUT/summary.md" --report "$OUT/gate.json"; then
@@ -145,3 +163,17 @@ if ! python3 "$HERE/odoo-conformance-gate.py" --series "$SERIES" --manifest "$MA
   python3 "$HERE/odoo-conformance-gate.py" --series "$SERIES" --manifest "$MANIFEST" --evidence "${EVIDENCE[@]}" \
     --summary "$OUT/summary.md" --report "$OUT/gate.json"
 fi
+# The controls workflow's outcome, after the operations' comparison.
+python3 - "$E/controls.json" "$OUT/summary.md" <<'PY' || true
+import json, sys
+path, summary = sys.argv[1], sys.argv[2]
+lines = ["", "## Controls (odoo-cli controls)", ""]
+try:
+    for control, result in sorted(json.load(open(path, encoding="utf-8"))["records"].items()):
+        failures = "; ".join(result.get("failures") or [])
+        lines.append(f"- {control}: {result['status']}" + (f" ({failures})" if failures else ""))
+except (OSError, ValueError, KeyError):
+    lines.append("The controls workflow did not finish; see runs.log.")
+with open(summary, "a", encoding="utf-8") as out:
+    out.write("\n".join(lines) + "\n")
+PY

@@ -380,6 +380,10 @@ type Command struct {
 	// the trusted post-Guard execution result; it is not callable by a command
 	// or a client request and cannot participate in authorization decisions.
 	OutcomeRecorder OutcomeRecorder
+	// ErrorAdvisor may add context to a refusal before it is rendered — never change its code,
+	// category or exit code. Meaningful ONLY on the ROOT command. odoo-cli uses it to point an
+	// agent at `report draft` when the tool itself failed.
+	ErrorAdvisor ErrorAdvisor
 
 	// Operation is the semantic catalog operation id (e.g. people.employee.list) when this command is a generated projection.
 	Operation string
