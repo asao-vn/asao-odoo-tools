@@ -467,7 +467,7 @@ func projectProviderInputs(op odoo.Odoo19Operation, names []string) []Field {
 // adapter refuses a create without it, since the record would fall outside the operation's scope.
 func requiredOnCreate(op odoo.Odoo19Operation, name string) bool {
 	_, scoped := op.InputPrefixes[name]
-	return scoped && op.Strategy == odoo.StrategyFieldWrite && op.WriteMode == odoo.WriteModeCreate
+	return (scoped || containsName(op.RequiredOnCreate, name)) && op.Strategy == odoo.StrategyFieldWrite && op.WriteMode == odoo.WriteModeCreate
 }
 
 func relationFor(op odoo.Odoo19Operation, providerField string) *Relation {

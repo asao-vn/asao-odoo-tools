@@ -301,6 +301,14 @@ def main():
         coded = execute("structure.alert_action.create", "--values", json.dumps({"name": PREFIX + "code " + STAMP, "state": "code",
                                                                                    "model_id": "res.partner", "base_automation_id": rule_id}))
         checks["structure.alert_action.create"].expect("another action type is refused", coded.get("status") != "OK")
+        orphan = execute("structure.alert_action.create", "--values", json.dumps({"name": PREFIX + "orphan " + STAMP, "model_id": "res.partner"}))
+        checks["structure.alert_action.create"].expect("an action without its rule is refused", orphan.get("status") != "OK")
+        # A rule on "base", which every model inherits, would react to every create and write.
+        everywhere = execute("structure.alert_rule.create", "--values", json.dumps({"name": PREFIX + "base " + STAMP, "model_id": "base",
+                                                                                     "trigger": "on_create_or_write"}))
+        checks["structure.alert_rule.create"].expect("a model without activities is refused", everywhere.get("status") != "OK")
+        checks["structure.alert_rule.create"].same("nothing made on base", 0, oracle.call(
+            "base.automation", "search_count", [[["name", "=", PREFIX + "base " + STAMP]]], {"context": {"active_test": False}}))
 
         # 5. What Odoo then does.
         vendor = oracle.call("res.partner", "create", [{"name": f"Alerts vendor {STAMP}"}])

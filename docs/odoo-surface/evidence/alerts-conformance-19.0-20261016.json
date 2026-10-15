@@ -41,7 +41,7 @@
   "series": "19.0",
   "version": "19.0-20260803"
  },
- "recordedAt": "2026-10-15T18:54:16Z",
+ "recordedAt": "2026-10-15T20:54:17Z",
  "records": {
   "structure.activity_type.list": {
    "checkedFields": [
@@ -82,10 +82,11 @@
     "K11.one action",
     "K11.state",
     "K11.usage",
+    "an action without its rule is refused",
     "another action type is refused",
     "applied"
    ],
-   "definitionHash": "sha256:5857c62b18f5127439b5a0a1f2da9d8403accce7797493cc17ad3d37aeb14116",
+   "definitionHash": "sha256:96066b451776bbda24cce489c06a28c6ce514e23adab65465f47be198da6a66c",
    "failures": [],
    "modules": [
     "base_automation"
@@ -144,7 +145,7 @@
     "another user",
     "the person's action is refused"
    ],
-   "definitionHash": "sha256:8726bfa313fc884753b5a1ecfb7dc035d2187b19b7efcaca1f861c9aede88cbd",
+   "definitionHash": "sha256:b2287c0db57c0aa18df43712e18a419178d94b223026c1abe64a50f194f58765",
    "failures": [],
    "modules": [
     "base_automation"
@@ -171,11 +172,13 @@
     "K11.model",
     "K11.trigger",
     "K11.trigger_field_ids",
+    "a model without activities is refused",
     "a second plan is NO_CHANGE",
     "applied",
+    "nothing made on base",
     "three rules"
    ],
-   "definitionHash": "sha256:80efd8bab7fb2ff378b4e30f46b998afbd2d61cccd5fc1e0c39bc599a758406c",
+   "definitionHash": "sha256:8e6289e8ca026a12e4317b781a63608fbf7f37fe0cbfe7220486f43880d459ac",
    "failures": [],
    "modules": [
     "base_automation"
@@ -228,7 +231,7 @@
     "the person's rule is refused",
     "the person's rule unchanged"
    ],
-   "definitionHash": "sha256:4f47616217a68287900d2fc8a875ed94f6877fa2a39db739970bbf3664f84aca",
+   "definitionHash": "sha256:1d4ae7833a1cefc940e234066ebfefa178ad1f2ef89176acfaf89cf317571fa7",
    "failures": [],
    "modules": [
     "base_automation"

@@ -1041,14 +1041,17 @@ def main():
             add({"id": f"structure.{entity}.{verb}", "kind": "KindRead", "strategy": "StrategyRead", "model": model,
                  "module": "base_automation", "capability": capability("structure", entity, "read"), "risk": "RiskLow",
                  "read": ["id", "display_name"], "optional": read, "label": label, "domain": domain})
+    # A rule or action names only a model that carries activities: never "base", which every model
+    # inherits, so a rule on it would react to every create and write in the database.
+    activity_models = [["is_mail_activity", "=", True]]
     rule_write = {"allowed": rule_fields, "domain": rule_domain, "forced": {}, "label": "Alert rule",
-                  "relations": {"model_id": {"model": "ir.model", "search": "model"},
+                  "relations": {"model_id": {"model": "ir.model", "search": "model", "domain": activity_models},
                                 "trigger_field_ids": {"model": "ir.model.fields", "search": "name", "multi": True}},
                   "types": {"active": "boolean", "model_id": "reference", "trigger_field_ids": "reference_list"},
                   "enums": {"trigger": ["on_create_or_write"]}}
     action_write = {"allowed": action_fields, "domain": action_domain, "label": "Alert action",
                     "forced": {"state": "next_activity", "usage": "base_automation", "activity_user_type": "specific"},
-                    "relations": {"model_id": {"model": "ir.model", "search": "model"},
+                    "relations": {"model_id": {"model": "ir.model", "search": "model", "domain": activity_models},
                                   "base_automation_id": {"model": "base.automation", "search": "name", "domain": rule_domain},
                                   "activity_type_id": {"model": "mail.activity.type", "search": "name"},
                                   "activity_user_id": {"model": "res.users", "search": "name"}},
@@ -1059,7 +1062,10 @@ def main():
         for verb, mode in (("create", "WriteModeCreate"), ("update", "WriteModeUpdate")):
             add({"id": f"structure.{entity}.{verb}", "kind": "KindCommand", "strategy": "StrategyFieldWrite", "model": model,
                  "module": "base_automation", "capability": capability("structure", entity, "write"), "risk": "RiskHigh",
-                 "mode": mode, "prefixes": {"name": ALERT_PREFIX}, **spec})
+                 "mode": mode, "prefixes": {"name": ALERT_PREFIX},
+                 # An action without its rule would fall outside its own family's domain.
+                 "required": ["base_automation_id", "model_id"] if (entity, verb) == ("alert_action", "create") else [],
+                 **spec})
     report["models"].append({"model": "base.automation", "scope": ALERT_PREFIX,
                              "operations": [f"structure.{e}.{v}" for e in ("alert_rule", "alert_action")
                                             for v in ("list", "describe", "create", "update")]})
@@ -1383,6 +1389,8 @@ def render(operations, provider):
             if op.get("prefixes"):
                 lines.append("\t\tInputPrefixes: map[string]string{" + ", ".join(
                     f"{json.dumps(k)}: {json.dumps(v)}" for k, v in sorted(op["prefixes"].items())) + "},")
+            if op.get("required"):
+                lines.append(f"\t\tRequiredOnCreate: {go_strings(op['required'])},")
             render_typing(lines, op)
             if op["relations"]:
                 lines.append("\t\tRelations: map[string]RelationSpec{")

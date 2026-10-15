@@ -1043,7 +1043,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		InputTypes:    map[string]string{"active": "boolean", "model_id": "reference", "trigger_field_ids": "reference_list"},
 		InputEnums:    map[string][]string{"trigger": []string{"on_create_or_write"}},
 		Relations: map[string]RelationSpec{
-			"model_id":          {TargetModel: "ir.model", SearchField: "model"},
+			"model_id":          {TargetModel: "ir.model", SearchField: "model", Domain: []interface{}{[]interface{}{"is_mail_activity", "=", true}}},
 			"trigger_field_ids": {TargetModel: "ir.model.fields", SearchField: "name", Multi: true},
 		},
 	},
@@ -1058,7 +1058,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		InputTypes:    map[string]string{"active": "boolean", "model_id": "reference", "trigger_field_ids": "reference_list"},
 		InputEnums:    map[string][]string{"trigger": []string{"on_create_or_write"}},
 		Relations: map[string]RelationSpec{
-			"model_id":          {TargetModel: "ir.model", SearchField: "model"},
+			"model_id":          {TargetModel: "ir.model", SearchField: "model", Domain: []interface{}{[]interface{}{"is_mail_activity", "=", true}}},
 			"trigger_field_ids": {TargetModel: "ir.model.fields", SearchField: "name", Multi: true},
 		},
 	},
@@ -1069,15 +1069,16 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 		Risk: RiskHigh, Confidence: "SURFACE_DISCOVERED", ProviderModel: "ir.actions.server",
 		ProviderDomain: []interface{}{[]interface{}{"usage", "=", "base_automation"}, []interface{}{"state", "=", "next_activity"}, []interface{}{"base_automation_id.name", "=like", "odoo-cli: %"}},
 		WriteMode:      WriteModeCreate, AllowedFields: []string{"name", "model_id", "base_automation_id", "activity_type_id", "activity_summary", "activity_date_deadline_range", "activity_date_deadline_range_type", "activity_user_id"},
-		ForcedValues:  map[string]interface{}{"activity_user_type": "specific", "state": "next_activity", "usage": "base_automation"},
-		InputPrefixes: map[string]string{"name": "odoo-cli: "},
-		InputTypes:    map[string]string{"activity_date_deadline_range": "integer", "activity_type_id": "reference", "activity_user_id": "reference", "base_automation_id": "reference", "model_id": "reference"},
-		InputEnums:    map[string][]string{"activity_date_deadline_range_type": []string{"days", "weeks", "months"}},
+		ForcedValues:     map[string]interface{}{"activity_user_type": "specific", "state": "next_activity", "usage": "base_automation"},
+		InputPrefixes:    map[string]string{"name": "odoo-cli: "},
+		RequiredOnCreate: []string{"base_automation_id", "model_id"},
+		InputTypes:       map[string]string{"activity_date_deadline_range": "integer", "activity_type_id": "reference", "activity_user_id": "reference", "base_automation_id": "reference", "model_id": "reference"},
+		InputEnums:       map[string][]string{"activity_date_deadline_range_type": []string{"days", "weeks", "months"}},
 		Relations: map[string]RelationSpec{
 			"activity_type_id":   {TargetModel: "mail.activity.type", SearchField: "name"},
 			"activity_user_id":   {TargetModel: "res.users", SearchField: "name"},
 			"base_automation_id": {TargetModel: "base.automation", SearchField: "name", Domain: []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}}},
-			"model_id":           {TargetModel: "ir.model", SearchField: "model"},
+			"model_id":           {TargetModel: "ir.model", SearchField: "model", Domain: []interface{}{[]interface{}{"is_mail_activity", "=", true}}},
 		},
 	},
 	// ir.actions.server (Alert action)
@@ -1095,7 +1096,7 @@ var odoo19SurfaceCatalog = []Odoo19Operation{
 			"activity_type_id":   {TargetModel: "mail.activity.type", SearchField: "name"},
 			"activity_user_id":   {TargetModel: "res.users", SearchField: "name"},
 			"base_automation_id": {TargetModel: "base.automation", SearchField: "name", Domain: []interface{}{[]interface{}{"name", "=like", "odoo-cli: %"}}},
-			"model_id":           {TargetModel: "ir.model", SearchField: "model"},
+			"model_id":           {TargetModel: "ir.model", SearchField: "model", Domain: []interface{}{[]interface{}{"is_mail_activity", "=", true}}},
 		},
 	},
 	// crm.lost.reason (Opp. Lost Reason)

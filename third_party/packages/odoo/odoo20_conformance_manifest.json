@@ -14130,18 +14130,6 @@
       "definitionHash": "sha256:568f9eb95ff299d09d960540aa9079265b832376ffb846ce1ee15c8552fc1f67"
     },
     {
-      "operationId": "structure.alert_action.create",
-      "providerVersion": "20.0-20260926",
-      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
-      "modules": [
-        "base_automation"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
-      "verifiedAt": "2026-10-15T19:07:08Z",
-      "definitionHash": "sha256:5857c62b18f5127439b5a0a1f2da9d8403accce7797493cc17ad3d37aeb14116"
-    },
-    {
       "operationId": "structure.alert_action.describe",
       "providerVersion": "20.0-20260926",
       "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
@@ -14164,30 +14152,6 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
       "verifiedAt": "2026-10-15T19:07:08Z",
       "definitionHash": "sha256:f6cc028cb1ec5e8e5d1845146e5ca5de1791ff0ae4a64daa3cdad04e536f56a0"
-    },
-    {
-      "operationId": "structure.alert_action.update",
-      "providerVersion": "20.0-20260926",
-      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
-      "modules": [
-        "base_automation"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
-      "verifiedAt": "2026-10-15T19:07:08Z",
-      "definitionHash": "sha256:8726bfa313fc884753b5a1ecfb7dc035d2187b19b7efcaca1f861c9aede88cbd"
-    },
-    {
-      "operationId": "structure.alert_rule.create",
-      "providerVersion": "20.0-20260926",
-      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
-      "modules": [
-        "base_automation"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
-      "verifiedAt": "2026-10-15T19:07:08Z",
-      "definitionHash": "sha256:80efd8bab7fb2ff378b4e30f46b998afbd2d61cccd5fc1e0c39bc599a758406c"
     },
     {
       "operationId": "structure.alert_rule.describe",
@@ -14214,18 +14178,6 @@
       "definitionHash": "sha256:9ac681de82f5c859cf01a26df62f87e1fb6f44ba0319abf590895720c172479f"
     },
     {
-      "operationId": "structure.alert_rule.update",
-      "providerVersion": "20.0-20260926",
-      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
-      "modules": [
-        "base_automation"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
-      "verifiedAt": "2026-10-15T19:07:08Z",
-      "definitionHash": "sha256:4f47616217a68287900d2fc8a875ed94f6877fa2a39db739970bbf3664f84aca"
-    },
-    {
       "operationId": "structure.registry_field.list",
       "providerVersion": "20.0-20260926",
       "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
@@ -14248,6 +14200,54 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
       "verifiedAt": "2026-10-15T19:07:08Z",
       "definitionHash": "sha256:62a760b4c9d8ae9efd12e99a181477b98cc529d19bd8e3746c166e15df91429f"
+    },
+    {
+      "operationId": "structure.alert_action.create",
+      "providerVersion": "20.0-20260926",
+      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+      "modules": [
+        "base_automation"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
+      "verifiedAt": "2026-10-15T21:03:24Z",
+      "definitionHash": "sha256:96066b451776bbda24cce489c06a28c6ce514e23adab65465f47be198da6a66c"
+    },
+    {
+      "operationId": "structure.alert_action.update",
+      "providerVersion": "20.0-20260926",
+      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+      "modules": [
+        "base_automation"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
+      "verifiedAt": "2026-10-15T21:03:24Z",
+      "definitionHash": "sha256:b2287c0db57c0aa18df43712e18a419178d94b223026c1abe64a50f194f58765"
+    },
+    {
+      "operationId": "structure.alert_rule.create",
+      "providerVersion": "20.0-20260926",
+      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+      "modules": [
+        "base_automation"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
+      "verifiedAt": "2026-10-15T21:03:24Z",
+      "definitionHash": "sha256:8e6289e8ca026a12e4317b781a63608fbf7f37fe0cbfe7220486f43880d459ac"
+    },
+    {
+      "operationId": "structure.alert_rule.update",
+      "providerVersion": "20.0-20260926",
+      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+      "modules": [
+        "base_automation"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
+      "verifiedAt": "2026-10-15T21:03:24Z",
+      "definitionHash": "sha256:1d4ae7833a1cefc940e234066ebfefa178ad1f2ef89176acfaf89cf317571fa7"
     }
   ]
 }

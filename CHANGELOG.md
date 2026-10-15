@@ -22,7 +22,9 @@
     `structure.registry_field.list`, `structure.activity_type.list`).
 
   A rule or action you made is out of their reach. An action that runs code, writes records, sends a
-  message or calls a webhook is refused before Odoo is reached. Proven by
+  message or calls a webhook is refused before Odoo is reached; so is an action without its rule, and a
+  rule or action on a model that cannot carry activities (never `base`, which every model inherits).
+  Proven by
   `conformance/odoo-alerts-conformance.py`, now part of the lab run; the labs install `base_automation`.
 - **Fixed: an archived record of an operation's own subset can be updated.** The check that a target
   belongs to an operation's subset ran with Odoo's default active test, so an archived record (an alert
@@ -31,6 +33,9 @@
   `[id, name]`, so a record with a two-record many2many was planned as a change on every run.
 - **Conformance:** the action runner leaves a payment transaction's state-change stamp out of the twin
   comparison. It is a clock stamp to the second, and it failed 0.11.0's release run on 19.0.
+  - The lab seeder no longer makes automation rules or server actions. Its generic rules on the model
+    `base` made every model run them inside its own create, and creating a bank account with K09 on then
+    failed in the rehearsal before this release.
 
 ## 0.11.0 (2026-10-16)
 

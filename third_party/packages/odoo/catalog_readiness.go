@@ -70,6 +70,9 @@ func OperationDefinitionHash(op Odoo19Operation) string {
 	if len(op.InputPrefixes) > 0 {
 		definition["inputPrefixes"] = op.InputPrefixes
 	}
+	if len(op.RequiredOnCreate) > 0 {
+		definition["requiredOnCreate"] = op.RequiredOnCreate
+	}
 	if op.ReadNewRecord {
 		definition["readNewRecord"] = true
 	}

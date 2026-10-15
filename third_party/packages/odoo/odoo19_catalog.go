@@ -252,6 +252,10 @@ type Odoo19Operation struct {
 	// with "/") also requires a clean path, without "." or ".." segments or doubled slashes. The
 	// value is refused before the provider is contacted.
 	InputPrefixes map[string]string
+	// RequiredOnCreate are the inputs a create cannot go without, because the record would otherwise
+	// fall outside the provider domain its own family reads and updates by (an alert action without
+	// its rule). The create is refused before the provider is contacted.
+	RequiredOnCreate []string
 	// When the wizard's link field does not accept the target id directly
 	// (e.g. account.payment.register.line_ids wants account.move.line ids,
 	// not the account.move id itself), the executor resolves the real link

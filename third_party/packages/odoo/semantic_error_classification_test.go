@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"net"
+	"strings"
 	"syscall"
 	"testing"
 )
@@ -186,6 +187,22 @@ func TestEligibilityOfATargetSeesArchivedRecords(t *testing.T) {
 		t.Fatalf("eligibility searched with %v, want active_test false", tr.searchContexts)
 	}
 	assertNoMutation(t, tr, "ineligible archived target")
+}
+
+// An alert action created without its rule would fall outside the domain its own family reads and
+// updates by (the public conformance run of 2026-10-16 created one through the generic write runner):
+// the create is refused before the provider is contacted.
+func TestAlertActionCreateNeedsItsRule(t *testing.T) {
+	tr := &fakeTransport{}
+	surface := NewAdapter(tr)
+	surface.Surface = true
+	_, err := surface.Execute(context.Background(), &ExecutionIntent{ID: "test", Operation: "structure.alert_action.create",
+		Input: `{"values":{"name":"odoo-cli: orphan","activity_summary":"x"}}`})
+	var missing *MissingFieldError
+	if !errors.As(err, &missing) || !strings.Contains(err.Error(), "base_automation_id") {
+		t.Fatalf("want a missing base_automation_id, got %v", err)
+	}
+	assertNoMutation(t, tr, "an alert action without its rule")
 }
 
 // A destructive operation with live dependents refuses until the caller confirms the impact, and

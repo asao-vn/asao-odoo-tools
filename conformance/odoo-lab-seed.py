@@ -32,6 +32,12 @@ import urllib.request
 
 STAMP = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 SEEDED_STATUSES = {"NOT_RUN_NO_RECORD", "AGREE_EMPTY", "NOT_RUN_NO_TWINS"}
+# Configuration Odoo executes, never data. A generic automation rule reacts to every create and write
+# of its model, and the seeder's rules landed on the model "base", which every model inherits. They
+# made the alerts' activity run inside a create, before Odoo subscribed the record's creator, so
+# creating a bank account failed ("a partner cannot follow twice the same object"; the public run of
+# 2026-10-16). The alert rules and actions are exercised by odoo-alerts-conformance.py instead.
+NEVER_SEEDED = {"base.automation", "ir.actions.server"}
 
 
 class Oracle:
@@ -173,6 +179,9 @@ def main():
         if not model or model in seen_models:
             continue
         seen_models.add(model)
+        if model in NEVER_SEEDED:
+            print(f"{model}: not seeded (configuration Odoo executes)")
+            continue
         domain = described.get("providerDomain") or []
         try:
             have = oracle.call(model, "search_count", [domain])

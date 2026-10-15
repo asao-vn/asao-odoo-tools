@@ -430,6 +430,11 @@ func missingOnCreate(entry Odoo19Operation, values map[string]interface{}) error
 			missing = append(missing, field)
 		}
 	}
+	for _, field := range entry.RequiredOnCreate {
+		if _, exists := values[field]; !exists {
+			missing = append(missing, field)
+		}
+	}
 	if len(missing) == 0 {
 		return nil
 	}
