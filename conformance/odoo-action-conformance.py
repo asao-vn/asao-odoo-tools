@@ -77,6 +77,9 @@ MODEL_VOLATILE = {
     "crm.lead": {"date_last_stage_update", "day_close", "day_open"},
     "sale.order": {"date_order"},
     "purchase.order": {"date_calendar_start"},
+    # Stamped by _update_state on every state change (payment_transaction.py). The v0.11.0 release run
+    # of 2026-10-16 captured a twin in the second it was authorized: it looked unchanged, its pair did not.
+    "payment.transaction": {"last_state_change"},
 }
 COMPARED_TYPES = {"char", "text", "selection", "boolean", "integer", "float", "monetary", "date", "datetime", "many2one"}
 # A relation is compared by how many records it holds, which is how an action that creates records
