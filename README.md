@@ -264,9 +264,20 @@ make build   # bin/odoo-cli
 make test    # the command line and the Odoo core
 ```
 
-## License
+## License, owner, privacy and terms
 
-Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+- **License:** Apache License 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE). The software is
+  provided "as is", without warranty (sections 7 and 8 of the license).
+- **Owner:** Copyright 2026 Nguyễn Hữu Hoàng, who publishes it under the brand ASAO.
+  Contact: nguyenhuuhoang711@gmail.com.
+- **Privacy:** odoo-cli collects nothing. It has no telemetry and no account, and it connects only to
+  the Odoo you configure; `odoo-cli update`, when you run it, also reaches the release channel you
+  name. Your Odoo credential stays on your machine: in the OS keyring, a file you name, or an
+  environment variable. What it reads from your Odoo goes to your terminal, your files or the agent
+  you connect, never to ASAO.
+- **Terms:** using this software on its own is governed by its license only. ASAO's hosted service
+  (app.asao.vn) has its own [Terms of Service](https://app.asao.vn/terms) and [Privacy Policy](https://app.asao.vn/privacy), which apply
+  when you use that service, including through the `asao` CLI.
 
 ## Tiếng Việt
 
@@ -309,3 +320,10 @@ trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệc
 **ASAO chỉ kiểm chứng trên bản Odoo chuẩn.** Với Odoo đã tuỳ biến, ASAO không thể kiểm chứng và không
 bảo đảm thao tác chạy đúng; chạy trên Odoo đó là do người dùng tự chịu rủi ro. Chi tiết:
 [docs/vi/pham-vi-kiem-chung-va-bao-dam.md](docs/vi/pham-vi-kiem-chung-va-bao-dam.md).
+
+**Giấy phép, chủ sở hữu, quyền riêng tư.** odoo-cli phát hành theo giấy phép Apache 2.0, thuộc sở hữu của
+cá nhân Nguyễn Hữu Hoàng (thương hiệu ASAO), và được cung cấp "nguyên trạng", không kèm bảo đảm.
+odoo-cli không thu thập dữ liệu gì: không có telemetry, không cần tài khoản, chỉ kết nối tới Odoo bạn
+cấu hình. Thông tin đăng nhập Odoo nằm trên máy của bạn, và dữ liệu đọc được không gửi về ASAO. Dịch vụ
+ASAO (app.asao.vn) có [Điều khoản sử dụng](https://app.asao.vn/terms) và [Chính sách quyền riêng tư](https://app.asao.vn/privacy) riêng; chúng
+chỉ áp dụng khi bạn dùng dịch vụ đó.
