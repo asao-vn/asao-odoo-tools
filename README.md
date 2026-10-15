@@ -269,6 +269,8 @@ make test    # the command line and the Odoo core
 odoo-cli is free and built by one person. If it saves you time and you would like to chip in, any
 amount helps:
 
+- **From anywhere, by card or PayPal:** [ko-fi.com/nguyenhuuhoang](https://ko-fi.com/nguyenhuuhoang)
+
 | PayPal | Vietcombank (VietQR, any Vietnamese banking app) |
 |:---:|:---:|
 | <img src="docs/support/paypal-qr.svg" alt="PayPal QR code for paypal.me/AldenNguyen2345" width="160" height="160"> | <img src="docs/support/vcb-qr.svg" alt="VietQR code for Vietcombank account 1031712729" width="160" height="160"> |
@@ -343,6 +345,7 @@ chỉ áp dụng khi bạn dùng dịch vụ đó.
 
 **Ủng hộ dự án.** odoo-cli miễn phí và do một người làm. Nếu nó giúp bạn tiết kiệm thời gian và bạn muốn
 ủng hộ một chút: chuyển khoản Vietcombank **1031712729** (NGUYEN HUU HOANG), quét VietQR bằng app ngân hàng
-nào cũng được, hoặc PayPal [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345). Mã QR ở mục
+nào cũng được, hoặc PayPal [paypal.me/AldenNguyen2345](https://paypal.me/AldenNguyen2345), hoặc thẻ quốc tế qua
+[ko-fi.com/nguyenhuuhoang](https://ko-fi.com/nguyenhuuhoang). Mã QR ở mục
 [Support the project](#support-the-project). Một sao trên GitHub, một issue hay một lời kể bạn dùng nó
 vào việc gì cũng quý như vậy.
