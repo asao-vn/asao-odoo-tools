@@ -291,7 +291,7 @@ no warranty; the license and its terms stay the same.
   environment variable. What it reads from your Odoo goes to your terminal, your files or the agent
   you connect, never to ASAO.
 - **Terms:** using this software on its own is governed by its license only. ASAO's hosted service
-  (app.asao.vn) has its own [Terms of Service](https://app.asao.vn/terms) and [Privacy Policy](https://app.asao.vn/privacy), which apply
+  (asao.vn) has its own [Terms of Service](https://asao.vn/terms) and [Privacy Policy](https://asao.vn/privacy), which apply
   when you use that service, including through the `asao` CLI.
 
 ## Tiếng Việt
@@ -340,7 +340,7 @@ bảo đảm thao tác chạy đúng; chạy trên Odoo đó là do người dù
 cá nhân Nguyễn Hữu Hoàng (thương hiệu ASAO), và được cung cấp "nguyên trạng", không kèm bảo đảm.
 odoo-cli không thu thập dữ liệu gì: không có telemetry, không cần tài khoản, chỉ kết nối tới Odoo bạn
 cấu hình. Thông tin đăng nhập Odoo nằm trên máy của bạn, và dữ liệu đọc được không gửi về ASAO. Dịch vụ
-ASAO (app.asao.vn) có [Điều khoản sử dụng](https://app.asao.vn/terms) và [Chính sách quyền riêng tư](https://app.asao.vn/privacy) riêng; chúng
+ASAO (asao.vn) có [Điều khoản sử dụng](https://asao.vn/terms) và [Chính sách quyền riêng tư](https://asao.vn/privacy) riêng; chúng
 chỉ áp dụng khi bạn dùng dịch vụ đó.
 
 **Ủng hộ dự án.** odoo-cli miễn phí và do một người làm. Nếu nó giúp bạn tiết kiệm thời gian và bạn muốn
