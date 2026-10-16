@@ -1,0 +1,169 @@
+[
+ {
+  "id": "ban-hang-hom-qua", "area": "sales", "every": "daily", "at": "07:30",
+  "title": {"vi": "Bán hàng hôm qua", "en": "Yesterday's sales"},
+  "does": {"vi": "Gộp các đơn bán đã xác nhận hôm qua theo nhân viên bán hàng, và lấy 10 đơn lớn nhất.",
+           "en": "Groups yesterday's confirmed sales orders by salesperson, and reads the 10 largest."},
+  "returns": {"vi": "Số đơn và tổng tiền theo từng nhân viên; số đơn, khách, tổng tiền của 10 đơn lớn nhất.",
+              "en": "Order count and total per salesperson; number, customer and total of the 10 largest orders."},
+  "prompt": {"vi": "Hôm qua bán được bao nhiêu, ai bán tốt, đơn nào lớn bất thường?",
+             "en": "How much was sold yesterday, who sold well, which orders are unusually large?"},
+  "steps": [
+   {"name": "theo-nhan-vien", "group": "sales.quotation.list", "by": ["user_id"], "aggregate": ["amount_total:sum"],
+    "filter": [["state", "=", "sale"], ["date_order", ">=", "{yesterday}"], ["date_order", "<", "{today}"]],
+    "note": "Đơn bán đã xác nhận hôm qua, theo nhân viên bán hàng"},
+   {"name": "don-lon-nhat", "read": "sales.quotation.list", "limit": 10, "order": "amount_total desc",
+    "filter": [["state", "=", "sale"], ["date_order", ">=", "{yesterday}"], ["date_order", "<", "{today}"]],
+    "note": "10 đơn lớn nhất hôm qua"}
+  ]
+ },
+ {
+  "id": "cong-no-qua-han", "area": "finance", "every": "daily", "at": "07:30",
+  "title": {"vi": "Công nợ quá hạn", "en": "Overdue receivables"},
+  "does": {"vi": "Gộp hoá đơn bán đã ghi sổ, chưa trả hoặc trả một phần, đã quá hạn, theo khách hàng; lấy 20 hoá đơn quá hạn lâu nhất.",
+           "en": "Groups posted customer invoices that are unpaid or partly paid and past due by customer; reads the 20 oldest."},
+  "returns": {"vi": "Số hoá đơn và số tiền còn phải thu theo từng khách và loại tiền; số hoá đơn, khách, tổng tiền, tình trạng thanh toán của 20 hoá đơn cũ nhất.",
+              "en": "Invoice count and amount still due per customer and currency; number, customer, total and payment status of the 20 oldest."},
+  "prompt": {"vi": "Khách nào nợ quá hạn nhiều nhất, khoản nào nên gọi nhắc hôm nay?",
+             "en": "Which customers owe the most past due, and which invoices should be chased today?"},
+  "steps": [
+   {"name": "theo-khach", "group": "finance.invoice.list", "by": ["partner_id", "currency_id"], "aggregate": ["amount_residual:sum"],
+    "order": "amount_residual:sum desc", "limit": 30,
+    "filter": [["move_type", "=", "out_invoice"], ["state", "=", "posted"],
+               ["payment_state", "in", ["not_paid", "partial"]], ["invoice_date_due", "<", "{today}"]],
+    "note": "Hoá đơn bán quá hạn, theo khách"},
+   {"name": "cu-nhat", "read": "finance.invoice.list", "limit": 20, "order": "invoice_date_due asc",
+    "filter": [["move_type", "=", "out_invoice"], ["state", "=", "posted"],
+               ["payment_state", "in", ["not_paid", "partial"]], ["invoice_date_due", "<", "{today}"]],
+    "note": "20 hoá đơn quá hạn lâu nhất"}
+  ]
+ },
+ {
+  "id": "tien-ve-tien-ra", "area": "finance", "every": "daily", "at": "07:45",
+  "title": {"vi": "Tiền vào, tiền ra hôm qua", "en": "Money in and out yesterday"},
+  "does": {"vi": "Gộp các khoản thanh toán ngày hôm qua theo chiều (thu/chi) và sổ (tiền mặt, ngân hàng).",
+           "en": "Groups yesterday's payments by direction (in/out) and journal (cash, bank)."},
+  "returns": {"vi": "Số khoản và tổng tiền thu, chi theo từng sổ.", "en": "Count and total received and paid per journal."},
+  "prompt": {"vi": "Hôm qua thu chi thế nào, có khoản chi nào lớn bất thường?",
+             "en": "How did money move yesterday; is any payment unusually large?"},
+  "steps": [
+   {"name": "theo-chieu", "group": "finance.payment.list", "by": ["payment_type", "journal_id", "currency_id"], "aggregate": ["amount:sum"],
+    "filter": [["date", "=", "{yesterday}"], ["state", "!=", "canceled"]], "note": "Thanh toán hôm qua theo chiều và sổ"},
+   {"name": "khoan-lon", "read": "finance.payment.list", "limit": 10, "order": "amount desc",
+    "filter": [["date", "=", "{yesterday}"], ["state", "!=", "canceled"]], "note": "10 khoản lớn nhất hôm qua"}
+  ]
+ },
+ {
+  "id": "kho-tre-hen", "area": "inventory", "every": "daily", "at": "07:30",
+  "title": {"vi": "Phiếu kho trễ hẹn", "en": "Late transfers"},
+  "does": {"vi": "Lấy các phiếu nhập, xuất kho chưa xong mà ngày dự kiến đã qua, gộp theo loại phiếu.",
+           "en": "Reads receipts and deliveries not done whose scheduled date has passed, grouped by operation type."},
+  "returns": {"vi": "Số phiếu trễ theo loại; số phiếu, tình trạng, chứng từ gốc của từng phiếu.",
+              "en": "Late transfers per type; number, state and source document of each."},
+  "prompt": {"vi": "Đơn giao, nhận nào đang trễ và nên ưu tiên xử lý phiếu nào?",
+             "en": "Which deliveries and receipts are late, and which should go first?"},
+  "steps": [
+   {"name": "theo-loai", "group": "inventory.transfer.list", "by": ["picking_type_id"],
+    "filter": [["state", "in", ["confirmed", "waiting", "assigned"]], ["scheduled_date", "<", "{today}"]],
+    "note": "Phiếu kho trễ hẹn theo loại"},
+   {"name": "danh-sach", "read": "inventory.transfer.list", "limit": 30, "order": "scheduled_date asc",
+    "filter": [["state", "in", ["confirmed", "waiting", "assigned"]], ["scheduled_date", "<", "{today}"]],
+    "note": "30 phiếu trễ lâu nhất"}
+  ]
+ },
+ {
+  "id": "viec-tre-han", "area": "work", "every": "weekdays", "at": "08:00",
+  "title": {"vi": "Công việc trễ hạn", "en": "Overdue tasks"},
+  "does": {"vi": "Lấy các công việc chưa đóng đã qua hạn chót, gộp theo dự án.",
+           "en": "Reads open tasks past their deadline, grouped by project."},
+  "returns": {"vi": "Số việc trễ theo dự án; tên, người làm, hạn, mức ưu tiên, việc lặp lại hay không của từng việc.",
+              "en": "Late tasks per project; name, assignees, deadline, priority and recurrence of each."},
+  "prompt": {"vi": "Việc nào trễ lâu nhất, ai đang ôm nhiều việc trễ, việc lặp lại nào bị bỏ quên?",
+             "en": "Which tasks are latest, who holds the most late work, which recurring tasks were forgotten?"},
+  "steps": [
+   {"name": "theo-du-an", "group": "work.task.list", "by": ["project_id"],
+    "filter": [["state", "in", ["01_in_progress", "02_changes_requested", "03_approved", "04_waiting_normal"]], ["date_deadline", "<", "{today}"]],
+    "note": "Việc trễ hạn theo dự án"},
+   {"name": "danh-sach", "read": "work.task.list", "limit": 30, "order": "date_deadline asc",
+    "filter": [["state", "in", ["01_in_progress", "02_changes_requested", "03_approved", "04_waiting_normal"]], ["date_deadline", "<", "{today}"]],
+    "note": "30 việc trễ lâu nhất"}
+  ]
+ },
+ {
+  "id": "ra-soat-tuan", "area": "finance", "every": "weekly", "on": "mon", "at": "08:00",
+  "title": {"vi": "Rà soát sổ sách tuần trước", "en": "Last week's books review"},
+  "does": {"vi": "Chạy mọi phép kiểm sổ sách của odoo-cli trên tuần trước: hoá đơn nhập trùng, trả tiền vào tài khoản nhân viên, chia nhỏ đơn, bán dưới giá vốn, chứng từ ghi lùi ngày, mua từ 5 triệu trả tiền mặt...",
+           "en": "Runs every books check of odoo-cli over last week: duplicate bills, payments to an employee's account, split orders, sales below cost, backdated documents, cash purchases of 5 million VND or more..."},
+  "returns": {"vi": "Các phát hiện theo mức (XEM_NGAY, NEN_XU_LY, THEO_DOI), mỗi cái kèm công thức, ngưỡng và chứng từ.",
+              "en": "Findings by severity (XEM_NGAY, NEN_XU_LY, THEO_DOI), each with its formula, thresholds and documents."},
+  "prompt": {"vi": "Ba việc cần xem ngay trong sổ sách tuần trước, kèm số chứng từ.",
+             "en": "The three things to look at now in last week's books, with document numbers."},
+  "steps": [{"name": "ra-soat", "review": true, "period": "last_week", "note": "Rà soát sổ sách tuần trước"}]
+ },
+ {
+  "id": "co-hoi-dung-yen", "area": "crm", "every": "weekly", "on": "mon", "at": "08:30",
+  "title": {"vi": "Cơ hội bán hàng đứng yên", "en": "Stalled opportunities"},
+  "does": {"vi": "Lấy các cơ hội đang mở không đổi giai đoạn hơn 14 ngày, gộp theo giai đoạn.",
+           "en": "Reads open opportunities that have not changed stage for more than 14 days, grouped by stage."},
+  "returns": {"vi": "Số cơ hội và doanh thu kỳ vọng theo giai đoạn; tên, khách, doanh thu kỳ vọng, xác suất của từng cơ hội.",
+              "en": "Opportunities and expected revenue per stage; name, customer, expected revenue and probability of each."},
+  "prompt": {"vi": "Cơ hội nào đáng giá nhất đang bị bỏ quên, nên gọi lại ai tuần này?",
+             "en": "Which valuable opportunities are being neglected, and whom to call this week?"},
+  "steps": [
+   {"name": "theo-giai-doan", "group": "crm.lead.list", "by": ["stage_id"], "aggregate": ["expected_revenue:sum"],
+    "filter": [["type", "=", "opportunity"], ["date_last_stage_update", "<", "{today-14}"], ["probability", "<", 100]],
+    "note": "Cơ hội không đổi giai đoạn hơn 14 ngày"},
+   {"name": "danh-sach", "read": "crm.lead.list", "limit": 20, "order": "expected_revenue desc",
+    "filter": [["type", "=", "opportunity"], ["date_last_stage_update", "<", "{today-14}"], ["probability", "<", 100]],
+    "note": "20 cơ hội đứng yên giá trị nhất"}
+  ]
+ },
+ {
+  "id": "ra-soat-thang", "area": "finance", "every": "monthly", "on": 1, "at": "08:00",
+  "title": {"vi": "Rà soát sổ sách tháng trước", "en": "Last month's books review"},
+  "does": {"vi": "Chạy mọi phép kiểm sổ sách của odoo-cli trên cả tháng trước.", "en": "Runs every books check of odoo-cli over last month."},
+  "returns": {"vi": "Các phát hiện theo mức, kèm số liệu tháng.", "en": "Findings by severity, with the month's figures."},
+  "prompt": {"vi": "Tháng trước sổ sách có gì cần xử lý trước khi khoá sổ?",
+             "en": "What in last month's books needs handling before the period is closed?"},
+  "steps": [{"name": "ra-soat", "review": true, "period": "last_month", "note": "Rà soát sổ sách tháng trước"}]
+ },
+ {
+  "id": "doanh-thu-thang", "area": "sales", "every": "monthly", "on": 1, "at": "08:30",
+  "title": {"vi": "Doanh thu tháng và khách lớn", "en": "Monthly revenue and top customers"},
+  "does": {"vi": "Gộp đơn bán đã xác nhận ba tháng gần nhất theo tháng, và tháng trước theo khách.",
+           "en": "Groups confirmed sales orders of the last three months by month, and last month's by customer."},
+  "returns": {"vi": "Số đơn và doanh thu từng tháng; doanh thu tháng trước của từng khách.",
+              "en": "Orders and revenue per month; last month's revenue per customer."},
+  "prompt": {"vi": "Doanh thu tháng trước so với hai tháng trước đó thế nào, khách nào tăng, khách nào giảm?",
+             "en": "How does last month compare with the two before, and which customers grew or shrank?"},
+  "steps": [
+   {"name": "theo-thang", "group": "sales.quotation.list", "by": ["date_order:month"], "aggregate": ["amount_total:sum"],
+    "filter": [["state", "=", "sale"], ["date_order", ">=", "{month_start-3m}"], ["date_order", "<", "{month_start}"]],
+    "note": "Doanh thu ba tháng gần nhất"},
+   {"name": "theo-khach", "group": "sales.quotation.list", "by": ["partner_id"], "aggregate": ["amount_total:sum"],
+    "order": "amount_total:sum desc", "limit": 20,
+    "filter": [["state", "=", "sale"], ["date_order", ">=", "{last_month_start}"], ["date_order", "<", "{month_start}"]],
+    "note": "Doanh thu tháng trước theo khách"}
+  ]
+ },
+ {
+  "id": "len-viec-dinh-ky", "area": "work", "every": "daily", "at": "06:30", "writes": true,
+  "title": {"vi": "Lên việc lặp lại trong Odoo", "en": "Recurring tasks in Odoo"},
+  "does": {"vi": "Tạo trong Odoo các công việc lặp lại (chốt quỹ hằng ngày, kiểm kho hằng tuần, khoá sổ hằng tháng) nếu chưa có. Đóng một việc thì Odoo tự mở kỳ sau.",
+           "en": "Creates the recurring tasks in Odoo (daily cash count, weekly stock check, monthly close) when they are missing. Closing one makes Odoo open the next."},
+  "returns": {"vi": "Mỗi việc: đã có sẵn hay vừa tạo, kèm id.", "en": "Each task: already there or just created, with its id."},
+  "prompt": {"vi": "", "en": ""},
+  "agent": "none",
+  "steps": [
+   {"name": "chot-quy", "ensure_task": {"name": "Chốt quỹ tiền mặt", "project": "Vận hành", "recurring": true,
+                                        "repeat_every": 1, "repeat_unit": "day", "due_on": "{today}"},
+    "note": "Việc lặp hằng ngày"},
+   {"name": "kiem-kho", "ensure_task": {"name": "Kiểm kho", "project": "Vận hành", "recurring": true,
+                                        "repeat_every": 1, "repeat_unit": "week", "due_on": "{week_start+4}"},
+    "note": "Việc lặp hằng tuần"},
+   {"name": "khoa-so", "ensure_task": {"name": "Khoá sổ tháng", "project": "Vận hành", "recurring": true,
+                                       "repeat_every": 1, "repeat_unit": "month", "due_on": "{next_month_start+4}"},
+    "note": "Việc lặp hằng tháng"}
+  ]
+ }
+]

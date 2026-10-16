@@ -321,6 +321,11 @@ func standaloneTargetExecutor(ctx context.Context, invocation *clicore.Invocatio
 	if err != nil {
 		return nil, err
 	}
+	return executorFor(ctx, selection, config)
+}
+
+// executorFor builds the executor of one resolved profile.
+func executorFor(ctx context.Context, selection localprofile.Selection, config programConfig) (*direct.Executor, error) {
 	material, err := localprofile.ResolveCredential(selection.Profile)
 	if err != nil {
 		return nil, classifyProfile(err, selection.Profile.Name, config.name)

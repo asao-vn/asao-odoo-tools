@@ -41,7 +41,11 @@ or buttons 20.0 removed, and odoo-cli refuses them with the reason.
 - **Vietnam:** e-invoices through Viettel SInvoice (`l10n_vn_edi_viettel`).
 - **Business as code:** `odoo-cli spec plan|apply` brings an Odoo to a YAML description of a company:
   settings, products, website pages and more. The same spec rebuilds the same company on a blank
-  database.
+  database. A team shares a backend on S3, R2, MinIO or a folder: one apply at a time, plans saved for
+  review, every apply recorded, the spec last applied to pull back.
+- **Routines:** `odoo-cli routines` runs the checks a business makes every day, week or month (sales
+  yesterday, overdue receivables, late transfers, last month's books review), keeps what Odoo answered
+  and hands it to the agent you chose, on a timer.
 - **Change history:** who changed which field of a record, when, and from what to what
   (`structure.field_change.list`, `structure.change_note.list`), for the fields a review needs: payee
   bank accounts, partners' tax numbers, document states and dates, lock dates, prices. Odoo shows it
@@ -131,13 +135,14 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 612 tools:
+- **Reads by default:** 615 tools:
   - the 598 verified reads;
   - catalog discovery, the pre-flight check, the review (`review run`, `review checks`), the
-    controls (`controls list`, `status`, `plan`) and `report draft`;
+    controls (`controls list`, `status`, `plan`), the routines (`routines templates`, `list`,
+    `status`) and `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1381 tools. The 58 high-risk and destructive operations run only after
+- **With `--allow-writes`:** 1384 tools. The 58 high-risk and destructive operations run only after
   you confirm each call in the agent host.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
@@ -249,6 +254,54 @@ odoo-cli controls apply --profile my-odoo --enable K01,K04 \
   not be reset to draft, a posted bill could not be deleted, a password was refused over RPC. Then
   everything was put back (`conformance/odoo-controls-conformance.py`). Saving the Settings page is now
   verified setting by setting on both series.
+
+## Routines: `odoo-cli routines`
+
+The questions a business asks its Odoo every morning, every Monday or on the first of the month, run
+on a timer and land in a folder an agent reads.
+
+```sh
+odoo-cli routines templates --output json                       # ten starter routines: what each asks, what Odoo returns
+odoo-cli routines init --profile my-odoo --agent claude         # writes routines.toml, yours to change
+odoo-cli routines run --routine cong-no-qua-han                 # one now
+odoo-cli routines install                                       # "routines due" every 15 minutes (systemd, launchd, Task Scheduler or cron)
+odoo-cli routines status --output json                          # each routine's latest run
+```
+
+- **What a run leaves:** each run is kept in `~/asao-routines/<routine>/<day>/`:
+  - `result.json`: exactly what Odoo answered;
+  - `summary.md`: counts and totals, computed and never written by a model;
+  - `analysis.md`: what the agent made of it. The agent can be Claude Code, Codex, Gemini CLI, agy, any
+    command, or none.
+- **For an interactive agent:** `AGENTS.md`, `CLAUDE.md` and `GEMINI.md` in that folder tell it how to
+  read the runs.
+- **Reads stay reads:**
+  - a read or group step can only run a read operation;
+  - a routine changes Odoo only through steps that say so (`writes = true`), and never installs a
+    module;
+  - the agent only reads.
+- **A missed slot:**
+  - a laptop that was off at 07:30 runs the daily routine when it wakes;
+  - a run that could not reach Odoo leaves the slot open for the next check.
+- **Same file as the SDK:** the format is the one the `asao-erp` SDK's routines use (TOML, or YAML and
+  JSON). Credentials stay in the keyring or the credential file; the timer keeps only paths.
+
+## A team on one Odoo: `odoo-cli spec --backend`
+
+```sh
+odoo-cli spec plan  --profile company --file company.yaml --backend s3://my-bucket/odoo/company
+odoo-cli spec apply --profile company --file company.yaml --backend s3://my-bucket/odoo/company --plan-hash sha256:...
+odoo-cli spec state --backend s3://my-bucket/odoo/company
+```
+
+- **The backend holds** the lock (one apply at a time), the plans saved for review, a record of every
+  apply, and the spec last applied in full, which a teammate pulls back with `spec pull`.
+- **Where it lives:** an S3 bucket, Cloudflare R2, MinIO, Backblaze B2 or a shared folder. odoo-cli
+  signs S3 requests itself.
+- **No state file:** every plan reads Odoo itself. With a backend, apply needs the reviewed plan's hash.
+- **Who approves:** the backend records who as a label. For an approval by a checked identity, use your
+  git host's reviews or ASAO; [docs/team-spec.md](docs/team-spec.md) has both, with GitHub Actions
+  workflows.
 
 ## Any model: `odoo-cli explore`
 
@@ -400,7 +453,7 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 612 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+- **Mặc định chỉ đọc:** 615 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
 - **Thêm `--allow-writes`:** agent được ghi. 58 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
   từng lần.
@@ -413,6 +466,17 @@ hạn mức nợ của khách, xác thực hai bước cho nhân viên... Nó đ
 tắt lại được qua thao tác đã kiểm chứng, có kế hoạch để bạn xem trước.
 - Odoo Community không có màn hình đặt ngày khoá sổ; odoo-cli đặt được, và không bao giờ lùi ngày khoá.
 - Niêm phong bút toán bằng mã băm thì odoo-cli không bật, vì Odoo không cho tắt lại.
+
+**Việc định kỳ:** `odoo-cli routines` chạy những câu hỏi doanh nghiệp hỏi Odoo mỗi sáng, mỗi thứ Hai hay
+đầu tháng (bán hàng hôm qua, công nợ quá hạn, phiếu kho trễ, rà soát sổ sách tháng trước), theo lịch.
+- Mỗi lần chạy được lưu thành thư mục: số liệu Odoo trả về, bản tóm tắt do máy tính, và phần đọc của
+  agent bạn chọn (Claude Code, Codex, Gemini CLI, agy hoặc không dùng agent).
+- Không cần Python. Lệnh `routines install` đặt lịch chạy tự động trên máy.
+
+**Làm theo nhóm trên một Odoo:** `odoo-cli spec --backend s3://...`. Bucket S3, R2, MinIO hay một thư mục
+dùng chung giữ khoá (mỗi lúc chỉ một lần apply), các plan đã lưu để xem lại, lịch sử mọi lần apply, và spec
+đã apply gần nhất để kéo về. Không có tệp state: mỗi lần plan đều đọc thẳng Odoo. Xem
+[docs/team-spec.md](docs/team-spec.md).
 
 **Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
 trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệch thao tác nào; 415/553 thao tác ghi và

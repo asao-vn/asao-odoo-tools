@@ -36,6 +36,10 @@ type Spec struct {
 	// Resources are the records the business keeps, applied in this order: a record another one
 	// refers to comes first.
 	Resources []Resource `json:"resources" yaml:"resources"`
+	// Backend is where a team keeps the lock, the plans saved for review, the record of every apply
+	// and the spec last applied (s3://bucket/prefix, or a folder). The command line reads it; a plan
+	// never depends on it.
+	Backend string `json:"backend,omitempty" yaml:"backend,omitempty"`
 }
 
 // Metadata names a spec. Placeholders lists the values that are not facts yet (a rehearsal's

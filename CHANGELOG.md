@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.13.0 (2026-10-16)
+
+1368 operations, unchanged: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.
+
+- **`odoo-cli routines`: a business's daily, weekly and monthly checks, with no Python.** The routines
+  the `asao-erp` SDK introduced now run in the command line itself:
+  - `templates`: ten starter routines (sales yesterday, overdue receivables, money in and out, late
+    transfers, late tasks, last week's and last month's books review, stalled opportunities, monthly
+    revenue, recurring tasks);
+  - `init`, `list`, `run`, `due` and `status`;
+  - `install`: a timer on systemd, launchd, Task Scheduler or cron.
+
+  Each run is kept in a folder: what Odoo answered, a computed summary, and the reading of the agent
+  you chose (Claude Code, Codex, Gemini CLI, agy, any command, or none). The same file format as the
+  SDK (TOML, and now YAML or JSON).
+
+  What changed on the way:
+  - a read or group step can only run a read operation;
+  - a routine changes Odoo only through steps that say so, never by installing a module;
+  - a run that reached Odoo at no step leaves the slot open for the next timer tick;
+  - one `due` runs at a time.
+
+  An agent over MCP may list the starter routines and read a file's routines and their latest runs
+  (three read tools, from the file the server was started with); running routines, writing a file
+  and installing a timer stay with you.
+- **A team on one Odoo: `odoo-cli spec --backend`.** `spec plan` and `apply` can share a backend:
+  - where: an S3 bucket (or Cloudflare R2, MinIO, Backblaze B2), signed by odoo-cli itself with no
+    SDK, or a shared folder;
+  - the lock: one apply at a time, and `spec unlock` for an apply that died;
+  - the plans: each one is saved under its hash with the spec as written, so a colleague can review
+    it (`spec pull --plan`);
+  - the record: every apply is recorded as REFUSED, FAILED or APPLIED, with plan and report
+    (`spec runs`);
+  - the spec last applied in full, which anyone can pull back (`spec pull`);
+  - `spec state` shows it all.
+
+  With a backend, apply needs the reviewed plan's hash (or `--auto-approve`). A backend belongs to
+  one Odoo, and another one is refused before it is read. There is no state file: every plan reads
+  Odoo itself. "Who" is a label (user and host); the bucket's permissions decide who writes, and
+  `odoo-cli trust` says so. For approval by a colleague whose identity is checked, see
+  [docs/team-spec.md](docs/team-spec.md).
+- **Proof:**
+  - **Routines** on an Odoo 19 lab: all ten templates ran; the recurring-task routine created its
+    tasks once and found them on the next run; a timer ran the due routines.
+  - **The backend** against MinIO: the signature matches AWS's published example; plan, review, apply
+    and pull round-trip the spec byte for byte; five concurrent applies gave one APPLIED and four
+    SPEC_LOCKED.
+
 ## 0.12.0 (2026-10-16)
 
 1368 operations: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.

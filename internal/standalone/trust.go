@@ -66,6 +66,16 @@ func TrustBoundary() map[string]interface{} {
 			"credentialFileMode":   "must be readable by its owner alone (0600); a more permissive file is refused, not read",
 			"neverPrinted":         "no command, help text, discovery document or error emitted by this tool contains credential material",
 		},
+		"specBackend": map[string]interface{}{
+			"what": "an optional store a team shares for spec (an S3-compatible bucket or a folder): the apply lock, " +
+				"the plans saved for review, the record of every apply and the spec last applied",
+			"who":           "recorded as the operating-system user and host name: a label, never an authenticated identity",
+			"authorization": "the store's own permissions decide who can read and write there; this tool enforces none",
+			"approval": "none here: a colleague's approval with a checked identity is the governed product's, " +
+				"or the reviews of the git host the spec lives in",
+			"credentials": "AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, or a profile in the shared credentials file, " +
+				"read at use and never printed or stored in the backend",
+		},
 		"endpointPolicy": map[string]interface{}{
 			"sharedWith": "the governed product — there is exactly one provider-endpoint policy in this codebase",
 			"privateAddressesRequireOptIn": providerendpoint.AllowPrivateEnvVar + "=true is required to dial a " +
