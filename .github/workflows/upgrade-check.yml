@@ -1,0 +1,42 @@
+name: upgrade-check
+
+# Measures `odoo-cli upgrade check --to 20.0` against real Odoo. It makes customizations on a throwaway
+# 19.0, as a person would, and uses each once; runs the check there through the API; makes and uses the
+# same customizations on a throwaway 20.0, where everything is rolled back; and sets the check's
+# prediction against what 20.0 did. The customizations are the fresh set
+# (conformance/upgrade-check/make_fresh.py), written after the check and never used to tune it.
+# The same script runs on any machine with Docker or Podman:
+# conformance/upgrade-check/measure.sh --out /tmp/upgrade-check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Build odoo-cli
+        run: go build -o "$RUNNER_TEMP/odoo-cli" ./cmd/odoo-cli
+      - name: Make the customizations on 19.0, check, make them again on 20.0
+        run: conformance/upgrade-check/measure.sh --out "$RUNNER_TEMP/upgrade-check" --engine docker --odoo-bin "$RUNNER_TEMP/odoo-cli"
+      - name: Summary
+        if: always()
+        run: cat "$RUNNER_TEMP/upgrade-check/summary.md" >> "$GITHUB_STEP_SUMMARY" || echo "The measurement stopped before the comparison; see the logs." >> "$GITHUB_STEP_SUMMARY"
+      - name: Pack the evidence (never the labs' secrets)
+        if: always()
+        run: |
+          cd "$RUNNER_TEMP/upgrade-check"
+          tar czf "$RUNNER_TEMP/upgrade-check.tar.gz" --exclude=secret --exclude=xdg --exclude=odoo-cli --exclude='inventory-*.json' .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: upgrade-check
+          path: ${{ runner.temp }}/upgrade-check.tar.gz

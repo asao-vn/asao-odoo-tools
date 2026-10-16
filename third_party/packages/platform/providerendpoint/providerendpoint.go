@@ -15,10 +15,12 @@
 //     ProviderConnection row written before this policy existed cannot bypass it merely because it
 //     names a hostname instead of a literal IP.
 //
-// Both are governed by the same opt-in: AllowPrivateEnvVar. It exists because every accepted LAB
-// composition (scripts/dev/asao-lab-up.sh, scripts/dev/medusa-lab-up.sh) legitimately points Odoo
-// and Medusa connections at 127.0.0.1, and a real operator running a private-network deployment has
-// the identical legitimate need.
+// Both are governed by the same opt-ins. AllowPrivateEnvVar lifts the policy for every endpoint: every
+// accepted LAB composition (scripts/dev/asao-lab-up.sh, scripts/dev/medusa-lab-up.sh) legitimately
+// points Odoo and Medusa connections at 127.0.0.1. PrivateAllowlistEnvVar lifts it for an exact list
+// of host:port pairs only: production runs its own provider (the cluster's Odoo at odoo:8069) on a
+// private Service address, and opening every private address to every organization to reach it would
+// be the SSRF this package exists to prevent.
 package providerendpoint
 
 import (
@@ -29,12 +31,20 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 )
 
 // AllowPrivateEnvVar is the operator opt-in that permits a provider endpoint resolving to a
 // loopback/link-local/private/unique-local/multicast/unspecified address. Unset (or any value other
 // than "true") means the policy is enforced.
 const AllowPrivateEnvVar = "ASAO_ALLOW_PRIVATE_PROVIDER_ENDPOINTS"
+
+// PrivateAllowlistEnvVar names the operator's exact list of private provider endpoints, as
+// comma-separated host:port pairs (for example "odoo:8069"). An endpoint whose host and port (the
+// scheme's default when the URL names none) match an entry is accepted although it is, or resolves to,
+// a private address. Matching is on the host as written in the endpoint, case-insensitive; nothing
+// else about private addresses changes.
+const PrivateAllowlistEnvVar = "ASAO_PRIVATE_PROVIDER_ENDPOINTS"
 
 // ErrInvalidEndpoint reports an endpoint that is not a well-formed http(s) URL at all — wrong or
 // missing scheme, unparseable, or missing host.
@@ -49,6 +59,25 @@ var ErrEndpointNotPermitted = errors.New("provider endpoint: resolves to a disal
 // endpoints.
 func Allowed() bool {
 	return os.Getenv(AllowPrivateEnvVar) == "true"
+}
+
+// allowlisted reports whether u's host:port is one of the operator's PrivateAllowlistEnvVar entries.
+func allowlisted(u *url.URL) bool {
+	raw := os.Getenv(PrivateAllowlistEnvVar)
+	if strings.TrimSpace(raw) == "" {
+		return false
+	}
+	port := u.Port()
+	if port == "" {
+		port = map[string]string{"http": "80", "https": "443"}[u.Scheme]
+	}
+	want := strings.ToLower(net.JoinHostPort(u.Hostname(), port))
+	for _, entry := range strings.Split(raw, ",") {
+		if strings.ToLower(strings.TrimSpace(entry)) == want {
+			return true
+		}
+	}
+	return false
 }
 
 // disallowed is the single CIDR/address-class policy every caller in this package enforces. It
@@ -87,11 +116,11 @@ func parse(endpoint string) (*url.URL, string, error) {
 // opposed to a literal IP) is accepted here unconditionally; the same host is checked again, WITH
 // resolution, by CheckHost at connection-construction time.
 func ValidateSyntax(endpoint string) error {
-	_, host, err := parse(endpoint)
+	u, host, err := parse(endpoint)
 	if err != nil {
 		return err
 	}
-	if Allowed() {
+	if Allowed() || allowlisted(u) {
 		return nil
 	}
 	if ip := net.ParseIP(host); ip != nil && disallowed(ip) {
@@ -105,11 +134,11 @@ func ValidateSyntax(endpoint string) error {
 // disallowed-address policy. This is real network I/O — call it once, at the point a provider
 // adapter/client is actually constructed, never on a hot path that must stay I/O-free.
 func CheckHost(ctx context.Context, endpoint string) error {
-	_, host, err := parse(endpoint)
+	u, host, err := parse(endpoint)
 	if err != nil {
 		return err
 	}
-	if Allowed() {
+	if Allowed() || allowlisted(u) {
 		return nil
 	}
 	if ip := net.ParseIP(host); ip != nil {

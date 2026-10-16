@@ -135,14 +135,14 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 615 tools:
+- **Reads by default:** 617 tools:
   - the 598 verified reads;
   - catalog discovery, the pre-flight check, the review (`review run`, `review checks`), the
     controls (`controls list`, `status`, `plan`), the routines (`routines templates`, `list`,
-    `status`) and `report draft`;
+    `status`), the upgrade check (`upgrade check`, `upgrade maps`) and `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1384 tools, and every write asks you first: the agent host shows you the
+- **With `--allow-writes`:** 1386 tools, and every write asks you first: the agent host shows you the
   command line, and nothing runs until you confirm. A host that cannot ask gets a refusal with the
   command line instead.
 - **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. The 61 high-risk
@@ -311,6 +311,40 @@ odoo-cli spec state --backend s3://my-bucket/odoo/company
   git host's reviews or ASAO; [docs/team-spec.md](docs/team-spec.md) has both, with GitHub Actions
   workflows.
 
+## Before an upgrade: `odoo-cli upgrade check`
+
+```sh
+odoo-cli upgrade check --profile my-odoo --to 20.0 --output json
+odoo-cli upgrade check --profile my-odoo --to 20.0 --markdown-file upgrade-20.md   # a report in Vietnamese
+odoo-cli upgrade maps --output json                                                 # the pairs it can check
+```
+
+It reads what people made in the database, the records no module owns:
+- saved filters, automation rules and server actions;
+- custom fields, email templates and views;
+- record rules, access rights, export templates, default values and window actions.
+
+It then checks every model and field they reference against the next series. Each finding names the
+customization, the path that stops resolving, and why:
+- **BREAKS:** it stops working. **RENAME:** it stops working too, and the finding names the field's
+  probable new name.
+- **CHECK:** it still runs but may mean something else. For example, a filter on a value that 20.0
+  dropped then matches nothing.
+- **UNKNOWN:** it depends on a module the map does not cover, such as an Enterprise or a third-party
+  module.
+
+It reads and never writes, and it never prints the code or the templates it reads. Run it as an
+administrator: only an administrator can read the customizations.
+
+**What 20.0 changes.** Record rules and access rights move into one new model, `ir.access`, so every
+custom rule has to be written again. 44 models are gone, among them time-off types, banks and scrap
+orders, and so are 618 fields. 56 selection fields lose values.
+
+**How far to trust it.** The map comes from the conformance labs of both series. Customizations planted
+on 19.0 were replayed on 20.0. Before it was tuned on them, the check flagged 8 of 10 that broke, with
+one false alarm among 8 that still worked. It does not read report templates, website pages, or code
+that builds names at run time. Read every finding, and test the upgrade on a copy of the database.
+
 ## Any model: `odoo-cli explore`
 
 The catalog covers the business apps of Odoo Community. To read anything else, such as an Enterprise
@@ -461,7 +495,7 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 615 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+- **Mặc định chỉ đọc:** 617 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
 - **Thêm `--allow-writes`:** agent được ghi, và thao tác ghi nào cũng hỏi bạn trước: agent host hiện dòng lệnh,
   bạn xác nhận thì mới chạy. Agent host nào không hỏi được thì nhận lời từ chối, kèm dòng lệnh để bạn tự chạy.
@@ -489,6 +523,17 @@ tắt lại được qua thao tác đã kiểm chứng, có kế hoạch để b
 dùng chung giữ khoá (mỗi lúc chỉ một lần apply), các plan đã lưu để xem lại, lịch sử mọi lần apply, và spec
 đã apply gần nhất để kéo về. Không có tệp state: mỗi lần plan đều đọc thẳng Odoo. Xem
 [docs/team-spec.md](docs/team-spec.md).
+
+**Trước khi nâng cấp:** `odoo-cli upgrade check --to 20.0` đọc những gì người dùng tự tạo trong cơ sở dữ
+liệu:
+- bộ lọc, quy tắc tự động, hành động máy chủ;
+- field tự tạo, mẫu email, giao diện;
+- quy tắc bản ghi, quyền truy cập, mẫu xuất, giá trị mặc định.
+
+Nó cho biết cái nào sẽ hỏng ở bản mới, vì sao, và field có lẽ đã đổi tên thành gì. Nó chỉ đọc, không bao
+giờ in code hay nội dung mẫu. Ở bản 20.0, quy tắc bản ghi và quyền truy cập chuyển sang một model mới
+(`ir.access`), nên mọi quy tắc tự tạo phải viết lại. Thêm `--markdown-file` để có báo cáo tiếng Việt. Đây
+là dấu hiệu cần xem lại, không phải phán quyết: hãy thử nâng cấp trên một bản sao trước.
 
 **Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
 trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệch thao tác nào; 415/553 thao tác ghi và

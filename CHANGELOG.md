@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.15.0 (unreleased)
+
+- **New: `odoo-cli upgrade check --to 20.0`.** Before an upgrade, it says which customizations people made
+  in the database will stop working on 20.0, and why:
+  - what it reads: saved filters, automation rules, server actions, custom fields, email templates,
+    views, record rules, access rights, export templates, default values and window actions;
+  - how: it resolves every model and field they reference against a map made from the 19.0 and 20.0
+    conformance labs;
+  - what it says: the probable new name of a renamed field, and UNKNOWN for a module the map does not
+    cover (Enterprise or third-party).
+  It reads only, and never prints the code or the templates it reads. `--markdown-file` writes a report
+  in Vietnamese; `upgrade maps` lists the pairs this build can check. On 20.0, record rules and access
+  rights move to `ir.access`, so every custom one is reported. Customizations planted on 19.0 were
+  replayed on 20.0. Before the check was tuned on them, it flagged 8 of 10 that broke, with one false
+  alarm among 8 that still worked.
+- MCP: `upgrade_check` and `upgrade_maps` are read tools: 617 by default, 1386 with `--allow-writes`.
+- **The check is measured on real Odoo, in the open.** The `upgrade-check` workflow
+  (`conformance/upgrade-check/measure.sh`, any machine with Docker or Podman) makes a fresh set of
+  customizations on a throwaway 19.0, as a person would, and uses each once. It runs the check there,
+  makes the same customizations again on a throwaway 20.0, and sets each prediction against what 20.0 did.
+
 ## 0.14.0 (2026-10-16)
 
 - **Every write an agent asks for needs your confirmation.** `mcp serve --allow-writes` now asks you in

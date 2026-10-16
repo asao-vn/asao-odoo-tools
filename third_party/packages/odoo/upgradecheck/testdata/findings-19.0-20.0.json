@@ -1,0 +1,792 @@
+[
+ {
+  "at": [
+   "account.move.line",
+   "name"
+  ],
+  "confidence": "CERTAIN",
+  "id": 21,
+  "kind": "saved filter",
+  "model": "account.move.line",
+  "name": "planted f_type_changed",
+  "now": "text",
+  "path": "name",
+  "problem": "TYPE_CHANGED",
+  "severity": "CHECK",
+  "was": "char"
+ },
+ {
+  "at": [
+   "account.payment",
+   "state"
+  ],
+  "confidence": "CERTAIN",
+  "id": 20,
+  "kind": "saved filter",
+  "model": "account.payment",
+  "name": "planted f_selection_value",
+  "path": "state",
+  "problem": "SELECTION_VALUE_REMOVED",
+  "severity": "CHECK",
+  "values": [
+   "in_process"
+  ]
+ },
+ {
+  "at": [
+   "crm.stage",
+   "color"
+  ],
+  "confidence": "CERTAIN",
+  "id": 15,
+  "kind": "saved filter",
+  "model": "crm.stage",
+  "name": "planted f_removed_color",
+  "path": "color",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "hr.applicant",
+   "salary_expected"
+  ],
+  "confidence": "CERTAIN",
+  "id": 26,
+  "kind": "saved filter",
+  "model": "hr.applicant",
+  "name": "planted h_f_type_changed",
+  "now": "monetary",
+  "path": "salary_expected",
+  "problem": "TYPE_CHANGED",
+  "severity": "CHECK",
+  "was": "float"
+ },
+ {
+  "at": [
+   "hr.leave",
+   "holiday_status_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 16,
+  "kind": "saved filter",
+  "model": "hr.leave",
+  "name": "planted f_relpath_removed",
+  "path": "holiday_status_id.name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "work_entry_type_id"
+ },
+ {
+  "at": [
+   "hr.leave.type",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 19,
+  "kind": "saved filter",
+  "model": "hr.leave.type",
+  "name": "planted f_model_removed",
+  "path": "hr.leave.type",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "product.category",
+   "complete_name"
+  ],
+  "confidence": "CERTAIN",
+  "id": 18,
+  "kind": "saved filter",
+  "model": "product.category",
+  "name": "planted f_groupby_unstored",
+  "path": "complete_name",
+  "problem": "NO_LONGER_STORED",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "product.template",
+   "hs_code"
+  ],
+  "confidence": "CERTAIN",
+  "id": 17,
+  "kind": "saved filter",
+  "model": "product.template",
+  "name": "planted f_unsearchable",
+  "path": "hs_code",
+  "problem": "NO_LONGER_SEARCHABLE",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "repair.order",
+   "state"
+  ],
+  "confidence": "CERTAIN",
+  "id": 25,
+  "kind": "saved filter",
+  "model": "repair.order",
+  "name": "planted h_f_selection_in",
+  "path": "state",
+  "problem": "SELECTION_VALUE_REMOVED",
+  "severity": "CHECK",
+  "values": [
+   "under_repair"
+  ]
+ },
+ {
+  "at": [
+   "res.partner",
+   "global_location_number"
+  ],
+  "confidence": "CERTAIN",
+  "id": 24,
+  "kind": "saved filter",
+  "model": "res.partner",
+  "name": "planted h_f_unsearchable",
+  "path": "global_location_number",
+  "problem": "NO_LONGER_SEARCHABLE",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "stock.move",
+   "product_uom"
+  ],
+  "confidence": "CERTAIN",
+  "id": 14,
+  "kind": "saved filter",
+  "model": "stock.move",
+  "name": "planted f_rename_uom",
+  "path": "product_uom",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "stock.picking.type",
+   "sequence_code"
+  ],
+  "confidence": "CERTAIN",
+  "id": 23,
+  "kind": "saved filter",
+  "model": "stock.picking.type",
+  "name": "planted h_f_sort_unstored",
+  "path": "sequence_code",
+  "problem": "ORDER_NOT_STORED",
+  "severity": "CHECK"
+ },
+ {
+  "at": [
+   "product.template",
+   "expense_policy"
+  ],
+  "confidence": "CERTAIN",
+  "id": 1,
+  "kind": "automation rule",
+  "model": "product.template",
+  "name": "planted a_rename_domain",
+  "path": "expense_policy",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "reinvoice_policy"
+ },
+ {
+  "at": [
+   "account.journal",
+   "bank_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 2,
+  "kind": "automation rule",
+  "model": "account.journal",
+  "name": "planted a_removed_domain",
+  "path": "bank_id",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "hr.contract.type",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 5,
+  "kind": "automation rule",
+  "model": "hr.contract.type",
+  "name": "planted h_a_model_removed",
+  "path": "hr.contract.type",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "crm.lead",
+   "commercial_partner_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 1126,
+  "kind": "server action",
+  "model": "crm.lead",
+  "name": "planted a_code_removed",
+  "path": "commercial_partner_id",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "stock.scrap",
+   null
+  ],
+  "confidence": "LIKELY",
+  "id": 1121,
+  "kind": "server action",
+  "model": "res.partner",
+  "name": "planted c_env_model_removed",
+  "path": "stock.scrap",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "stock.move",
+   "product_uom"
+  ],
+  "confidence": "LIKELY",
+  "id": 1120,
+  "kind": "server action",
+  "model": "res.partner",
+  "name": "planted c_env_search_rename",
+  "path": "product_uom",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "account.payment",
+   "is_donation"
+  ],
+  "confidence": "LIKELY",
+  "id": 1119,
+  "kind": "server action",
+  "model": "account.payment",
+  "name": "planted c_removed_mapped",
+  "path": "is_donation",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "purchase.order.line",
+   "product_uom_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 1118,
+  "kind": "server action",
+  "model": "purchase.order.line",
+  "name": "planted c_rename_write",
+  "path": "product_uom_id",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "purchase.order.line",
+   "product_uom_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 1118,
+  "kind": "server action",
+  "model": "purchase.order.line",
+  "name": "planted c_rename_write",
+  "path": "product_uom_id.id",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "account.payment",
+   "state"
+  ],
+  "confidence": "LIKELY",
+  "id": 1122,
+  "kind": "server action",
+  "model": "account.payment",
+  "name": "planted c_selection_value",
+  "path": "state",
+  "problem": "SELECTION_VALUE_REMOVED",
+  "severity": "CHECK",
+  "values": [
+   "in_process"
+  ]
+ },
+ {
+  "at": [
+   "hr.contract.type",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 1130,
+  "kind": "server action",
+  "model": "hr.contract.type",
+  "name": "planted h_a_model_removed",
+  "path": "hr.contract.type",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "product.pricelist.item",
+   "compute_price"
+  ],
+  "confidence": "LIKELY",
+  "id": 1128,
+  "kind": "server action",
+  "model": "product.pricelist.item",
+  "name": "planted h_c_in_tuple",
+  "path": "compute_price",
+  "problem": "SELECTION_VALUE_REMOVED",
+  "severity": "CHECK",
+  "values": [
+   "formula",
+   "percentage"
+  ]
+ },
+ {
+  "at": [
+   "mrp.production",
+   "product_uom_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 1129,
+  "kind": "server action",
+  "model": "mrp.production",
+  "name": "planted h_c_rename_loop",
+  "path": "product_uom_id.name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "crm.lead",
+   "commercial_partner_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 18495,
+  "kind": "custom field",
+  "model": "crm.lead",
+  "name": "x_planted_commercial",
+  "path": "commercial_partner_id",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "hr.job",
+   "published_date"
+  ],
+  "confidence": "CERTAIN",
+  "id": 18501,
+  "kind": "custom field",
+  "model": "hr.job",
+  "name": "x_planted_published",
+  "now": "datetime",
+  "path": "published_date",
+  "problem": "RELATED_TYPE_CHANGED",
+  "severity": "BREAKS",
+  "was": "date"
+ },
+ {
+  "at": [
+   "stock.quant",
+   "product_uom_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 18503,
+  "kind": "custom field",
+  "model": "stock.quant",
+  "name": "x_planted_quant_uom",
+  "path": "product_uom_id.name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "hr.leave.type",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 18497,
+  "kind": "custom field",
+  "model": "hr.leave.type",
+  "name": "x_planted_type_name",
+  "path": "hr.leave.type",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "stock.move",
+   "product_uom"
+  ],
+  "confidence": "CERTAIN",
+  "id": 18493,
+  "kind": "custom field",
+  "model": "stock.move",
+  "name": "x_planted_uom_name",
+  "path": "product_uom.name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "stock.quant",
+   "product_uom_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 66,
+  "kind": "email template",
+  "model": "stock.quant",
+  "name": "planted h_t_rename_inline",
+  "path": "product_uom_id.name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "stock.quant",
+   "product_uom_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 66,
+  "kind": "email template",
+  "model": "stock.quant",
+  "name": "planted h_t_rename_inline",
+  "path": "product_uom_id",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "hr.leave.type",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 64,
+  "kind": "email template",
+  "model": "hr.leave.type",
+  "name": "planted t_model_removed",
+  "path": "hr.leave.type",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "account.journal",
+   "bank_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 63,
+  "kind": "email template",
+  "model": "account.journal",
+  "name": "planted t_removed",
+  "path": "bank_id.name",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "account.journal",
+   "bank_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 63,
+  "kind": "email template",
+  "model": "account.journal",
+  "name": "planted t_removed",
+  "path": "bank_id",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "res.partner.bank",
+   "acc_number"
+  ],
+  "confidence": "LIKELY",
+  "id": 61,
+  "kind": "email template",
+  "model": "res.partner.bank",
+  "name": "planted t_rename",
+  "path": "acc_number",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "account_number"
+ },
+ {
+  "at": [
+   "account.journal",
+   "bank_acc_number"
+  ],
+  "confidence": "LIKELY",
+  "id": 62,
+  "kind": "email template",
+  "model": "account.journal",
+  "name": "planted t_subject_rename",
+  "path": "bank_acc_number",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "bank_account_number"
+ },
+ {
+  "at": [
+   "mrp.production",
+   "product_uom_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 4538,
+  "kind": "view",
+  "model": "mrp.production",
+  "name": "planted h_v_rename",
+  "path": "product_uom_id",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "crm.lead",
+   "is_partner_visible"
+  ],
+  "confidence": "LIKELY",
+  "id": 4534,
+  "kind": "view",
+  "model": "crm.lead",
+  "name": "planted v_invisible_removed",
+  "path": "is_partner_visible",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "hr.leave.type",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 4533,
+  "kind": "view",
+  "model": "hr.leave.type",
+  "name": "planted v_model_removed",
+  "path": "hr.leave.type",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "crm.stage",
+   "color"
+  ],
+  "confidence": "CERTAIN",
+  "id": 4531,
+  "kind": "view",
+  "model": "crm.stage",
+  "name": "planted v_removed",
+  "path": "color",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "res.partner.bank",
+   "acc_number"
+  ],
+  "confidence": "CERTAIN",
+  "id": 4530,
+  "kind": "view",
+  "model": "res.partner.bank",
+  "name": "planted v_rename",
+  "path": "acc_number",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "account_number"
+ },
+ {
+  "at": [
+   "account.journal",
+   "bank_id"
+  ],
+  "confidence": "LIKELY",
+  "id": 4537,
+  "kind": "view",
+  "model": "account.journal",
+  "name": "planted v_xpath_removed",
+  "path": "bank_id",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "res.bank",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 8,
+  "kind": "export template",
+  "model": "res.bank",
+  "name": "planted e_model_removed",
+  "path": "res.bank",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "account.group",
+   null
+  ],
+  "confidence": "CERTAIN",
+  "id": 11,
+  "kind": "export template",
+  "model": "account.group",
+  "name": "planted h_e_model_removed",
+  "path": "account.group",
+  "problem": "MODEL_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "purchase.order.line",
+   "product_uom_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 5,
+  "kind": "export template",
+  "model": "purchase.order.line",
+  "name": "planted e_rename",
+  "path": "product_uom_id/name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "uom_id"
+ },
+ {
+  "at": [
+   "account.account",
+   "group_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 6,
+  "kind": "export template",
+  "model": "account.account",
+  "name": "planted e_removed",
+  "path": "group_id/name",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "hr.leave",
+   "holiday_status_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 7,
+  "kind": "export template",
+  "model": "hr.leave",
+  "name": "planted e_relpath_removed",
+  "path": "holiday_status_id/name",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "work_entry_type_id"
+ },
+ {
+  "at": [
+   "account.tax.group",
+   "tax_payable_account_id"
+  ],
+  "confidence": "CERTAIN",
+  "id": 10,
+  "kind": "export template",
+  "model": "account.tax.group",
+  "name": "planted h_e_removed",
+  "path": "tax_payable_account_id/name",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "product.template",
+   "expense_policy"
+  ],
+  "confidence": "CERTAIN",
+  "id": 49,
+  "kind": "default value",
+  "model": "product.template",
+  "name": null,
+  "path": "expense_policy",
+  "problem": "FIELD_RENAMED",
+  "severity": "RENAME",
+  "to": "reinvoice_policy"
+ },
+ {
+  "at": [
+   "crm.stage",
+   "color"
+  ],
+  "confidence": "CERTAIN",
+  "id": 50,
+  "kind": "default value",
+  "model": "crm.stage",
+  "name": null,
+  "path": "color",
+  "problem": "FIELD_MISSING",
+  "severity": "BREAKS"
+ },
+ {
+  "at": [
+   "product.pricelist.item",
+   "compute_price"
+  ],
+  "confidence": "CERTAIN",
+  "id": 51,
+  "kind": "default value",
+  "model": "product.pricelist.item",
+  "name": null,
+  "path": "compute_price",
+  "problem": "DEFAULT_VALUE_REMOVED",
+  "severity": "BREAKS",
+  "values": [
+   "formula"
+  ]
+ },
+ {
+  "confidence": "CERTAIN",
+  "id": 479,
+  "kind": "rules",
+  "model": "res.partner",
+  "name": "planted r_rule",
+  "path": "ir.rule",
+  "problem": "CONTAINER_REPLACED",
+  "replacedBy": "ir.access",
+  "severity": "BREAKS"
+ },
+ {
+  "confidence": "CERTAIN",
+  "id": 1617,
+  "kind": "access rights",
+  "model": "res.partner",
+  "name": "planted r_access",
+  "path": "ir.model.access",
+  "problem": "CONTAINER_REPLACED",
+  "replacedBy": "ir.access",
+  "severity": "BREAKS"
+ }
+]
