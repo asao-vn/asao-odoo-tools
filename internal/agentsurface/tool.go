@@ -487,7 +487,13 @@ func (t Tool) CommandLine(arguments map[string]interface{}) string {
 	if err != nil {
 		return t.Command
 	}
-	parts := []string{"asao"}
+	// The command line names the tool's own program (asao, odoo-cli, ...): it is what the person
+	// is shown before confirming, and what they would type to run it themselves.
+	program := "asao"
+	if fields := strings.Fields(t.Command); len(fields) > 0 {
+		program = fields[0]
+	}
+	parts := []string{program}
 	for _, arg := range argv {
 		if arg == "--output=json" {
 			continue

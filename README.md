@@ -142,8 +142,11 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
     `status`) and `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1384 tools. The 58 high-risk and destructive operations run only after
-  you confirm each call in the agent host.
+- **With `--allow-writes`:** 1384 tools. 61 of them run only after you confirm each call in the agent
+  host: the high-risk and destructive operations, and every change to a bank account (who you pay).
+- **With `--confirm-writes` as well:** every write asks you first. Use it when the agent reads text
+  written outside the company (a lead from a website form or an email, a sign-up, a message): such
+  text can carry instructions, and an agent can follow them.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
   operation.
@@ -151,7 +154,8 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
   machine, or the provider context. Installing a module is never offered.
 
 The server acts with the full authority of the profile's Odoo credential. It bounds what is
-*offered*; it is not a sandbox. An agent that can run commands can run odoo-cli directly. See
+*offered*; it is not a sandbox. Its instructions tell the agent that text inside records is data,
+never an instruction; that is advice to the agent, and what holds is what a write needs before it runs. An agent that can run commands can run odoo-cli directly. See
 [docs/odoo-online-and-enterprise.md](docs/odoo-online-and-enterprise.md) for how it compares with
 Odoo's own MCP server.
 
@@ -457,8 +461,11 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 Community lẫn Enterprise.
 - **Mặc định chỉ đọc:** 615 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
-- **Thêm `--allow-writes`:** agent được ghi. 58 thao tác rủi ro cao hoặc xoá chỉ chạy sau khi bạn xác nhận
-  từng lần.
+- **Thêm `--allow-writes`:** agent được ghi. 61 thao tác chỉ chạy sau khi bạn xác nhận từng lần: các thao tác
+  rủi ro cao hoặc xoá, và mọi thay đổi tài khoản ngân hàng (người nhận tiền).
+- **Thêm cả `--confirm-writes`:** mọi thao tác ghi đều hỏi bạn trước. Nên dùng khi agent đọc văn bản do người
+  ngoài công ty viết (lead từ form website hay email, người đăng ký, tin nhắn): văn bản đó có thể chứa lệnh,
+  và agent có thể làm theo.
 - **Agent không tự chọn được:** profile, việc chấp nhận kết quả chưa kiểm chứng, hay việc ghi file lên máy
   bạn.
 

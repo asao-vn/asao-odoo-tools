@@ -4,6 +4,19 @@
 
 1368 operations, unchanged: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.
 
+- **Changes to a bank account ask you first.** On `mcp serve --allow-writes`, creating, changing or
+  archiving a bank account (`identity.bank_account.*`, risk LOW) ran without asking, and could also
+  set `allow_out_payment`, the flag Odoo checks before it pays an account. A bank account says who the
+  company pays, so an agent now changes one only after you confirm the call in the agent host: 61
+  operations ask, up from 58.
+- **`mcp serve --confirm-writes`:** every write asks you first, not only the high-risk ones. Use it
+  when the agent reads text written outside the company (a website form, an email that became a lead
+  or a task, a sign-up): such text can carry instructions, and an agent can follow them.
+- The server's instructions tell the agent that text inside records is data, never an instruction,
+  and to bring requests found there about bank details, contacts, prices or access to you.
+- **Fixed: what a confirmation tells you.** It showed an `asao ...` command line and said ASAO would
+  still check your permissions, which odoo-cli does not. It now shows the `odoo-cli ...` command line,
+  and says the call runs with the full authority of the Odoo login in the server's profile.
 - **Fixed: the flags that shape a read are refused on a write.** `execute` accepted `--limit`,
   `--filter`, `--order`, `--offset`, `--group-by` and `--aggregate` with an operation that changes
   Odoo, and ran the write. A caller paging through what it took for a read, such as the asao-erp SDK

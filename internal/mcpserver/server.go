@@ -67,6 +67,10 @@ type Options struct {
 	Name    string
 	Program string
 	Product string
+	// ConfirmationNote ends every confirmation the person is asked for: what still holds once they
+	// say yes. Empty: ASAO's own check of the person's permissions. odoo-cli checks nobody's
+	// permissions, and says what its calls run with instead.
+	ConfirmationNote string
 }
 
 func (s *server) name() string {
@@ -445,7 +449,7 @@ func (s *server) confirm(ctx context.Context, tool agentsurface.Tool, arguments 
 			WithContextValue("commandLine", commandLine).
 			WithRemediation("Show the person the command line; they can review it and run it themselves in a terminal. Hosts that support MCP elicitation ask the person directly.")
 	}
-	message := confirmationMessage(tool, arguments, commandLine)
+	message := s.confirmationMessage(tool, arguments, commandLine)
 	id := fmt.Sprintf("\"%s-confirm-%d\"", s.name(), s.nextID.Add(1))
 	waiter := make(chan rpcMessage, 1)
 	s.stateMu.Lock()
@@ -468,7 +472,7 @@ func (s *server) confirm(ctx context.Context, tool agentsurface.Tool, arguments 
 					"confirm": map[string]interface{}{
 						"type":        "boolean",
 						"title":       "Run this command",
-						"description": "Tick to let ASAO run it as you. Leave it unticked, decline or cancel to stop.",
+						"description": "Tick to let " + s.product() + " run it as you. Leave it unticked, decline or cancel to stop.",
 					},
 				},
 				"required": []string{"confirm"},
@@ -505,9 +509,9 @@ func (s *server) confirm(ctx context.Context, tool agentsurface.Tool, arguments 
 	}
 }
 
-func confirmationMessage(tool agentsurface.Tool, arguments map[string]interface{}, commandLine string) string {
+func (s *server) confirmationMessage(tool agentsurface.Tool, arguments map[string]interface{}, commandLine string) string {
 	var b strings.Builder
-	b.WriteString("Your AI agent wants ASAO to run this as you:\n\n")
+	b.WriteString("Your AI agent wants " + s.product() + " to run this as you:\n\n")
 	b.WriteString(commandLine)
 	b.WriteString("\n\n")
 	b.WriteString(firstLine(tool.Description))
@@ -518,7 +522,11 @@ func confirmationMessage(tool agentsurface.Tool, arguments map[string]interface{
 	if confirmImpact, _ := arguments[agentsurface.ConfirmImpactFlag].(bool); confirmImpact {
 		b.WriteString("\nConfirming also accepts the reported impact on dependent records.")
 	}
-	b.WriteString("\n\nASAO still checks your own permissions before anything runs.")
+	note := s.options.ConfirmationNote
+	if note == "" {
+		note = "ASAO still checks your own permissions before anything runs."
+	}
+	b.WriteString("\n\n" + note)
 	return b.String()
 }
 

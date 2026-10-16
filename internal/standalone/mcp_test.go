@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"io"
 	"strings"
 	"testing"
 
@@ -34,6 +35,11 @@ func TestMCPOffersReadsUnlessWritesAreAllowed(t *testing.T) {
 		"sales_quotation_list": clicore.AgentAccessRead,
 		"catalog_list":         clicore.AgentAccessRead,
 		"sales_order_confirm":  clicore.AgentAccessWrite,
+		// Who the company pays is the person's to change, whatever the operation's risk.
+		"identity_bank_account_list":         clicore.AgentAccessRead,
+		"identity_bank_account_create":       clicore.AgentAccessConfirm,
+		"identity_bank_account_update":       clicore.AgentAccessConfirm,
+		"identity_bank_account_archive_bank": clicore.AgentAccessConfirm,
 	} {
 		if byName[name].AgentAccess != want {
 			t.Errorf("%s: access %q, want %q", name, byName[name].AgentAccess, want)
@@ -105,6 +111,102 @@ func TestServeMCPSpeaksTheCatalogUnderItsOwnNames(t *testing.T) {
 	}
 	if strings.Join(names, ",") != "odoo_find,odoo_describe,odoo_read,odoo_write" {
 		t.Fatalf("tools = %v, want the four catalog tools", names)
+	}
+}
+
+// A change to a bank account asks the person on any server that offers writes, and every write does
+// on one started with --confirm-writes. A host that cannot ask gets a refusal naming the odoo-cli
+// command line; a person who declines stops the call; and what they are asked says what the call
+// runs with.
+func TestBankAccountChangesAndConfirmedWritesAskThePerson(t *testing.T) {
+	t.Setenv("AERP_PROFILE_FILE", t.TempDir()+"/none.json")
+	type outcome struct{ code, commandLine, asked string }
+	exchange := func(args []string, tool string, canAsk bool) outcome {
+		t.Helper()
+		// The input stays open until the call is answered, as a host's does: input that ends means the
+		// host has gone, and the server then cancels what is still running.
+		inRead, inWrite := io.Pipe()
+		outRead, outWrite := io.Pipe()
+		var diag bytes.Buffer
+		exit := make(chan int, 1)
+		go func() {
+			exit <- ServeMCP(context.Background(), "odoo-cli", args, inRead, outWrite, &diag)
+			_ = outWrite.Close()
+		}()
+		capabilities := `{}`
+		if canAsk {
+			capabilities = `{"elicitation":{}}`
+		}
+		lines := make(chan string, 4)
+		lines <- `{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":` + capabilities + `,"clientInfo":{"name":"test","version":"0"}}}`
+		lines <- `{"jsonrpc":"2.0","method":"notifications/initialized"}`
+		lines <- `{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"` + tool + `","arguments":{}}}`
+		go func() {
+			for line := range lines {
+				_, _ = io.WriteString(inWrite, line+"\n")
+			}
+		}()
+		var got outcome
+		answered := false
+		scanner := bufio.NewScanner(outRead)
+		scanner.Buffer(make([]byte, 1<<20), 1<<24)
+		for !answered && scanner.Scan() {
+			var message struct {
+				ID     json.RawMessage `json:"id"`
+				Method string          `json:"method"`
+				Params struct {
+					Message string `json:"message"`
+				} `json:"params"`
+				Result struct {
+					Structured struct {
+						Error struct {
+							Code    string `json:"code"`
+							Context struct {
+								CommandLine string `json:"commandLine"`
+							} `json:"context"`
+						} `json:"error"`
+					} `json:"structuredContent"`
+				} `json:"result"`
+			}
+			if json.Unmarshal(scanner.Bytes(), &message) != nil {
+				continue
+			}
+			switch {
+			case message.Method == "elicitation/create":
+				got.asked = message.Params.Message
+				lines <- `{"jsonrpc":"2.0","id":` + string(message.ID) + `,"result":{"action":"decline"}}`
+			case string(message.ID) == "2":
+				got.code, got.commandLine = message.Result.Structured.Error.Code, message.Result.Structured.Error.Context.CommandLine
+				answered = true
+			}
+		}
+		close(lines)
+		_ = inWrite.Close()
+		go func() { _, _ = io.Copy(io.Discard, outRead) }()
+		if status := <-exit; status != 0 || !answered {
+			t.Fatalf("exit %d, answered %v: %s", status, answered, diag.String())
+		}
+		return got
+	}
+	writes := []string{"--allow-writes", "--mode", "tools", "--toolsets", "identity"}
+	refused := exchange(writes, "identity_bank_account_update", false)
+	if refused.code != "HUMAN_CONFIRMATION_REQUIRED" || !strings.HasPrefix(refused.commandLine, "odoo-cli identity bank_account update") {
+		t.Errorf("a bank account change, on a host that cannot ask: %+v", refused)
+	}
+	declined := exchange(writes, "identity_bank_account_update", true)
+	if declined.code != "HUMAN_CONFIRMATION_DECLINED" || !strings.Contains(declined.asked, "full authority of the Odoo login") ||
+		strings.Contains(declined.asked, "ASAO") {
+		t.Errorf("a bank account change the person declined: %+v", declined)
+	}
+	if got := exchange(writes, "identity_contact_create", false); got.code == "HUMAN_CONFIRMATION_REQUIRED" {
+		t.Errorf("a low-risk write asked without --confirm-writes")
+	}
+	if got := exchange(append(writes, "--confirm-writes"), "identity_contact_create", false); got.code != "HUMAN_CONFIRMATION_REQUIRED" {
+		t.Errorf("--confirm-writes let a write run without the person: %+v", got)
+	}
+	var diag bytes.Buffer
+	if code := ServeMCP(context.Background(), "odoo-cli", []string{"--confirm-writes"}, strings.NewReader(""), &bytes.Buffer{}, &diag); code != 2 {
+		t.Errorf("--confirm-writes without --allow-writes: exit %d", code)
 	}
 }
 
