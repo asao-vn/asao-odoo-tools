@@ -278,3 +278,17 @@ func TestParseProtocol(t *testing.T) {
 		t.Fatal("an unknown protocol was accepted")
 	}
 }
+
+// get_views is a model method the signature table does not list: called by name only, it reaches the
+// model, and its views are never taken for record ids (the first live pack sync was refused with
+// "cannot call salon_demo.booking.get_views with ids").
+func TestJSON2SendsAModelMethodsNamedArgumentsWithoutIDs(t *testing.T) {
+	views := []interface{}{[]interface{}{false, "form"}, []interface{}{false, "list"}}
+	body, err := json2Arguments("get_views", []interface{}{}, map[string]interface{}{"views": views, "options": map[string]interface{}{}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, ids := body["ids"]; ids || body["views"] == nil || body["options"] == nil {
+		t.Fatalf("get_views body: %v", body)
+	}
+}

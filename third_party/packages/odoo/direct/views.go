@@ -25,10 +25,11 @@ func (e *Executor) ObjectButtons(ctx context.Context, model string, viewTypes []
 	for _, viewType := range viewTypes {
 		views = append(views, []interface{}{false, viewType})
 	}
-	// A read of the views is a read on any series, as the raw read methods are.
+	// A read of the views is a read on any series, as the raw read methods are. get_views is a model
+	// method: its arguments go by name, or JSON-2 would take the views for record ids.
 	e.client.AdmitCandidateSeries(true)
 	defer e.client.AdmitCandidateSeries(false)
-	answer, err := e.client.ExecuteKw(ctx, model, "get_views", []interface{}{views}, map[string]interface{}{"options": map[string]interface{}{}})
+	answer, err := e.client.ExecuteKw(ctx, model, "get_views", []interface{}{}, map[string]interface{}{"views": views, "options": map[string]interface{}{}})
 	if err != nil {
 		return nil, err
 	}
