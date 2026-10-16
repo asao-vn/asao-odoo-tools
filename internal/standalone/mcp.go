@@ -159,6 +159,7 @@ its access (READ, WRITE, CONFIRM). Pure local computation: no network, no creden
 		SideEffect: clicore.EffectNone,
 		Authority:  localAuthority,
 		Flags: []clicore.Flag{
+			{Name: "profile", Kind: clicore.KindString, Description: "As for serve: the profile whose operation packs (pack sync) are offered too. Default: the default profile."},
 			{Name: "allow-writes", Kind: clicore.KindBool, Description: "Include the tools --allow-writes would offer."},
 			{Name: "confirm-writes", Kind: clicore.KindBool, Default: "true", Description: "As for serve: every write asks (CONFIRM). --confirm-writes=false shows the access 0.13 gave."},
 			{Name: "toolsets", Kind: clicore.KindString, Description: "Comma-separated domains, as for serve."},

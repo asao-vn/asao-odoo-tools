@@ -204,7 +204,7 @@ func TestPackSyncKeepsACheckedPackWhoseOperationsRunLikeTheCatalogs(t *testing.T
 		t.Fatalf("the button was not called on record 5:\n%s", ran)
 	}
 
-	code, out, _ = runOdoo(t, "mcp", "tools", "--allow-writes", "--confirm-writes=false", "--output", "json")
+	code, out, _ = runOdoo(t, "mcp", "tools", "--profile", "lab-a", "--allow-writes", "--confirm-writes=false", "--output", "json")
 	if code != clicore.ExitOK {
 		t.Fatalf("mcp tools: exit %d", code)
 	}
