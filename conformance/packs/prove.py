@@ -60,6 +60,77 @@ def execute(options, operation, target=None, values=None, *extra):
     return cli(options, *args)
 
 
+class McpHost:
+    """A scripted MCP host: it starts odoo-cli mcp serve on the profile, and answers every
+    confirmation the server asks for with yes, as a person who accepts would."""
+
+    def __init__(self, odoo_bin, profile, *flags):
+        self.process = subprocess.Popen([odoo_bin, "mcp", "serve", "--profile", profile, "--mode", "tools", *flags],
+                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
+        self.next_id = 1
+        self.request("initialize", {"protocolVersion": "2025-06-18", "capabilities": {"elicitation": {}},
+                                    "clientInfo": {"name": "prove", "version": "0"}})
+        self.send({"jsonrpc": "2.0", "method": "notifications/initialized"})
+
+    def send(self, message):
+        self.process.stdin.write(json.dumps(message) + "\n")
+        self.process.stdin.flush()
+
+    def request(self, method, params):
+        request_id = self.next_id
+        self.next_id += 1
+        self.send({"jsonrpc": "2.0", "id": request_id, "method": method, "params": params})
+        while True:
+            line = self.process.stdout.readline()
+            if not line:
+                raise RuntimeError("the server closed: " + self.process.stderr.read()[-500:])
+            message = json.loads(line)
+            if message.get("method") == "elicitation/create":
+                self.send({"jsonrpc": "2.0", "id": message["id"], "result": {"action": "accept", "content": {"confirm": True}}})
+                continue
+            if message.get("id") == request_id:
+                return message.get("result") or {"error": message.get("error")}
+
+    def call(self, tool, arguments):
+        return self.request("tools/call", {"name": tool, "arguments": arguments})
+
+    def close(self):
+        self.process.stdin.close()
+        self.process.wait(timeout=30)
+
+
+def data_access_checks(options, oracle, check):
+    """DEC-2026-0178 on the same lab: what an agent gets from mcp serve at act and at operate."""
+    partner = oracle.call("res.partner", "search", [[["name", "=", "Pack Proof Customer"]]], {"limit": 1})[0]
+    oracle.call("res.partner", "write", [[partner], {"email": "proof@example.com", "phone": "+84 900 000 000",
+                                                   "comment": "<p>Call after five</p>"}])
+    host = McpHost(options.odoo_bin, options.profile, "--data-access", "act")
+    try:
+        answer = host.call("explore_search", {"model": "res.partner", "filter": [["id", "=", partner]],
+                                              "fields": ["name", "email", "phone", "comment"]})
+        records = ((answer.get("structuredContent") or {}).get("data") or {}).get("records") or [{}]
+        record = records[0]
+        check("data access act: personal data and free text withheld", record.get("name") == "Pack Proof Customer"
+              and record.get("email") == "[withheld: personal]" and record.get("phone") == "[withheld: personal]"
+              and record.get("comment") == "[withheld: free text]", record or answer)
+    finally:
+        host.close()
+    host = McpHost(options.odoo_bin, options.profile, "--data-access", "operate", "--allow-writes", "--allow-unverified")
+    try:
+        tools = {tool["name"] for tool in host.request("tools/list", {}).get("tools", [])}
+        check("data access operate: no read tool but discovery", "explore_search" not in tools and "salon_demo_booking_list" not in tools
+              and "catalog_describe" in tools and "salon_demo_booking_create" in tools, sorted(tools)[:40])
+        answer = host.call("salon_demo_booking_create", {"name": "Operate booking", "seats": 2})
+        document = answer.get("structuredContent") or {}
+        inner = (document.get("data") or {}).get("data") or {}
+        created = inner.get("id")
+        stored = oracle.call(MODEL, "search_read", [[["id", "=", created or 0]]], {"fields": ["name", "seats"]})
+        check("data access operate: the write runs, the agent gets its id only", bool(created) and set(inner) == {"id"}
+              and stored and stored[0]["name"] == "Operate booking" and stored[0]["seats"] == 2, document or answer)
+    finally:
+        host.close()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--odoo-bin", required=True)
@@ -151,11 +222,16 @@ def main():
     still = oracle.call(MODEL, "search_count", [[["id", "=", morning]]])
     check("no operation for a method the pack does not name", code != 0 and still == 1, unknown or err)
 
+    try:
+        data_access_checks(options, oracle, check)
+    except (RuntimeError, OSError, ValueError, subprocess.SubprocessError) as error:
+        check("data access: the scripted MCP host ran", False, error)
+
     agreed = sum(1 for c in checks if c["status"] == "AGREE")
     json.dump({"module": MODULE, "checks": checks, "agreed": agreed, "total": len(checks)},
               open(os.path.join(options.out, "evidence.json"), "w"), indent=1)
     with open(os.path.join(options.out, "summary.md"), "w") as summary:
-        summary.write("## Operation packs, proven on a real Odoo (DEC-2026-0176)\n\n")
+        summary.write("## Operation packs and data levels, proven on a real Odoo (DEC-2026-0176, DEC-2026-0178)\n\n")
         summary.write("A custom module, `salon_demo`, ships an odoo-cli pack. Every operation of the pack ran through odoo-cli\n")
         summary.write("and was checked by a separate JSON-RPC client against Odoo itself: %d of %d checks agree.\n\n" % (agreed, len(checks)))
         summary.write("| Check | Result |\n|---|---|\n")

@@ -75,6 +75,13 @@ type Options struct {
 	// read-only (a hosted connector such as ChatGPT's), so a CONFIRM tool runs on that consent rather
 	// than on an elicitation this server would send. Only HandleMessage's hosts set it.
 	HostConfirms bool
+	// Filter, when set, rewrites every command's result document before it leaves for the agent:
+	// how much of the data the agent sees (odoo-cli's --data-access, DEC-2026-0178). It receives the
+	// tool and the document, and returns the document the agent gets.
+	Filter func(tool agentsurface.Tool, envelope map[string]interface{}) map[string]interface{}
+	// WithholdDiagnostics leaves the command's diagnostics out of what the agent gets: they can quote
+	// what the command read.
+	WithholdDiagnostics bool
 }
 
 func (s *server) name() string {
@@ -589,9 +596,12 @@ func (s *server) commandResult(tool agentsurface.Tool, stdout, diagnostics []byt
 		return s.errorResult(tool, problem, commandLine)
 	}
 	isError := exitCode != clicore.ExitOK || envelope["status"] == "ERROR"
+	if s.options.Filter != nil {
+		envelope = s.options.Filter(tool, envelope)
+	}
 	compact, _ := json.Marshal(envelope)
 	content := []map[string]interface{}{{"type": "text", "text": string(compact)}}
-	if notes := strings.TrimSpace(string(diagnostics)); notes != "" {
+	if notes := strings.TrimSpace(string(diagnostics)); notes != "" && !s.options.WithholdDiagnostics {
 		content = append(content, map[string]interface{}{"type": "text", "text": "CLI diagnostics:\n" + notes})
 	}
 	content = append(content, map[string]interface{}{"type": "text", "text": "Ran: " + commandLine})

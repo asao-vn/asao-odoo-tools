@@ -127,6 +127,7 @@ After setting a profile, supply its material and check it:
 			{Name: "login", Kind: clicore.KindString, Description: "Odoo user to act as. Optional when the resolved credential material itself names a login."},
 			{Name: "credential-ref", Kind: clicore.KindString, Description: "Reference the password is resolved by, at use time. Defaults to the profile name. NOT the password."},
 			{Name: "protocol", Kind: clicore.KindString, Default: "jsonrpc", Enum: localprofile.Protocols, Description: "How to speak to Odoo: jsonrpc, or json2 (Odoo 19 and later; the credential is then an API key)."},
+			{Name: "agent-data-access", Kind: clicore.KindString, Enum: localprofile.DataAccessLevels, Description: "How much of this Odoo's data an agent sees through mcp serve: operate (none: it acts and gets ids and verdicts), act (the default: no personal data, free text or files) or full. A server can lower it, never raise it."},
 			{Name: "default", Kind: clicore.KindBool, Description: "Also record this profile as the file's default, used when no --profile and no " + localprofile.SelectorVariable + " selects one."},
 		},
 		Examples: []string{
@@ -164,6 +165,7 @@ After setting a profile, supply its material and check it:
 			profile := localprofile.Profile{
 				Name: name, Endpoint: endpoint, Database: database,
 				Login: invocation.String("login"), CredentialRef: credentialRef, Protocol: protocol,
+				AgentDataAccess: invocation.String("agent-data-access"),
 			}
 			if err := store.Put(profile); err != nil {
 				return nil, classifyProfile(err, name, program)

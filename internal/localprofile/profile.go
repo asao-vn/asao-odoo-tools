@@ -96,10 +96,16 @@ type Profile struct {
 	// Protocol is how to speak to this Odoo: "jsonrpc" (empty means it too) or "json2", Odoo 19's
 	// replacement for the external API Odoo is removing, whose credential is an API key.
 	Protocol string `json:"protocol,omitempty"`
+	// AgentDataAccess is how much of this Odoo's data an agent sees through mcp serve (DEC-2026-0178):
+	// "operate", "act" or "full"; empty means act. A server's --data-access may lower it, never raise it.
+	AgentDataAccess string `json:"agentDataAccess,omitempty"`
 }
 
 // Protocols are the values Profile.Protocol accepts.
 var Protocols = []string{"jsonrpc", "json2"}
+
+// DataAccessLevels are the values Profile.AgentDataAccess accepts, from the least seen to the most.
+var DataAccessLevels = []string{"operate", "act", "full"}
 
 // EffectiveProtocol is the protocol a profile speaks: jsonrpc unless it says otherwise.
 func (p Profile) EffectiveProtocol() string {
@@ -269,6 +275,8 @@ func (p Profile) Validate() error {
 		return fmt.Errorf("%w: profile %q records no credential reference", ErrProfileInvalid, p.Name)
 	case p.Protocol != "" && p.Protocol != Protocols[0] && p.Protocol != Protocols[1]:
 		return fmt.Errorf("%w: profile %q records protocol %q (want jsonrpc or json2)", ErrProfileInvalid, p.Name, p.Protocol)
+	case p.AgentDataAccess != "" && p.AgentDataAccess != DataAccessLevels[0] && p.AgentDataAccess != DataAccessLevels[1] && p.AgentDataAccess != DataAccessLevels[2]:
+		return fmt.Errorf("%w: profile %q records agentDataAccess %q (want operate, act or full)", ErrProfileInvalid, p.Name, p.AgentDataAccess)
 	}
 	return nil
 }

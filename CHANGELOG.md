@@ -24,8 +24,22 @@
     - risk floors: a button or a wizard is MEDIUM at least, and a write to a payment, a journal
       entry or a bank account is HIGH.
   - **Documentation and proof:** [docs/packs.md](docs/packs.md) is the guide. The `packs` workflow
-    (`conformance/packs/prove.sh`) proves it on a demo module.
+    (`conformance/packs/prove.sh`) proves it on a demo module: on Odoo 19.0, 15 of 15 checks agree
+    ([run 38981143110](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38981143110)). The
+    checks cover generate, sync, the MCP access, the list, a create by customer name, an update,
+    three buttons, a wizard, Odoo's own refusal, a PDF, and a method the pack does not name.
+- **New: how much of the data an agent sees (DEC-2026-0178).** `mcp serve --data-access` sets the
+  level, and odoo-cli enforces it in every result and error it gives the agent:
+  - **`act`, the default:** personal data, free text and files are withheld from every record;
+  - **`operate`:** no read tool but discovery, and status, ids, verdicts and error codes only;
+  - **`full`:** what 0.15 gave.
+
+  `profile set --agent-data-access` records a profile's level, and a server can lower it, never
+  raise it. `mcp tools --data-access` shows what each level offers. **This changes the default:**
+  pass `--data-access full` for what 0.15 gave.
 - MCP: `pack list` and `pack show` are read tools: 619 by default, 1388 with `--allow-writes`.
+  `mcp tools` takes `--profile`, so its listing has that profile's packs, as `serve`'s does.
+- JSON-2: `get_views` goes by name, so its views are never taken for record ids.
 - `explore` and packs share one list of the models and fields that hold credentials.
 - Conformance: the write runner gives an attendance the date of its check-in where the employee works,
   so a run near midnight in that time zone agrees. The 0.15.0 release run did not.

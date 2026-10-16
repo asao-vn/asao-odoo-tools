@@ -155,6 +155,18 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
   operation.
+- **How much of your data the agent sees (`--data-access`):** you choose a level, and odoo-cli
+  enforces it in what it answers the agent:
+  - **`act` (the default):** names, references, states, dates and amounts. Personal data (phones,
+    emails, addresses, tax and identity numbers, bank accounts), free text (notes, descriptions,
+    messages) and files are withheld and marked `[withheld: ...]`. Free text is also where outsiders'
+    instructions arrive.
+  - **`operate`:** the agent acts without seeing data. It has no read tool but discovery, and a
+    result gives the status, the record id and whether odoo-cli's own check of the result passed.
+  - **`full`:** everything a read returns.
+
+  `profile set --agent-data-access` records a profile's level, and a server can lower it, never raise
+  it.
 - **What the agent cannot choose:** the profile, accepting unverified results, writing a file on your
   machine, or the provider context. Installing a module is never offered.
 
@@ -535,6 +547,15 @@ Community lẫn Enterprise.
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
 - **Thêm `--allow-writes`:** agent được ghi, và thao tác ghi nào cũng hỏi bạn trước: agent host hiện dòng lệnh,
   bạn xác nhận thì mới chạy. Agent host nào không hỏi được thì nhận lời từ chối, kèm dòng lệnh để bạn tự chạy.
+- **Agent được xem bao nhiêu dữ liệu (`--data-access`):** bạn chọn cấp, odoo-cli giữ đúng cấp đó trong mọi câu trả
+  lời gửi cho agent.
+  - `act` (mặc định): agent thấy tên, mã, trạng thái, ngày và số tiền. Thông tin cá nhân (SĐT, email, địa chỉ, mã số
+    thuế, CCCD, tài khoản ngân hàng), chữ tự do (ghi chú, mô tả, tin nhắn) và file đều bị giấu.
+  - `operate`: agent chỉ làm mà không xem dữ liệu. Kết quả chỉ có trạng thái, id bản ghi và việc odoo-cli tự kiểm
+    kết quả có đúng không.
+  - `full`: agent thấy đầy đủ.
+
+  Đặt cấp cho profile bằng `profile set --agent-data-access`. Khi chạy server chỉ được hạ cấp, không được nâng.
 - **`--confirm-writes=false`:** các thao tác ghi rủi ro thấp và vừa chạy không cần hỏi. 61 thao tác rủi ro cao
   hoặc xoá, và mọi thay đổi tài khoản ngân hàng (người nhận tiền), vẫn hỏi. Chỉ dùng khi agent không đọc văn
   bản do người ngoài công ty viết: lead từ form website hay email, người đăng ký, tin nhắn đều có thể chứa
