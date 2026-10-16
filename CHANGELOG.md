@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.15.0 (unreleased)
+## 0.15.0 (2026-10-17)
 
 - **New: `odoo-cli upgrade check --to 20.0`.** Before an upgrade, it says which customizations people made
   in the database will stop working on 20.0, and why:
@@ -12,14 +12,21 @@
     cover (Enterprise or third-party).
   It reads only, and never prints the code or the templates it reads. `--markdown-file` writes a report
   in Vietnamese; `upgrade maps` lists the pairs this build can check. On 20.0, record rules and access
-  rights move to `ir.access`, so every custom one is reported. Customizations planted on 19.0 were
-  replayed on 20.0. Before the check was tuned on them, it flagged 8 of 10 that broke, with one false
-  alarm among 8 that still worked.
+  rights move to `ir.access`, so every custom one is reported.
 - MCP: `upgrade_check` and `upgrade_maps` are read tools: 617 by default, 1386 with `--allow-writes`.
 - **The check is measured on real Odoo, in the open.** The `upgrade-check` workflow
   (`conformance/upgrade-check/measure.sh`, any machine with Docker or Podman) makes a fresh set of
   customizations on a throwaway 19.0, as a person would, and uses each once. It runs the check there,
   makes the same customizations again on a throwaway 20.0, and sets each prediction against what 20.0 did.
+  - **Fresh set** (23 customizations written after the check was finished;
+    [run 38968869331](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38968869331)): 20.0 refused
+    13, and the check flagged all 13. Among the 10 that still work there was no false alarm and one CHECK,
+    a filter on a dropped selection value. It found nothing on the lab's own 56 customizations.
+  - **Research set:** before the check was tuned on it, it flagged 8 of the 10 that broke, with one false
+    alarm among the 8 that still worked.
+- **An Odoo on a private address can be allowed by name.** `ASAO_PRIVATE_PROVIDER_ENDPOINTS` takes exact
+  host:port pairs, such as `192.168.1.10:8069`; an endpoint without a port matches the scheme's. Only those
+  skip the refusal of private addresses. `ASAO_ALLOW_PRIVATE_PROVIDER_ENDPOINTS=true` still allows them all.
 
 ## 0.14.0 (2026-10-16)
 

@@ -152,19 +152,24 @@ func Markdown(report Report, pair *Pair, serverVersion string) string {
 			if !contains(section.severities, f.Severity) {
 				continue
 			}
-			name := f.Name
-			if name == "" {
-				name = fmt.Sprintf("#%d", f.ID)
+			title := kindsVietnamese[f.Kind]
+			if title == "" {
+				title = f.Kind
 			}
-			kind := kindsVietnamese[f.Kind]
-			if kind == "" {
-				kind = f.Kind
+			// A default value has no name of its own; its id and field say which one it is.
+			if f.Name != "" {
+				title += fmt.Sprintf(" \"%s\"", f.Name)
 			}
 			where := ""
 			if f.Model != "" {
 				where = ", model " + code(f.Model)
 			}
-			lines = append(lines, fmt.Sprintf("- **%s \"%s\"** (id %d%s): %s. %s", kind, name, f.ID, where, code(f.Path), Explain(f, report.From, report.To)))
+			// The explanation names the field; the path is added when it says more, as a chain does.
+			explain := Explain(f, report.From, report.To)
+			if f.Path != "" && !strings.Contains(explain, code(f.Path)) {
+				explain += " (đường dẫn " + code(f.Path) + ")"
+			}
+			lines = append(lines, fmt.Sprintf("- **%s** (id %d%s): %s.", title, f.ID, where, explain))
 		}
 		if len(lines) == 0 {
 			continue

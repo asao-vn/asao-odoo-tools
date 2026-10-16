@@ -116,7 +116,9 @@ odoo-cli execute --profile my-odoo --operation finance.invoice.print --provider-
 ```
 
 - **An Odoo on your own network:** `odoo-cli` refuses loopback, private and link-local addresses by
-  default. For an Odoo at `localhost` or `192.168.x.x`, set `ASAO_ALLOW_PRIVATE_PROVIDER_ENDPOINTS=true`.
+  default. To allow your Odoo only, name it as the profile's endpoint writes it, with its port:
+  `ASAO_PRIVATE_PROVIDER_ENDPOINTS=192.168.1.10:8069` (several are separated by commas).
+  `ASAO_ALLOW_PRIVATE_PROVIDER_ENDPOINTS=true` allows every private address.
 - **Odoo's JSON-2 API (19.0):** use `--protocol json2` and an API key as the credential. To print
   PDFs over JSON-2, also give the web password in `AERP_CREDENTIAL_<REF>_WEB`, because Odoo serves
   reports only to a logged-in web session.
@@ -340,10 +342,21 @@ administrator: only an administrator can read the customizations.
 custom rule has to be written again. 44 models are gone, among them time-off types, banks and scrap
 orders, and so are 618 fields. 56 selection fields lose values.
 
-**How far to trust it.** The map comes from the conformance labs of both series. Customizations planted
-on 19.0 were replayed on 20.0. Before it was tuned on them, the check flagged 8 of 10 that broke, with
-one false alarm among 8 that still worked. It does not read report templates, website pages, or code
-that builds names at run time. Read every finding, and test the upgrade on a copy of the database.
+**How far to trust it.** The map comes from the conformance labs of both series. It was measured by
+planting customizations on 19.0 and making the same ones again on 20.0:
+- **Research set:** before the check was tuned on it, it flagged 8 of the 10 that broke, with one false
+  alarm among the 8 that still worked. Those three faults were fixed.
+- **Fresh set:** 23 customizations written after the check was finished, never used to change it. The
+  `upgrade-check` workflow measures it in the open
+  ([run 38968869331](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38968869331)). 20.0 refused 13
+  of them, and the check flagged all 13. Among the 10 that still work it gave no false alarm, and one
+  CHECK: a saved filter on a value that 20.0 dropped. It found nothing on the 56 customizations the lab
+  makes itself.
+
+The people who wrote these sets knew what 20.0 changes. So the sets show that the map holds on a real
+20.0. They do not show how many kinds of customization in the wild it can read. It does not read report
+templates, website pages, or code that builds names at run time. Read every finding, and test the
+upgrade on a copy of the database.
 
 ## Any model: `odoo-cli explore`
 
@@ -532,8 +545,10 @@ liệu:
 
 Nó cho biết cái nào sẽ hỏng ở bản mới, vì sao, và field có lẽ đã đổi tên thành gì. Nó chỉ đọc, không bao
 giờ in code hay nội dung mẫu. Ở bản 20.0, quy tắc bản ghi và quyền truy cập chuyển sang một model mới
-(`ir.access`), nên mọi quy tắc tự tạo phải viết lại. Thêm `--markdown-file` để có báo cáo tiếng Việt. Đây
-là dấu hiệu cần xem lại, không phải phán quyết: hãy thử nâng cấp trên một bản sao trước.
+(`ir.access`), nên mọi quy tắc tự tạo phải viết lại. Thêm `--markdown-file` để có báo cáo tiếng Việt.
+Đo trên Odoo thật với 23 tùy biến viết sau khi làm xong bản kiểm tra: 20.0 từ chối 13 cái, bản kiểm tra
+báo đủ cả 13; trong 10 cái vẫn chạy, nó không báo nhầm cái nào. Đây vẫn là dấu hiệu cần xem lại, không
+phải phán quyết: hãy thử nâng cấp trên một bản sao trước.
 
 **Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
 trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệch thao tác nào; 415/553 thao tác ghi và
