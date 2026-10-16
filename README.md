@@ -145,7 +145,7 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
     `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1388 tools, and every write asks you first: the agent host shows you the
+- **With `--allow-writes`:** 1390 tools, and every write asks you first: the agent host shows you the
   command line, and nothing runs until you confirm. A host that cannot ask gets a refusal with the
   command line instead.
 - **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. The 61 high-risk
@@ -167,8 +167,14 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
 
   `profile set --agent-data-access` records a profile's level, and a server can lower it, never raise
   it.
-- **What the agent cannot choose:** the profile, accepting unverified results, writing a file on your
-  machine, or the provider context. Installing a module is never offered.
+- **Secrets never pass through the chat.** When a task needs a password, an API key or a token, the
+  agent calls `credential set --browser` or `secret env --browser`, and you confirm. You then type the
+  value on a one-time page on your own machine (127.0.0.1, one submission, 5 minutes), and the agent
+  gets only "stored". `secret env` writes only `.env` files, kept at mode 600.
+  `ODOO_CLI_SECRET_INPUT=off` turns the page off, and `ODOO_CLI_THEME=plain` drops its colours.
+- **What the agent cannot choose:** the profile, accepting unverified results, or the provider context.
+  It writes a file on your machine only through `secret env`, with a value you type yourself. Installing
+  a module is never offered.
 
 The server acts with the full authority of the profile's Odoo credential. It bounds what is
 *offered*; it is not a sandbox. Its instructions tell the agent that text inside records is data,
@@ -556,6 +562,9 @@ Community lẫn Enterprise.
   - `full`: agent thấy đầy đủ.
 
   Đặt cấp cho profile bằng `profile set --agent-data-access`. Khi chạy server chỉ được hạ cấp, không được nâng.
+- **Bí mật không bao giờ đi qua chat:** khi cần mật khẩu, API key hay token, agent gọi `credential set --browser`
+  hoặc `secret env --browser`, bạn xác nhận, rồi tự gõ vào một trang dùng một lần trên chính máy mình. Agent chỉ
+  nhận "đã lưu". Muốn tắt trang thì đặt `ODOO_CLI_SECRET_INPUT=off`; muốn giao diện trơn thì đặt `ODOO_CLI_THEME=plain`.
 - **`--confirm-writes=false`:** các thao tác ghi rủi ro thấp và vừa chạy không cần hỏi. 61 thao tác rủi ro cao
   hoặc xoá, và mọi thay đổi tài khoản ngân hàng (người nhận tiền), vẫn hỏi. Chỉ dùng khi agent không đọc văn
   bản do người ngoài công ty viết: lead từ form website hay email, người đăng ký, tin nhắn đều có thể chứa

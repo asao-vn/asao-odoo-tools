@@ -12,8 +12,12 @@ prove.sh builds the lab and calls it; run alone, it needs a profile whose Odoo h
 import argparse
 import json
 import os
+import re
+import secrets
 import subprocess
 import sys
+import threading
+import urllib.parse
 import urllib.request
 
 MODULE = "salon_demo"
@@ -22,7 +26,7 @@ MODEL = "salon_demo.booking"
 
 class Oracle:
     def __init__(self, endpoint, database, login, password):
-        self.endpoint, self.database, self.password = endpoint.rstrip("/"), database, password
+        self.endpoint, self.database, self.credential = endpoint.rstrip("/"), database, password
         self.uid = self._rpc("common", "login", [database, login, password])
 
     def _rpc(self, service, method, args):
@@ -35,7 +39,7 @@ class Oracle:
         return answer["result"]
 
     def call(self, model, method, args, kwargs=None):
-        return self._rpc("object", "execute_kw", [self.database, self.uid, self.password, model, method, args, kwargs or {}])
+        return self._rpc("object", "execute_kw", [self.database, self.uid, self.credential, model, method, args, kwargs or {}])
 
     def read(self, record_id, fields):
         return self.call(MODEL, "read", [[record_id], fields])[0]
@@ -127,6 +131,42 @@ def data_access_checks(options, oracle, check):
         stored = oracle.call(MODEL, "search_read", [[["id", "=", created or 0]]], {"fields": ["name", "seats"]})
         check("data access operate: the write runs, the agent gets its id only", bool(created) and set(inner) == {"id"}
               and stored and stored[0]["name"] == "Operate booking" and stored[0]["seats"] == 2, document or answer)
+    finally:
+        host.close()
+
+
+def type_on_page(stream, value):
+    """The person: when the server announces its one-time page, open it and submit value."""
+    for line in stream:
+        found = re.search(r"(http://127\.0\.0\.1:\d+/[0-9a-f]+)", line)
+        if not found:
+            continue
+        address = found.group(1)
+        page = urllib.request.urlopen(address, timeout=30).read().decode()
+        token = re.search(r'name="token" value="([0-9a-f]+)"', page).group(1)
+        form = urllib.parse.urlencode({"token": token, "value": value}).encode()
+        origin = address[:address.rindex("/")]
+        request = urllib.request.Request(address, form, {"Content-Type": "application/x-www-form-urlencoded", "Origin": origin})
+        urllib.request.urlopen(request, timeout=30).read()
+        return
+
+
+def secret_page_checks(options, check):
+    """DEC-2026-0179: an agent asks for a secret, the person types it on the one-time page, and the
+    agent gets "stored" only."""
+    target = os.path.join(options.out, "proof.env")
+    with open(target, "w") as handle:
+        handle.write("A=1\n")
+    typed = "typed-on-the-page-" + secrets.token_hex(4)
+    host = McpHost(options.odoo_bin, options.profile, "--allow-writes")
+    try:
+        threading.Thread(target=type_on_page, args=(host.process.stderr, typed), daemon=True).start()
+        answer = host.call("secret_env", {"file": target, "name": "PROOF_KEY", "browser": True})
+        document = answer.get("structuredContent") or {}
+        content = open(target).read()
+        check("secret page: the person types it, the agent gets stored only", content == "A=1\nPROOF_KEY=" + typed + "\n"
+              and typed not in json.dumps(answer) and (document.get("data") or {}).get("stored") is True
+              and oct(os.stat(target).st_mode & 0o777) == "0o600", document or answer)
     finally:
         host.close()
 
@@ -226,12 +266,16 @@ def main():
         data_access_checks(options, oracle, check)
     except (RuntimeError, OSError, ValueError, subprocess.SubprocessError) as error:
         check("data access: the scripted MCP host ran", False, error)
+    try:
+        secret_page_checks(options, check)
+    except (RuntimeError, OSError, ValueError, AttributeError, subprocess.SubprocessError) as error:
+        check("secret page: the scripted MCP host ran", False, error)
 
     agreed = sum(1 for c in checks if c["status"] == "AGREE")
     json.dump({"module": MODULE, "checks": checks, "agreed": agreed, "total": len(checks)},
               open(os.path.join(options.out, "evidence.json"), "w"), indent=1)
     with open(os.path.join(options.out, "summary.md"), "w") as summary:
-        summary.write("## Operation packs and data levels, proven on a real Odoo (DEC-2026-0176, DEC-2026-0178)\n\n")
+        summary.write("## Operation packs, data levels and the secret page, proven on a real Odoo (DEC-2026-0176, 0178, 0179)\n\n")
         summary.write("A custom module, `salon_demo`, ships an odoo-cli pack. Every operation of the pack ran through odoo-cli\n")
         summary.write("and was checked by a separate JSON-RPC client against Odoo itself: %d of %d checks agree.\n\n" % (agreed, len(checks)))
         summary.write("| Check | Result |\n|---|---|\n")

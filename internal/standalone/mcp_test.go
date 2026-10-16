@@ -69,7 +69,14 @@ func TestMCPOffersReadsUnlessWritesAreAllowed(t *testing.T) {
 	if confirmed == 0 {
 		t.Fatal("no operation asks the person to confirm")
 	}
-	for _, internal := range []string{"profile_set", "credential_set", "spec_apply", "call", "admin_module_install", "execute"} {
+	// A secret is typed on the person's own one-time page (DEC-2026-0179): asking for one is a CONFIRM
+	// tool, and its value never passes through the agent (TestAgentsAskForSecretsOnlyThroughThePage).
+	for _, asks := range []string{"credential_set", "secret_env"} {
+		if byName[asks].AgentAccess != clicore.AgentAccessConfirm {
+			t.Errorf("%s: access %q, want CONFIRM", asks, byName[asks].AgentAccess)
+		}
+	}
+	for _, internal := range []string{"profile_set", "credential_remove", "spec_apply", "call", "admin_module_install", "execute"} {
 		if _, offered := byName[internal]; offered {
 			t.Errorf("%s is offered to an agent", internal)
 		}

@@ -65,20 +65,26 @@ Passwords are read strictly from stdin and are never accepted as command-line fl
 
 func credentialSetCommand(program string) *clicore.Command {
 	return local(&clicore.Command{
-		Name:       "set",
-		Summary:    "Store an Odoo credential safely.",
-		SideEffect: clicore.EffectWriteLocalConfig,
-		Authority:  localAuthority,
-		Description: `Stores a credential (password) in the OS keyring (service asao-odoo) or fallback secure file.
-The password is read strictly from standard input via --password-stdin. It is never accepted as a
-command-line flag, never echoed, and never appears in output or logs.`,
+		Name:        "set",
+		Summary:     "Store an Odoo credential safely.",
+		SideEffect:  clicore.EffectWriteLocalConfig,
+		Authority:   localAuthority,
+		AgentAccess: clicore.AgentAccessConfirm,
+		Description: `Stores a credential (password or API key) in the OS keyring (service asao-odoo) or fallback secure file.
+It is read from standard input (--password-stdin) or typed by the person on a one-time page on this
+machine (--browser, DEC-2026-0179). It is never accepted as a command-line flag, never echoed, and never
+appears in output or logs. With --browser an agent may ask for it: the person confirms, types it on the
+page, and the agent gets only "stored". ODOO_CLI_SECRET_INPUT=off refuses the page; ODOO_CLI_THEME=plain
+drops its colours.`,
 		Flags: []clicore.Flag{
 			{Name: "ref", Kind: clicore.KindString, Required: true, Description: "Credential reference name (e.g. lab-a)."},
 			{Name: "login", Kind: clicore.KindString, Description: "Odoo user/login associated with this credential."},
-			{Name: "password-stdin", Kind: clicore.KindBool, Required: true, Description: "Read password from standard input. Passwords must never be provided as CLI flags or arguments."},
+			{Name: "password-stdin", Kind: clicore.KindBool, PersonOnly: true, Description: "Read password from standard input. Passwords must never be provided as CLI flags or arguments."},
+			{Name: "browser", Kind: clicore.KindBool, Description: "Ask the person for it on a one-time page on this machine (127.0.0.1, one submission, 5 minutes)."},
 		},
 		Examples: []string{
 			"echo -n 'password' | " + program + " credential set --ref lab-a --login admin --password-stdin --output json",
+			program + " credential set --ref lab-a --login admin --browser --output json",
 		},
 		Run: func(ctx context.Context, invocation *clicore.Invocation) (interface{}, error) {
 			ref, err := invocation.RequiredString("ref")
@@ -89,13 +95,22 @@ command-line flag, never echoed, and never appears in output or logs.`,
 			if err != nil {
 				return nil, err
 			}
-			if !stdinMode {
-				return nil, clicore.UsageError("INVALID_FLAG_VALUE", "--password-stdin must be true; passwords are read strictly from standard input").
+			browserMode, err := invocation.Bool("browser")
+			if err != nil {
+				return nil, err
+			}
+			if stdinMode == browserMode {
+				return nil, clicore.UsageError("INVALID_FLAG_VALUE", "pass exactly one of --password-stdin and --browser; a password is never a flag value").
 					WithContextValue("flag", "password-stdin").
-					WithRemediation("Pass --password-stdin to supply the password via standard input.")
+					WithRemediation("Pass --password-stdin to supply it on standard input, or --browser to type it on a one-time page.")
 			}
 			login := invocation.String("login")
-			password, err := readPasswordFromStdin(ctx)
+			var password string
+			if browserMode {
+				password, err = askOnPage(ctx, "Odoo credential "+ref, credentialDetail(ref), "Password or API key")
+			} else {
+				password, err = readPasswordFromStdin(ctx)
+			}
 			if err != nil {
 				return nil, err
 			}

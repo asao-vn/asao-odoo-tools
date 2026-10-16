@@ -207,7 +207,7 @@ branch on "code".`,
 		// Generic reads of any model sit with the raw call: the odoo-cli product offers them, the
 		// historical aerp name keeps the catalog as its only contract.
 		root.Children = append(root.Children, callCommand(config), adminGroup(config), exploreGroup(config), reportGroup(config),
-			upgradeGroup(config), packGroup(config))
+			upgradeGroup(config), packGroup(config), secretGroup(config))
 		root.ErrorAdvisor = reportAdvisor(config.name)
 	}
 	mountOperationCommands(root, config)

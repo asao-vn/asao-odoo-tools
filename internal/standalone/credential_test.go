@@ -93,14 +93,16 @@ func runWithStdin(t *testing.T, stdin io.Reader, args ...string) (int, *bytes.Bu
 }
 
 // TestCredentialSetRequiresPasswordStdinFlag checks that --password-stdin is mandatory.
-func TestCredentialSetRequiresPasswordStdinFlag(t *testing.T) {
+// A password comes from standard input or from the one-time page (DEC-2026-0179), and a call that
+// names neither is refused before anything is read.
+func TestCredentialSetRequiresOneWayToTypeIt(t *testing.T) {
 	code, out, _ := runWithStdin(t, strings.NewReader("secret\n"), "credential", "set", "--ref", "lab-a", "--output", "json")
 	if code == clicore.ExitOK {
-		t.Fatal("credential set without --password-stdin must fail")
+		t.Fatal("credential set without --password-stdin or --browser must fail")
 	}
 	err := decodeError(t, out)
-	if err["code"] != "MISSING_REQUIRED_FLAG" {
-		t.Fatalf("expected MISSING_REQUIRED_FLAG, got %v", err["code"])
+	if err["code"] != "INVALID_FLAG_VALUE" || !strings.Contains(err["message"].(string), "exactly one of --password-stdin and --browser") {
+		t.Fatalf("expected INVALID_FLAG_VALUE naming both ways, got %v", err)
 	}
 }
 

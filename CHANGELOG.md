@@ -36,8 +36,22 @@
 
   `profile set --agent-data-access` records a profile's level, and a server can lower it, never
   raise it. `mcp tools --data-access` shows what each level offers. **This changes the default:**
-  pass `--data-access full` for what 0.15 gave.
-- MCP: `pack list` and `pack show` are read tools: 619 by default, 1388 with `--allow-writes`.
+  pass `--data-access full` for what 0.15 gave. Proven live by a scripted MCP host on the pack lab
+  ([run 38981985013](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38981985013)):
+  - at act, a customer's email, phone and comment were withheld, and the name was kept;
+  - at operate, there was no read tool, and a create gave the agent its id only.
+- **New: a secret is typed on a one-time local page, never in the chat (DEC-2026-0179).**
+  - **The commands:** `credential set --browser` stores an Odoo password or API key. `secret env
+    --file .env --name KEY --browser` writes one line of a `.env` file, kept at mode 600.
+  - **The page:** it is served on 127.0.0.1 under a random path, takes one submission, lasts 5
+    minutes, and loads nothing from elsewhere. It refuses a form without its own token, or from
+    another origin.
+  - **The agent:** it may call both as CONFIRM tools and gets only "stored". The value never passes
+    through it.
+  - **Settings:** `ODOO_CLI_SECRET_INPUT=off` refuses the page, and `ODOO_CLI_THEME=plain` drops its
+    colours. `credential set` now takes `--password-stdin` or `--browser`, exactly one.
+- MCP: `pack list` and `pack show` are read tools: 619 by default, and 1390 with `--allow-writes`
+  (771 CONFIRM). At `--data-access operate`, 10 read tools remain, all discovery.
   `mcp tools` takes `--profile`, so its listing has that profile's packs, as `serve`'s does.
 - JSON-2: `get_views` goes by name, so its views are never taken for record ids.
 - `explore` and packs share one list of the models and fields that hold credentials.

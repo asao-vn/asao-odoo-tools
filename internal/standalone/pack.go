@@ -38,7 +38,7 @@ const (
 // packReserved are this program's own top-level commands: a pack's module named like one would mount
 // its operations under that command (TestPackReservedNamesCoverTheCommands keeps the list whole).
 var packReserved = []string{"admin", "call", "catalog", "commands", "completion", "controls", "credential", "doctor",
-	"execute", "explore", "help", "mcp", "pack", "plan", "profile", "provenance", "report", "review", "routines", "spec", "trust",
+	"execute", "explore", "help", "mcp", "pack", "plan", "profile", "provenance", "report", "review", "routines", "secret", "spec", "trust",
 	"update", "upgrade", "version"}
 
 // PackReservedNames are the module names a pack may not take: this program's own commands.
