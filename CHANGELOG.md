@@ -50,6 +50,10 @@
     through it.
   - **Settings:** `ODOO_CLI_SECRET_INPUT=off` refuses the page, and `ODOO_CLI_THEME=plain` drops its
     colours. `credential set` now takes `--password-stdin` or `--browser`, exactly one.
+  - **Proven live** in the `packs` workflow
+    ([run 38983358156](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38983358156), 19 of 19):
+    an agent asked over MCP, and a second process stood in for the person and typed on the page.
+    The `.env` file got its line at mode 600, and the agent got `stored` without the value.
 - MCP: `pack list` and `pack show` are read tools: 619 by default, and 1390 with `--allow-writes`
   (771 CONFIRM). At `--data-access operate`, 10 read tools remain, all discovery.
   `mcp tools` takes `--profile`, so its listing has that profile's packs, as `serve`'s does.
