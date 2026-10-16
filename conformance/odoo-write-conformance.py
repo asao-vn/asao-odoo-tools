@@ -35,6 +35,7 @@ import subprocess
 import sys
 import urllib.error
 import urllib.request
+import zoneinfo
 
 STAMP = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d%H%M%S")
 
@@ -169,6 +170,26 @@ def _payment_method_line(oracle, values):
     return _first(oracle, "account.payment.method.line", [["journal_id", "=", journal], ["payment_type", "=", kind]])
 
 
+def _calendar_tz(oracle, calendar):
+    return oracle.call("resource.calendar", "read", [[calendar[0]], ["tz"]])[0]["tz"] if calendar else None
+
+
+def _attendance_date(oracle, values):
+    """Odoo computes an attendance's date from its check-in in the employee's time zone
+    (hr.attendance._compute_date, hr.employee._get_tz). The date written is today there, not on the
+    runner's clock: between that zone's midnight and UTC's, a runner's date disagreed (odoo-cli 0.15.0's
+    release run wrote at 22:05 UTC, 00:05 in Brussels)."""
+    employee_id = values.get("employee_id") or _first(oracle, "hr.employee", [["user_id", "=", oracle.uid]])
+    if not employee_id:
+        return None
+    employee = oracle.call("hr.employee", "read", [[employee_id], ["tz", "resource_calendar_id", "company_id"]])[0]
+    tz = _calendar_tz(oracle, employee.get("resource_calendar_id")) or employee.get("tz")
+    if not tz and employee.get("company_id"):
+        company = oracle.call("res.company", "read", [[employee["company_id"][0]], ["resource_calendar_id"]])[0]
+        tz = _calendar_tz(oracle, company.get("resource_calendar_id"))
+    return datetime.datetime.now(zoneinfo.ZoneInfo(tz or "UTC")).date().isoformat()
+
+
 def _inside_event(oracle, values):
     if not values.get("event_id"):
         return None
@@ -184,6 +205,7 @@ GIVEN_VALUES = {
     ("event.slot", "start_hour"): lambda o, v: 9.0,
     ("event.slot", "end_hour"): lambda o, v: 11.0,  # later than the start
     ("event.slot", "date"): _inside_event,  # inside the event's dates
+    ("hr.attendance", "date"): _attendance_date,  # today where the employee works
     ("event.registration.answer", "value_text_box"): lambda o, v: "Conformance answer",
     ("account.account", "code"): lambda o, v: "9" + STAMP[-5:],  # a code for the company it belongs to
     ("account.bank.statement.line", "journal_id"): lambda o, v: _first(o, "account.journal", [["type", "=", "bank"]]),
