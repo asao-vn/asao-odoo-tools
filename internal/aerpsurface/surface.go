@@ -321,6 +321,21 @@ func (s Surface) BuildRequest(invocation *clicore.Invocation) (direct.Request, e
 
 	request := direct.Request{Operation: operationID}
 
+	// The flags that shape a read (a filter, a page, an order, groups) are refused on an operation
+	// that changes the provider. A caller that pages through what it believes is a read must never
+	// run a write: the asao-erp SDK's read() passed --limit to any operation it was given, so a write
+	// named by mistake ran (found in the review of 16/10/2026).
+	if operation.Kind != "READ" && operation.Strategy != "READ" {
+		for _, name := range []string{"filter", "limit", "offset", "order", "group-by", "aggregate"} {
+			if invocation.Has(name) {
+				return direct.Request{}, clicore.UsageError("AERP_READ_FLAG_ON_WRITE",
+					"--%s shapes a read, and %s changes the provider (%s)", name, operationID, operation.Strategy).
+					WithContextValue("flag", name).
+					WithRemediation("Drop --" + name + ", or name a read operation (catalog list --strategy READ).")
+			}
+		}
+	}
+
 	targetID, err := invocation.Int64("provider-target-id", 0)
 	if err != nil {
 		return direct.Request{}, err

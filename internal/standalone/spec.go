@@ -224,14 +224,7 @@ func applySpec(ctx context.Context, invocation *clicore.Invocation, config progr
 		if len(report.Results) > 0 {
 			run.Report = rawJSON(report)
 		}
-		switch {
-		case errors.Is(applyErr, spec.ErrPlanHasGaps), errors.Is(applyErr, spec.ErrPlanChanged):
-			run.Status, run.Reason = specbackend.RunRefused, applyErr.Error()
-		case applyErr != nil:
-			run.Status, run.Reason = specbackend.RunFailed, applyErr.Error()
-		case failed != nil:
-			run.Status, run.Reason = specbackend.RunFailed, fmt.Sprintf("step %d (%s %s): %s", failed.Index, failed.Entity, failed.Key, failed.Error)
-		}
+		run.Status, run.Reason = applyRunStatus(applyErr, failed, report)
 		recorded := map[string]interface{}{"backend": backend.String(), "run": run.ID, "status": run.Status}
 		if where, err := backend.SaveRun(ctx, run); err != nil {
 			recorded["runNotRecorded"] = err.Error()
@@ -267,6 +260,22 @@ func applySpec(ctx context.Context, invocation *clicore.Invocation, config progr
 			WithRemediation("Fix the cause, then plan and apply again: the new plan shows only what is left.")
 	}
 	return out, nil
+}
+
+// applyRunStatus is what a backend records of an apply: REFUSED (nothing ran), FAILED (a step
+// failed: those before it applied), PARTIAL (--partial left gaps out) or APPLIED (the whole spec).
+func applyRunStatus(applyErr error, failed *spec.StepResult, report spec.Report) (string, string) {
+	switch {
+	case errors.Is(applyErr, spec.ErrPlanHasGaps), errors.Is(applyErr, spec.ErrPlanChanged):
+		return specbackend.RunRefused, applyErr.Error()
+	case applyErr != nil:
+		return specbackend.RunFailed, applyErr.Error()
+	case failed != nil:
+		return specbackend.RunFailed, fmt.Sprintf("step %d (%s %s): %s", failed.Index, failed.Entity, failed.Key, failed.Error)
+	case !report.Complete:
+		return specbackend.RunPartial, fmt.Sprintf("%d steps left out (UNSUPPORTED or AMBIGUOUS, applied with --partial)", report.Summary[spec.ResultSkipped])
+	}
+	return specbackend.RunApplied, ""
 }
 
 // withoutPlan keeps a refusal's context to what was recorded: a refused apply ran no step.

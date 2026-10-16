@@ -67,7 +67,9 @@ func openS3(location *url.URL) (*s3Store, error) {
 		store.pathStyle = query.Get("path_style") != "false"
 	} else {
 		store.endpoint = &url.URL{Scheme: "https", Host: "s3." + store.region + ".amazonaws.com"}
-		store.pathStyle = query.Get("path_style") == "true"
+		// A bucket named with dots cannot be a host name under AWS's certificate (*.s3.<region>...):
+		// it is addressed by path.
+		store.pathStyle = query.Get("path_style") == "true" || strings.Contains(bucket, ".")
 	}
 	keys, err := s3Credentials()
 	if err != nil {

@@ -7,8 +7,8 @@ place:
 - **the lock:** one apply at a time;
 - **the plans:** each plan is saved under its hash, with the spec as it was written, so somebody else
   can review it;
-- **the record:** every apply is kept, whether it was refused, failed or applied, with its plan and
-  report;
+- **the record:** every apply is kept, whether it was refused, failed, partial (`--partial` left
+  gaps out) or applied, with its plan and report;
 - **the spec last applied**, which a teammate can pull back.
 
 It looks like Terraform with an S3 backend. There is one difference: **there is no state file**. A

@@ -233,6 +233,14 @@ func TestLocationsAndCredentials(t *testing.T) {
 	if backend.String() != "s3://my-bucket/teams/a b" || strings.Contains(backend.String(), "SECRET") {
 		t.Errorf("location: %s", backend.String())
 	}
+	dotted, err := Open("s3://my.dotted.bucket/teams?region=ap-southeast-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	store = dotted.store.(*s3Store)
+	if got := store.objectURL(store.key("lock.json"), nil).String(); got != "https://s3.ap-southeast-1.amazonaws.com/my.dotted.bucket/teams/lock.json" {
+		t.Errorf("a dotted bucket is addressed by path: %s", got)
+	}
 	for _, location := range []string{"", "gs://bucket/x", "s3:///x"} {
 		if _, err := Open(location); !errors.Is(err, ErrBadLocation) {
 			t.Errorf("%q: %v", location, err)

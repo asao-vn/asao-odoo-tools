@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.13.1 (2026-10-16)
+
+1368 operations, unchanged: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.
+
+- **Fixed: the flags that shape a read are refused on a write.** `execute` accepted `--limit`,
+  `--filter`, `--order`, `--offset`, `--group-by` and `--aggregate` with an operation that changes
+  Odoo, and ran the write. A caller paging through what it took for a read, such as the asao-erp SDK
+  0.3.0's `read()`, could run a write by mistake. It is now refused with `AERP_READ_FLAG_ON_WRITE`
+  before any profile is read.
+- **Fixed: a partial apply is recorded as PARTIAL.** Before, `spec apply --partial` with a backend
+  recorded the run as APPLIED, and kept the spec as the one last applied in full, although the plan's
+  UNSUPPORTED or AMBIGUOUS steps were left out. The run is now PARTIAL, with how many steps were left
+  out, and `spec pull` still gives the last spec applied in full.
+- **Fixed: an S3 bucket whose name holds a dot** is addressed by path. AWS's certificate does not
+  cover a dotted bucket name used as a host name.
+- **Said plainly:** the routines timer was tried on systemd. The launchd, Task Scheduler and cron
+  installers are written but not tried yet.
+
 ## 0.13.0 (2026-10-16)
 
 1368 operations, unchanged: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.

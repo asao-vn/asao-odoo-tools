@@ -2,6 +2,7 @@ package standalone
 
 import (
 	"context"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -10,6 +11,7 @@ import (
 
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
 	"github.com/asao-platform/atoc/packages/cli/internal/specbackend"
+	"github.com/asao-platform/atoc/packages/odoo/spec"
 )
 
 const tinySpec = `apiVersion: asao.business/v0
@@ -110,5 +112,31 @@ func TestBackendStateRunsPullAndUnlock(t *testing.T) {
 	}
 	if _, envelope = runRoutinesCommand(t, "spec", "state", "--backend", "gs://bucket"); errorCode(envelope) != "SPEC_BACKEND_INVALID" {
 		t.Fatalf("a backend of another kind: %v", envelope)
+	}
+}
+
+// A backend records what an apply did, and keeps a spec as the one last applied only when all of it
+// was: an apply with --partial that left gaps out is PARTIAL, never APPLIED.
+func TestARunSaysWhatTheApplyDid(t *testing.T) {
+	failed := &spec.StepResult{Index: 2, Entity: "people.department", Key: "Kho", Error: "refused"}
+	for want, c := range map[string]struct {
+		err    error
+		failed *spec.StepResult
+		report spec.Report
+	}{
+		specbackend.RunRefused: {err: spec.ErrPlanHasGaps},
+		specbackend.RunFailed:  {failed: failed, report: spec.Report{Summary: map[string]int{}}},
+		specbackend.RunPartial: {report: spec.Report{Complete: false, Summary: map[string]int{spec.ResultApplied: 1, spec.ResultSkipped: 2}}},
+		specbackend.RunApplied: {report: spec.Report{Complete: true, Summary: map[string]int{spec.ResultApplied: 3}}},
+	} {
+		if status, reason := applyRunStatus(c.err, c.failed, c.report); status != want {
+			t.Errorf("want %s, got %s (%s)", want, status, reason)
+		}
+	}
+	if status, _ := applyRunStatus(errors.New("transport"), nil, spec.Report{}); status != specbackend.RunFailed {
+		t.Errorf("an apply that failed outright: %s", status)
+	}
+	if _, reason := applyRunStatus(nil, nil, spec.Report{Summary: map[string]int{spec.ResultSkipped: 2}}); !strings.Contains(reason, "2 steps left out") {
+		t.Errorf("partial reason: %s", reason)
 	}
 }

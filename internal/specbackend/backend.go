@@ -340,6 +340,9 @@ func (b *Backend) Plan(ctx context.Context, hash string) (SavedPlan, error) {
 // Run statuses.
 const (
 	RunApplied = "APPLIED"
+	// RunPartial is an apply with --partial that left UNSUPPORTED or AMBIGUOUS steps out: what ran
+	// is recorded, and the spec is not kept as the one last applied in full.
+	RunPartial = "PARTIAL"
 	RunFailed  = "FAILED"
 	RunRefused = "REFUSED"
 )

@@ -285,6 +285,8 @@ odoo-cli routines status --output json                          # each routine's
   - a run that could not reach Odoo leaves the slot open for the next check.
 - **Same file as the SDK:** the format is the one the `asao-erp` SDK's routines use (TOML, or YAML and
   JSON). Credentials stay in the keyring or the credential file; the timer keeps only paths.
+- **Timers:** tried on systemd (Linux). The launchd (macOS), Task Scheduler (Windows) and cron
+  installers are written but not tried yet; `routines install --print` shows what each would set up.
 
 ## A team on one Odoo: `odoo-cli spec --backend`
 
