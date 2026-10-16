@@ -11,7 +11,8 @@ import (
 )
 
 func TestExploreNeverReachesASecret(t *testing.T) {
-	for _, model := range []string{"ir.config_parameter", "ir.mail_server", "payment.provider", "res.users.apikeys", "certificate.certificate", "account.online.link"} {
+	for _, model := range []string{"ir.config_parameter", "ir.mail_server", "payment.provider", "res.users.apikeys", "certificate.certificate", "account.online.link",
+		"ir.rule", "ir.model.access", "ir.access"} {
 		if !exploreSecretModel(model) {
 			t.Errorf("%s is explorable", model)
 		}

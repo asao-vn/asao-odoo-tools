@@ -7712,6 +7712,6 @@
    "status": "AGREE"
   }
  },
- "renames": "/home/dell/code/project/worktrees/asao-unified/docs/architecture/provider-research/odoo-surface/dialect-renames-20.0.json",
+ "renames": "dialect-renames-20.0.json",
  "schemaVersion": "odoo.read-conformance-run/v1"
 }

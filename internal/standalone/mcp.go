@@ -65,7 +65,9 @@ func openAgentSurface(root *clicore.Command) {
 	}
 }
 
-// confirmEveryWrite makes every write in the tree ask the person before it runs (--confirm-writes).
+// confirmEveryWrite makes every write in the tree ask the person before it runs: the default of
+// `mcp serve --allow-writes` since 0.14, because almost any text an agent reads in Odoo can be
+// written outside the company. --confirm-writes=false leaves the per-operation access.
 func confirmEveryWrite(command *clicore.Command) {
 	if command.AgentAccess == clicore.AgentAccessWrite {
 		command.AgentAccess = clicore.AgentAccessConfirm
@@ -96,7 +98,7 @@ func findPath(root *clicore.Command, path []string) *clicore.Command {
 var mcpServeFlags = []clicore.Flag{
 	{Name: "profile", Kind: clicore.KindString, Description: "The profile every tool call runs against. Empty uses the profile file's default, as a typed command does."},
 	{Name: "allow-writes", Kind: clicore.KindBool, Description: "Offer the operations that change Odoo. Without it the server offers reads only, and a write cannot be reached through it."},
-	{Name: "confirm-writes", Kind: clicore.KindBool, Description: "With --allow-writes: every write asks the person in the agent host before it runs, not only the high-risk ones. Use it when the agent reads text written outside the company (leads, emails, sign-ups, messages): such text can carry instructions."},
+	{Name: "confirm-writes", Kind: clicore.KindBool, Default: "true", Description: "Every write asks the person in the agent host before it runs (the default since 0.14). --confirm-writes=false asks only before the high-risk and destructive operations and a change to a bank account, as 0.13 did: only for an agent that reads no text written outside the company (leads, emails, sign-ups, messages), since such text can carry instructions."},
 	{Name: "allow-unverified", Kind: clicore.KindBool, Description: "Run unverified operations and act on a customised Odoo, as --allow-unverified does on a typed command. The agent cannot set it."},
 	{Name: "mode", Kind: clicore.KindString, Default: "auto", Enum: []string{"auto", "tools", "catalog"},
 		Description: fmt.Sprintf("tools: one MCP tool per operation. catalog: four tools (odoo_find, odoo_describe, odoo_read, odoo_write) that reach the same operations. auto: catalog above %d tools.", mcpCatalogThreshold)},
@@ -113,15 +115,15 @@ started the server with: same checks before acting, same result document.
 
 What an agent is offered:
 - reads, always;
-- writes, only when you start the server with --allow-writes;
-- high-risk and destructive operations, and any change to a bank account, only after you confirm
-  each call in the agent host (MCP elicitation). A host that cannot ask gets a refusal with the
-  exact command line instead;
-- with --confirm-writes as well, every write only after you confirm it.
+- writes, only when you start the server with --allow-writes, and each one only after you confirm it
+  in the agent host (MCP elicitation). A host that cannot ask gets a refusal with the exact command
+  line instead;
+- with --confirm-writes=false, low- and medium-risk writes run without asking; the high-risk and
+  destructive operations and any change to a bank account still ask.
 
 Text in Odoo records is often written outside the company (a website form, an email that became a
-lead or a task, a sign-up), and an agent can mistake it for an instruction. Add --confirm-writes
-when the agent reads such text and may write.
+lead or a task, a sign-up), and an agent can mistake it for an instruction. Keep the default when
+the agent reads such text.
 
 The agent cannot choose the profile, accept unverified results, write files on this machine or set
 the provider context: those are yours. Remember the trust boundary ("aerp trust"): the server acts
@@ -135,7 +137,7 @@ Register it with an agent host, for example: claude mcp add odoo -- aerp mcp ser
 		Examples: []string{
 			"aerp mcp serve --profile my-odoo",
 			"aerp mcp serve --profile my-odoo --allow-writes",
-			"aerp mcp serve --profile my-odoo --allow-writes --confirm-writes",
+			"aerp mcp serve --profile my-odoo --allow-writes --confirm-writes=false",
 			"aerp mcp serve --profile my-odoo --toolsets sales,finance --mode tools",
 		},
 		Run: func(context.Context, *clicore.Invocation) (interface{}, error) {
@@ -154,14 +156,14 @@ its access (READ, WRITE, CONFIRM). Pure local computation: no network, no creden
 		Authority:  localAuthority,
 		Flags: []clicore.Flag{
 			{Name: "allow-writes", Kind: clicore.KindBool, Description: "Include the tools --allow-writes would offer."},
-			{Name: "confirm-writes", Kind: clicore.KindBool, Description: "Show the access --confirm-writes gives: every write asks (CONFIRM)."},
+			{Name: "confirm-writes", Kind: clicore.KindBool, Default: "true", Description: "As for serve: every write asks (CONFIRM). --confirm-writes=false shows the access 0.13 gave."},
 			{Name: "toolsets", Kind: clicore.KindString, Description: "Comma-separated domains, as for serve."},
 		},
 		Examples: []string{"aerp mcp tools --output json", "aerp mcp tools --allow-writes --toolsets sales --output json"},
 		Run: func(_ context.Context, invocation *clicore.Invocation) (interface{}, error) {
 			allowWrites, _ := invocation.Bool("allow-writes")
 			root := RootFor(config.name)
-			if confirmWrites, _ := invocation.Bool("confirm-writes"); confirmWrites {
+			if confirmWrites, _ := invocation.Bool("confirm-writes"); confirmWrites && allowWrites {
 				confirmEveryWrite(root)
 			}
 			projected, err := agentsurface.ProjectAs(root, config.name,
@@ -216,7 +218,7 @@ func ServeMCP(ctx context.Context, program string, args []string, in io.Reader, 
 	flags.SetOutput(diag)
 	profile := flags.String("profile", "", "")
 	allowWrites := flags.Bool("allow-writes", false, "")
-	confirmWrites := flags.Bool("confirm-writes", false, "")
+	confirmWrites := flags.Bool("confirm-writes", true, "")
 	allowUnverified := flags.Bool("allow-unverified", false, "")
 	mode := flags.String("mode", "auto", "")
 	toolsets := flags.String("toolsets", "", "")
@@ -227,12 +229,8 @@ func ServeMCP(ctx context.Context, program string, args []string, in io.Reader, 
 		fmt.Fprintf(diag, "%s mcp serve: --mode must be auto, tools or catalog\n", program)
 		return 2
 	}
-	if *confirmWrites && !*allowWrites {
-		fmt.Fprintf(diag, "%s mcp serve: --confirm-writes asks before each write; add --allow-writes to offer them\n", program)
-		return 2
-	}
 	served := RootFor(program)
-	if *confirmWrites {
+	if *allowWrites && *confirmWrites {
 		confirmEveryWrite(served)
 	}
 	tools, err := agentsurface.ProjectAs(served, program,
@@ -261,7 +259,7 @@ func ServeMCP(ctx context.Context, program string, args []string, in io.Reader, 
 	}
 	writes := "Writes are not offered: the person started this server without --allow-writes."
 	switch {
-	case *confirmWrites:
+	case *allowWrites && *confirmWrites:
 		writes = "Writes are offered, and each one asks the person before it runs."
 	case *allowWrites:
 		writes = "Writes are offered; high-risk and destructive operations, and changes to a bank account, ask the person before they run."

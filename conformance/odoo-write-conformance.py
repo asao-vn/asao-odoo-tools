@@ -612,7 +612,8 @@ def main():
                   "one simple field of the newest existing record inside the operation's provider domain, reads it back and restores it. "
                   "Inputs the catalog holds to a scope are written inside it. A field the dialect renames is written "
                   "under its baseline name and read back under the series name. Field names, statuses and hashes only.",
-        "renames": options.renames or None,
+        # The file's name, not its path: evidence is published, and a path names the machine's folders.
+        "renames": os.path.basename(options.renames) if options.renames else None,
         "records": results,
         "contentPolicy": {"credentialMaterial": False, "rawProviderResponses": False},
     }

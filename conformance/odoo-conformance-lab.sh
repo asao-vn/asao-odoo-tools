@@ -70,7 +70,9 @@ cleanup() {
 trap cleanup EXIT
 cleanup
 
-PW="$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')"
+# Hex: the Odoo image hands the password to wait-for-psql.py as an argument of its own, and argparse
+# takes one that starts with "-" for an option (a urlsafe token did, one lab in 64).
+PW="$(python3 -c 'import secrets; print(secrets.token_hex(24))')"
 printf '%s' "$PW" > "$OUT/secret/db-password"
 "$ENGINE" network create "$NET" >/dev/null
 "$ENGINE" run -d --name "$NAME-db" --network "$NET" -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD="$PW" -e POSTGRES_DB=postgres "$POSTGRES" >/dev/null

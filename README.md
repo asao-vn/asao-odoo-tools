@@ -142,11 +142,13 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
     `status`) and `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1384 tools. 61 of them run only after you confirm each call in the agent
-  host: the high-risk and destructive operations, and every change to a bank account (who you pay).
-- **With `--confirm-writes` as well:** every write asks you first. Use it when the agent reads text
-  written outside the company (a lead from a website form or an email, a sign-up, a message): such
-  text can carry instructions, and an agent can follow them.
+- **With `--allow-writes`:** 1384 tools, and every write asks you first: the agent host shows you the
+  command line, and nothing runs until you confirm. A host that cannot ask gets a refusal with the
+  command line instead.
+- **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. The 61 high-risk
+  and destructive operations, and every change to a bank account (who you pay), still ask. Use it only
+  for an agent that reads no text written outside the company: a lead from a website form or an
+  email, a sign-up or a message can carry instructions, and an agent can follow them.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:
   `odoo_find`, `odoo_describe`, `odoo_read` and `odoo_write`. Use `--mode tools` to get one tool per
   operation.
@@ -461,11 +463,12 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 Community lẫn Enterprise.
 - **Mặc định chỉ đọc:** 615 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
-- **Thêm `--allow-writes`:** agent được ghi. 61 thao tác chỉ chạy sau khi bạn xác nhận từng lần: các thao tác
-  rủi ro cao hoặc xoá, và mọi thay đổi tài khoản ngân hàng (người nhận tiền).
-- **Thêm cả `--confirm-writes`:** mọi thao tác ghi đều hỏi bạn trước. Nên dùng khi agent đọc văn bản do người
-  ngoài công ty viết (lead từ form website hay email, người đăng ký, tin nhắn): văn bản đó có thể chứa lệnh,
-  và agent có thể làm theo.
+- **Thêm `--allow-writes`:** agent được ghi, và thao tác ghi nào cũng hỏi bạn trước: agent host hiện dòng lệnh,
+  bạn xác nhận thì mới chạy. Agent host nào không hỏi được thì nhận lời từ chối, kèm dòng lệnh để bạn tự chạy.
+- **`--confirm-writes=false`:** các thao tác ghi rủi ro thấp và vừa chạy không cần hỏi. 61 thao tác rủi ro cao
+  hoặc xoá, và mọi thay đổi tài khoản ngân hàng (người nhận tiền), vẫn hỏi. Chỉ dùng khi agent không đọc văn
+  bản do người ngoài công ty viết: lead từ form website hay email, người đăng ký, tin nhắn đều có thể chứa
+  lệnh, và agent có thể làm theo.
 - **Agent không tự chọn được:** profile, việc chấp nhận kết quả chưa kiểm chứng, hay việc ghi file lên máy
   bạn.
 

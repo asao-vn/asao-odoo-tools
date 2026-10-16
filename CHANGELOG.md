@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.14.0 (2026-10-16)
+
+- **Every write an agent asks for needs your confirmation.** `mcp serve --allow-writes` now asks you in
+  the agent host before every write, not only before the 61 high-risk, destructive and bank-account
+  operations: almost any text an agent reads in Odoo can be written outside the company, and can
+  carry instructions. `--confirm-writes=false` gives back what 0.13 did, for an agent that reads no
+  such text. `--confirm-writes`, added in 0.13.1, is now the default and is still accepted.
+  `mcp tools --allow-writes` shows 769 CONFIRM by default.
+- **Fixed: `explore` refuses `ir.access` on Odoo 20.** Odoo 20 merges `ir.model.access` and `ir.rule`
+  into one model, `ir.access`, which `explore` read although it refuses the two models it replaces.
+- **Conformance:** a lab no longer fails to start one time in 64. Its random database password could
+  begin with `-`; the Odoo image passes the password to `wait-for-psql.py` as an argument of its own,
+  which took it for an option, and the lab stopped before Odoo made the database. The password is now hex.
+- **Conformance:** the read and write runners record the renames file by its name, not by its path on
+  the machine that ran them. One published 20.0 evidence file carried such a path; it now carries the name.
+
 ## 0.13.1 (2026-10-16)
 
 1368 operations, unchanged: 1301 verified on 19.0, and 1187 of the 1306 that 20.0 can run.

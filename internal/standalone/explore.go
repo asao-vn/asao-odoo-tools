@@ -32,6 +32,9 @@ var exploreSecretModelPrefixes = []string{
 	"ir.config_parameter", "ir.mail_server", "fetchmail.server", "res.users.apikeys", "res.users.identitycheck",
 	"res.users.deletion", "payment.provider", "auth.oauth.provider", "auth_totp", "iap.account", "certificate.",
 	"account.online.", "ir.attachment", "ir.module.module", "ir.cron", "ir.actions", "ir.rule", "ir.model.access",
+	// Odoo 20 merges ir.model.access and ir.rule into ir.access: the same access configuration, refused
+	// the same way.
+	"ir.access",
 }
 
 var exploreSecretFieldWords = []string{"password", "passwd", "secret", "token", "api_key", "apikey", "private_key", "totp", "credential"}

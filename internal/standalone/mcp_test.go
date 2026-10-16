@@ -114,11 +114,11 @@ func TestServeMCPSpeaksTheCatalogUnderItsOwnNames(t *testing.T) {
 	}
 }
 
-// A change to a bank account asks the person on any server that offers writes, and every write does
-// on one started with --confirm-writes. A host that cannot ask gets a refusal naming the odoo-cli
-// command line; a person who declines stops the call; and what they are asked says what the call
-// runs with.
-func TestBankAccountChangesAndConfirmedWritesAskThePerson(t *testing.T) {
+// Every write asks the person by default; --confirm-writes=false lets the low- and medium-risk ones
+// run, and a change to a bank account asks even then. A host that cannot ask gets a refusal naming the
+// odoo-cli command line; a person who declines stops the call; and what they are asked says what the
+// call runs with.
+func TestEveryWriteAsksThePersonUnlessToldOtherwise(t *testing.T) {
 	t.Setenv("AERP_PROFILE_FILE", t.TempDir()+"/none.json")
 	type outcome struct{ code, commandLine, asked string }
 	exchange := func(args []string, tool string, canAsk bool) outcome {
@@ -198,15 +198,19 @@ func TestBankAccountChangesAndConfirmedWritesAskThePerson(t *testing.T) {
 		strings.Contains(declined.asked, "ASAO") {
 		t.Errorf("a bank account change the person declined: %+v", declined)
 	}
-	if got := exchange(writes, "identity_contact_create", false); got.code == "HUMAN_CONFIRMATION_REQUIRED" {
-		t.Errorf("a low-risk write asked without --confirm-writes")
+	if got := exchange(writes, "identity_contact_create", false); got.code != "HUMAN_CONFIRMATION_REQUIRED" {
+		t.Errorf("a low-risk write ran without the person by default: %+v", got)
 	}
-	if got := exchange(append(writes, "--confirm-writes"), "identity_contact_create", false); got.code != "HUMAN_CONFIRMATION_REQUIRED" {
-		t.Errorf("--confirm-writes let a write run without the person: %+v", got)
+	unattended := append(append([]string(nil), writes...), "--confirm-writes=false")
+	if got := exchange(unattended, "identity_contact_create", false); got.code == "HUMAN_CONFIRMATION_REQUIRED" {
+		t.Errorf("a low-risk write asked with --confirm-writes=false")
 	}
-	var diag bytes.Buffer
-	if code := ServeMCP(context.Background(), "odoo-cli", []string{"--confirm-writes"}, strings.NewReader(""), &bytes.Buffer{}, &diag); code != 2 {
-		t.Errorf("--confirm-writes without --allow-writes: exit %d", code)
+	if got := exchange(unattended, "identity_bank_account_update", false); got.code != "HUMAN_CONFIRMATION_REQUIRED" {
+		t.Errorf("a bank account change ran without the person under --confirm-writes=false: %+v", got)
+	}
+	// A command line written for 0.13.1 still starts.
+	if got := exchange(append(append([]string(nil), writes...), "--confirm-writes"), "identity_contact_create", false); got.code != "HUMAN_CONFIRMATION_REQUIRED" {
+		t.Errorf("--confirm-writes: %+v", got)
 	}
 }
 

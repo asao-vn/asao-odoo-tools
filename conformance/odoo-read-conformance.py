@@ -296,7 +296,8 @@ def main():
         "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), "
                   "field-by-field values for describes (a field the dialect renames against the series field it "
                   "names). Hashes and statuses only.",
-        "renames": options.renames or None,
+        # The file's name, not its path: evidence is published, and a path names the machine's folders.
+        "renames": os.path.basename(options.renames) if options.renames else None,
         "records": results,
         "contentPolicy": {"credentialMaterial": False, "rawProviderResponses": False},
     }
