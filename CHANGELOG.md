@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.16.0 (unreleased)
+
+- **New: operation packs (DEC-2026-0176).** A custom module brings its own operations as a pack, a
+  JSON file it ships as `static/odoo-cli/pack.json` that names its reads, writes, object buttons,
+  wizards and reports. It holds data, never code.
+  - **Commands:**
+    - `pack sync` finds the packs of the installed custom modules and keeps them for the profile;
+    - `pack add` keeps one from a file, for Studio or Odoo Online;
+    - `pack list`, `pack show` and `pack remove` manage them;
+    - `pack generate` writes a first pack for a module's author.
+  - **Checks against your Odoo before a pack is kept:**
+    - the module is installed;
+    - its models and fields exist;
+    - every method is an object button of the model's views;
+    - every wizard is a wizard;
+    - every report exists.
+  - **Never allowed:** a pack never names users, rights, company settings, code, mail or a credential,
+    never deletes, and never calls a private or ORM method.
+  - **Running them:**
+    - a pack's operations are commands and MCP tools of the profile, and need `--allow-unverified`;
+    - an agent's write through a pack always asks the person, even under `--confirm-writes=false`;
+    - risk floors: a button or a wizard is MEDIUM at least, and a write to a payment, a journal
+      entry or a bank account is HIGH.
+  - **Documentation and proof:** [docs/packs.md](docs/packs.md) is the guide. The `packs` workflow
+    (`conformance/packs/prove.sh`) proves it on a demo module.
+- MCP: `pack list` and `pack show` are read tools: 619 by default, 1388 with `--allow-writes`.
+- `explore` and packs share one list of the models and fields that hold credentials.
+- Conformance: the write runner gives an attendance the date of its check-in where the employee works,
+  so a run near midnight in that time zone agrees. The 0.15.0 release run did not.
+
 ## 0.15.0 (2026-10-17)
 
 - **New: `odoo-cli upgrade check --to 20.0`.** Before an upgrade, it says which customizations people made

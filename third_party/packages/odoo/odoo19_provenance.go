@@ -195,6 +195,9 @@ func Odoo19EvidenceClassOf(semanticID string) (Odoo19EvidenceClass, bool) {
 		if IsSurfaceOperation(semanticID) {
 			return Odoo19EvidenceSurfaceGenerated, true
 		}
+		if IsPackOperation(semanticID) {
+			return Odoo19EvidencePackDeclared, true
+		}
 		return "", false
 	}
 	for _, id := range Odoo19NewerUnverifiedOperations {

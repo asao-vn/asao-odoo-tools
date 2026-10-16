@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="partner_customer" model="res.partner">
+        <field name="name">Pack Proof Customer</field>
+    </record>
+    <record id="booking_morning" model="salon_demo.booking">
+        <field name="name">Morning cut</field>
+        <field name="partner_id" ref="partner_customer"/>
+        <field name="seats">1</field>
+    </record>
+    <record id="booking_evening" model="salon_demo.booking">
+        <field name="name">Evening colour</field>
+        <field name="partner_id" ref="partner_customer"/>
+        <field name="seats">2</field>
+        <field name="vip">True</field>
+    </record>
+</odoo>

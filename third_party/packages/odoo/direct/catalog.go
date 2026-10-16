@@ -132,6 +132,11 @@ type Operation struct {
 	// Surface is true for an operation generated from Odoo's UI surface (SURFACE_GENERATED):
 	// standalone-only, provider-native field names, UNVERIFIED until a conformance record names it.
 	Surface bool `json:"surface,omitempty"`
+	// Pack names the pack that declares the operation (DEC-2026-0176): a custom module's own operation,
+	// standalone-only, PACK_DECLARED and UNVERIFIED until its author's evidence says otherwise.
+	Pack *odoo.PackOrigin `json:"pack,omitempty"`
+	// Summary is what the pack says the operation does.
+	Summary string `json:"summary,omitempty"`
 	// Report is the PDF report a REPORT operation renders (sale.report_saleorder).
 	Report string `json:"report,omitempty"`
 	// ProviderDomain is the fixed provider domain every read of the operation is ANDed with (an
@@ -285,9 +290,21 @@ func SurfaceOperations() []Operation {
 	return out
 }
 
-// AllOperations is the standalone product's whole catalog: curated and surface, sorted by id.
+// PackOperations projects the operations of the registered packs (odoo.RegisterPack).
+func PackOperations() []Operation {
+	packs := odoo.PackCatalog()
+	out := make([]Operation, 0, len(packs))
+	for _, op := range packs {
+		out = append(out, projectOperation(op))
+	}
+	return out
+}
+
+// AllOperations is the standalone product's whole catalog: curated, surface and the registered packs',
+// sorted by id.
 func AllOperations() []Operation {
 	out := append(Operations(), SurfaceOperations()...)
+	out = append(out, PackOperations()...)
 	sort.Slice(out, func(i, j int) bool { return out[i].ID < out[j].ID })
 	return out
 }
@@ -305,6 +322,9 @@ func DescribeAnyOperation(semanticID string) (Operation, error) {
 func AllOperationIDs() []string {
 	out := OperationIDs()
 	for _, op := range odoo.SurfaceCatalog() {
+		out = append(out, op.SemanticID)
+	}
+	for _, op := range odoo.PackCatalog() {
 		out = append(out, op.SemanticID)
 	}
 	sort.Strings(out)
@@ -346,6 +366,10 @@ func projectOperation(op odoo.Odoo19Operation) Operation {
 		Outputs:                     projectFields(contract.Outputs, op),
 	}
 	projected.Surface = odoo.IsSurfaceOperation(op.SemanticID)
+	if origin, ok := odoo.PackOriginOf(op.SemanticID); ok {
+		projected.Pack = &origin
+		projected.Summary = odoo.PackSummaryOf(op.SemanticID)
+	}
 	projected.Report = op.ReportName
 	if len(op.ProviderDomain) > 0 {
 		projected.ProviderDomain = append([]interface{}(nil), op.ProviderDomain...)

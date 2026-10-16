@@ -39,10 +39,10 @@ Each finding names the customization, the path that stops resolving, why, and a 
   module, or one the target lab did not install); INFO: already broken before the upgrade.
 Code and templates are read to find references and never printed.
 
-The map comes from the conformance labs of both series (Community, demo data). Measured on customizations
-planted on 19.0 and replayed on 20.0, it flagged 8 of 10 breaks it had not been tuned on; read every
-finding, and test the upgrade on a copy of the database. Run it as an administrator: the customizations
-are only readable to one.`,
+The map comes from the conformance labs of both series (Community, demo data). Measured in the open on 23
+customizations written after it was finished (the upgrade-check workflow), it flagged all 13 that 20.0
+refused, with no false alarm among the 10 that still worked; read every finding, and test the upgrade on a
+copy of the database. Run it as an administrator: the customizations are only readable to one.`,
 		SideEffect:  clicore.EffectRead,
 		Authority:   localAuthority,
 		AgentAccess: clicore.AgentAccessRead,

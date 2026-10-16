@@ -38,6 +38,10 @@ func agentAccessFor(op direct.Operation) clicore.AgentAccess {
 		return clicore.AgentAccessNone
 	case op.Kind == string(odoo.KindRead) || op.Strategy == string(odoo.StrategyRead):
 		return clicore.AgentAccessRead
+	case op.Pack != nil:
+		// A pack's write is a third party's declaration, unverified: it always asks the person
+		// (DEC-2026-0176), --confirm-writes=false or not.
+		return clicore.AgentAccessConfirm
 	case op.RequiresImpactConfirmation, op.Strategy == string(odoo.StrategyDestructiveGuarded),
 		op.Risk == string(odoo.RiskHigh), op.Risk == string(odoo.RiskCritical):
 		return clicore.AgentAccessConfirm
@@ -52,7 +56,7 @@ func agentAccessFor(op direct.Operation) clicore.AgentAccess {
 // to an agent. Everything else that is not an operation (profiles, credentials, specs, raw calls,
 // module installs, updates) stays with the person.
 func openAgentSurface(root *clicore.Command) {
-	for _, path := range [][]string{{"catalog", "list"}, {"catalog", "describe"}, {"doctor"}, {"trust"}} {
+	for _, path := range [][]string{{"catalog", "list"}, {"catalog", "describe"}, {"doctor"}, {"trust"}, {"pack", "list"}, {"pack", "show"}} {
 		if leaf := findPath(root, path); leaf != nil && !leaf.IsGroup() {
 			leaf.AgentAccess = clicore.AgentAccessRead
 			// The server runs every call against the profile the person started it with.

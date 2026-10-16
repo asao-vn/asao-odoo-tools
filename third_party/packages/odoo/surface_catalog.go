@@ -82,8 +82,11 @@ func lookupOperation(id string, surface bool) (Odoo19Operation, bool) {
 		return op, true
 	}
 	if surface {
-		op, ok := SurfaceCatalogByID[id]
-		return op, ok
+		if op, ok := SurfaceCatalogByID[id]; ok {
+			return op, true
+		}
+		// A pack's operations (pack.go) are standalone-only, as the surface's are.
+		return lookupPackOperation(id)
 	}
 	return Odoo19Operation{}, false
 }

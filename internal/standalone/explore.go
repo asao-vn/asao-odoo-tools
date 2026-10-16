@@ -8,6 +8,7 @@ import (
 
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
 	"github.com/asao-platform/atoc/packages/cli/internal/localprofile"
+	"github.com/asao-platform/atoc/packages/odoo"
 	"github.com/asao-platform/atoc/packages/odoo/direct"
 	"github.com/asao-platform/atoc/packages/platform/providerendpoint"
 )
@@ -28,35 +29,11 @@ const (
 	exploreDefaultFields = 25
 )
 
-var exploreSecretModelPrefixes = []string{
-	"ir.config_parameter", "ir.mail_server", "fetchmail.server", "res.users.apikeys", "res.users.identitycheck",
-	"res.users.deletion", "payment.provider", "auth.oauth.provider", "auth_totp", "iap.account", "certificate.",
-	"account.online.", "ir.attachment", "ir.module.module", "ir.cron", "ir.actions", "ir.rule", "ir.model.access",
-	// Odoo 20 merges ir.model.access and ir.rule into ir.access: the same access configuration, refused
-	// the same way.
-	"ir.access",
-}
+// The models and fields explore never shows are packages/odoo's, shared with the operation packs
+// (DEC-2026-0176): a pack never names them either.
+func exploreSecretModel(model string) bool { return odoo.IsCredentialModel(model) }
 
-var exploreSecretFieldWords = []string{"password", "passwd", "secret", "token", "api_key", "apikey", "private_key", "totp", "credential"}
-
-func exploreSecretModel(model string) bool {
-	for _, prefix := range exploreSecretModelPrefixes {
-		if strings.HasPrefix(model, prefix) {
-			return true
-		}
-	}
-	return false
-}
-
-func exploreSecretField(name string) bool {
-	lower := strings.ToLower(name)
-	for _, word := range exploreSecretFieldWords {
-		if strings.Contains(lower, word) {
-			return true
-		}
-	}
-	return false
-}
+func exploreSecretField(name string) bool { return odoo.IsSecretField(name) }
 
 func exploreGroup(config programConfig) *clicore.Command {
 	modelFlag := clicore.Flag{Name: "model", Kind: clicore.KindString, Required: true, Description: "The Odoo model, e.g. res.partner or planning.slot."}

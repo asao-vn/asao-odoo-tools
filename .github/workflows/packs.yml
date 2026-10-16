@@ -1,0 +1,40 @@
+name: packs
+
+# The live proof of operation packs: a custom module, conformance/packs/salon_demo, ships a pack at
+# static/odoo-cli/pack.json. A throwaway Odoo 19.0 with that module is built; odoo-cli generates a
+# pack for it, syncs the shipped one, and runs every operation of it, each checked against Odoo by a
+# JSON-RPC client of its own. The same script runs on any machine with Docker or Podman:
+# conformance/packs/prove.sh --out /tmp/packs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Build odoo-cli
+        run: go build -o "$RUNNER_TEMP/odoo-cli" ./cmd/odoo-cli
+      - name: A custom module's pack, through odoo-cli, checked against Odoo
+        run: conformance/packs/prove.sh --out "$RUNNER_TEMP/packs" --engine docker --odoo-bin "$RUNNER_TEMP/odoo-cli"
+      - name: Summary
+        if: always()
+        run: cat "$RUNNER_TEMP/packs/summary.md" >> "$GITHUB_STEP_SUMMARY" || echo "The proof stopped before its checks; see the logs." >> "$GITHUB_STEP_SUMMARY"
+      - name: Pack the evidence (never the lab's secrets)
+        if: always()
+        run: |
+          cd "$RUNNER_TEMP/packs"
+          tar czf "$RUNNER_TEMP/packs.tar.gz" --exclude=secret --exclude=xdg --exclude=odoo-cli .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: packs
+          path: ${{ runner.temp }}/packs.tar.gz

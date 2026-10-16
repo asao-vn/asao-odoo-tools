@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_reschedule" model="ir.actions.act_window">
+        <field name="name">Reschedule</field>
+        <field name="res_model">salon_demo.reschedule</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_booking_form" model="ir.ui.view">
+        <field name="name">salon_demo.booking.form</field>
+        <field name="model">salon_demo.booking</field>
+        <field name="arch" type="xml">
+            <form string="Booking">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'confirmed'"/>
+                    <button name="%(action_reschedule)d" type="action" string="Reschedule" invisible="state in ('done', 'cancel')"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done', 'cancel')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="start"/>
+                        <field name="seats"/>
+                        <field name="vip"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_booking_list" model="ir.ui.view">
+        <field name="name">salon_demo.booking.list</field>
+        <field name="model">salon_demo.booking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="start"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_reschedule_form" model="ir.ui.view">
+        <field name="name">salon_demo.reschedule.form</field>
+        <field name="model">salon_demo.reschedule</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="start"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn-primary"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bookings" model="ir.actions.act_window">
+        <field name="name">Bookings</field>
+        <field name="res_model">salon_demo.booking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_bookings" name="Salon demo" action="action_bookings" sequence="90"/>
+</odoo>

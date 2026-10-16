@@ -71,6 +71,10 @@ type Options struct {
 	// say yes. Empty: ASAO's own check of the person's permissions. odoo-cli checks nobody's
 	// permissions, and says what its calls run with instead.
 	ConfirmationNote string
+	// HostConfirms says the host itself asks the person before every call to a tool that is not
+	// read-only (a hosted connector such as ChatGPT's), so a CONFIRM tool runs on that consent rather
+	// than on an elicitation this server would send. Only HandleMessage's hosts set it.
+	HostConfirms bool
 }
 
 func (s *server) name() string {
@@ -104,18 +108,7 @@ func Serve(ctx context.Context, in io.Reader, out io.Writer, options Options) er
 	}
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
-	s := &server{
-		options:  options,
-		out:      out,
-		tools:    map[string]agentsurface.Tool{},
-		inflight: map[string]context.CancelFunc{},
-		pending:  map[string]chan rpcMessage{},
-		slots:    make(chan struct{}, maxConcurrentCalls),
-	}
-	for _, tool := range options.Tools {
-		s.tools[tool.Name] = tool
-		s.order = append(s.order, tool.Name)
-	}
+	s := newServer(options, out)
 
 	reader := bufio.NewReaderSize(in, 64*1024)
 	var calls sync.WaitGroup
@@ -140,6 +133,54 @@ func Serve(ctx context.Context, in io.Reader, out io.Writer, options Options) er
 	cancel()
 	calls.Wait()
 	return result
+}
+
+func newServer(options Options, out io.Writer) *server {
+	s := &server{
+		options:  options,
+		out:      out,
+		tools:    map[string]agentsurface.Tool{},
+		inflight: map[string]context.CancelFunc{},
+		pending:  map[string]chan rpcMessage{},
+		slots:    make(chan struct{}, maxConcurrentCalls),
+	}
+	for _, tool := range options.Tools {
+		s.tools[tool.Name] = tool
+		s.order = append(s.order, tool.Name)
+	}
+	return s
+}
+
+// HandleMessage answers ONE JSON-RPC message for a stateless transport: the Streamable HTTP
+// transport in its JSON-response form, where every POST carries one message and the answer is the
+// response body. protocolVersion is the MCP-Protocol-Version header the host sent with it (empty
+// before initialize, or from an older host: then 2025-03-26, as the specification says).
+//
+// Nothing persists between messages, so nothing can be asked of the person mid-call: a stateless
+// transport never elicits. A tool that needs confirmation runs only when options.HostConfirms says
+// the HOST asks the person before every call that is not read-only; otherwise it is refused with the
+// command line, as on a stdio host that cannot ask.
+//
+// The reply is nil for a notification or a response, which the transport answers with 202.
+func HandleMessage(ctx context.Context, message []byte, protocolVersion string, options Options) []byte {
+	if options.Log == nil {
+		options.Log = io.Discard
+	}
+	var out bytes.Buffer
+	s := newServer(options, &out)
+	s.protocolVersion = "2025-03-26"
+	for _, supported := range supportedProtocolVersions {
+		if protocolVersion == supported {
+			s.protocolVersion = supported
+		}
+	}
+	if len(message) > maxMessageBytes {
+		message = []byte(`{"jsonrpc":"2.0","method":"\u0000oversized"}`)
+	}
+	var calls sync.WaitGroup
+	s.handle(ctx, message, &calls)
+	calls.Wait()
+	return bytes.TrimSpace(out.Bytes())
 }
 
 type server struct {
@@ -429,7 +470,7 @@ func (s *server) callTool(ctx context.Context, tool agentsurface.Tool, arguments
 		return s.errorResult(tool, argErr, "")
 	}
 	commandLine := tool.CommandLine(arguments)
-	if tool.NeedsConfirmation(arguments) {
+	if tool.NeedsConfirmation(arguments) && !s.options.HostConfirms {
 		if refusal := s.confirm(ctx, tool, arguments, commandLine); refusal != nil {
 			return s.errorResult(tool, refusal, commandLine)
 		}

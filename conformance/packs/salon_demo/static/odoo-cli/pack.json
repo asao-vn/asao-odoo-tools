@@ -1,0 +1,27 @@
+{
+  "schema": "odoo-cli.pack/v1",
+  "module": "salon_demo",
+  "title": "Salon demo",
+  "author": "ASAO (the odoo-cli pack proof)",
+  "series": ["19.0"],
+  "operations": [
+    {"id": "salon_demo.booking.list", "kind": "READ", "strategy": "READ", "model": "salon_demo.booking",
+     "summary": "Bookings, the newest first", "readFields": ["name", "partner_id", "start", "seats", "vip", "state"],
+     "defaultSort": "start desc"},
+    {"id": "salon_demo.booking.create", "kind": "COMMAND", "strategy": "FIELD_WRITE", "model": "salon_demo.booking",
+     "summary": "Book a customer", "writeMode": "CREATE", "fields": ["name", "partner_id", "start", "seats", "vip", "note"],
+     "relations": {"partner_id": {"model": "res.partner", "searchField": "name"}}},
+    {"id": "salon_demo.booking.update", "kind": "COMMAND", "strategy": "FIELD_WRITE", "model": "salon_demo.booking",
+     "summary": "Change a booking's time, seats or note", "writeMode": "UPDATE", "fields": ["start", "seats", "vip", "note"]},
+    {"id": "salon_demo.booking.confirm", "kind": "ACTION", "strategy": "METHOD_CALL", "model": "salon_demo.booking",
+     "summary": "Confirm a draft booking", "method": "action_confirm"},
+    {"id": "salon_demo.booking.done", "kind": "ACTION", "strategy": "METHOD_CALL", "model": "salon_demo.booking",
+     "summary": "Mark a confirmed booking done", "method": "action_done"},
+    {"id": "salon_demo.booking.cancel", "kind": "ACTION", "strategy": "METHOD_CALL", "model": "salon_demo.booking",
+     "summary": "Cancel a booking", "method": "action_cancel", "risk": "HIGH"},
+    {"id": "salon_demo.booking.reschedule", "kind": "ACTION", "strategy": "WIZARD", "model": "salon_demo.booking",
+     "summary": "Move a booking to another time", "wizard": {"model": "salon_demo.reschedule", "method": "action_apply", "fields": ["start"]}},
+    {"id": "salon_demo.booking.print", "kind": "READ", "strategy": "REPORT", "model": "salon_demo.booking",
+     "summary": "The booking as a PDF", "report": "salon_demo.report_booking"}
+  ]
+}

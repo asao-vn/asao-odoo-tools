@@ -22,6 +22,9 @@ func main() {
 
 	// `odoo-cli mcp serve` owns standard output for the protocol, so it runs outside clicore.Run,
 	// which would write a result envelope onto it.
+	// A custom module's packs (DEC-2026-0176) become commands and MCP tools of the selected profile.
+	standalone.LoadPacks(os.Args[1:], os.Stderr)
+
 	if standalone.IsMCPServe(os.Args[1:]) {
 		code := standalone.ServeMCP(ctx, "odoo-cli", os.Args[3:], os.Stdin, os.Stdout, os.Stderr)
 		stop()

@@ -137,14 +137,15 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 617 tools:
+- **Reads by default:** 619 tools:
   - the 598 verified reads;
   - catalog discovery, the pre-flight check, the review (`review run`, `review checks`), the
     controls (`controls list`, `status`, `plan`), the routines (`routines templates`, `list`,
-    `status`), the upgrade check (`upgrade check`, `upgrade maps`) and `report draft`;
+    `status`), the upgrade check (`upgrade check`, `upgrade maps`), the packs kept (`pack list`, `pack show`) and
+    `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1386 tools, and every write asks you first: the agent host shows you the
+- **With `--allow-writes`:** 1388 tools, and every write asks you first: the agent host shows you the
   command line, and nothing runs until you confirm. A host that cannot ask gets a refusal with the
   command line instead.
 - **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. The 61 high-risk
@@ -358,6 +359,28 @@ The people who wrote these sets knew what 20.0 changes. So the sets show that th
 templates, website pages, or code that builds names at run time. Read every finding, and test the
 upgrade on a copy of the database.
 
+## Your own modules: operation packs
+
+A custom module can bring its own operations to odoo-cli as a **pack**: a JSON file the module ships
+as `static/odoo-cli/pack.json`, which names its reads, writes, buttons, wizards and reports. It holds
+data, never code.
+
+```sh
+odoo-cli pack sync --profile my-odoo --dry-run    # the packs your custom modules ship
+odoo-cli pack sync --profile my-odoo              # check them against your Odoo and keep them
+odoo-cli pack show --profile my-odoo --module my_module
+odoo-cli pack generate --profile lab --module my_module --file pack.json   # for the module's author
+```
+
+- **Checked against your Odoo.** odoo-cli checks a pack before it keeps it: every model and field
+  exists, and every method is a button a person can click in the model's views.
+- **Refused outright.** A pack can never name users, rights, settings, code, mail or a credential,
+  never delete, and never call a private or ORM method.
+- **Unverified, and agents ask first.** A pack's operations need `--allow-unverified`. On `mcp serve`,
+  its writes always ask you first, even with `--confirm-writes=false`.
+- **More:** the guide is [docs/packs.md](docs/packs.md). The proof is `conformance/packs/prove.sh`: a
+  demo module whose pack runs through odoo-cli, checked against Odoo.
+
 ## Any model: `odoo-cli explore`
 
 The catalog covers the business apps of Odoo Community. To read anything else, such as an Enterprise
@@ -508,7 +531,7 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 617 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+- **Mặc định chỉ đọc:** 619 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
 - **Thêm `--allow-writes`:** agent được ghi, và thao tác ghi nào cũng hỏi bạn trước: agent host hiện dòng lệnh,
   bạn xác nhận thì mới chạy. Agent host nào không hỏi được thì nhận lời từ chối, kèm dòng lệnh để bạn tự chạy.
@@ -549,6 +572,16 @@ giờ in code hay nội dung mẫu. Ở bản 20.0, quy tắc bản ghi và quy�
 Đo trên Odoo thật với 23 tùy biến viết sau khi làm xong bản kiểm tra: 20.0 từ chối 13 cái, bản kiểm tra
 báo đủ cả 13; trong 10 cái vẫn chạy, nó không báo nhầm cái nào. Đây vẫn là dấu hiệu cần xem lại, không
 phải phán quyết: hãy thử nâng cấp trên một bản sao trước.
+
+**Module tự viết:** module custom có thể kèm một gói thao tác (`static/odoo-cli/pack.json`). Gói khai báo các thao
+tác đọc, ghi, nút bấm, wizard và mẫu in của module, chỉ là dữ liệu, không phải code. Hai lệnh dùng:
+- `odoo-cli pack sync` tìm gói của các module đã cài, kiểm với Odoo của bạn rồi mới giữ lại: model và field phải có
+  thật, method phải là nút mà người dùng bấm được trên màn hình;
+- `odoo-cli pack generate` viết sẵn gói cho người viết module.
+
+Gói không bao giờ được đụng tới người dùng, phân quyền, cài đặt, code, mail hay bí mật, và không được xóa. Thao tác
+của gói phải thêm `--allow-unverified`. Agent ghi gì qua gói cũng phải hỏi bạn trước. Hướng dẫn:
+[docs/packs.md](docs/packs.md).
 
 **Odoo Online và Enterprise:** odoo-cli kết nối được qua API JSON-2 (cần gói Custom của Odoo). Ngày 14/10/2026,
 trên một bản dùng thử Enterprise 20.0: 580 thao tác đọc không lệch thao tác nào; 415/553 thao tác ghi và

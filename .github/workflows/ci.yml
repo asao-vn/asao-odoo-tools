@@ -24,4 +24,4 @@ jobs:
         working-directory: third_party/packages/odoo
         run: go test -timeout 30m ./...
       - name: Compile the conformance tooling
-        run: python3 -m py_compile conformance/*.py conformance/upgrade-check/*.py
+        run: python3 -m py_compile conformance/*.py conformance/upgrade-check/*.py conformance/packs/*.py conformance/packs/salon_demo/*.py conformance/packs/salon_demo/models/*.py
