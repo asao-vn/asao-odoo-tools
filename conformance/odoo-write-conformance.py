@@ -178,16 +178,30 @@ def _attendance_date(oracle, values):
     """Odoo computes an attendance's date from its check-in in the employee's time zone
     (hr.attendance._compute_date, hr.employee._get_tz). The date written is today there, not on the
     runner's clock: between that zone's midnight and UTC's, a runner's date disagreed (odoo-cli 0.15.0's
-    release run wrote at 22:05 UTC, 00:05 in Brussels)."""
-    employee_id = values.get("employee_id") or _first(oracle, "hr.employee", [["user_id", "=", oracle.uid]])
-    if not employee_id:
+    release run wrote at 22:05 UTC, 00:05 in Brussels). The zone, as each series looks for it:
+    - 19.0: the work calendar's, the employee's, the company calendar's;
+    - 20.0, whose calendars hold no zone: the employee's, the user's, the company's.
+    A zone that cannot be read leaves the sampled date, as before."""
+    try:
+        employee_id = values.get("employee_id") or _first(oracle, "hr.employee", [["user_id", "=", oracle.uid]])
+        if not employee_id:
+            return None
+        if "tz" in oracle.call("resource.calendar", "fields_get", [["tz"]], {"attributes": ["type"]}):
+            employee = oracle.call("hr.employee", "read", [[employee_id], ["tz", "resource_calendar_id", "company_id"]])[0]
+            tz = _calendar_tz(oracle, employee.get("resource_calendar_id")) or employee.get("tz")
+            if not tz and employee.get("company_id"):
+                company = oracle.call("res.company", "read", [[employee["company_id"][0]], ["resource_calendar_id"]])[0]
+                tz = _calendar_tz(oracle, company.get("resource_calendar_id"))
+        else:
+            employee = oracle.call("hr.employee", "read", [[employee_id], ["tz", "user_partner_id", "company_id"]])[0]
+            tz = employee.get("tz")
+            if not tz and employee.get("user_partner_id"):
+                tz = oracle.call("res.partner", "read", [[employee["user_partner_id"][0]], ["tz"]])[0]["tz"]
+            if not tz and employee.get("company_id"):
+                tz = oracle.call("res.company", "read", [[employee["company_id"][0]], ["tz"]])[0]["tz"]
+        return datetime.datetime.now(zoneinfo.ZoneInfo(tz or "UTC")).date().isoformat()
+    except (RuntimeError, KeyError, IndexError, zoneinfo.ZoneInfoNotFoundError):
         return None
-    employee = oracle.call("hr.employee", "read", [[employee_id], ["tz", "resource_calendar_id", "company_id"]])[0]
-    tz = _calendar_tz(oracle, employee.get("resource_calendar_id")) or employee.get("tz")
-    if not tz and employee.get("company_id"):
-        company = oracle.call("res.company", "read", [[employee["company_id"][0]], ["resource_calendar_id"]])[0]
-        tz = _calendar_tz(oracle, company.get("resource_calendar_id"))
-    return datetime.datetime.now(zoneinfo.ZoneInfo(tz or "UTC")).date().isoformat()
 
 
 def _inside_event(oracle, values):
