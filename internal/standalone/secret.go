@@ -9,9 +9,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/asao-platform/atoc/packages/cli/agentkit/secretpage"
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
 	"github.com/asao-platform/atoc/packages/cli/internal/localprofile"
-	"github.com/asao-platform/atoc/packages/cli/internal/secretinput"
 )
 
 // A secret is typed on a one-time local page, never in the chat (DEC-2026-0179).
@@ -23,14 +23,14 @@ func askOnPage(ctx context.Context, title, detail, label string) (string, error)
 		return "", clicore.NewError(clicore.CategoryDenied, "SECRET_PAGE_OFF", "ODOO_CLI_SECRET_INPUT=off: secrets are not asked for on a page here").
 			WithRemediation("Run the command in a terminal with --password-stdin.")
 	}
-	value, err := secretinput.Collect(ctx, secretinput.Request{
+	value, err := secretpage.Collect(ctx, secretpage.Request{
 		Title: title, Detail: detail, Label: label, Theme: strings.ToLower(os.Getenv("ODOO_CLI_THEME")),
 		Announce: func(address string) {
 			fmt.Fprintf(os.Stderr, "Type it on the page that opened in your browser, or open %s on this machine (it works once, for 5 minutes).\n", address)
 		},
 	})
 	switch {
-	case errors.Is(err, secretinput.ErrTimeout):
+	case errors.Is(err, secretpage.ErrTimeout):
 		return "", clicore.NewError(clicore.CategoryDenied, "SECRET_PAGE_TIMEOUT", "nothing was typed on the page in 5 minutes; nothing was stored")
 	case err != nil:
 		return "", clicore.NewError(clicore.CategoryUnavailable, "SECRET_PAGE_UNAVAILABLE", err.Error()).

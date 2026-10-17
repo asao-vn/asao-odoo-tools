@@ -1,10 +1,10 @@
-// Package secretinput asks the person for one secret on a one-time page on their own machine
+// Package secretpage asks the person for one secret on a one-time page on their own machine
 // (DEC-2026-0179). The value goes from their keyboard to the caller, never through an agent's chat.
 //
 // The page lives on 127.0.0.1, on a random port, under a random path, for one submission and at most
 // Timeout. It loads nothing from elsewhere, refuses a form without its own token or from another
 // origin, and never shows the value back.
-package secretinput
+package secretpage
 
 import (
 	"context"
@@ -29,9 +29,9 @@ const maxValueBytes = 16 << 10
 
 var (
 	// ErrTimeout: the person did not submit in time.
-	ErrTimeout = errors.New("secretinput: the person did not enter the secret in time")
+	ErrTimeout = errors.New("secretpage: the person did not enter the secret in time")
 	// ErrEmpty: the form was submitted without a value.
-	ErrEmpty = errors.New("secretinput: an empty value was submitted")
+	ErrEmpty = errors.New("secretpage: an empty value was submitted")
 )
 
 // Request says what the page asks for.
@@ -76,7 +76,7 @@ func randomHex(size int) (string, error) {
 func Collect(ctx context.Context, request Request) (string, error) {
 	listener, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
-		return "", fmt.Errorf("secretinput: cannot listen on 127.0.0.1: %w", err)
+		return "", fmt.Errorf("secretpage: cannot listen on 127.0.0.1: %w", err)
 	}
 	path, err := randomHex(32)
 	if err != nil {

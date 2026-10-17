@@ -1,4 +1,4 @@
-package secretinput
+package secretpage
 
 import (
 	"context"

@@ -167,6 +167,10 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
 
   `profile set --agent-data-access` records a profile's level, and a server can lower it, never raise
   it.
+- **A trace of what the agent did.** Each call an agent makes is appended to a local journal of the
+  profile, chained by hashes. An entry holds when it ran, which agent host, the command line, whether
+  you confirmed it, and what came of it. It never holds what a read returned. `trace list` shows it, and
+  `trace verify` finds an entry removed or changed. `ODOO_CLI_TRACE=off` turns it off.
 - **Secrets never pass through the chat.** When a task needs a password, an API key or a token, the
   agent calls `credential set --browser` or `secret env --browser`, and you confirm. You then type the
   value on a one-time page on your own machine (127.0.0.1, one submission, 5 minutes), and the agent
@@ -562,6 +566,10 @@ Community lẫn Enterprise.
   - `full`: agent thấy đầy đủ.
 
   Đặt cấp cho profile bằng `profile set --agent-data-access`. Khi chạy server chỉ được hạ cấp, không được nâng.
+- **Dấu vết việc agent đã làm:** mỗi lệnh agent gọi được ghi vào nhật ký trên máy, nối chuỗi bằng mã băm. Nhật ký ghi:
+  lúc nào, agent nào, dòng lệnh, bạn có đồng ý không, kết quả ra sao. Nhật ký không ghi dữ liệu đã đọc.
+  - `trace list` để xem;
+  - `trace verify` để phát hiện dòng nào bị xoá hay bị sửa.
 - **Bí mật không bao giờ đi qua chat:** khi cần mật khẩu, API key hay token, agent gọi `credential set --browser`
   hoặc `secret env --browser`, bạn xác nhận, rồi tự gõ vào một trang dùng một lần trên chính máy mình. Agent chỉ
   nhận "đã lưu". Muốn tắt trang thì đặt `ODOO_CLI_SECRET_INPUT=off`; muốn giao diện trơn thì đặt `ODOO_CLI_THEME=plain`.

@@ -14,9 +14,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/asao-platform/atoc/packages/cli/agentkit/secretpage"
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
 	"github.com/asao-platform/atoc/packages/cli/internal/localprofile"
-	"github.com/asao-platform/atoc/packages/cli/internal/secretinput"
 	"github.com/asao-platform/atoc/packages/cli/internal/standalone"
 )
 
@@ -24,7 +24,7 @@ import (
 func typesOnThePage(t *testing.T, value string) {
 	t.Helper()
 	token := regexp.MustCompile(`name="token" value="([0-9a-f]+)"`)
-	secretinput.OpenBrowser = func(address string) error {
+	secretpage.OpenBrowser = func(address string) error {
 		go func() {
 			response, err := http.Get(address)
 			if err != nil {
@@ -48,7 +48,7 @@ func typesOnThePage(t *testing.T, value string) {
 		}()
 		return nil
 	}
-	t.Cleanup(func() { secretinput.OpenBrowser = func(string) error { return nil } })
+	t.Cleanup(func() { secretpage.OpenBrowser = func(string) error { return nil } })
 }
 
 func TestCredentialSetOnThePageStoresWhatThePersonTyped(t *testing.T) {

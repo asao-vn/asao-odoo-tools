@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.17.0 (unreleased)
+
+- **New: a trace of what agents did.** Every tool call an agent makes through `mcp serve` is appended
+  to a local journal of the profile it ran against, chained by hashes. An entry holds:
+  - when, which agent host, and the command line you saw;
+  - whether you confirmed it, its status and error code, and the record it wrote;
+  - the data level the server ran at.
+
+  It never holds what a read returned.
+  - **Commands:** `trace list` shows the entries, and `trace verify` finds an entry that was removed or
+    changed. Both are yours alone, never an agent's.
+  - **Turning it off:** `ODOO_CLI_TRACE=off`.
+  - **Not traced:** an agent that runs odoo-cli in a shell.
+- **Review, measured on a bigger and messier business.** The `review-sim` workflow can now run 12 months
+  or more, with a real shop's everyday noise and three kinds of business (`--profile trader|retail|service`).
+  - **Four checks fixed:** a year with that noise found four formulas that only held on a small, clean
+    business: O25 (round claims), O19 (below cost), O21 (refund after payment) and O02 (an invoice twice).
+    All four were fixed, and the invoice read gained `invoice_origin`, re-verified on 19.0 and 20.0.
+  - **The held-out set:** 18 cases and 13 look-alikes written after the fixes (`--fresh`). On all three
+    kinds of business, every case was found and no look-alike was flagged
+    ([run 38995070451](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38995070451)).
+- The secret page's code moved to a package of its own (`agentkit/secretpage`), beside the trace
+  (`agentkit/trace`). Neither knows Odoo.
+
 ## 0.16.0 (2026-10-17)
 
 - **New: operation packs (DEC-2026-0176).** A custom module brings its own operations as a pack, a

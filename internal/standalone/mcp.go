@@ -310,6 +310,7 @@ report draft command (its result says how) builds a scrubbed report on this mach
 		ConfirmationNote: fmt.Sprintf("Once you confirm, %s runs it with the full authority of the Odoo login in profile %q.",
 			program, orDefault(*profile, "the default")),
 		Filter: dataAccessFilter(level), WithholdDiagnostics: level != accessFull,
+		Trace: serverTrace(traceProfile(*profile), level, diag),
 	}); err != nil {
 		fmt.Fprintf(diag, "%s mcp serve: %v\n", program, err)
 		return 1

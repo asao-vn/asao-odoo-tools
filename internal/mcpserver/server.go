@@ -82,6 +82,22 @@ type Options struct {
 	// WithholdDiagnostics leaves the command's diagnostics out of what the agent gets: they can quote
 	// what the command read.
 	WithholdDiagnostics bool
+	// Trace, when set, is told of every tool call once it has ended, run or not: the record of what an
+	// agent did (odoo-cli's local journal, DEC-2026-0180). It runs on the call's goroutine and must not
+	// block for long.
+	Trace func(Call)
+}
+
+// Call is what Trace is told of a tool call. Stdout is the command's own result document, before any
+// Filter; nil when the command did not run.
+type Call struct {
+	Tool         agentsurface.Tool
+	Agent        string
+	CommandLine  string
+	Confirmation string // trace.NotAsked, Confirmed, ByHost, Refused or NotRunnable
+	Refusal      *clicore.Error
+	Stdout       []byte
+	ExitCode     int
 }
 
 func (s *server) name() string {
@@ -201,6 +217,7 @@ type server struct {
 	stateMu         sync.Mutex
 	protocolVersion string
 	canElicit       bool
+	agent           string
 	inflight        map[string]context.CancelFunc
 	pending         map[string]chan rpcMessage
 
@@ -379,6 +396,7 @@ func (s *server) initialize(raw json.RawMessage) map[string]interface{} {
 	s.stateMu.Lock()
 	s.protocolVersion = version
 	s.canElicit = elicitation && version >= "2025-06-18"
+	s.agent = strings.TrimSpace(params.ClientInfo.Name + " " + params.ClientInfo.Version)
 	s.stateMu.Unlock()
 	fmt.Fprintf(s.options.Log, "%s mcp: %s %s connected (protocol %s, confirmation %s), %d commands offered as %s\n",
 		s.program(), orUnknown(params.ClientInfo.Name), params.ClientInfo.Version, version, map[bool]string{true: "by elicitation", false: "unavailable"}[s.canElicit], len(s.tools), s.modeName())
@@ -472,17 +490,34 @@ func normalizeValue(value interface{}) interface{} {
 }
 
 func (s *server) callTool(ctx context.Context, tool agentsurface.Tool, arguments map[string]interface{}) map[string]interface{} {
+	trace := func(call Call) {
+		if s.options.Trace != nil {
+			s.stateMu.Lock()
+			call.Agent = s.agent
+			s.stateMu.Unlock()
+			call.Tool = tool
+			s.options.Trace(call)
+		}
+	}
 	argv, argErr := tool.Argv(arguments)
 	if argErr != nil {
+		trace(Call{Confirmation: "not_runnable", Refusal: argErr})
 		return s.errorResult(tool, argErr, "")
 	}
 	commandLine := tool.CommandLine(arguments)
-	if tool.NeedsConfirmation(arguments) && !s.options.HostConfirms {
-		if refusal := s.confirm(ctx, tool, arguments, commandLine); refusal != nil {
-			return s.errorResult(tool, refusal, commandLine)
+	confirmation := "not_asked"
+	if tool.NeedsConfirmation(arguments) {
+		confirmation = "by_host"
+		if !s.options.HostConfirms {
+			if refusal := s.confirm(ctx, tool, arguments, commandLine); refusal != nil {
+				trace(Call{CommandLine: commandLine, Confirmation: "refused", Refusal: refusal})
+				return s.errorResult(tool, refusal, commandLine)
+			}
+			confirmation = "confirmed"
 		}
 	}
 	stdout, diagnostics, exitCode := s.options.Execute(ctx, argv)
+	trace(Call{CommandLine: commandLine, Confirmation: confirmation, Stdout: stdout, ExitCode: exitCode})
 	return s.commandResult(tool, stdout, diagnostics, exitCode, commandLine)
 }
 
