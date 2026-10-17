@@ -61,3 +61,45 @@ The first run of the day had three more findings outside the truth, all from `O2
 cancels an unpaid invoice is marked paid by Odoo (the invoice becomes "reversed"), and `O21` read that as money
 refunded out. `O21` now requires an invoice the customer had paid; a test holds it.
 
+## 2026-10-17: a bigger, messier business, in the open
+
+`run.sh` does the whole run (lab, business, `odoo-cli review run`, score) on any machine with Docker or
+Podman. The public repository runs it as the `review-sim` workflow. `--months`, `--scale` and `--mess`
+size the business:
+- `--months` sets how many months, ending with September 2026;
+- `--scale` multiplies the regular sales;
+- `--mess` adds a real shop's everyday noise:
+  - partial returns credited;
+  - customers paying in two parts;
+  - supplier bills paid in instalments;
+  - discounts above cost;
+  - a clearance week where every seller sells the old primer below cost;
+  - cancelled orders.
+
+  Each kind of noise is a look-alike in the truth, and it draws from its own generator, so the business
+  underneath is the same with or without it.
+
+| Business | Planted caught | Look-alikes left alone | Findings outside the truth | Run |
+|---|---|---|---|---|
+| 6 months, the 2026-10-15 business | 24/24 | 11/11 | 1 (real) | [38985512771](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38985512771) |
+| 12 months, before the fixes | **23/24** | 11/11 | 1 | [38986245449](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38986245449) |
+| 12 months with noise, before the fixes | **23/24** | **14/16** | 3 | [38986251024](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38986251024) |
+| 12 months, after the fixes | 24/24 | 11/11 | 0 | [38991185860](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38991185860) |
+| 12 months with noise, after the fixes | 24/24 | 16/16 | 0 | [38991191468](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38991191468) |
+
+The year found four formulas that held only on a small, clean business. Each was fixed in
+packages/odoo/review, with a test of its own:
+- **O25:** a share taken over a year drowned a burst of round claims. It now also looks at every
+  92-day window.
+- **O19:** a clearance week counted against every seller. A product sold below cost by two sellers or
+  more within 14 days is now a markdown.
+- **O21:** a partial return looked like a refund paid out. Paid out now means an outbound payment
+  settles the credit note.
+- **O02:** a customer reordering the same goods looked like one sale invoiced twice. Two invoices
+  each from its own sale order are two sales. The invoice read gained `invoice_origin`, which was
+  re-verified on 19.0 and 20.0.
+
+**The caveat.** The fixes were made on these look-alikes, so the clean runs after them show the fixes
+work. They do not show that the formulas hold on look-alikes nobody has seen. That needs a fresh set,
+as the upgrade check had.
+
