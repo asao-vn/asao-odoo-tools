@@ -67,6 +67,8 @@ func resolveDataAccess(profileLevel, flagLevel string) (dataAccess, error) {
 var discoveryCommands = map[string]bool{
 	"catalog list": true, "catalog describe": true, "pack list": true, "pack show": true, "doctor": true, "trust": true,
 	"upgrade maps": true, "review checks": true, "controls list": true, "routines templates": true,
+	// resolve answers ids only, and refuses a filter on anything but plain fields (DEC-2026-0182).
+	"resolve": true,
 }
 
 func isDiscovery(tool agentsurface.Tool) bool {
@@ -272,8 +274,10 @@ func dataAccessInstructions(level dataAccess) string {
 		return `
 
 Data level operate: you act on the person's Odoo without seeing its data. A result gives the status,
-the record id and whether the command's own check of the result passed; reads are not offered. When a
-task needs to see data, say so to the person: only they can raise the level.`
+the record id and whether the command's own check of the result passed; reads are not offered. To find
+the record a task names ("the customer's latest draft quotation"), use resolve: it answers ids only, from a
+filter on names, references, states, dates and amounts. When a task needs to see data, say so to the
+person: only they can raise the level.`
 	case accessAct:
 		return `
 

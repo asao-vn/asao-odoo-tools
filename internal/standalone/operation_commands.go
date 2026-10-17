@@ -90,7 +90,7 @@ func buildOperationCommandFlags(op direct.Operation) []clicore.Flag {
 		)
 		common = append(common, aerpsurface.ReadPagingFlags()...)
 	} else {
-		common = append(common, aerpsurface.VerifyFlag())
+		common = append(common, aerpsurface.VerifyFlag(), acceptFlag())
 	}
 	common = append(common,
 		clicore.Flag{Name: "set", Kind: clicore.KindKeyValue, Repeatable: true, Description: "Set one semantic field, as name=value."},
@@ -198,9 +198,19 @@ func runOperationAlias(ctx context.Context, invocation *clicore.Invocation, op d
 	if request.Verify, err = invocation.Bool("verify"); err != nil {
 		return nil, err
 	}
+	accept, err := invocation.Bool("accept")
+	if err != nil {
+		return nil, err
+	}
+	if accept {
+		request.Verify = true // the first level stands on the operation's own postcondition
+	}
 	outcome, err := executor.Execute(ctx, request)
 	if err != nil {
 		return nil, classifyExecution(err, request.Operation, config.surface)
+	}
+	if accept {
+		return acceptedOutcome{Outcome: outcome, Acceptance: judgeOutcome(ctx, executor, op, request, outcome, config)}, nil
 	}
 	return presentOutcome(invocation, outcome)
 }

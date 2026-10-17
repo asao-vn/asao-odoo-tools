@@ -438,6 +438,9 @@ func runRoutine(ctx context.Context, invocation *clicore.Invocation, config prog
 	if err != nil {
 		return nil, err
 	}
+	if err := routinesStopped(file); err != nil {
+		return nil, err
+	}
 	routine, err := file.Get(strings.TrimSpace(invocation.String("routine")))
 	if err != nil {
 		return nil, clicore.NewError(clicore.CategoryNotFound, "ROUTINE_NOT_FOUND", err.Error()).WithRemediation("Run \"routines list\" for the routines of the file.")
@@ -479,6 +482,9 @@ func runRoutine(ctx context.Context, invocation *clicore.Invocation, config prog
 func runDueRoutines(ctx context.Context, invocation *clicore.Invocation, config programConfig) (interface{}, error) {
 	file, err := loadRoutinesFile(invocation)
 	if err != nil {
+		return nil, err
+	}
+	if err := routinesStopped(file); err != nil {
 		return nil, err
 	}
 	var options routines.Options
@@ -637,4 +643,18 @@ func (o *routineOdoo) Describe(id string) []routines.Meaning {
 		out = append(out, routines.Meaning{Name: field.Name, ProviderField: field.ProviderField, Description: field.Description})
 	}
 	return out
+}
+
+// routinesStopped refuses a run while the agents of the file's profile are stopped (agents stop): a
+// routine is an agent no one watches, and the switch stops it too.
+func routinesStopped(file *routines.File) error {
+	profile := traceProfile(file.Profile)
+	record, err := stopped(profile)
+	if err != nil {
+		return clicore.NewError(clicore.CategoryConfig, "AGENTS_STOP_UNREADABLE", err.Error())
+	}
+	if record != nil {
+		return stoppedError(profile, record)
+	}
+	return nil
 }

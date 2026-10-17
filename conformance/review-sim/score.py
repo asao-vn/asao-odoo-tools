@@ -18,7 +18,9 @@ def main():
     parser.add_argument("--review", required=True)
     parser.add_argument("--markdown")
     options = parser.parse_args()
-    truth = json.load(open(options.truth, encoding="utf-8"))["cases"]
+    document = json.load(open(options.truth, encoding="utf-8"))
+    truth = document["cases"]
+    real = set(document.get("real") or [])
     review = json.load(open(options.review, encoding="utf-8"))
     findings = review["findings"]
 
@@ -44,6 +46,8 @@ def main():
     # The prototype lists the checks that ran; odoo-cli review lists every check with its "ran" flag.
     run_checks = set(review["ran"]) if "ran" in review else {c["id"] for c in review.get("checks", []) if c.get("ran")}
     unexplained = [f for i, f in enumerate(findings) if i not in explained and f["check"] != "O15"]
+    on_real = [f for f in unexplained if names(f) & real]
+    unexplained = [f for f in unexplained if not names(f) & real]
 
     planted = [r for r in rows if r[2] == "planted"]
     caught = sum(1 for r in planted if r[3] == "BẮT ĐƯỢC")
@@ -60,6 +64,19 @@ def main():
         lines += [f"Riêng **bộ ca mới** (viết sau lần sửa cuối, chưa dùng để chỉnh): bắt được "
                   f"**{sum(1 for r in fp if r[3] == 'BẮT ĐƯỢC')}/{len(fp)}** ca cài sẵn; "
                   f"**{sum(1 for r in fd if r[3] == 'KHÔNG BÁO NHẦM')}/{len(fd)}** mồi nhử không bị báo nhầm.", ""]
+    if real:
+        # Findings on the real sales (UCI Online Retail II): nobody planted anything there, so each is either a
+        # thing a real shop does that a check takes for a problem, or a real problem. They are counted apart
+        # and listed for a person to judge.
+        by_check = {}
+        for f in on_real:
+            by_check[f["check"]] = by_check.get(f["check"], 0) + 1
+        lines += ["Trên **dữ liệu bán hàng thật** (%s, không ai cài gì): **%d** phát hiện%s." % (
+            document.get("realSource") or "UCI", len(on_real),
+            (": " + ", ".join("`%s` %d" % (k, v) for k, v in sorted(by_check.items()))) if by_check else ""), ""]
+        if on_real:
+            lines += ["Phát hiện trên dữ liệu thật (người xem xét đúng hay báo nhầm):", ""] + [
+                f"- `{f['check']}` [{f['severity']}] {f['title']}: {f['why']}" for f in on_real[:60]] + [""]
     if unexplained:
         lines += ["Phát hiện ngoài đáp án:", ""] + [f"- `{f['check']}` [{f['severity']}] {f['title']}: {f['why']}" for f in unexplained]
     missing = sorted({c["check"] for c in truth} - run_checks)

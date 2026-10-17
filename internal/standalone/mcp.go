@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"github.com/asao-platform/atoc/packages/cli/internal/agentsurface"
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
@@ -108,6 +109,9 @@ var mcpServeFlags = []clicore.Flag{
 	{Name: "mode", Kind: clicore.KindString, Default: "auto", Enum: []string{"auto", "tools", "catalog"},
 		Description: fmt.Sprintf("tools: one MCP tool per operation. catalog: four tools (odoo_find, odoo_describe, odoo_read, odoo_write) that reach the same operations. auto: catalog above %d tools.", mcpCatalogThreshold)},
 	{Name: "toolsets", Kind: clicore.KindString, Description: "Comma-separated domains to offer (e.g. sales,finance,inventory). Empty offers every domain."},
+	{Name: "max-calls", Kind: clicore.KindInt, Default: "0", Description: "At most this many tool calls for the server's life; then every call is refused (AGENT_CALL_BUDGET_SPENT). 0: no bound. For an agent no one watches."},
+	{Name: "max-writes", Kind: clicore.KindInt, Default: "0", Description: "At most this many writes for the server's life (AGENT_WRITE_BUDGET_SPENT). 0: no bound."},
+	{Name: "rate", Kind: clicore.KindInt, Default: "60", Description: "At most this many calls a minute (AGENT_RATE_LIMITED, retryable): each call takes one of Odoo's workers while it runs. 0: no bound."},
 }
 
 func mcpGroup(config programConfig) *clicore.Command {
@@ -134,6 +138,10 @@ The agent cannot choose the profile, accept unverified results, write files on t
 the provider context: those are yours. Remember the trust boundary ("aerp trust"): the server acts
 with the full authority of the profile's Odoo credential, and an agent that can run commands can run
 aerp directly. The server bounds what is OFFERED; it is not a sandbox.
+
+Bounds for an agent no one watches (DEC-2026-0182): --max-calls and --max-writes for the server's life,
+--rate calls a minute (60 by default). "aerp agents stop --profile P" refuses every call of every server
+on that profile from its next call, and stops routines, until "aerp agents resume".
 
 Register it with an agent host, for example: claude mcp add odoo -- aerp mcp serve --profile my-odoo`,
 		SideEffect: clicore.EffectNone,
@@ -235,7 +243,14 @@ func ServeMCP(ctx context.Context, program string, args []string, in io.Reader, 
 	mode := flags.String("mode", "auto", "")
 	toolsets := flags.String("toolsets", "", "")
 	dataAccessFlag := flags.String("data-access", "", "")
+	maxCalls := flags.Int("max-calls", 0, "")
+	maxWrites := flags.Int("max-writes", 0, "")
+	rate := flags.Int("rate", defaultAgentRate, "")
 	if err := flags.Parse(args); err != nil {
+		return 2
+	}
+	if *maxCalls < 0 || *maxWrites < 0 || *rate < 0 {
+		fmt.Fprintf(diag, "%s mcp serve: --max-calls, --max-writes and --rate are counts from 0 (0: no bound)\n", program)
 		return 2
 	}
 	level, err := serverDataAccess(*profile, *dataAccessFlag)
@@ -311,6 +326,7 @@ report draft command (its result says how) builds a scrubbed report on this mach
 			program, orDefault(*profile, "the default")),
 		Filter: dataAccessFilter(level), WithholdDiagnostics: level != accessFull,
 		Trace: serverTrace(traceProfile(*profile), level, diag),
+		Admit: (&agentBounds{profile: traceProfile(*profile), maxCalls: *maxCalls, maxWrites: *maxWrites, rate: *rate, now: time.Now}).admit,
 	}); err != nil {
 		fmt.Fprintf(diag, "%s mcp serve: %v\n", program, err)
 		return 1

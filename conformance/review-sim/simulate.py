@@ -30,6 +30,9 @@ assert PROFILE in ("trader", "retail", "service"), PROFILE
 # last changed, and never used to change them. They sit in November 2025 - March 2026, so they need a period
 # of 12 months or more.
 FRESH = os.environ.get("SIM_FRESH", "") == "1"
+# SIM_REAL_SALES names a file from prepare_uci.py: real sales of a UK online retailer (UCI Online Retail II,
+# CC BY 4.0), replayed as invoices beside the simulated business. Nothing in them is planted.
+REAL_SALES = os.environ.get("SIM_REAL_SALES", "")
 END = D(2026, 9, 30)
 START = D(2026 + (10 - MONTHS - 1) // 12, (10 - MONTHS - 1) % 12 + 1, 1)
 
@@ -316,6 +319,59 @@ for key, product, qty, when in [("lan", "ximang", 3, D(2026, 4, 22)), ("binh", "
                                 ("hung", "ximang", 2, D(2026, 6, 17)), ("binh", "ong21", 6, D(2026, 7, 3)),
                                 ("mai", "gach30", 1, D(2026, 8, 21))]:
     scrap(key, product, qty, when)
+
+# ====================================== real sales (SIM_REAL_SALES) ==============================
+# Invoiced directly (no order, no delivery: eight thousand lines through stock would take hours). Each real
+# invoice keeps its number as the invoice's origin and is paid the day it is made, as an online order is.
+# A cancellation ('C' invoice) becomes a credit note against the customer's latest earlier invoice that
+# holds the returned product, refunded one to three days later; one with no such invoice stands alone.
+REAL = {"invoices": 0, "credits": 0, "linked": 0}
+real_records = []  # the names of every record the real sales made, for the scorer
+if REAL_SALES:
+    real = json.load(open(REAL_SALES, encoding="utf-8"))
+    real_rng = random.Random(20261018)
+    real_products = {}
+    for item in real["products"]:
+        real_products[item["code"]] = env["product.product"].create({
+            "name": "%s [%s]" % (item["name"], item["code"]), "default_code": "UCI-" + item["code"], "type": "consu",
+            "list_price": max(item["price"], 1000), "standard_price": item["cost"], "taxes_id": [(6, 0, [SALE10.id])]})
+    real_customers = {cid: partner("Khách online UCI %d" % cid, company=False, customer_rank=1) for cid in real["customers"]}
+    account_seller = {cid: sellers[i % len(sellers)] for i, cid in enumerate(real["customers"])}
+    held = {}  # customer -> [(date, invoice, product codes)]
+    for entry in real["invoices"]:
+        when = datetime.date.fromisoformat(entry["date"])
+        if when < START or when > END:
+            continue
+        customer = real_customers[entry["customer"]]
+        seller = U[account_seller[entry["customer"]]]
+        lines = [(0, 0, {"product_id": real_products[code].id, "quantity": abs(quantity), "price_unit": price,
+                         "tax_ids": [(6, 0, [SALE10.id])]}) for code, quantity, price in entry["lines"] if quantity]
+        if not lines:
+            continue
+        if not entry["cancel"]:
+            move = env["account.move"].create({"move_type": "out_invoice", "partner_id": customer.id, "invoice_date": when,
+                                               "invoice_user_id": seller.id, "invoice_origin": entry["no"], "invoice_line_ids": lines})
+            move.action_post()
+            if move.amount_total > 0:
+                pay(move, when)
+            held.setdefault(entry["customer"], []).append((when, move, {code for code, _, _ in entry["lines"]}))
+            real_records.append(move.name)
+            REAL["invoices"] += 1
+            continue
+        codes = {code for code, _, _ in entry["lines"]}
+        original = next((m for d, m, c in reversed(held.get(entry["customer"], [])) if d <= when and c & codes), None)
+        values = {"move_type": "out_refund", "partner_id": customer.id, "invoice_date": when, "invoice_user_id": seller.id,
+                  "invoice_origin": entry["no"], "invoice_line_ids": lines}
+        if original:
+            values["reversed_entry_id"] = original.id
+            REAL["linked"] += 1
+        refund = env["account.move"].create(values)
+        refund.action_post()
+        real_records.append(refund.name)
+        if refund.amount_total > 0:
+            pay(refund, when + datetime.timedelta(days=real_rng.randint(1, 3)))
+        REAL["credits"] += 1
+    env.cr.commit()
 
 # ====================================== planted cases ===========================================
 # 1. A supplier bill entered twice: same supplier, same reference, same amount, six days apart, both paid.
@@ -758,4 +814,12 @@ print("SIM sales=%d purchases=%d bills=%d payments=%d expenses=%d scraps=%d" % (
     env["sale.order"].search_count([]), env["purchase.order"].search_count([]),
     env["account.move"].search_count([("move_type", "=", "in_invoice")]), env["account.payment"].search_count([]),
     env["hr.expense"].search_count([]), env["stock.scrap"].search_count([])))
-print("TRUTH=" + json.dumps({"from": str(START), "asOf": str(AS_OF), "cases": truth}, ensure_ascii=False))
+if REAL_SALES:
+    # Payments of the real stream are named too: a check that pairs payments names them, not the invoices.
+    real_moves = env["account.move"].search([("name", "in", real_records)])
+    real_records += env["account.payment"].search([("reconciled_invoice_ids", "in", real_moves.ids)]).mapped("name")
+    real_records += env["account.payment"].search([("reconciled_bill_ids", "in", real_moves.ids)]).mapped("name")
+    print("REAL invoices=%d credits=%d linked=%d records=%d" % (REAL["invoices"], REAL["credits"], REAL["linked"], len(real_records)))
+print("TRUTH=" + json.dumps({"from": str(START), "asOf": str(AS_OF), "cases": truth, "real": sorted(set(real_records)),
+                            "realSource": json.load(open(REAL_SALES, encoding="utf-8"))["citation"] if REAL_SALES else None},
+                           ensure_ascii=False))

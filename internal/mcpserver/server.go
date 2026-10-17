@@ -82,6 +82,9 @@ type Options struct {
 	// WithholdDiagnostics leaves the command's diagnostics out of what the agent gets: they can quote
 	// what the command read.
 	WithholdDiagnostics bool
+	// Admit, when set, is asked before every tool call, before the person is asked to confirm it: a
+	// refusal (the agents were stopped, a budget is spent, calls come too fast) ends the call unrun.
+	Admit func(tool agentsurface.Tool) *clicore.Error
 	// Trace, when set, is told of every tool call once it has ended, run or not: the record of what an
 	// agent did (odoo-cli's local journal, DEC-2026-0180). It runs on the call's goroutine and must not
 	// block for long.
@@ -505,6 +508,12 @@ func (s *server) callTool(ctx context.Context, tool agentsurface.Tool, arguments
 		return s.errorResult(tool, argErr, "")
 	}
 	commandLine := tool.CommandLine(arguments)
+	if s.options.Admit != nil {
+		if refusal := s.options.Admit(tool); refusal != nil {
+			trace(Call{CommandLine: commandLine, Confirmation: "refused", Refusal: refusal})
+			return s.errorResult(tool, refusal, commandLine)
+		}
+	}
 	confirmation := "not_asked"
 	if tool.NeedsConfirmation(arguments) {
 		confirmation = "by_host"

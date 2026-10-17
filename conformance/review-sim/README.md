@@ -146,3 +146,59 @@ planted approved leave, which is real in the data.
 - The set was still written by the person who wrote the checks. A set written by someone else, real
   Vietnamese cases, and real data are the next tests.
 
+## 2026-10-17: real sales, nothing planted in them
+
+Every case above was written by the person who wrote the checks, the look-alikes and the everyday noise
+included. `--real-sales FILE` adds what nobody arranged: the real sales of a UK online retailer, **UCI
+Online Retail II** (Chen, 2012, [doi:10.24432/C5CG6D](https://doi.org/10.24432/C5CG6D), CC BY 4.0).
+
+`prepare_uci.py` (standard library only) does the following:
+- takes the sheet of December 2010 - November 2011;
+- samples customers, whole, until about 500 invoices (`--seed`);
+- moves the dates into the simulation's year;
+- turns GBP into VND at 30,000.
+
+The real noise is kept: returns and cancellations, manual lines, postage, free items, changing prices.
+The simulator then replays the sample on top of the business:
+- invoices, each with its real number as origin, paid on the day;
+- each cancellation as a credit note against the customer's latest earlier invoice with that product,
+  refunded within three days.
+
+The scorer counts the findings on these records apart, for a person to judge. The public workflow takes
+`real_sales: true`: it downloads the archive, checks its sha256 and samples it.
+
+**Two assumptions, and what they do:**
+- **Cost.** The data has no cost, so a product's cost is 70% of its median price. This drives O19.
+- **Sellers.** The data has no sellers, so each customer is given one of the three sellers. This shapes
+  O19's per-seller grouping.
+
+**The first run.** 12 months, the trader business, plus 123 real customers: 421 invoices, 79 credit notes
+(67 linked to an invoice), 7,992 lines and 1,929 products. The full score is in
+[results-real-2026-10-17](results-real-2026-10-17/score.md).
+
+| What | Result |
+|---|---|
+| The planted cases, among the real sales | 24/24 caught, 11/11 look-alikes left alone, nothing else on the simulated records |
+| Findings on the real sales | **38**: O21 36, O19 2 |
+| O02 (an invoice twice), O22 (a payment twice) | none, although the real customers often order the same again on one day |
+
+**What it says:**
+1. **The checks are not blinded by real noise.** Every planted case was still found among 500 real
+   invoices.
+2. **O21 does not carry over to a business where refunds are routine.** It flagged 36 of 79 real
+   returns. A refund after payment is rare in the simulated trader, and an everyday thing for an online
+   shop.
+   - A fixed rule cannot hold for both. O21 needs a base rate: a seller's or a customer's refunds
+     against the business's own norm, a refund above the invoice, or one invoice refunded twice.
+   - Two of the 36 had a refund above the invoice. That comes from the replay's linking (one return may
+     cover several invoices), not from the shop.
+3. **One real finding is worth a person's look.** INV/2026/00568 was credited twice on the same day for
+   the same amount (two credit notes of 327,800 đ, from two identical cancellation lines in the source).
+4. **O19's two findings are about the assumptions,** not evidence: the sellers are assigned, the costs
+   assumed, and some lines are free items.
+5. **O02 and O22 held.** The origin rule of 2026-10-17 keeps real repeat orders from being called
+   duplicates.
+
+**Next, done as a measurement and not as a fit:** O21 gains a base rate, tuned on this sample (`--seed 1`)
+and measured on customers it has not seen (`--seed 2`), so that the fix is not fitted to the 36.
+

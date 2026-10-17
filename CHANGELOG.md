@@ -2,6 +2,26 @@
 
 ## 0.17.0 (unreleased)
 
+- **New: bounds on an agent, and a stop switch (DEC-2026-0182).**
+  - `agents stop --profile P` refuses every call of every `mcp serve` on that profile, from its next
+    call, with the reason you give. It also stops `routines run` and `routines due`. `agents resume`
+    lifts it.
+  - `mcp serve --max-calls N --max-writes N` bound a session.
+  - `--rate N` caps the calls in a minute (60 by default), since each call takes one of Odoo's workers
+    while it runs.
+  - Every refusal is in the trace, and nothing runs.
+- **New: `--accept`, a write judged at three levels (DEC-2026-0183).**
+  - `ODOO_VALID`: Odoo answered, the operation is verified, and its postcondition held.
+  - `INTENT_VERIFIED`: every value asked for, read back, is what Odoo holds.
+  - `RESULT_ACCEPTED`: the review checks over the weeks around the record find nothing that names it, for
+    example an invoice made twice or a tax rate that is not the product's.
+  - The result says the level reached, and why it stopped there.
+- **New: `resolve`, find records without seeing them.** It answers ids only, at most 20, from a filter on
+  plain fields. A filter on personal data or free text is refused. It is offered at data level operate, so
+  an agent that may not see the data can still find the customer's latest draft and act on it.
+- **Fixed: a line could not be added to a quotation or an RFQ.** `--order`, the order a line belongs to,
+  was refused as a read's sort order. An agent in the privacy-cost experiment found it.
+
 - **New: review checks as files (DEC-2026-0181).** A check can be a file, `odoo-cli.check/v1`, run by one
   engine.
   - **What a file holds:** the read operation it needs, how records match (`pairs` or `groups`), how a

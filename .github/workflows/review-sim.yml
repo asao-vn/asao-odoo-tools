@@ -33,6 +33,13 @@ on:
       seed:
         description: The seed of the everyday business (default 20261014).
         default: "20261014"
+      real_sales:
+        description: Add real sales of a UK online retailer (UCI Online Retail II, CC BY 4.0), nothing planted in them.
+        type: boolean
+        default: false
+      real_seed:
+        description: Which customers of the real sales to take (a seeded sample).
+        default: "1"
 
 permissions:
   contents: read
@@ -48,6 +55,15 @@ jobs:
           go-version-file: go.mod
       - name: Build odoo-cli
         run: go build -o "$RUNNER_TEMP/odoo-cli" ./cmd/odoo-cli
+      - name: Fetch and sample the real sales (UCI Online Retail II, CC BY 4.0)
+        if: inputs.real_sales
+        run: |
+          mkdir -p "$RUNNER_TEMP/uci"
+          curl -sSL -o "$RUNNER_TEMP/uci/online_retail_ii.zip" "https://archive.ics.uci.edu/static/public/502/online+retail+ii.zip"
+          echo "572e36277c2390fbfde10664750731e0a86f55e33470d91919085f0408e67bfb  $RUNNER_TEMP/uci/online_retail_ii.zip" | sha256sum -c -
+          python3 -I -c "import sys, zipfile; zipfile.ZipFile(sys.argv[1]).extract('online_retail_II.xlsx', sys.argv[2])" "$RUNNER_TEMP/uci/online_retail_ii.zip" "$RUNNER_TEMP/uci"
+          python3 -I conformance/review-sim/prepare_uci.py --xlsx "$RUNNER_TEMP/uci/online_retail_II.xlsx" --out "$RUNNER_TEMP/uci-sales.json" --seed "${{ inputs.real_seed }}"
+          echo "REAL_SALES=$RUNNER_TEMP/uci-sales.json" >> "$GITHUB_ENV"
       - name: Simulate the business, review it, score the review
         env:
           SIM_MONTHS: ${{ github.event_name == 'schedule' && '12' || inputs.months }}
