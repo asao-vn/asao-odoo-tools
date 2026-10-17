@@ -1,0 +1,53 @@
+{
+  "schema": "odoo-cli.check/v1",
+  "id": "O22",
+  "version": 1,
+  "name": "Thu tiền trùng",
+  "question": "Có khoản thu nào bị ghi hai lần không?",
+  "kind": "sai sót",
+  "formula": "two inbound payments of one customer with the same amount, <= window_days apart, at least one not reconciled",
+  "params": {"window_days": 3},
+  "source": {
+    "operation": "finance.payment.list",
+    "domain": [["state", "!=", "draft"], ["state", "!=", "canceled"]],
+    "period": "date",
+    "where": [["payment_type", "=", "inbound"]]
+  },
+  "match": {
+    "kind": "pairs",
+    "key": ["partner.id", "round(amount)"],
+    "date": "date",
+    "within": "window_days",
+    "flag": {"where": [["is_reconciled", "=", false]], "atLeast": 1}
+  },
+  "severity": [
+    {"if": "flagged_count == 1", "then": "XEM_NGAY"},
+    {"then": "NEN_XU_LY"}
+  ],
+  "finding": {
+    "title": "Một khoản thu có thể bị ghi hai lần",
+    "subject": {"type": "customer", "id": "{first.partner.id}", "name": "{first.partner.name}"},
+    "why": "{first.partner.name}: {first.name} ({first.date}) và {second.name} ({second.date}), cùng {money(first.amount)}; {join(flagged)} không khớp với hoá đơn nào.",
+    "amount": "first.amount",
+    "facts": {"daysApart": "gap", "unreconciled": "flagged"}
+  },
+  "cases": [
+    {
+      "name": "a customer payment recorded again two days later, the second left unreconciled",
+      "records": {"finance.payment.list": [
+        {"id": 11, "name": "PBNK1/0011", "payment_type": "inbound", "partner": [4, "Nhà thầu Lê Thành"], "amount": 44000000, "date": "2026-03-09", "is_reconciled": true},
+        {"id": 12, "name": "PBNK1/0012", "payment_type": "inbound", "partner": [4, "Nhà thầu Lê Thành"], "amount": 44000000, "date": "2026-03-11", "is_reconciled": false}
+      ]},
+      "expect": [{"evidence": [11, 12], "severity": "XEM_NGAY"}]
+    },
+    {
+      "name": "look-alikes: two invoices of one amount paid on one day, both reconciled; a payment out of the same amount",
+      "records": {"finance.payment.list": [
+        {"id": 21, "name": "PBNK1/0021", "payment_type": "inbound", "partner": [8, "Hộ kinh doanh Tư Sương"], "amount": 3960000, "date": "2026-01-20", "is_reconciled": true},
+        {"id": 22, "name": "PBNK1/0022", "payment_type": "inbound", "partner": [8, "Hộ kinh doanh Tư Sương"], "amount": 3960000, "date": "2026-01-20", "is_reconciled": true},
+        {"id": 23, "name": "PBNK1/0023", "payment_type": "outbound", "partner": [8, "Hộ kinh doanh Tư Sương"], "amount": 3960000, "date": "2026-01-21", "is_reconciled": false}
+      ]},
+      "expect": []
+    }
+  ]
+}

@@ -14,7 +14,9 @@ package review
 
 import (
 	"context"
+	"crypto/sha256"
 	"embed"
+	"encoding/hex"
 	"fmt"
 	"sort"
 	"strings"
@@ -61,6 +63,11 @@ type Evidence struct {
 
 // Finding is one thing to look at again.
 type Finding struct {
+	// Key names the finding the same way from one run to the next: its check and its evidence. A person's
+	// verdict on it (real or false) is kept under this key.
+	Key string `json:"key"`
+	// Verdict is the person's verdict on this key, "real" or "false", when one was given (review verdict).
+	Verdict   string                 `json:"verdict,omitempty"`
 	Check     string                 `json:"check"`
 	Title     string                 `json:"title"`
 	Severity  string                 `json:"severity"`
@@ -94,8 +101,10 @@ type Report struct {
 	Checks   []CheckInfo    `json:"checks"`
 	Findings []Finding      `json:"findings"`
 	Counts   map[string]int `json:"counts"`
-	ByCheck  map[string]int `json:"byCheck"`
-	Figures  *Figures       `json:"figures,omitempty"`
+	// ChecksNotLoaded are a team's own checks that did not load, each with why (DEC-2026-0181).
+	ChecksNotLoaded []string       `json:"checksNotLoaded,omitempty"`
+	ByCheck         map[string]int `json:"byCheck"`
+	Figures         *Figures       `json:"figures,omitempty"`
 	// FiguresNotRun says why the period's figures could not be computed, when they could not.
 	FiguresNotRun string `json:"figuresNotRun,omitempty"`
 }
@@ -202,6 +211,7 @@ func Run(ctx context.Context, reader Reader, options Options) (*Report, error) {
 			if found[index].Evidence == nil {
 				found[index].Evidence = []Evidence{}
 			}
+			found[index].Key = FindingKey(c.id, found[index].Evidence)
 			report.Counts[found[index].Severity]++
 			report.ByCheck[c.id]++
 		}
@@ -254,4 +264,15 @@ func trimFloat(value float64) string {
 		return fmt.Sprintf("%d", int64(value))
 	}
 	return strings.TrimRight(strings.TrimRight(fmt.Sprintf("%.4f", value), "0"), ".")
+}
+
+// FindingKey is a finding's key: its check and its evidence, in a short stable form.
+func FindingKey(check string, evidence []Evidence) string {
+	parts := make([]string, len(evidence))
+	for i, e := range evidence {
+		parts[i] = fmt.Sprintf("%s#%d", e.Operation, e.ID)
+	}
+	sort.Strings(parts)
+	sum := sha256.Sum256([]byte(check + "|" + strings.Join(parts, ",")))
+	return check + "-" + hex.EncodeToString(sum[:])[:12]
 }

@@ -1,0 +1,59 @@
+{
+  "schema": "odoo-cli.check/v1",
+  "id": "O23",
+  "version": 1,
+  "name": "Chi phí kê hai lần",
+  "question": "Có ai kê cùng một khoản chi phí hai lần không?",
+  "kind": "sai sót",
+  "formula": "two claims of one employee with the same amount, <= window_days apart",
+  "params": {"window_days": 3},
+  "source": {
+    "operation": "people.expense.list",
+    "period": "date",
+    "where": [["state", "not in", ["draft", "refused"]]]
+  },
+  "match": {
+    "kind": "pairs",
+    "key": ["employee_id.id", "round(total_amount)"],
+    "date": "date",
+    "order": ["date", "id"],
+    "within": "window_days"
+  },
+  "severity": [
+    {"if": "gap == 0", "then": "XEM_NGAY"},
+    {"then": "NEN_XU_LY"}
+  ],
+  "finding": {
+    "title": "Một khoản chi phí có thể bị kê hai lần",
+    "subject": {"type": "employee", "id": "{first.employee_id.id}", "name": "{first.employee_id.name}"},
+    "why": "{first.employee_id.name}: '{first.name}' ({first.date}) và '{second.name}' ({second.date}), cùng {money(first.total_amount)}.",
+    "amount": "second.total_amount",
+    "facts": {"employee": "{first.employee_id.name}", "daysApart": "gap"}
+  },
+  "cases": [
+    {
+      "name": "the same reception claimed twice on one day, and a parking fee twice two days apart",
+      "records": {"people.expense.list": [
+        {"id": 1, "name": "Tiếp khách công trình", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-07-18", "total_amount": 1250000, "state": "approved"},
+        {"id": 2, "name": "Tiếp khách CT", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-07-18", "total_amount": 1250000, "state": "approved"},
+        {"id": 3, "name": "Gửi xe", "employee_id": [8, "Trần Văn Bình"], "date": "2026-01-13", "total_amount": 180000, "state": "approved"},
+        {"id": 4, "name": "Gửi xe", "employee_id": [8, "Trần Văn Bình"], "date": "2026-01-15", "total_amount": 180000, "state": "posted"}
+      ]},
+      "expect": [
+        {"evidence": [3, 4], "severity": "NEN_XU_LY"},
+        {"evidence": [1, 2], "severity": "XEM_NGAY"}
+      ]
+    },
+    {
+      "name": "look-alikes: two people's lunch on one day, the same amount a month apart, a refused claim",
+      "records": {"people.expense.list": [
+        {"id": 5, "name": "Ăn trưa", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-03-19", "total_amount": 350000, "state": "approved"},
+        {"id": 6, "name": "Ăn trưa", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-03-19", "total_amount": 350000, "state": "approved"},
+        {"id": 7, "name": "Xăng", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-04-02", "total_amount": 400000, "state": "approved"},
+        {"id": 8, "name": "Xăng", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-05-02", "total_amount": 400000, "state": "approved"},
+        {"id": 9, "name": "Xăng", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-05-03", "total_amount": 400000, "state": "refused"}
+      ]},
+      "expect": []
+    }
+  ]
+}

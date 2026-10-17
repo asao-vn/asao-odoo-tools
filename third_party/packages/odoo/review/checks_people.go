@@ -10,14 +10,6 @@ import (
 
 func init() {
 	register(check{
-		id: "O23", name: "Chi phí kê hai lần", kind: kindErr,
-		question: "Có ai kê cùng một khoản chi phí hai lần không?",
-		needs:    []string{opExpense},
-		formula:  "two claims of one employee with the same amount, <= window_days apart",
-		params:   map[string]float64{"window_days": 3},
-		run:      duplicateExpenses,
-	})
-	register(check{
 		id: "O24", name: "Chi phí vào ngày nghỉ phép", kind: kindSign,
 		question: "Có ai kê chi phí công việc vào ngày đang nghỉ phép không?",
 		needs:    []string{opExpense, opLeave},
@@ -52,57 +44,6 @@ func claims(ctx context.Context, b *books) ([]map[string]interface{}, error) {
 		state := text(row["state"])
 		if b.inPeriod(row["date"]) && state != "draft" && state != "refused" {
 			out = append(out, row)
-		}
-	}
-	return out, nil
-}
-
-func duplicateExpenses(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {
-	rows, err := claims(ctx, b)
-	if err != nil {
-		return nil, err
-	}
-	byKey := map[string][]map[string]interface{}{}
-	var keys []string
-	for _, row := range rows {
-		key := fmt.Sprintf("%d/%d", relID(row["employee_id"]), int64(math.Round(num(row["total_amount"]))))
-		if _, seen := byKey[key]; !seen {
-			keys = append(keys, key)
-		}
-		byKey[key] = append(byKey[key], row)
-	}
-	sort.Strings(keys)
-	var out []Finding
-	for _, key := range keys {
-		same := byKey[key]
-		sort.SliceStable(same, func(i, j int) bool {
-			if text(same[i]["date"]) != text(same[j]["date"]) {
-				return text(same[i]["date"]) < text(same[j]["date"])
-			}
-			return relID(same[i]["id"]) < relID(same[j]["id"])
-		})
-		for i := 0; i+1 < len(same); i++ {
-			first, second := same[i], same[i+1]
-			d1, _ := parseDay(first["date"])
-			d2, _ := parseDay(second["date"])
-			gap := d1.daysUntil(d2)
-			if float64(gap) > p["window_days"] {
-				continue
-			}
-			severity := NenXuLy
-			if gap == 0 {
-				severity = XemNgay
-			}
-			employee := relName(first["employee_id"])
-			out = append(out, Finding{
-				Title: "Một khoản chi phí có thể bị kê hai lần", Severity: severity,
-				Subject: Subject{Type: "employee", ID: fmt.Sprint(relID(first["employee_id"])), Name: employee},
-				Why: fmt.Sprintf("%s: %s (%s) và %s (%s), cùng %s.", employee, quoted(text(first["name"])), text(first["date"]),
-					quoted(text(second["name"])), text(second["date"]), money(num(first["total_amount"]))),
-				AmountVND: num(second["total_amount"]),
-				Evidence:  []Evidence{evidence(opExpense, first, ""), evidence(opExpense, second, "")},
-				Facts:     map[string]interface{}{"employee": employee, "daysApart": gap},
-			})
 		}
 	}
 	return out, nil

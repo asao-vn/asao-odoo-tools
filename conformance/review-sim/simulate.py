@@ -9,7 +9,8 @@ import json
 import os
 import random
 
-rng = random.Random(20261014)
+# SIM_SEED draws another everyday business around the same planted cases: the weekly run uses a new one.
+rng = random.Random(int(os.environ.get("SIM_SEED", "20261014")))
 D = datetime.date
 # How big a business to write (run.sh passes them through the lab). The defaults write the business measured
 # on 2026-10-15, draw for draw: SIM_MONTHS months ending with September 2026, SIM_SCALE times the regular sales,

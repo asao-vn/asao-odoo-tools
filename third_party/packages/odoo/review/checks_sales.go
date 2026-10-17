@@ -34,14 +34,6 @@ func init() {
 		run:      creditNoteAfterPayment,
 	})
 	register(check{
-		id: "O22", name: "Thu tiền trùng", kind: kindErr,
-		question: "Có khoản thu nào bị ghi hai lần không?",
-		needs:    []string{opPayment},
-		formula:  "two inbound payments of one customer with the same amount, <= window_days apart, at least one not reconciled",
-		params:   map[string]float64{"window_days": 3},
-		run:      duplicatePayments,
-	})
-	register(check{
 		id: "O02", name: "Hoá đơn bán trùng", kind: kindErr,
 		question: "Có khách nào bị xuất hoá đơn hai lần cho cùng một lần bán không?",
 		needs:    []string{opInvoice, opLine},
@@ -322,62 +314,6 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 			Evidence:  []Evidence{evidence(opInvoice, original, ""), evidence(opInvoice, refund, "")},
 			Facts:     map[string]interface{}{"daysAfter": gap, "seller": relName(original["invoice_user_id"]), "refundedOut": refunded},
 		})
-	}
-	return out, nil
-}
-
-func duplicatePayments(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {
-	payments, err := b.payments(ctx, false)
-	if err != nil {
-		return nil, err
-	}
-	byKey := map[string][]map[string]interface{}{}
-	var keys []string
-	for _, payment := range payments {
-		if text(payment["payment_type"]) != "inbound" {
-			continue
-		}
-		key := fmt.Sprintf("%d/%d", relID(payment["partner"]), int64(math.Round(num(payment["amount"]))))
-		if _, seen := byKey[key]; !seen {
-			keys = append(keys, key)
-		}
-		byKey[key] = append(byKey[key], payment)
-	}
-	sort.Strings(keys)
-	var out []Finding
-	for _, key := range keys {
-		same := byKey[key]
-		sort.SliceStable(same, func(i, j int) bool { return text(same[i]["date"]) < text(same[j]["date"]) })
-		for i := 0; i+1 < len(same); i++ {
-			first, second := same[i], same[i+1]
-			d1, _ := parseDay(first["date"])
-			d2, _ := parseDay(second["date"])
-			gap := d1.daysUntil(d2)
-			var loose []string
-			for _, payment := range []map[string]interface{}{first, second} {
-				if reconciled, isBool := payment["is_reconciled"].(bool); isBool && !reconciled {
-					loose = append(loose, text(payment["name"]))
-				}
-			}
-			if float64(gap) > p["window_days"] || len(loose) == 0 {
-				continue
-			}
-			severity := NenXuLy
-			if len(loose) == 1 {
-				severity = XemNgay
-			}
-			customer := relName(first["partner"])
-			out = append(out, Finding{
-				Title: "Một khoản thu có thể bị ghi hai lần", Severity: severity,
-				Subject: Subject{Type: "customer", ID: fmt.Sprint(relID(first["partner"])), Name: customer},
-				Why: fmt.Sprintf("%s: %s (%s) và %s (%s), cùng %s; %s không khớp với hoá đơn nào.",
-					customer, text(first["name"]), text(first["date"]), text(second["name"]), text(second["date"]),
-					money(num(first["amount"])), strings.Join(loose, ", ")),
-				AmountVND: num(first["amount"]),
-				Evidence:  []Evidence{evidence(opPayment, first, ""), evidence(opPayment, second, "")},
-				Facts:     map[string]interface{}{"daysApart": gap, "unreconciled": loose},
-			})
-		}
 	}
 	return out, nil
 }

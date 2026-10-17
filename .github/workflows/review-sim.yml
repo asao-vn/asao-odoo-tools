@@ -7,6 +7,10 @@ name: review-sim
 # conformance/review-sim/run.sh --out /tmp/review-sim
 
 on:
+  # Weekly: the 12-month trader with everyday noise and the held-out set, on a new seed each week, so a check
+  # that holds only on one draw of the business fails where its owners see it (DEC-2026-0181).
+  schedule:
+    - cron: "17 2 * * 1"
   workflow_dispatch:
     inputs:
       months:
@@ -26,6 +30,9 @@ on:
         description: Add the held-out set (needs 12 months or more).
         type: boolean
         default: false
+      seed:
+        description: The seed of the everyday business (default 20261014).
+        default: "20261014"
 
 permissions:
   contents: read
@@ -43,11 +50,12 @@ jobs:
         run: go build -o "$RUNNER_TEMP/odoo-cli" ./cmd/odoo-cli
       - name: Simulate the business, review it, score the review
         env:
-          SIM_MONTHS: ${{ inputs.months }}
-          SIM_SCALE: ${{ inputs.scale }}
-          SIM_MESS: ${{ inputs.mess && '1' || '' }}
-          SIM_PROFILE: ${{ inputs.profile }}
-          SIM_FRESH: ${{ inputs.fresh && '1' || '' }}
+          SIM_MONTHS: ${{ github.event_name == 'schedule' && '12' || inputs.months }}
+          SIM_SCALE: ${{ github.event_name == 'schedule' && '1' || inputs.scale }}
+          SIM_MESS: ${{ (github.event_name == 'schedule' || inputs.mess) && '1' || '' }}
+          SIM_PROFILE: ${{ github.event_name == 'schedule' && 'trader' || inputs.profile }}
+          SIM_FRESH: ${{ (github.event_name == 'schedule' || inputs.fresh) && '1' || '' }}
+          SIM_SEED: ${{ github.event_name == 'schedule' && github.run_number || inputs.seed }}
         run: conformance/review-sim/run.sh --out "$RUNNER_TEMP/review-sim" --engine docker --odoo-bin "$RUNNER_TEMP/odoo-cli"
       - name: Summary
         if: always()

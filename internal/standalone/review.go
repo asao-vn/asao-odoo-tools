@@ -66,9 +66,14 @@ reason. "review checks" lists the checks with the note an agent reads before it 
 		SideEffect:  clicore.EffectNone,
 		Authority:   localAuthority,
 		AgentAccess: clicore.AgentAccessRead,
-		Flags:       []clicore.Flag{{Name: "check", Kind: clicore.KindString, Repeatable: true, Description: "Only this check (repeatable)."}},
-		Examples:    []string{config.name + " review checks --output json", config.name + " review checks --check O17 --output json"},
+		Flags: []clicore.Flag{{Name: "check", Kind: clicore.KindString, Repeatable: true, Description: "Only this check (repeatable)."},
+			personalProfileFlag()},
+		Examples: []string{config.name + " review checks --output json", config.name + " review checks --check O17 --output json"},
 		Run: func(_ context.Context, invocation *clicore.Invocation) (interface{}, error) {
+			// A team's own checks are listed with the built-in ones when a profile resolves.
+			if name, err := profileName(invocation, config); err == nil {
+				loadProfileChecks(name)
+			}
 			only := map[string]bool{}
 			for _, id := range invocation.StringSlice("check") {
 				only[strings.ToUpper(strings.TrimSpace(id))] = true
@@ -88,7 +93,7 @@ reason. "review checks" lists the checks with the note an agent reads before it 
 	return &clicore.Command{
 		Name:     "review",
 		Summary:  "Review an Odoo's books over a period: what to look at again, and what the period looked like.",
-		Children: []*clicore.Command{run, checks},
+		Children: append([]*clicore.Command{run, checks}, reviewTeamCommands(config)...),
 	}
 }
 
@@ -120,6 +125,11 @@ func runReview(ctx context.Context, invocation *clicore.Invocation, config progr
 	if to.Before(from) {
 		return nil, clicore.UsageError("INVALID_PERIOD", "--to is before --from")
 	}
+	profile, err := profileName(invocation, config)
+	if err != nil {
+		return nil, err
+	}
+	notLoaded := loadProfileChecks(profile)
 	known := map[string]bool{}
 	for _, c := range review.Catalog() {
 		known[c.ID] = true
@@ -166,6 +176,8 @@ func runReview(ctx context.Context, invocation *clicore.Invocation, config progr
 		}
 		return nil, clicore.InternalError(err)
 	}
+	annotateVerdicts(report, profile)
+	report.ChecksNotLoaded = notLoaded
 	if path := strings.TrimSpace(invocation.String("markdown-file")); path != "" {
 		if err := os.WriteFile(path, []byte(review.Markdown(report, invocation.String("company"))), 0o600); err != nil {
 			return nil, clicore.NewError(clicore.CategoryConfig, "REVIEW_FILE_NOT_WRITTEN", fmt.Sprintf("could not write %s: %v", path, err))

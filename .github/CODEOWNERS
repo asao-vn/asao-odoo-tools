@@ -1,0 +1,6 @@
+# Review checks are kept as software (DEC-2026-0181): every change to a check file, the engine that runs
+# them, or the simulation that measures them is reviewed by their owners before it is merged.
+/third_party/packages/odoo/review/          @NguyenHuuHoang711
+/third_party/packages/odoo/review/checks/   @NguyenHuuHoang711
+/conformance/review-sim/                    @NguyenHuuHoang711
+/docs/checks.md                             @NguyenHuuHoang711

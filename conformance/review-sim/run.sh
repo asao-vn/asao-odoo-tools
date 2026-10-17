@@ -14,7 +14,7 @@
 set -euo pipefail
 
 OUT=""; ENGINE=""; BIN=""; KEEP=false
-SIM_MONTHS="${SIM_MONTHS:-6}"; SIM_SCALE="${SIM_SCALE:-1}"; SIM_MESS="${SIM_MESS:-}"; SIM_PROFILE="${SIM_PROFILE:-trader}"; SIM_FRESH="${SIM_FRESH:-}"
+SIM_MONTHS="${SIM_MONTHS:-6}"; SIM_SCALE="${SIM_SCALE:-1}"; SIM_MESS="${SIM_MESS:-}"; SIM_PROFILE="${SIM_PROFILE:-trader}"; SIM_FRESH="${SIM_FRESH:-}"; SIM_SEED="${SIM_SEED:-20261014}"
 while [ $# -gt 0 ]; do
   case "$1" in
     --out) OUT="$2"; shift 2 ;;
@@ -23,6 +23,7 @@ while [ $# -gt 0 ]; do
     --mess) SIM_MESS=1; shift ;;
     --profile) SIM_PROFILE="$2"; shift 2 ;;
     --fresh) SIM_FRESH=1; shift ;;
+    --seed) SIM_SEED="$2"; shift 2 ;;
     --engine) ENGINE="$2"; shift 2 ;;
     --odoo-bin) BIN="$2"; shift 2 ;;
     --keep) KEEP=true; shift ;;
@@ -47,8 +48,8 @@ fi
 
 "$HERE/lab-up.sh" --out "$OUT" --engine "$ENGINE"
 
-echo "[$(date +%T)] simulating the business: $SIM_PROFILE, $SIM_MONTHS months, sales x$SIM_SCALE${SIM_MESS:+, with everyday noise}${SIM_FRESH:+, with the held-out set}"
-"$ENGINE" exec -i -e SIM_MONTHS="$SIM_MONTHS" -e SIM_SCALE="$SIM_SCALE" -e SIM_MESS="$SIM_MESS" -e SIM_PROFILE="$SIM_PROFILE" -e SIM_FRESH="$SIM_FRESH" odoo-review-sim-web sh -c 'odoo shell --db_host="$HOST" --db_user="$USER" --db_password="$PASSWORD" -d reviewsim --no-http --log-level=error' \
+echo "[$(date +%T)] simulating the business: $SIM_PROFILE, $SIM_MONTHS months, sales x$SIM_SCALE${SIM_MESS:+, with everyday noise}${SIM_FRESH:+, with the held-out set}, seed $SIM_SEED"
+"$ENGINE" exec -i -e SIM_MONTHS="$SIM_MONTHS" -e SIM_SCALE="$SIM_SCALE" -e SIM_MESS="$SIM_MESS" -e SIM_PROFILE="$SIM_PROFILE" -e SIM_FRESH="$SIM_FRESH" -e SIM_SEED="$SIM_SEED" odoo-review-sim-web sh -c 'odoo shell --db_host="$HOST" --db_user="$USER" --db_password="$PASSWORD" -d reviewsim --no-http --log-level=error' \
   < "$HERE/simulate.py" > "$OUT/sim.out" 2> "$OUT/sim.log"
 grep '^SIM ' "$OUT/sim.out" || { tail -30 "$OUT/sim.log" >&2; exit 1; }
 sed -n 's/^TRUTH=//p' "$OUT/sim.out" > "$OUT/truth.json"

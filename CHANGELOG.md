@@ -2,6 +2,24 @@
 
 ## 0.17.0 (unreleased)
 
+- **New: review checks as files (DEC-2026-0181).** A check can be a file, `odoo-cli.check/v1`, run by one
+  engine.
+  - **What a file holds:** the read operation it needs, how records match (`pairs` or `groups`), how a
+    finding reads, and its own cases, at least one to flag and one to leave alone.
+  - **Commands:**
+    - `review test-check` checks a file and runs its cases;
+    - `review add-check` and `remove-check` keep a team's own checks per profile. These run beside the
+      built-in ones, and their cases run again each time they load.
+  - **Two built-in checks moved:** O22 and O23 are now files. Both versions gave byte-identical findings
+    on 786 random cases before the Go code was removed. Guide: [docs/checks.md](docs/checks.md).
+- **New: verdicts and precision.**
+  - Every finding has a stable `key`.
+  - `review verdict --finding KEY --real|--false-alarm` keeps the person's judgement, which later runs show
+    on the finding.
+  - `review precision` gives each check's share of real findings, and lists the false alarms to turn into
+    cases.
+- **The review simulation runs every week,** on a new seed: 12 months, with noise and the held-out set.
+
 - **New: a trace of what agents did.** Every tool call an agent makes through `mcp serve` is appended
   to a local journal of the profile it ran against, chained by hashes. An entry holds:
   - when, which agent host, and the command line you saw;
