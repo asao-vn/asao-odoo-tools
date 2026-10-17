@@ -8,6 +8,17 @@ name: review-sim
 
 on:
   workflow_dispatch:
+    inputs:
+      months:
+        description: Months of business, ending with September 2026.
+        default: "6"
+      scale:
+        description: How many times the regular sales.
+        default: "1"
+      mess:
+        description: Add a real shop's everyday noise (returns, part payments, discounts, a clearance week, cancellations).
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -24,6 +35,10 @@ jobs:
       - name: Build odoo-cli
         run: go build -o "$RUNNER_TEMP/odoo-cli" ./cmd/odoo-cli
       - name: Simulate the business, review it, score the review
+        env:
+          SIM_MONTHS: ${{ inputs.months }}
+          SIM_SCALE: ${{ inputs.scale }}
+          SIM_MESS: ${{ inputs.mess && '1' || '' }}
         run: conformance/review-sim/run.sh --out "$RUNNER_TEMP/review-sim" --engine docker --odoo-bin "$RUNNER_TEMP/odoo-cli"
       - name: Summary
         if: always()

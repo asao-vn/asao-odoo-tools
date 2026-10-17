@@ -6,11 +6,27 @@
 # catch it and the records that prove it. Deterministic: the same seed writes the same business.
 import datetime
 import json
+import os
 import random
 
 rng = random.Random(20261014)
 D = datetime.date
-START, END = D(2026, 4, 1), D(2026, 9, 30)
+# How big a business to write (run.sh passes them through the lab). The defaults write the business measured
+# on 2026-10-15, draw for draw: SIM_MONTHS months ending with September 2026, SIM_SCALE times the regular sales,
+# and with SIM_MESS=1 the everyday noise of a real shop (returns, part payments, discounts, a clearance week,
+# cancelled orders), none of it planted: what the checks must not take for fraud.
+MONTHS = int(os.environ.get("SIM_MONTHS", "6"))
+SCALE = float(os.environ.get("SIM_SCALE", "1"))
+MESS = os.environ.get("SIM_MESS", "") == "1"
+END = D(2026, 9, 30)
+START = D(2026 + (10 - MONTHS - 1) // 12, (10 - MONTHS - 1) % 12 + 1, 1)
+
+
+def months_of_period():
+    year, month = START.year, START.month
+    while (year, month) <= (END.year, END.month):
+        yield year, month
+        year, month = (year + 1, 1) if month == 12 else (year, month + 1)
 truth = []      # {"case", "check", "kind": "planted"|"decoy", "records": [...], "note"}
 
 
@@ -186,7 +202,8 @@ AS_OF = END
 sellers = ["lan", "hung", "tuan"]
 # Regular sales: about two orders a working day, paid 5..40 days later (a few never: the receivables).
 for d in workdays(START, END):
-    for _ in range(rng.choice([1, 2, 2, 3])):
+    orders = rng.choice([1, 2, 2, 3])
+    for _ in range(orders if SCALE == 1 else round(orders * SCALE)):
         customer = rng.choice(customers)
         keys = rng.sample(list(P), rng.randint(1, 3))
         lines = [(k, rng.choice([5, 10, 20, 50, 100]) if P[k].lst_price < 400_000 else rng.randint(1, 6), None, None) for k in keys]
@@ -211,12 +228,12 @@ for d in workdays(START, END):
 
 # Monthly overheads: warehouse rent (the same 15 million every month: a DECOY for duplicate checks) and power.
 rent_bills = []
-for month in range(4, 10):
-    d = D(2026, month, 5)
-    rent_bills.append(bill(landlord, d, "TK-%02d/2026" % month, 15_000_000, "Thuê kho tháng %d/2026" % month,
+for year, month in months_of_period():
+    d = D(year, month, 5)
+    rent_bills.append(bill(landlord, d, "TK-%02d/%d" % (month, year), 15_000_000, "Thuê kho tháng %d/%d" % (month, year),
                            pay_on=d + datetime.timedelta(days=3)).name)
-    bill(utility, D(2026, month, 12), "PE%02d2026-%04d" % (month, 300 + month), rng.randint(3_200_000, 4_800_000),
-         "Tiền điện tháng %d" % month, pay_on=D(2026, month, 15), taxes=[PUR10])
+    bill(utility, D(year, month, 12), "PE%02d%d-%04d" % (month, year, 300 + month), rng.randint(3_200_000, 4_800_000),
+         "Tiền điện tháng %d" % month, pay_on=D(year, month, 15), taxes=[PUR10])
 plant("rent-same-amount", "O01", rent_bills, "15 triệu mỗi tháng, số tham chiếu khác nhau: hợp lệ, không được báo", kind="decoy")
 
 # Expenses: everyone claims a few a month, odd amounts.
@@ -245,9 +262,9 @@ def expense(key, when, amount, label):
 
 
 for key in ["lan", "hung", "tuan", "binh"]:
-    for month in range(4, 10):
+    for year, month in months_of_period():
         for _ in range(rng.randint(2, 4)):
-            when = D(2026, month, rng.randint(1, 28))
+            when = D(year, month, rng.randint(1, 28))
             expense(key, when, rng.randrange(85_000, 1_400_000, 1_000) + rng.choice([0, 500]), rng.choice(cats))
 env.cr.commit()
 
@@ -476,6 +493,74 @@ bank_day = [bill(stationer, D(2026, 9, 17), "VPP-0917-%d" % i, amount, "Văn ph�
             enumerate([2_000_000, 2_000_000, 1_000_000], 1)]
 pay(bank_day[0] | bank_day[1] | bank_day[2], D(2026, 9, 17))
 plant("same-day-bills-over-5m-by-bank", "O29", [b.name for b in bank_day], "3 hoá đơn cùng ngày cộng 5,5 triệu, chuyển khoản: hợp lệ", kind="decoy")
+
+# ====================================== everyday noise (SIM_MESS=1) ==============================
+# What a real shop does all year that is no fraud, and that a check must not take for one: each kind is a
+# look-alike in the truth. It draws from its own generator, so the business above is the same with or
+# without it.
+if MESS:
+    noise = random.Random(20261017)
+
+    def paid_on(when):
+        return when if when <= AS_OF else None
+
+    regular = list(env["account.move"].search([("move_type", "=", "out_invoice"), ("state", "=", "posted"),
+                                               ("invoice_date", "<=", D(2026, 9, 10))], order="id"))
+    # Returns: a customer sends part of a delivery back within three weeks and gets a credit note for it.
+    returned = []
+    for invoice in noise.sample(regular, k=max(1, len(regular) * 3 // 100)):
+        refund = credit(invoice, invoice.invoice_date + datetime.timedelta(days=noise.randint(3, 21)), share=noise.choice([0.2, 0.3, 0.5]))
+        returned += [invoice.name, refund.name]
+    plant("partial-returns-credited", "O21", returned, "Khách trả lại một phần hàng trong 3 tuần, có giảm trừ: bình thường", kind="decoy")
+    # Part payments: a customer pays an invoice in two parts, weeks apart.
+    unpaid = [m for m in regular if m.payment_state == "not_paid" and m.name not in returned]
+    parted = []
+    for invoice in noise.sample(unpaid, k=min(len(unpaid), max(1, len(regular) * 4 // 100))):
+        first = invoice.invoice_date + datetime.timedelta(days=noise.randint(10, 20))
+        second = first + datetime.timedelta(days=noise.randint(14, 35))
+        if second > AS_OF:
+            continue
+        pay(invoice, first, amount=round(invoice.amount_residual * noise.choice([0.3, 0.4, 0.5])))
+        pay(invoice, second)
+        parted.append(invoice.name)
+    plant("customer-pays-in-two-parts", "O22", parted, "Khách trả một hoá đơn làm hai lần cách nhau vài tuần: bình thường", kind="decoy")
+    # Instalments: a supplier bill paid in two halves a month apart.
+    open_bills = list(env["account.move"].search([("move_type", "=", "in_invoice"), ("state", "=", "posted"),
+                                                  ("payment_state", "=", "not_paid"), ("invoice_date", "<=", D(2026, 8, 15))], order="id"))
+    instalments = []
+    for open_bill in noise.sample(open_bills, k=min(len(open_bills), 3)):
+        pay(open_bill, open_bill.invoice_date + datetime.timedelta(days=10), amount=round(open_bill.amount_residual / 2))
+        pay(open_bill, open_bill.invoice_date + datetime.timedelta(days=40))
+        instalments.append(open_bill.name)
+    plant("bill-paid-in-instalments", "O07", instalments, "Hoá đơn NCC trả hai kỳ cách nhau một tháng: bình thường", kind="decoy")
+    # Discounts: a regular customer gets 3 to 8 percent off from any seller, still above cost.
+    discounted = []
+    for d in noise.sample(workdays(START, D(2026, 9, 15)), k=12):
+        k = noise.choice(list(P))
+        price = round(P[k].lst_price * (1 - noise.choice([0.03, 0.05, 0.08])))
+        qty = noise.randint(2, 6) if P[k].lst_price >= 400_000 else 20
+        _, inv = sale(noise.choice(customers), noise.choice(sellers), d, [(k, qty, price, None)],
+                      pay_on=paid_on(d + datetime.timedelta(days=noise.randint(5, 25))))
+        discounted.append(inv.name)
+    plant("discounts-above-cost", "O19", discounted, "Giảm giá 3-8% cho khách quen, vẫn trên giá vốn: bình thường", kind="decoy")
+    # A clearance week: in the last week of August every seller sells the old primer below cost.
+    clearance = []
+    for offset in range(5):
+        d = D(2026, 8, 24) + datetime.timedelta(days=offset)
+        for seller in sellers:
+            _, inv = sale(noise.choice(customers), seller, d, [("sonlot", noise.randint(1, 3), round(P["sonlot"].standard_price * 0.9), None)],
+                          pay_on=paid_on(d + datetime.timedelta(days=7)))
+            clearance.append(inv.name)
+    plant("clearance-week-below-cost", "O19", clearance, "Tuần xả hàng cuối tháng 8: cả ba người bán đều bán sơn lót dưới giá vốn: bình thường", kind="decoy")
+    # Cancelled orders: confirmed, then cancelled before anything left the warehouse.
+    for d in noise.sample(workdays(START, D(2026, 9, 15)), k=8):
+        so = env["sale.order"].with_user(U[noise.choice(sellers)]).sudo().create({
+            "partner_id": noise.choice(customers).id,
+            "order_line": [(0, 0, {"product_id": P[noise.choice(list(P))].id, "product_uom_qty": 5})]})
+        so.action_confirm()
+        so._action_cancel()
+        so.date_order = datetime.datetime.combine(d, datetime.time(9))
+    env.cr.commit()
 
 # A business writes its documents on their day: Odoo stamped every record with the moment this script ran,
 # so each one's creation moves to its accounting date, and the backdated cases to when they were really made.

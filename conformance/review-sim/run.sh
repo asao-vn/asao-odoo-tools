@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run.sh --out DIR [--engine docker|podman] [--odoo-bin PATH] [--keep]
+# run.sh --out DIR [--engine docker|podman] [--odoo-bin PATH] [--months N] [--scale X] [--mess] [--keep]
 #
 # The review simulation from start to end, on any machine with Docker or Podman:
 # 1. a throwaway Odoo 19 with the Vietnamese chart and no demo data (lab-up.sh);
@@ -8,19 +8,25 @@
 # 4. the score against the truth (score.py): caught or missed, look-alikes left alone or flagged;
 # 5. summary.md. The lab is removed at the end unless --keep. Exits 1 when a planted case was missed or a
 #    look-alike flagged, as score.py does.
+# --months, --scale and --mess size the business (simulate.py: SIM_MONTHS, SIM_SCALE, SIM_MESS); without them
+# it is the business measured on 2026-10-15.
 set -euo pipefail
 
 OUT=""; ENGINE=""; BIN=""; KEEP=false
+SIM_MONTHS="${SIM_MONTHS:-6}"; SIM_SCALE="${SIM_SCALE:-1}"; SIM_MESS="${SIM_MESS:-}"
 while [ $# -gt 0 ]; do
   case "$1" in
     --out) OUT="$2"; shift 2 ;;
+    --months) SIM_MONTHS="$2"; shift 2 ;;
+    --scale) SIM_SCALE="$2"; shift 2 ;;
+    --mess) SIM_MESS=1; shift ;;
     --engine) ENGINE="$2"; shift 2 ;;
     --odoo-bin) BIN="$2"; shift 2 ;;
     --keep) KEEP=true; shift ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
-[ -n "$OUT" ] || { echo "usage: $0 --out DIR [--engine docker|podman] [--odoo-bin PATH] [--keep]" >&2; exit 2; }
+[ -n "$OUT" ] || { echo "usage: $0 --out DIR [--engine docker|podman] [--odoo-bin PATH] [--months N] [--scale X] [--mess] [--keep]" >&2; exit 2; }
 ENGINE="${ENGINE:-$(command -v docker >/dev/null 2>&1 && echo docker || echo podman)}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 mkdir -p "$OUT"
@@ -38,8 +44,8 @@ fi
 
 "$HERE/lab-up.sh" --out "$OUT" --engine "$ENGINE"
 
-echo "[$(date +%T)] simulating the business"
-"$ENGINE" exec -i odoo-review-sim-web sh -c 'odoo shell --db_host="$HOST" --db_user="$USER" --db_password="$PASSWORD" -d reviewsim --no-http --log-level=error' \
+echo "[$(date +%T)] simulating the business: $SIM_MONTHS months, sales x$SIM_SCALE${SIM_MESS:+, with everyday noise}"
+"$ENGINE" exec -i -e SIM_MONTHS="$SIM_MONTHS" -e SIM_SCALE="$SIM_SCALE" -e SIM_MESS="$SIM_MESS" odoo-review-sim-web sh -c 'odoo shell --db_host="$HOST" --db_user="$USER" --db_password="$PASSWORD" -d reviewsim --no-http --log-level=error' \
   < "$HERE/simulate.py" > "$OUT/sim.out" 2> "$OUT/sim.log"
 grep '^SIM ' "$OUT/sim.out" || { tail -30 "$OUT/sim.log" >&2; exit 1; }
 sed -n 's/^TRUTH=//p' "$OUT/sim.out" > "$OUT/truth.json"
