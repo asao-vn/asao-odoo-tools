@@ -1,6 +1,7 @@
 package standalone
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
@@ -19,6 +20,16 @@ func TestReadFlagsAreRefusedOnAWrite(t *testing.T) {
 		if code != clicore.ExitUsage || errorCode(envelope) != "AERP_READ_FLAG_ON_WRITE" {
 			t.Errorf("%v: %d %v", flags, code, envelope["error"])
 		}
+	}
+	// A write whose own input is named like a read flag takes it as that input: --order is the order a
+	// quotation line belongs to, and the call goes on to look for its profile.
+	if _, envelope := runRoutinesCommand(t, "execute", "--operation", "sales.quotation.line.add", "--set", "order=7", "--set", "product=9", "--order", "7"); errorCode(envelope) == "AERP_READ_FLAG_ON_WRITE" {
+		t.Fatalf("an input named order was refused as a read flag: %v", envelope["error"])
+	}
+	// The generated command, as an agent calls it: past the guard, it goes on to look for its profile.
+	_, out, _ := runTrace(t, "sales", "quotation", "line", "add", "--order", "7", "--product", "9", "--quantity", "10", "--output", "json")
+	if strings.Contains(string(out), "AERP_READ_FLAG_ON_WRITE") || !strings.Contains(string(out), "PROFILE_FILE_NOT_FOUND") {
+		t.Fatalf("sales quotation line add --order: %s", out)
 	}
 	// A read takes them, and goes on to look for its profile.
 	if _, envelope := runRoutinesCommand(t, "execute", "--operation", "sales.quotation.list", "--limit", "5"); errorCode(envelope) == "AERP_READ_FLAG_ON_WRITE" {

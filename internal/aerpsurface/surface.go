@@ -325,9 +325,16 @@ func (s Surface) BuildRequest(invocation *clicore.Invocation) (direct.Request, e
 	// that changes the provider. A caller that pages through what it believes is a read must never
 	// run a write: the asao-erp SDK's read() passed --limit to any operation it was given, so a write
 	// named by mistake ran (found in the review of 16/10/2026).
+	// A flag of the same name as one of the operation's own inputs is that input, not a read flag:
+	// sales.quotation.line.add and procurement.rfq.line.add take --order, the order a line belongs to
+	// (refused as a sort order until an agent found it, 17/10/2026).
+	inputs := map[string]bool{}
+	for _, field := range operation.Inputs {
+		inputs[field.Name] = true
+	}
 	if operation.Kind != "READ" && operation.Strategy != "READ" {
 		for _, name := range []string{"filter", "limit", "offset", "order", "group-by", "aggregate"} {
-			if invocation.Has(name) {
+			if invocation.Has(name) && !inputs[name] {
 				return direct.Request{}, clicore.UsageError("AERP_READ_FLAG_ON_WRITE",
 					"--%s shapes a read, and %s changes the provider (%s)", name, operationID, operation.Strategy).
 					WithContextValue("flag", name).
@@ -377,7 +384,9 @@ func (s Surface) BuildRequest(invocation *clicore.Invocation) (direct.Request, e
 	if request.Limit, err = invocation.Int("limit", 0); err != nil {
 		return direct.Request{}, err
 	}
-	request.Order = invocation.String("order")
+	if !inputs["order"] {
+		request.Order = invocation.String("order")
+	}
 	if request.Offset, err = invocation.Int("offset", 0); err != nil {
 		return direct.Request{}, err
 	}

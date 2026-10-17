@@ -12,9 +12,9 @@ import (
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
 )
 
-// A team's own check: refunds piling up on one customer, three credit notes within 30 days. It is a groups
-// match the built-in checks do not have, written as a file, with its cases.
-const refundsPilingUp = `{
+// A team's own check: claims piling up, three or more of one employee within a week. It is a groups match
+// the built-in checks do not have, written as a file, with its cases.
+const claimsPilingUp = `{
   "schema": "odoo-cli.check/v1",
   "id": "X-CLAIMS-PILING-UP",
   "version": 1,
@@ -48,14 +48,14 @@ const refundsPilingUp = `{
 func TestATeamsOwnCheckIsTestedAddedRunAndJudged(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "X-CLAIMS-PILING-UP.json")
-	if err := os.WriteFile(path, []byte(refundsPilingUp), 0o600); err != nil {
+	if err := os.WriteFile(path, []byte(claimsPilingUp), 0o600); err != nil {
 		t.Fatal(err)
 	}
 	if code, out, diag := runOdoo(t, "review", "test-check", "--file", path, "--output", "json"); code != clicore.ExitOK || decode(t, out)["passed"] != true {
 		t.Fatalf("test-check: %d %s %s", code, out, diag)
 	}
 	broken := filepath.Join(dir, "broken.json")
-	_ = os.WriteFile(broken, []byte(strings.Replace(refundsPilingUp, `"severity": "THEO_DOI"}]}`, `"severity": "XEM_NGAY"}]}`, 1)), 0o600)
+	_ = os.WriteFile(broken, []byte(strings.Replace(claimsPilingUp, `"severity": "THEO_DOI"}]}`, `"severity": "XEM_NGAY"}]}`, 1)), 0o600)
 	if code, out, _ := runOdoo(t, "review", "test-check", "--file", broken, "--output", "json"); code == clicore.ExitOK || !strings.Contains(out.String(), "CHECK_CASES_FAILED") {
 		t.Fatalf("a failing case passed: %d %s", code, out)
 	}
