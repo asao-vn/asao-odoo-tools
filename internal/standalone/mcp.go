@@ -286,6 +286,9 @@ func ServeMCP(ctx context.Context, program string, args []string, in io.Reader, 
 			if *allowUnverified && hasFlag(leaf, "allow-unverified") {
 				argv = append(argv, "--allow-unverified=true")
 			}
+			if level == accessOperate && hasFlag(leaf, "operate") {
+				argv = append(argv, "--operate=true")
+			}
 		}
 		var stdout, stderr bytes.Buffer
 		code := clicore.Run(ctx, root, argv, clicore.Streams{Out: &stdout, Diagnostics: &stderr})
@@ -331,7 +334,8 @@ report draft command (its result says how) builds a scrubbed report on this mach
 			program, orDefault(*profile, "the default")),
 		Filter: dataAccessFilter(level), WithholdDiagnostics: level != accessFull,
 		Trace: serverTrace(traceProfile(*profile), level, diag),
-		Admit: (&agentBounds{profile: traceProfile(*profile), maxCalls: *maxCalls, maxWrites: *maxWrites, rate: *rate, now: time.Now}).admit,
+		Admit: (&agentBounds{profile: traceProfile(*profile), maxCalls: *maxCalls, maxWrites: *maxWrites, rate: *rate,
+			maxResolves: map[bool]int{true: operateResolveBudget}[level == accessOperate], now: time.Now}).admit,
 	}); err != nil {
 		fmt.Fprintf(diag, "%s mcp serve: %v\n", program, err)
 		return 1

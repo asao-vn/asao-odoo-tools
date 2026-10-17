@@ -89,21 +89,21 @@ func TestARefusedCallIsTracedAndNotRun(t *testing.T) {
 		t.Fatal("agents stop")
 	}
 	defer runTrace(t, "agents", "resume", "--profile", "default")
-	entries := serveAndTrace(t, dir, `{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"catalog_describe","arguments":{"operation":"sales.quotation.list"}}}`)
+	entries := serveAndTrace(t, dir, nil, `{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"catalog_describe","arguments":{"operation":"sales.quotation.list"}}}`)
 	if len(entries) != 1 || entries[0].Status != "NOT_RUN" || entries[0].ErrorCode != "AGENTS_STOPPED" || entries[0].Confirmation != "refused" {
 		t.Fatalf("entries %+v", entries)
 	}
 }
 
 // serveAndTrace runs mcp serve as a host would, one request at a time, and returns the trace it kept.
-func serveAndTrace(t *testing.T, dir string, calls ...string) []trace.Entry {
+func serveAndTrace(t *testing.T, dir string, args []string, calls ...string) []trace.Entry {
 	t.Helper()
 	inRead, inWrite := io.Pipe()
 	outRead, outWrite := io.Pipe()
 	var diag bytes.Buffer
 	exit := make(chan int, 1)
 	go func() {
-		exit <- ServeMCP(context.Background(), "odoo-cli", []string{"--mode", "tools"}, inRead, outWrite, &diag)
+		exit <- ServeMCP(context.Background(), "odoo-cli", append([]string{"--mode", "tools"}, args...), inRead, outWrite, &diag)
 		outWrite.Close()
 	}()
 	replies := bufio.NewScanner(outRead)
@@ -147,5 +147,40 @@ func TestStoppedAgentsStopRoutines(t *testing.T) {
 		if _, envelope := runRoutinesCommand(t, args...); errorCode(envelope) != "AGENTS_STOPPED" {
 			t.Errorf("%v while stopped: %v", args, envelope["error"])
 		}
+	}
+}
+
+// At data level operate the server runs resolve strictly, whatever the agent asks: a range on a date is
+// refused (it is how an agent counted 54 invoices on 2026-10-18), and 30 calls a session at most.
+func TestResolveAtOperateFindsWhatIsNamedAndCannotCount(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv(localprofile.FileVariable, filepath.Join(dir, "profiles.json"))
+	byDate := `{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"resolve","arguments":{"operation":"finance.invoice.list","filter":[["invoice_date",">=","2026-06-01"]]}}}`
+	entries := serveAndTrace(t, dir, []string{"--data-access", "operate"}, byDate)
+	if len(entries) != 1 || entries[0].ErrorCode != "RESOLVE_FILTER_REFUSED" {
+		t.Fatalf("a date range at operate: %+v", entries)
+	}
+	if err := checkResolveOperate([]interface{}{[]interface{}{"partner_id.name", "ilike", "Lê Thành"}, []interface{}{"state", "=", "draft"}}, "id desc"); err != nil {
+		t.Fatalf("a named draft: %v", err)
+	}
+	for _, c := range []struct {
+		domain []interface{}
+		order  string
+	}{
+		{[]interface{}{[]interface{}{"id", ">", 229}}, ""},
+		{[]interface{}{[]interface{}{"amount_total", ">", 1000000}}, ""},
+		{[]interface{}{[]interface{}{"state", "=", "posted"}}, "amount_total desc"},
+	} {
+		if err := checkResolveOperate(c.domain, c.order); err == nil {
+			t.Errorf("%v %q was accepted at operate", c.domain, c.order)
+		}
+	}
+	bounds := &agentBounds{profile: "shop", maxResolves: 2, now: time.Now}
+	resolve := agentsurface.Tool{Name: "resolve", AgentAccess: clicore.AgentAccessRead}
+	if bounds.admit(resolve) != nil || bounds.admit(resolve) != nil {
+		t.Fatal("resolves within the budget were refused")
+	}
+	if err := bounds.admit(resolve); err == nil || err.Code != "AGENT_RESOLVE_BUDGET_SPENT" {
+		t.Fatalf("a third resolve: %v", err)
 	}
 }

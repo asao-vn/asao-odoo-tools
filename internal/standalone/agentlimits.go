@@ -27,6 +27,9 @@ import (
 
 const defaultAgentRate = 60
 
+// operateResolveBudget is how many resolve calls a server at data level operate allows a session.
+const operateResolveBudget = 30
+
 func stopPath(profile string) (string, error) {
 	path, err := localprofile.DefaultPath()
 	if err != nil {
@@ -74,12 +77,16 @@ type agentBounds struct {
 	profile             string
 	maxCalls, maxWrites int
 	rate                int
-	now                 func() time.Time
+	// maxResolves bounds resolve at data level operate, so that a run of yes-or-no questions cannot read
+	// what operate keeps from the agent.
+	maxResolves int
+	now         func() time.Time
 
-	mu     sync.Mutex
-	calls  int
-	writes int
-	recent []time.Time
+	mu       sync.Mutex
+	calls    int
+	writes   int
+	resolves int
+	recent   []time.Time
 }
 
 func (b *agentBounds) admit(tool agentsurface.Tool) *clicore.Error {
@@ -113,6 +120,11 @@ func (b *agentBounds) admit(tool agentsurface.Tool) *clicore.Error {
 			fmt.Sprintf("this server allows %d calls, and they are spent", b.maxCalls)).
 			WithRemediation("Tell the person what is left to do; they set the budget when they started the server.")
 	}
+	if tool.Name == "resolve" && b.maxResolves > 0 && b.resolves >= b.maxResolves {
+		return clicore.NewError(clicore.CategoryDenied, "AGENT_RESOLVE_BUDGET_SPENT",
+			fmt.Sprintf("at data level operate this server allows %d resolve calls, and they are spent", b.maxResolves)).
+			WithRemediation("resolve finds the records a task names; tell the person what is left to find.")
+	}
 	write := tool.AgentAccess != clicore.AgentAccessRead
 	if write && b.maxWrites > 0 && b.writes >= b.maxWrites {
 		return clicore.NewError(clicore.CategoryDenied, "AGENT_WRITE_BUDGET_SPENT",
@@ -120,6 +132,9 @@ func (b *agentBounds) admit(tool agentsurface.Tool) *clicore.Error {
 			WithRemediation("Tell the person what is left to change; they set the budget when they started the server.")
 	}
 	b.calls++
+	if tool.Name == "resolve" {
+		b.resolves++
+	}
 	if write {
 		b.writes++
 	}

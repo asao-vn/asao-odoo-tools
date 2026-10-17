@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.17.1 (unreleased)
+
+- **Changed: at data level operate, `resolve` finds what is named and cannot count.** `mcp serve
+  --data-access operate` runs it strictly:
+  - conditions on a name, a reference, a state or the partner, by `=`, `!=`, `in` or `ilike`;
+  - no range on a date, an amount or an id;
+  - at most 5 ids, with no count;
+  - 30 calls a session.
+
+  As 0.17.0 shipped it, an agent at operate counted 54 invoices by paging ids. Measured again with the
+  strict build: every write that names its record is done (5 of 5), and no figure is read (0 of 6).
+
 ## 0.17.0 (2026-10-17)
 
 The Python companion `asao-erp` 0.4.0 is released with it.
