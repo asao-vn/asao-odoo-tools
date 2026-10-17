@@ -29,8 +29,8 @@ func init() {
 		id: "O21", name: "Giảm trừ sau khi đã thu tiền", kind: kindSign,
 		question: "Có hoá đơn đã thu đủ tiền rồi mới bị giảm trừ và chi trả lại không?",
 		needs:    []string{opInvoice, opPayment},
-		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out: an outbound payment to the customer settles it (a credit note settled against an invoice, in full or for part of it, moves no money and is not one)",
-		params:   map[string]float64{"min_days": 7},
+		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out: an outbound payment to the customer settles it (a credit note settled against an invoice, in full or for part of it, moves no money and is not one). Where refunds are routine (paid-out refunds >= routine_rate of the paid invoices, over min_invoices or more), only what is unusual even there: a refund above the invoice, an invoice refunded more than once, or a seller whose refunds are >= times_others x everyone else's share, from min_refunds refunds",
+		params:   map[string]float64{"min_days": 7, "routine_rate": 0.03, "min_invoices": 50, "times_others": 3, "min_refunds": 3},
 		run:      creditNoteAfterPayment,
 	})
 	register(check{
@@ -280,6 +280,7 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 		}
 	}
 	var out []Finding
+	var candidates []refundCase
 	for _, refund := range refunds {
 		original, ok := byID[relID(refund["reversed_entry_id"])]
 		if !ok {
@@ -304,6 +305,7 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 		if num(refund["total_amount"]) >= num(original["total_amount"]) {
 			severity = XemNgay
 		}
+		candidates = append(candidates, refundCase{original: original, refund: refund})
 		out = append(out, Finding{
 			Title: "Hoá đơn đã thu tiền bị giảm trừ và chi trả lại", Severity: severity,
 			Subject: Subject{Type: "invoice", ID: fmt.Sprint(relID(original["id"])), Name: text(original["name"])},
@@ -315,7 +317,116 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 			Facts:     map[string]interface{}{"daysAfter": gap, "seller": relName(original["invoice_user_id"]), "refundedOut": refunded},
 		})
 	}
-	return out, nil
+	// The business's own rate: paid-out refunds against the customer invoices it was paid in the period.
+	// Where refunds are rare, each is worth a look. Where they are routine (an online shop takes goods back
+	// every week: 36 of 79 real returns were flagged on UCI Online Retail II, 17/10/2026), a single refund
+	// says nothing; only what is unusual even there does.
+	paid := 0
+	paidBySeller := map[string]int{}
+	for _, invoice := range originals {
+		switch text(invoice["payment_status"]) {
+		case "paid", "in_payment", "partial":
+			if b.inPeriod(invoice["invoice_date"]) {
+				paid++
+				paidBySeller[sellerOf(invoice)]++
+			}
+		}
+	}
+	refundsOut := 0
+	for _, refund := range refunds {
+		if paidOut[relID(refund["id"])] {
+			refundsOut++
+		}
+	}
+	rate := float64(refundsOut) / math.Max(float64(paid), 1)
+	// A rate over a handful of invoices says nothing about the business.
+	if float64(paid) < p["min_invoices"] || rate < p["routine_rate"] {
+		return out, nil
+	}
+	return routineRefunds(candidates, paidBySeller, rate, p), nil
+}
+
+type refundCase struct{ original, refund map[string]interface{} }
+
+// routineRefunds is O21 where refunds are routine: an invoice refunded more than once or for more than it
+// was, and a seller whose refunds stand out against everyone else's.
+func routineRefunds(candidates []refundCase, paidBySeller map[string]int, rate float64, p map[string]float64) []Finding {
+	var out []Finding
+	byOriginal := map[int64][]refundCase{}
+	var originals []int64
+	bySeller := map[string][]refundCase{}
+	for _, c := range candidates {
+		id := relID(c.original["id"])
+		if _, seen := byOriginal[id]; !seen {
+			originals = append(originals, id)
+		}
+		byOriginal[id] = append(byOriginal[id], c)
+		seller := sellerOf(c.original)
+		bySeller[seller] = append(bySeller[seller], c)
+	}
+	sort.Slice(originals, func(i, j int) bool { return originals[i] < originals[j] })
+	for _, id := range originals {
+		group := byOriginal[id]
+		original := group[0].original
+		refunded := 0.0
+		names := make([]string, 0, len(group))
+		ev := []Evidence{evidence(opInvoice, original, "")}
+		for _, c := range group {
+			refunded += num(c.refund["total_amount"])
+			names = append(names, text(c.refund["name"]))
+			ev = append(ev, evidence(opInvoice, c.refund, ""))
+		}
+		var why string
+		switch {
+		case len(group) > 1:
+			why = fmt.Sprintf("%s (%s, %s) được hoàn tiền %d lần: %s, tổng %s.", text(original["name"]), relName(original["partner"]),
+				money(num(original["total_amount"])), len(group), strings.Join(names, ", "), money(refunded))
+		case refunded > num(original["total_amount"])+0.5:
+			why = fmt.Sprintf("%s (%s, %s) được hoàn %s, nhiều hơn chính hoá đơn (%s).", text(original["name"]), relName(original["partner"]),
+				money(num(original["total_amount"])), money(refunded), strings.Join(names, ", "))
+		default:
+			continue
+		}
+		out = append(out, Finding{
+			Title: "Hoàn tiền bất thường ngay cả với doanh nghiệp hay hoàn tiền", Severity: XemNgay,
+			Subject:   Subject{Type: "invoice", ID: fmt.Sprint(id), Name: text(original["name"])},
+			Why:       why + fmt.Sprintf(" Ở đây hoàn tiền là chuyện thường (%s hoá đơn đã thu), nên từng lần hoàn riêng lẻ không được báo.", pct(rate, 0)),
+			AmountVND: refunded, Evidence: ev,
+			Facts: map[string]interface{}{"refunds": len(group), "refunded": refunded, "invoiceTotal": num(original["total_amount"]), "businessRefundRate": rate},
+		})
+	}
+	totalRefunds, totalPaid := len(candidates), 0
+	for _, n := range paidBySeller {
+		totalPaid += n
+	}
+	sellers := make([]string, 0, len(bySeller))
+	for seller := range bySeller {
+		sellers = append(sellers, seller)
+	}
+	sort.Strings(sellers)
+	for _, seller := range sellers {
+		own := bySeller[seller]
+		share := float64(len(own)) / math.Max(float64(paidBySeller[seller]), 1)
+		othersShare := float64(totalRefunds-len(own)) / math.Max(float64(totalPaid-paidBySeller[seller]), 1)
+		if float64(len(own)) < p["min_refunds"] || share < p["times_others"]*othersShare {
+			continue
+		}
+		ev := make([]Evidence, 0, len(own))
+		total := 0.0
+		for _, c := range own {
+			ev = append(ev, evidence(opInvoice, c.refund, ""))
+			total += num(c.refund["total_amount"])
+		}
+		out = append(out, Finding{
+			Title: "Một người bán hoàn tiền nhiều hơn hẳn những người khác", Severity: NenXuLy,
+			Subject: Subject{Type: "seller", ID: seller, Name: seller},
+			Why: fmt.Sprintf("%s: %d lần hoàn tiền sau khi đã thu, trên %d hoá đơn đã thu (%s); những người khác %s. Tổng %s.",
+				seller, len(own), paidBySeller[seller], pct(share, 1), pct(othersShare, 1), money(total)),
+			AmountVND: total, Evidence: ev,
+			Facts: map[string]interface{}{"seller": seller, "refunds": len(own), "share": share, "othersShare": othersShare, "businessRefundRate": rate},
+		})
+	}
+	return out
 }
 
 func receivablesAging(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {

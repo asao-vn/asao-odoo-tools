@@ -265,3 +265,55 @@ func TestBelowCostIsOneSellersHabitNotAShopsMarkdown(t *testing.T) {
 		t.Fatalf("findings %+v", got)
 	}
 }
+
+// Where refunds are routine, a single refund is not flagged; an invoice refunded twice and a seller whose
+// refunds stand out still are.
+func TestRoutineRefundsFlagOnlyWhatIsUnusualEvenThere(t *testing.T) {
+	var invoices, payments []map[string]interface{}
+	refundID := 1000
+	for i := 1; i <= 60; i++ {
+		inv := customerInvoice(i, 100+i, "2026-07-01", "2026-07-01", 1_000_000)
+		inv["payment_status"] = "paid"
+		seller := "Lan"
+		if i <= 12 {
+			seller = "Tuấn"
+		}
+		inv["invoice_user_id"] = []interface{}{1.0, seller}
+		invoices = append(invoices, inv)
+	}
+	refund := func(original int, date string, amount float64) {
+		refundID++
+		cn := creditNote(refundID, 100+original, original, date, amount)
+		cn["payment_status"] = "paid"
+		invoices = append(invoices, cn)
+		pay := outbound(5000+refundID, 100+original, date, amount, 1)
+		pay["reconciled_invoice_ids"] = []interface{}{float64(refundID)}
+		payments = append(payments, pay)
+	}
+	// Tuấn's twelve invoices: six refunded. Lan's forty-eight: two refunded, one of them twice.
+	for i := 1; i <= 6; i++ {
+		refund(i, "2026-07-20", 200_000)
+	}
+	refund(30, "2026-07-20", 300_000)
+	refund(40, "2026-07-20", 100_000)
+	refund(40, "2026-07-25", 100_000)
+	got := findings(run(t, fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: invoices, opPayment: payments}}, "O21"), "O21")
+	var twice, seller int
+	for _, f := range got {
+		switch f.Subject.Type {
+		case "invoice":
+			twice++
+			if f.Facts["refunds"] != 2 {
+				t.Errorf("invoice finding %+v", f)
+			}
+		case "seller":
+			seller++
+			if f.Facts["seller"] != "Tuấn" {
+				t.Errorf("seller finding %+v", f)
+			}
+		}
+	}
+	if len(got) != 2 || twice != 1 || seller != 1 {
+		t.Fatalf("findings %+v", got)
+	}
+}
