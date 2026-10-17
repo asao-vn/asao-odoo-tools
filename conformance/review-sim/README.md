@@ -202,3 +202,31 @@ The scorer counts the findings on these records apart, for a person to judge. Th
 **Next, done as a measurement and not as a fit:** O21 gains a base rate, tuned on this sample (`--seed 1`)
 and measured on customers it has not seen (`--seed 2`), so that the fix is not fitted to the 36.
 
+### O21 measured against the business's own refund rate (2026-10-17)
+
+O21 now compares refunds with the business's own refund rate. Where paid-out refunds are under 3% of the
+paid invoices (or there are fewer than 50 invoices to judge by), every refund after payment is flagged,
+as before. Where refunds are routine, only what is unusual even there is flagged:
+- the whole invoice refunded, or more;
+- an invoice refunded more than once;
+- a seller whose refunds are three times everyone else's share.
+
+The protocol had three steps:
+1. The rule was written from how false refunds are found, then run on sample 1.
+2. Sample 2 then showed the planted full refund missed. That miss, not sample 2's findings, made the
+   whole-invoice rule.
+3. Sample 2 had now been seen, so the final rule was measured on sample 3.
+
+| Run | Planted (simulation) | O21 on the real sales |
+|---|---|---|
+| plain 12 months, noise and held-out set | 43/43, 29/29; held-out 19/19, 13/13 | — |
+| sample 1, before | 24/24 | 36 of 79 returns |
+| sample 1, rate only | **23/24** (the planted full refund missed) | 4 |
+| sample 2, rate only (unseen) | 23/24 | 2 |
+| sample 1, final | 24/24 | 5 |
+| **sample 3, final (unseen)** | **24/24, 11/11** | **4 of 59 returns** |
+
+The four on sample 3 are three invoices refunded twice, and one invoice refunded whole. Whether a person
+calls them real is the next measure, through `review verdict`. Real fraud is not marked in the data, so
+these runs measure alarms and not precision.
+

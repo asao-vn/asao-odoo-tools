@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.17.0 (unreleased)
+## 0.17.0 (2026-10-17)
+
+The Python companion `asao-erp` 0.4.0 is released with it.
 
 - **New: bounds on an agent, and a stop switch (DEC-2026-0182).**
   - `agents stop --profile P` refuses every call of every `mcp serve` on that profile, from its next
@@ -19,6 +21,9 @@
 - **New: `resolve`, find records without seeing them.** It answers ids only, at most 20, from a filter on
   plain fields. A filter on personal data or free text is refused. It is offered at data level operate, so
   an agent that may not see the data can still find the customer's latest draft and act on it.
+- **Settings:** `stock_text_confirmation` (text the customer when a delivery is done, Odoo's paid SMS) can
+  be switched off. While it is on, validating a delivery for a customer with a phone opens a blocking
+  dialog. It was verified on 19.0 and 20.0, read through the CLI and through an independent oracle.
 - **Fixed: a line could not be added to a quotation or an RFQ.** `--order`, the order a line belongs to,
   was refused as a read's sort order. An agent in the privacy-cost experiment found it.
 
