@@ -143,8 +143,8 @@ def type_on_page(stream, value):
             continue
         address = found.group(1)
         page = urllib.request.urlopen(address, timeout=30).read().decode()
-        token = re.search(r'name="token" value="([0-9a-f]+)"', page).group(1)
-        form = urllib.parse.urlencode({"token": token, "value": value}).encode()
+        page_nonce = re.search(r'name="token" value="([0-9a-f]+)"', page).group(1)
+        form = urllib.parse.urlencode({"token": page_nonce, "value": value}).encode()
         origin = address[:address.rindex("/")]
         request = urllib.request.Request(address, form, {"Content-Type": "application/x-www-form-urlencoded", "Origin": origin})
         urllib.request.urlopen(request, timeout=30).read()

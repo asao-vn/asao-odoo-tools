@@ -957,9 +957,11 @@ var odoo19Catalog = []Odoo19Operation{
 		// Dates, amounts due and untaxed, salesperson and journal: what a revenue or receivables
 		// statistic groups and sums by.
 		// The supplier's own reference, the invoice a credit note reverses, and who created it when:
-		// what a review needs to find a bill entered twice or a refund after payment.
+		// what a review needs to find a bill entered twice or a refund after payment. The origin is the
+		// sale or purchase order Odoo invoiced (never copied with an invoice): two invoices of two orders
+		// are two sales, a copied one has none.
 		OptionalReadFields: []string{"invoice_date", "invoice_date_due", "date", "amount_untaxed", "amount_residual", "currency_id", "invoice_user_id", "journal_id",
-			"ref", "reversed_entry_id", "create_uid", "create_date"},
+			"ref", "reversed_entry_id", "create_uid", "create_date", "invoice_origin"},
 		ProviderDomain: invoiceDocumentDomain,
 	},
 	{

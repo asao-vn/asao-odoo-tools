@@ -202,9 +202,66 @@ func TestACreditNoteCancellingAnUnpaidInvoiceIsNoRefund(t *testing.T) {
 	unpaid["payment_status"] = "reversed"
 	cancel := creditNote(4, 8, 3, "2026-07-06", 40_000_000)
 	cancel["payment_status"] = "paid"
-	report := run(t, fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: {paid, refundOut, unpaid, cancel}}}, "O21")
-	got := findings(report, "O21")
+	// A return of part of the goods, three weeks on: the credit note is set against the invoice, whose
+	// status then reads partial, and no money goes back (the 12-month simulation's look-alike).
+	partlyReturned := customerInvoice(5, 9, "2026-07-01", "2026-07-01", 10_000_000)
+	partlyReturned["payment_status"] = "partial"
+	returned := creditNote(6, 9, 5, "2026-07-20", 3_000_000)
+	returned["payment_status"] = "paid"
+	refundPayment := outbound(7, 7, "2026-07-04", 50_000_000, 1)
+	refundPayment["reconciled_invoice_ids"] = []interface{}{2.0}
+	books := fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: {paid, refundOut, unpaid, cancel, partlyReturned, returned}, opPayment: {refundPayment}}}
+	got := findings(run(t, books, "O21"), "O21")
 	if len(got) != 1 || got[0].Evidence[0].ID != 1 {
+		t.Fatalf("findings %+v", got)
+	}
+}
+
+// Two invoices of one customer, same goods, two days apart, each from its own sale order, are two sales;
+// an invoice copied by hand has no origin.
+func TestTwoSaleOrdersAreTwoSalesAndACopiedInvoiceIsNot(t *testing.T) {
+	first, copied := customerInvoice(1, 7, "2026-06-03", "2026-06-03", 8_800_000), customerInvoice(2, 7, "2026-06-03", "2026-06-03", 8_800_000)
+	first["invoice_origin"] = "S00012"
+	again, reorder := customerInvoice(3, 8, "2026-08-20", "2026-08-20", 400_400), customerInvoice(4, 8, "2026-08-22", "2026-08-22", 400_400)
+	again["invoice_origin"], reorder["invoice_origin"] = "S00401", "S00405"
+	lines := []map[string]interface{}{line(1, 50, "2026-06-03", 10, 800_000), line(2, 50, "2026-06-03", 10, 800_000),
+		line(3, 51, "2026-08-20", 14, 26_000), line(4, 51, "2026-08-22", 14, 26_000)}
+	got := findings(run(t, fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: {first, copied, again, reorder}, opLine: lines}}, "O02"), "O02")
+	if len(got) != 1 || got[0].Evidence[0].ID != 1 || got[0].Evidence[1].ID != 2 {
+		t.Fatalf("findings %+v", got)
+	}
+}
+
+// One seller selling below cost again and again is a sign; the same product marked down by every seller
+// in one week is the shop's price (the 12-month simulation's clearance week).
+func TestBelowCostIsOneSellersHabitNotAShopsMarkdown(t *testing.T) {
+	var invoices, lines []map[string]interface{}
+	sale := func(id int, seller, date string, customer, product int, price float64) {
+		invoice := customerInvoice(id, customer, date, date, price*2)
+		invoice["invoice_user_id"] = []interface{}{float64(len(seller)), seller}
+		invoices = append(invoices, invoice)
+		row := line(id, product, date, 2, price)
+		row["product"] = []interface{}{float64(product), "SP"}
+		lines = append(lines, row)
+	}
+	// Tuấn, alone, four times to one customer, product 60 (cost 2,000,000).
+	for i, date := range []string{"2026-06-24", "2026-07-15", "2026-08-19", "2026-09-09"} {
+		sale(1+i, "Tuấn", date, 14, 60, 1_700_000)
+	}
+	// The clearance week: product 61 (cost 1,150,000) sold at 1,035,000 by all three sellers.
+	id := 20
+	for _, date := range []string{"2026-08-24", "2026-08-25", "2026-08-26"} {
+		for customer, seller := range []string{"Lan", "Hùng", "Tuấn"} {
+			sale(id, seller, date, customer, 61, 1_035_000)
+			id++
+		}
+	}
+	products := []map[string]interface{}{{"id": 600.0, "standard_price": 2_000_000.0}, {"id": 610.0, "standard_price": 1_150_000.0}}
+	variants := []map[string]interface{}{{"id": 60.0, "product_tmpl_id": []interface{}{600.0, "Khoan"}}, {"id": 61.0, "product_tmpl_id": []interface{}{610.0, "Sơn lót"}}}
+	books := fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: invoices, opLine: lines,
+		"catalog.product.list": products, "catalog.product_variant.list": variants}}
+	got := findings(run(t, books, "O19"), "O19")
+	if len(got) != 1 || got[0].Facts["seller"] != "Tuấn" || got[0].Facts["lines"] != 4 || got[0].Severity != XemNgay {
 		t.Fatalf("findings %+v", got)
 	}
 }

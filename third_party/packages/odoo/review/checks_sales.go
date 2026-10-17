@@ -13,8 +13,8 @@ func init() {
 		id: "O19", name: "Bán dưới giá vốn", kind: kindSign,
 		question: "Có ai bán hàng dưới giá vốn không, và có lặp lại không?",
 		needs:    []string{opInvoice, opLine, "catalog.product.list", "catalog.product_variant.list"},
-		formula:  "sale line net price (subtotal / quantity) below the product's cost, by seller; XEM_NGAY from repeat lines",
-		params:   map[string]float64{"repeat": 3},
+		formula:  "sale line net price (subtotal / quantity) below the product's cost, by seller; XEM_NGAY from repeat lines. A product sold below cost by markdown_sellers sellers or more within markdown_days is a markdown (a price decision), not counted against anyone",
+		params:   map[string]float64{"repeat": 3, "markdown_days": 14, "markdown_sellers": 2},
 		run:      belowCost,
 	})
 	register(check{
@@ -28,8 +28,8 @@ func init() {
 	register(check{
 		id: "O21", name: "Giảm trừ sau khi đã thu tiền", kind: kindSign,
 		question: "Có hoá đơn đã thu đủ tiền rồi mới bị giảm trừ và chi trả lại không?",
-		needs:    []string{opInvoice},
-		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out (a credit note that only cancels an unpaid invoice moves no money and is not one)",
+		needs:    []string{opInvoice, opPayment},
+		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out: an outbound payment to the customer settles it (a credit note settled against an invoice, in full or for part of it, moves no money and is not one)",
 		params:   map[string]float64{"min_days": 7},
 		run:      creditNoteAfterPayment,
 	})
@@ -45,7 +45,7 @@ func init() {
 		id: "O02", name: "Hoá đơn bán trùng", kind: kindErr,
 		question: "Có khách nào bị xuất hoá đơn hai lần cho cùng một lần bán không?",
 		needs:    []string{opInvoice, opLine},
-		formula:  "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed by a credit note; XEM_NGAY when their lines are the same",
+		formula:  "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed by a credit note, and not each from its own sale order (an invoice copied by hand has no origin); XEM_NGAY when their lines are the same",
 		params:   map[string]float64{"window_days": 3},
 		run:      duplicateInvoices,
 	})
@@ -99,8 +99,7 @@ func belowCost(ctx context.Context, b *books, p map[string]float64) ([]Finding, 
 		saleLine
 		price, cost float64
 	}
-	bySeller := map[string][]loss{}
-	var sellers []string
+	var losses []loss
 	for _, row := range rows {
 		cost, known, err := b.cost(ctx, relID(row.line["product"]))
 		if err != nil {
@@ -111,12 +110,39 @@ func belowCost(ctx context.Context, b *books, p map[string]float64) ([]Finding, 
 			continue
 		}
 		if price := num(row.line["price_subtotal"]) / quantity; price < cost {
-			seller := sellerOf(row.invoice)
-			if _, seen := bySeller[seller]; !seen {
-				sellers = append(sellers, seller)
-			}
-			bySeller[seller] = append(bySeller[seller], loss{row, price, cost})
+			losses = append(losses, loss{row, price, cost})
 		}
+	}
+	// A markdown: the same product sold below cost by several sellers within a few days (a clearance
+	// week, a damaged batch) is the shop's price, not one seller's choice. Each line is set against the
+	// other sellers' below-cost lines of its product.
+	inMarkdown := func(l loss) bool {
+		d, ok := parseDay(l.invoice["invoice_date"])
+		if !ok {
+			return false
+		}
+		sellersNear := map[string]bool{sellerOf(l.invoice): true}
+		for _, other := range losses {
+			if relID(other.line["product"]) != relID(l.line["product"]) {
+				continue
+			}
+			if o, ok := parseDay(other.invoice["invoice_date"]); ok && math.Abs(float64(d.daysUntil(o))) <= p["markdown_days"] {
+				sellersNear[sellerOf(other.invoice)] = true
+			}
+		}
+		return float64(len(sellersNear)) >= p["markdown_sellers"]
+	}
+	bySeller := map[string][]loss{}
+	var sellers []string
+	for _, l := range losses {
+		if inMarkdown(l) {
+			continue
+		}
+		seller := sellerOf(l.invoice)
+		if _, seen := bySeller[seller]; !seen {
+			sellers = append(sellers, seller)
+		}
+		bySeller[seller] = append(bySeller[seller], l)
 	}
 	sort.Strings(sellers)
 	var out []Finding
@@ -240,6 +266,27 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 	for _, invoice := range originals {
 		byID[relID(invoice["id"])] = invoice
 	}
+	payments, err := b.payments(ctx, true)
+	if err != nil {
+		return nil, err
+	}
+	var outbound []map[string]interface{}
+	for _, payment := range payments {
+		if text(payment["payment_type"]) == "outbound" {
+			outbound = append(outbound, payment)
+		}
+	}
+	if err := requireField(opPayment, "reconciled_invoice_ids", outbound); err != nil {
+		return nil, err
+	}
+	// Money went back to the customer only when a payment out settled the credit note. A credit note
+	// set against the invoice it reverses, as a return of part of the goods is, is paid by that invoice.
+	paidOut := map[int64]bool{}
+	for _, payment := range outbound {
+		for _, id := range relIDs(payment["reconciled_invoice_ids"]) {
+			paidOut[id] = true
+		}
+	}
 	var out []Finding
 	for _, refund := range refunds {
 		original, ok := byID[relID(refund["reversed_entry_id"])]
@@ -249,8 +296,7 @@ func creditNoteAfterPayment(ctx context.Context, b *books, p map[string]float64)
 		d1, _ := parseDay(original["invoice_date"])
 		d2, _ := parseDay(refund["invoice_date"])
 		gap := d1.daysUntil(d2)
-		status := text(refund["payment_status"])
-		refunded := status == "paid" || status == "in_payment"
+		refunded := paidOut[relID(refund["id"])]
 		// A credit note that cancels an unpaid invoice is settled by that invoice: Odoo marks the credit
 		// note paid and the invoice reversed, and no money moved. Only an invoice the customer had paid,
 		// then refunded, is this check's case.
@@ -463,6 +509,11 @@ func duplicateInvoices(ctx context.Context, b *books, p map[string]float64) ([]F
 			d2, _ := parseDay(second["invoice_date"])
 			gap := d1.daysUntil(d2)
 			if float64(gap) > p["window_days"] {
+				continue
+			}
+			// Each from its own sale order (the origin Odoo writes, never copied): a customer who ordered
+			// the same again, not one sale invoiced twice.
+			if o1, o2 := text(first["invoice_origin"]), text(second["invoice_origin"]); o1 != "" && o2 != "" && o1 != o2 {
 				continue
 			}
 			identical := sameLines(relID(first["id"]), relID(second["id"]))

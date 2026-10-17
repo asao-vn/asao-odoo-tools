@@ -114,6 +114,29 @@ func TestRoundClaimsAreJudgedAgainstEveryoneElse(t *testing.T) {
 	}
 }
 
+// Over a long period, a burst of round claims is not diluted by the ordinary claims around it (the
+// 12-month simulation missed eight round claims among forty when the share was taken over the year).
+func TestABurstOfRoundClaimsStandsOutOverALongPeriod(t *testing.T) {
+	var rows []map[string]interface{}
+	id := 0
+	for month := 4; month <= 9; month++ {
+		for day := 3; day <= 27; day += 4 { // seven ordinary claims a month
+			rows = append(rows, claim(id, 1, fmt.Sprintf("2026-%02d-%02d", month, day), float64(87_000+id*1_013)))
+			id++
+		}
+	}
+	for i, day := range []string{"2026-08-02", "2026-08-09", "2026-08-16", "2026-08-23", "2026-08-30", "2026-09-06"} {
+		rows = append(rows, claim(500+i, 1, day, 1_000_000))
+	}
+	for i := 0; i < 30; i++ {
+		rows = append(rows, claim(900+i, 2, fmt.Sprintf("2026-06-%02d", i%28+1), float64(123_456+i)))
+	}
+	got := run(t, fakeBooks{rows: map[string][]map[string]interface{}{opExpense: rows}}, "O25").Findings
+	if len(got) != 1 || got[0].Facts["rounded"] != 6 || !strings.Contains(got[0].Why, " từ ") {
+		t.Fatalf("findings %+v", got)
+	}
+}
+
 func TestACheckThatCannotReadIsNotRunNeverClean(t *testing.T) {
 	report := run(t, fakeBooks{rows: map[string][]map[string]interface{}{}, refused: map[string]bool{opExpense: true}}, "O01", "O23")
 	ran := map[string]CheckInfo{}

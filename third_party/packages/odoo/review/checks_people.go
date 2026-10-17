@@ -28,8 +28,8 @@ func init() {
 		id: "O25", name: "Chi phí toàn số tròn", kind: kindSign,
 		question: "Có ai mà các khoản chi phí số tròn nhiều bất thường so với mọi người không?",
 		needs:    []string{opExpense},
-		formula:  "an employee's share of claims that are multiples of unit >= max(min_share, times_others x everyone else's share), from min_claims claims",
-		params:   map[string]float64{"unit": 100_000, "min_claims": 5, "min_share": 0.25, "times_others": 5},
+		formula:  "an employee's share of claims that are multiples of unit >= max(min_share, times_others x everyone else's share), from min_claims claims, over the period or over any window_days of it (a burst is not diluted by a long period)",
+		params:   map[string]float64{"unit": 100_000, "min_claims": 5, "min_share": 0.25, "times_others": 5, "window_days": 92},
 		run:      roundExpenses,
 	})
 	register(check{
@@ -186,9 +186,46 @@ func roundExpenses(ctx context.Context, b *books, p map[string]float64) ([]Findi
 			}
 		}
 		othersRate := float64(othersRound) / math.Max(float64(others), 1)
-		rate := float64(len(rounded)) / float64(len(own))
+		threshold := math.Max(p["min_share"], p["times_others"]*othersRate)
 		// Compared with everyone else: in a company where every claim is a flat allowance, round is normal.
-		if float64(len(rounded)) < p["min_claims"] || rate < math.Max(p["min_share"], p["times_others"]*othersRate) {
+		qualifies := func(claims []map[string]interface{}) ([]map[string]interface{}, float64, bool) {
+			var round []map[string]interface{}
+			for _, row := range claims {
+				if isRound(row) {
+					round = append(round, row)
+				}
+			}
+			rate := float64(len(round)) / math.Max(float64(len(claims)), 1)
+			return round, rate, float64(len(round)) >= p["min_claims"] && rate >= threshold
+		}
+		rounded, rate, ok := qualifies(own)
+		windowWords := ""
+		if !ok {
+			// Over a long period a burst of round claims is diluted by the ordinary ones around it: look
+			// at every window of window_days that starts on one of the employee's claims.
+			sorted := append([]map[string]interface{}(nil), own...)
+			sort.SliceStable(sorted, func(i, j int) bool { return text(sorted[i]["date"]) < text(sorted[j]["date"]) })
+			for i := range sorted {
+				start, okStart := parseDay(sorted[i]["date"])
+				if !okStart {
+					continue
+				}
+				var window []map[string]interface{}
+				var end date
+				for _, row := range sorted[i:] {
+					if d, okDay := parseDay(row["date"]); okDay && float64(start.daysUntil(d)) <= p["window_days"] {
+						window = append(window, row)
+						end = d
+					}
+				}
+				if r, wr, wok := qualifies(window); wok && (!ok || len(r) > len(rounded)) {
+					rounded, rate, ok = r, wr, true
+					own = window
+					windowWords = fmt.Sprintf(" từ %s đến %s", text(sorted[i]["date"]), end.t.Format("2006-01-02"))
+				}
+			}
+		}
+		if !ok {
 			continue
 		}
 		total := 0.0
@@ -204,8 +241,8 @@ func roundExpenses(ctx context.Context, b *books, p map[string]float64) ([]Findi
 		out = append(out, Finding{
 			Title: "Chi phí số tròn nhiều bất thường", Severity: severity,
 			Subject: Subject{Type: "employee", Name: employee},
-			Why: fmt.Sprintf("%s: %d/%d khoản chi (%s) là bội số của %s, những người khác chỉ %s; tổng các khoản tròn %s. Hoá đơn thật hiếm khi tròn; khoản tròn thường là ước lượng không có chứng từ.",
-				employee, len(rounded), len(own), pct(rate, 0), money(unit), pct(othersRate, 0), money(total)),
+			Why: fmt.Sprintf("%s: %d/%d khoản chi%s (%s) là bội số của %s, những người khác chỉ %s; tổng các khoản tròn %s. Hoá đơn thật hiếm khi tròn; khoản tròn thường là ước lượng không có chứng từ.",
+				employee, len(rounded), len(own), windowWords, pct(rate, 0), money(unit), pct(othersRate, 0), money(total)),
 			AmountVND: total, Evidence: ev,
 			Facts: map[string]interface{}{"employee": employee, "rounded": len(rounded), "claims": len(own), "rate": rate, "othersRate": othersRate},
 		})

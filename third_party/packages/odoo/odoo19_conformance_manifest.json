@@ -14969,18 +14969,6 @@
       "definitionHash": "sha256:04ba3c7af77001c54b3e602901ab9f3bf7aa87b1f27dcd0ee2131ef65256c9a8"
     },
     {
-      "operationId": "finance.invoice.list",
-      "providerVersion": "19.0-20260803",
-      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
-      "modules": [
-        "account"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-review-fields-20261014.json",
-      "verifiedAt": "2026-10-14T10:33:32Z",
-      "definitionHash": "sha256:246d89c6b49ae86b0529ff7fcde516d723dfd00eb8a5e68d4247b10a95813e9c"
-    },
-    {
       "operationId": "identity.contact.list",
       "providerVersion": "19.0-20260803",
       "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
@@ -15543,6 +15531,18 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/settings-conformance-19.0-20261017.json",
       "verifiedAt": "2026-10-16T23:38:57Z",
       "definitionHash": "sha256:6a15a1d6faab07209d4764c796e293fd1b8431053d687a260aa1090fd8cbebda"
+    },
+    {
+      "operationId": "finance.invoice.list",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "account"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-invoice-origin-20261017.json",
+      "verifiedAt": "2026-10-17T00:59:31Z",
+      "definitionHash": "sha256:44a11f3919db387f6782c67355e2275a9e6dd85c72319a1e10c1dae4d544b73d"
     }
   ]
 }

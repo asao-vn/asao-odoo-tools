@@ -1326,17 +1326,19 @@
    "severity": "XEM_NGAY",
    "scheme": "asset_misappropriation.cash.fraudulent_disbursements.register_disbursements.false_refunds",
    "signal": "Hoá đơn đã thu tiền, nhiều ngày sau bị lập giảm trừ và tiền được chi trả lại.",
-   "formula": "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out (a credit note that only cancels an unpaid invoice moves no money and is not one)",
+   "formula": "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out: an outbound payment to the customer settles it (a credit note settled against an invoice, in full or for part of it, moves no money and is not one)",
    "fields": [
     "account.move.reversed_entry_id",
     "account.move.move_type",
     "account.move.payment_state",
-    "account.move.invoice_date"
+    "account.move.invoice_date",
+    "account.payment.reconciled_invoice_ids"
    ],
    "status": "built",
    "check": "O21",
    "operations": [
-    "finance.invoice.list"
+    "finance.invoice.list",
+    "finance.payment.list"
    ],
    "priority": 1,
    "causes": [
