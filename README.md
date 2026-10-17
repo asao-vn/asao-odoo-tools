@@ -147,15 +147,16 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 619 tools:
+- **Reads by default:** 623 tools:
   - the 598 verified reads;
-  - catalog discovery, the pre-flight check, the review (`review run`, `review checks`), the
+  - catalog discovery, the pre-flight check, `resolve` (ids only), `agents status`, the review
+    (`review run`, `review checks`, `review test-check`, `review precision`), the
     controls (`controls list`, `status`, `plan`), the routines (`routines templates`, `list`,
     `status`), the upgrade check (`upgrade check`, `upgrade maps`), the packs kept (`pack list`, `pack show`) and
     `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1390 tools, and every write asks you first: the agent host shows you the
+- **With `--allow-writes`:** 1394 tools, and every write asks you first: the agent host shows you the
   command line, and nothing runs until you confirm. A host that cannot ask gets a refusal with the
   command line instead.
 - **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. The 61 high-risk
@@ -171,8 +172,9 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
     emails, addresses, tax and identity numbers, bank accounts), free text (notes, descriptions,
     messages) and files are withheld and marked `[withheld: ...]`. Free text is also where outsiders'
     instructions arrive.
-  - **`operate`:** the agent acts without seeing data. It has no read tool but discovery, and a
-    result gives the status, the record id and whether odoo-cli's own check of the result passed.
+  - **`operate`:** the agent acts without seeing data. It has no read tool but discovery and
+    `resolve`, which finds a record's id from its name or state and answers nothing else. A result gives
+    the status, the record id and whether odoo-cli's own check of the result passed.
   - **`full`:** everything a read returns.
 
   `profile set --agent-data-access` records a profile's level, and a server can lower it, never raise
@@ -181,6 +183,16 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
   profile, chained by hashes. An entry holds when it ran, which agent host, the command line, whether
   you confirmed it, and what came of it. It never holds what a read returned. `trace list` shows it, and
   `trace verify` finds an entry removed or changed. `ODOO_CLI_TRACE=off` turns it off.
+- **Bounds, and a stop switch.**
+  - `odoo-cli agents stop --profile my-odoo --reason "..."` refuses every call of every agent on that
+    profile, from its next call, and stops routines, until `agents resume`.
+  - `--max-calls` and `--max-writes` bound a session.
+  - `--rate` caps calls a minute (60 by default), since each call takes one of Odoo's workers.
+- **Judge a write: `--accept`.** It is added to any write and answers:
+  - `ODOO_VALID`: Odoo ran it as Odoo does;
+  - `INTENT_VERIFIED`: every value asked for is what Odoo holds;
+  - `RESULT_ACCEPTED`: no review check finds a problem with the record, for example an invoice made
+    twice or one dated back into a month that had ended.
 - **Secrets never pass through the chat.** When a task needs a password, an API key or a token, the
   agent calls `credential set --browser` or `secret env --browser`, and you confirm. You then type the
   value on a one-time page on your own machine (127.0.0.1, one submission, 5 minutes), and the agent
@@ -215,13 +227,17 @@ odoo-cli report draft --kind WORKAROUND_USED --command "inventory transfer list"
 
 ## Review the books: `odoo-cli review`
 
-Twenty fixed checks find mistakes, duplicates and signs of fraud in a period of your Odoo's books,
+Twenty checks find mistakes, duplicates and signs of fraud in a period of your Odoo's books,
 and the period's figures month by month:
 
 ```sh
 odoo-cli review run --profile my-odoo --from 2026-07-01 --to 2026-09-30 --markdown-file q3.md --output json
 odoo-cli review checks --output json      # each check: question, formula, thresholds, how to read it
 ```
+
+- **Checks are files.** A check can be a declared file with its own cases. Add your own with
+  `review add-check`. Say which findings were real with `review verdict`, and read each check's share of
+  real findings with `review precision`. See [docs/checks.md](docs/checks.md).
 
 - **What the checks look for:**
   - bills, customer invoices or payments entered twice, duplicate partners;
@@ -592,7 +608,7 @@ cáo tháng, rà soát ra bảng. Gói chạy mọi lệnh qua odoo-cli, nên m�
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.
-- **Mặc định chỉ đọc:** 619 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
+- **Mặc định chỉ đọc:** 623 công cụ, gồm 4 công cụ `explore` đọc được mọi model (cả app Enterprise và trường tự
   thêm), không bao giờ đọc mật khẩu hay khoá bí mật.
 - **Thêm `--allow-writes`:** agent được ghi, và thao tác ghi nào cũng hỏi bạn trước: agent host hiện dòng lệnh,
   bạn xác nhận thì mới chạy. Agent host nào không hỏi được thì nhận lời từ chối, kèm dòng lệnh để bạn tự chạy.
@@ -609,6 +625,12 @@ Community lẫn Enterprise.
   lúc nào, agent nào, dòng lệnh, bạn có đồng ý không, kết quả ra sao. Nhật ký không ghi dữ liệu đã đọc.
   - `trace list` để xem;
   - `trace verify` để phát hiện dòng nào bị xoá hay bị sửa.
+- **Nút dừng và giới hạn:**
+  - `agents stop --profile my-odoo` dừng mọi agent và lịch tự động trên profile đó ngay ở lệnh kế tiếp;
+  - `--max-calls` và `--max-writes` giới hạn một phiên;
+  - `--rate` (mặc định 60 lệnh mỗi phút) để agent không làm nghẽn Odoo.
+- **Chấm kết quả một lệnh ghi (`--accept`):** Odoo chạy đúng chuẩn, bản ghi đúng như yêu cầu, và không phép kiểm
+  rà soát nào thấy vấn đề, như hoá đơn trùng hay ghi lùi ngày.
 - **Bí mật không bao giờ đi qua chat:** khi cần mật khẩu, API key hay token, agent gọi `credential set --browser`
   hoặc `secret env --browser`, bạn xác nhận, rồi tự gõ vào một trang dùng một lần trên chính máy mình. Agent chỉ
   nhận "đã lưu". Muốn tắt trang thì đặt `ODOO_CLI_SECRET_INPUT=off`; muốn giao diện trơn thì đặt `ODOO_CLI_THEME=plain`.
