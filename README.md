@@ -94,6 +94,16 @@ checksums. You can also download `odoo-cli_<os>_<arch>` from
 [Releases](https://github.com/asao-vn/asao-odoo-tools/releases), for Linux, macOS or Windows on
 amd64 or arm64. To build from source, run `make build` (Go 1.26.6 or newer).
 
+**The Python companion, for analysis and scripts:**
+
+```sh
+pip install asao-erp      # drives this odoo-cli; needs odoo-cli on the PATH
+```
+
+Use the command line for one action at a time, agents (MCP) and schedules. Use
+[`asao-erp`](https://github.com/asao-vn/asao-erp-sdk) when the work is many reads put together, such as a
+monthly report, a statistic, or a review into a table. See [Python](#python) below.
+
 ## Quick start
 
 ```sh
@@ -455,12 +465,36 @@ Other guarantees:
 
 ## Python
 
-The [`asao-erp`](https://github.com/asao-vn/asao-erp-sdk) package drives `odoo-cli` from Python. It
-covers reads, grouping, paging, prints and pandas frames, which suits notebooks and staff statistics.
+The [`asao-erp`](https://github.com/asao-vn/asao-erp-sdk) package drives `odoo-cli` from Python. It runs
+every call through `odoo-cli`, so the same checks, refusals and data levels apply as on the command line,
+and it holds no credential of its own.
 
 ```sh
 pip install asao-erp
 ```
+
+```python
+from asao_erp import Client, ops, to_frame
+
+erp = Client(profile="my-odoo")
+# Odoo sums the month itself: one request and twelve rows, not thousands of lines pulled to be summed.
+sales = erp.group(ops.sales.quotation_list, by=["date_order:month"], aggregate=["amount_total:sum"],
+                  filter=[["state", "=", "sale"]])
+to_frame(sales)
+
+report = erp.review("2026-07-01", "2026-09-30")          # odoo-cli review run, computed
+to_frame(report["findings"])                             # one row per finding, ready to sort and chart
+```
+
+**When to use which:**
+
+| Use | When |
+|---|---|
+| `odoo-cli` | one action, a shell script, a schedule (`routines`), an agent over MCP |
+| `asao-erp` | analysis: many reads put together, pandas, a notebook, a monthly report |
+
+`group()` asks Odoo for the totals instead of pulling every record. This is lighter on Odoo, whose workers
+an agent shares with the people using it.
 
 ## Not yet
 
@@ -550,6 +584,11 @@ Trước mỗi thao tác, CLI kiểm tra Odoo mà nó kết nối:
 - có phải Odoo không, và phiên bản nào;
 - thiếu module gì;
 - có bị tuỳ biến không.
+
+**Gói Python đi kèm:** `pip install asao-erp` dùng cho phân tích: ghép nhiều lần đọc, đưa vào pandas, làm báo
+cáo tháng, rà soát ra bảng. Gói chạy mọi lệnh qua odoo-cli, nên mọi kiểm tra và giới hạn vẫn giữ nguyên.
+`erp.group(...)` để Odoo tự tính tổng thay vì kéo hết bản ghi về, nên nhẹ cho Odoo hơn. Ví dụ ở mục
+[Python](#python).
 
 **AI agent qua MCP:** `odoo-cli mcp serve --profile my-odoo` đưa catalog cho agent qua MCP, chạy được cả trên
 Community lẫn Enterprise.

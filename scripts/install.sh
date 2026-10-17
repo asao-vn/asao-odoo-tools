@@ -42,3 +42,4 @@ else
   sudo mv "$TMP_DIR/$NAME" "$INSTALL_DIR/odoo-cli"
 fi
 echo "Installed $INSTALL_DIR/odoo-cli. Start with: odoo-cli --help"
+echo "For analysis in Python (pandas, notebooks, reports), the companion package drives this odoo-cli: pip install asao-erp"
