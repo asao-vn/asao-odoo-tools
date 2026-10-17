@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.16.0 (unreleased)
+## 0.16.0 (2026-10-17)
 
 - **New: operation packs (DEC-2026-0176).** A custom module brings its own operations as a pack, a
   JSON file it ships as `static/odoo-cli/pack.json` that names its reads, writes, object buttons,
