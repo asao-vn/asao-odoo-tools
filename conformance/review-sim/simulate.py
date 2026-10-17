@@ -18,6 +18,17 @@ D = datetime.date
 MONTHS = int(os.environ.get("SIM_MONTHS", "6"))
 SCALE = float(os.environ.get("SIM_SCALE", "1"))
 MESS = os.environ.get("SIM_MESS", "") == "1"
+# SIM_PROFILE shapes the everyday sales: trader (the default: a building-materials trader selling to firms
+# on 30-day terms), retail (a building-materials store: walk-in customers, many small tickets of every
+# product paid at the counter, no trade on terms) or service (the trader with an installation arm: its trade,
+# plus many small service tickets with no stock, paid on the spot). The suppliers, staff and planted cases are
+# the same in each.
+PROFILE = os.environ.get("SIM_PROFILE", "trader")
+assert PROFILE in ("trader", "retail", "service"), PROFILE
+# SIM_FRESH=1 adds a held-out set: planted cases and look-alikes written on 2026-10-17, after the checks were
+# last changed, and never used to change them. They sit in November 2025 - March 2026, so they need a period
+# of 12 months or more.
+FRESH = os.environ.get("SIM_FRESH", "") == "1"
 END = D(2026, 9, 30)
 START = D(2026 + (10 - MONTHS - 1) // 12, (10 - MONTHS - 1) % 12 + 1, 1)
 
@@ -200,8 +211,31 @@ def bill(vendor, when, ref, amount, label, pay_on=None, by="mai", taxes=()):
 
 AS_OF = END
 sellers = ["lan", "hung", "tuan"]
+cash = env["account.journal"].search([("type", "=", "cash")], limit=1) or env["account.journal"].create(
+    {"name": "Tiền mặt", "type": "cash", "code": "TM"})
+if PROFILE != "trader":
+    # Counter sales: one walk-in customer for most tickets, a few regulars, paid the same day, mostly in cash.
+    counter = random.Random(20261017 + (1 if PROFILE == "retail" else 2))
+    walk_in = partner("Khách lẻ", company=False, customer_rank=1)
+    if PROFILE == "service":
+        for key, name, price in [("ong", "Lắp đặt đường ống nước (gói)", 850_000), ("son", "Công sơn hoàn thiện (m2)", 45_000),
+                                 ("khoan", "Khoan cắt bê tông (lỗ)", 180_000), ("van", "Vận chuyển nội thành (chuyến)", 350_000),
+                                 ("sua", "Sửa chữa điện nước (lần)", 300_000)]:
+            P["dv_" + key] = env["product.product"].create({"name": name, "type": "service", "list_price": price, "standard_price": 0,
+                                                            "invoice_policy": "order", "taxes_id": [(6, 0, [SALE8.id])]})
+        menu, per_day, qty = [k for k in P if k.startswith("dv_")], (3, 6), (1, 3)
+    else:
+        menu, per_day, qty = [k for k in P if not k.startswith("dv_")], (4, 8), (1, 4)
+    for d in workdays(START, END):
+        for _ in range(counter.randint(*per_day)):
+            customer = walk_in if counter.random() < 0.8 else counter.choice(customers)
+            keys = counter.sample(menu, counter.randint(1, 2))
+            lines = [(k, counter.randint(*qty), None, (SALE8 if k.startswith("dv_") else None)) for k in keys]
+            _, inv = sale(customer, counter.choice(sellers), d, lines)
+            pay(inv, d, journal=cash if counter.random() < 0.7 else bank)
+        env.cr.commit()
 # Regular sales: about two orders a working day, paid 5..40 days later (a few never: the receivables).
-for d in workdays(START, END):
+for d in (workdays(START, END) if PROFILE != "retail" else []):
     orders = rng.choice([1, 2, 2, 3])
     for _ in range(orders if SCALE == 1 else round(orders * SCALE)):
         customer = rng.choice(customers)
@@ -560,6 +594,152 @@ if MESS:
         so.action_confirm()
         so._action_cancel()
         so.date_order = datetime.datetime.combine(d, datetime.time(9))
+    env.cr.commit()
+
+# ====================================== held-out set (SIM_FRESH=1) ===============================
+# Written on 2026-10-17, after the checks were last changed, and not to be used to change them before it is
+# measured: one new case for each check that has one, in a shape the earlier cases did not take, and new
+# look-alikes. All in November 2025 - March 2026, where nothing else is planted. Each case says "fresh".
+if FRESH:
+    assert START <= D(2025, 11, 1), "the held-out set needs SIM_MONTHS >= 12"
+    first_truth = len(truth)
+    # 1. O01: the same supplier invoice entered twice, the second time typed in lower case without the space.
+    _, f1 = purchase(vendors[2], D(2025, 11, 6), [("gach60", 90, None)], "HD 0077120", pay_on=D(2025, 11, 20))
+    f2 = bill(vendors[2], D(2025, 11, 18), "hd0077120", f1.amount_untaxed, "Gạch men theo HĐ 77120", pay_on=D(2025, 11, 27), by="mai", taxes=[PUR10])
+    plant("fresh-bill-twice-lowercase-ref", "O01", [f1.name, f2.name], "Số HĐ gõ lại chữ thường, bỏ khoảng trắng, 12 ngày sau, cả hai đã trả")
+    # 2. O02: an invoice copied two days later.
+    _, g1 = sale(customers[9], "hung", D(2025, 12, 3), [("ong90", 25, None, None)])
+    g2 = g1.copy({"invoice_date": D(2025, 12, 5)})
+    g2.action_post()
+    plant("fresh-invoice-copied-two-days-later", "O02", [g1.name, g2.name], "Hoá đơn bán ống nhựa bị sao chép và ghi sổ lại 2 ngày sau")
+    # 3. O07: one 36-million bill paid in four parts of 9 million within three days.
+    big = bill(vendors[4], D(2026, 1, 12), "NL-0112", 32_727_273, "Ống nhựa và phụ kiện", by="binh", taxes=[PUR10])
+    for offset in range(4):
+        pay(big, D(2026, 1, 14) + datetime.timedelta(days=offset % 3), amount=9_000_000)
+    plant("fresh-bill-paid-in-four-parts", "O07", [big.name], "Hoá đơn 36 triệu trả làm 4 lần 9 triệu trong 3 ngày, mỗi lần dưới hạn mức 20 triệu")
+    # 4. O12: expensive grinders scrapped by one person in the first months of 2026.
+    grinders = [scrap("hung", "mai", q, when).name for q, when in [(3, D(2026, 1, 8)), (4, D(2026, 1, 22)), (3, D(2026, 2, 5)), (5, D(2026, 2, 19))]]
+    plant("fresh-scrap-grinders", "O12", grinders, "Hùng huỷ 15 máy mài trong 6 tuần")
+    # 5. O13: a customer twin sharing an e-mail address.
+    mail_twin = partner("Anh Khang (Điện nước)", company=False, email=customers[11].email, customer_rank=1)
+    plant("fresh-customer-twin-same-email", "O13", [customers[11].name, mail_twin.name], "Hai hồ sơ khách cùng email")
+    # 6. O16: two cement orders in five days, each just under the approval threshold.
+    cement = []
+    for when in (D(2026, 2, 2), D(2026, 2, 6)):
+        po, _ = purchase(vendors[0], when, [("ximang", 226, None)], "XM%s" % when.strftime("%m%d"), pay_on=when + datetime.timedelta(days=9))
+        cement.append(po.name)
+    plant("fresh-split-cement-orders", "O16", cement, "2 đơn xi măng cùng NCC trong 5 ngày, mỗi đơn 19,4 triệu (gồm VAT), dưới ngưỡng 20 triệu")
+    # 7. O17 and O18: the accountant's own supplier, paid into her account, no tax code and no address.
+    ghost = env["res.partner"].with_user(U["mai"]).sudo().create({"name": "Công ty TNHH Dịch vụ Kỹ thuật Sao Mai", "is_company": True,
+                                                                  "email": "saomai.dv@example.com", "supplier_rank": 1})
+    env["res.partner.bank"].create({"acc_number": emp_bank["mai"].acc_number, "partner_id": ghost.id, "bank_name": "Ngân hàng A (giả lập)"})
+    ghost_bills = [bill(ghost, when, "SM%s" % when.strftime("%m%d"), amount, "Bảo trì hệ thống điện kho", by="mai",
+                        pay_on=when + datetime.timedelta(days=2)).name
+                   for when, amount in [(D(2025, 12, 10), 11_400_000), (D(2026, 1, 9), 12_800_000), (D(2026, 2, 11), 13_100_000)]]
+    plant("fresh-vendor-bank-is-accountant", "O17", [ghost.name, E["mai"].name], "TK ngân hàng NCC trùng TK của kế toán Ngô Thị Mai")
+    plant("fresh-new-vendor-no-tax-code", "O18", [ghost.name] + ghost_bills, "NCC mới do kế toán tạo, không MST, không địa chỉ, nhận 37,3 triệu, trả sau 2 ngày")
+    # 8. O19: one seller, three different customers, grinders below cost.
+    cheap = []
+    for when, c in [(D(2026, 2, 16), 3), (D(2026, 3, 4), 6), (D(2026, 3, 20), 12)]:
+        _, inv = sale(customers[c], "hung", when, [("mai", 4, 820_000, None)], pay_on=when + datetime.timedelta(days=8))
+        cheap.append(inv.name)
+    plant("fresh-below-cost-three-customers", "O19", cheap, "Hùng bán máy mài 820.000 (vốn 890.000) cho 3 khách khác nhau")
+    # 9. O20: 8% VAT on tiles that carry 10%.
+    _, inv = sale(customers[16], "lan", D(2026, 1, 20), [("gach60", 30, None, SALE8)], pay_on=D(2026, 2, 10))
+    plant("fresh-eight-percent-on-tiles", "O20", [inv.name], "Hoá đơn bán gạch xuất thuế 8%, sản phẩm chịu 10%")
+    # 10. O21: half of a paid invoice credited three weeks later and paid back out.
+    _, inv = sale(customers[13], "tuan", D(2025, 11, 10), [("sonnuoc", 10, None, None)], pay_on=D(2025, 11, 15))
+    half = credit(inv, D(2025, 12, 1), share=0.5)
+    pay(half, D(2025, 12, 2))
+    plant("fresh-half-credited-and-paid-out", "O21", [inv.name, half.name], "Hoá đơn đã thu, 3 tuần sau giảm trừ một nửa và chi trả lại tiền")
+    # 11. O22: a customer payment recorded twice, two days apart.
+    _, inv = sale(customers[4], "lan", D(2026, 3, 2), [("thep10", 400, None, None)], pay_on=D(2026, 3, 9))
+    twice = env["account.payment"].create({"payment_type": "inbound", "partner_type": "customer", "partner_id": customers[4].id,
+                                           "amount": inv.amount_total, "date": D(2026, 3, 11), "journal_id": bank.id, "memo": inv.name})
+    twice.action_post()
+    plant("fresh-customer-paid-twice", "O22", [inv.name, twice.name], "Thu tiền khách 2 lần cách nhau 2 ngày, lần sau chưa đối soát")
+    # 12. O23: one parking claim made twice, two days apart.
+    p1 = expense("binh", D(2026, 1, 13), 180_000, "Gửi xe kho Hoà Khánh")
+    p2 = expense("binh", D(2026, 1, 15), 180_000, "Gửi xe kho Hoà Khánh")
+    plant("fresh-parking-claimed-twice", "O23", [p1.name, p2.name], "Bình kê 2 lần cùng khoản gửi xe 180.000, cách 2 ngày")
+    # 13. O24: an expense on a day of approved leave.
+    rest = env["hr.leave"].sudo().create({"employee_id": E["hung"].id, "holiday_status_id": leave_type.id,
+                                          "request_date_from": D(2026, 2, 9), "request_date_to": D(2026, 2, 11), "name": "Nghỉ phép"})
+    rest.with_user(U["khoa"]).sudo().action_approve()
+    on_leave = expense("hung", D(2026, 2, 10), 320_000, "Tiếp khách")
+    plant("fresh-expense-on-leave", "O24", [on_leave.name, "leave %s 09-11/02" % E["hung"].name], "Hùng kê tiếp khách ngày 10/2 khi đang nghỉ phép")
+    # 14. O25: every claim of the accountant is round.
+    flat = [expense("mai", when, amount, "Văn phòng phẩm").name for when, amount in [
+        (D(2025, 11, 4), 300_000), (D(2025, 11, 25), 500_000), (D(2025, 12, 12), 400_000), (D(2026, 1, 6), 600_000),
+        (D(2026, 1, 27), 300_000), (D(2026, 2, 17), 500_000)]]
+    plant("fresh-accountant-round-claims", "O25", flat, "Mai: 6 khoản chi, khoản nào cũng tròn trăm nghìn")
+    # 15. O26: a December invoice made on 9 January.
+    _, late = sale(customers[17], "lan", D(2025, 12, 31), [("sonlot", 6, None, None)], pay_on=D(2026, 1, 20))
+    stamps[late.id] = datetime.datetime(2026, 1, 9, 15, 0)
+    plant("fresh-invoice-backdated-into-december", "O26", [late.name], "Hoá đơn tạo ngày 9/1 nhưng ghi ngày 31/12: doanh thu dời vào năm trước")
+    # 16. O27: a sale on 29 January fully credited on 4 February.
+    _, jan = sale(customers[18], "tuan", D(2026, 1, 29), [("thep16", 60, None, None)])
+    feb = credit(jan, D(2026, 2, 4))
+    plant("fresh-january-revenue-reversed", "O27", [jan.name, feb.name], "Hoá đơn 29/1 bị giảm trừ toàn bộ ngày 4/2")
+    # 17. O28: a 6.6-million bill paid in cash.
+    fc = bill(stationer, D(2026, 2, 24), "VPP-0224", 6_000_000, "Mực in, giấy", taxes=[PUR10])
+    pay(fc, D(2026, 2, 24), journal=cash)
+    plant("fresh-cash-bill-over-5m", "O28", [fc.name], "Hoá đơn 6,6 triệu (gồm VAT) trả tiền mặt")
+    # 18. O29: two bills of one supplier on one day, 5.5 million together, in cash.
+    pair = [bill(stationer, D(2026, 3, 16), "VPP-0316-%d" % i, 2_500_000, "Văn phòng phẩm", taxes=[PUR10]) for i in (1, 2)]
+    pay(pair[0] | pair[1], D(2026, 3, 16), journal=cash)
+    plant("fresh-same-day-cash-pair", "O29", [b.name for b in pair], "2 hoá đơn VPP cùng ngày 16/3, cộng 5,5 triệu, trả tiền mặt")
+
+    # ---- held-out look-alikes
+    telecom = partner("Công ty Viễn thông Sơn Trà (giả lập)", vat="9900000110", street="8 Ngô Quyền", city="Đà Nẵng", supplier_rank=1)
+    internet = [bill(telecom, D(y, m, 3), "VT%d%02d" % (y, m), 1_000_000, "Cước internet tháng %d" % m, taxes=[PUR10],
+                     pay_on=D(y, m, 6)).name for y, m in [(2025, 11), (2025, 12), (2026, 1), (2026, 2), (2026, 3)]]
+    plant("fresh-monthly-internet", "O01", internet, "Cước internet 1,1 triệu mỗi tháng, số tham chiếu khác nhau", kind="decoy")
+    same_day = [sale(customers[19], "lan", D(2026, 2, 25), [("sonlot", 2, None, None)], pay_on=D(2026, 3, 2))[1].name for _ in range(2)]
+    plant("fresh-two-orders-same-day", "O02", same_day, "Khách đặt 2 đơn sơn giống nhau trong một ngày, mỗi đơn có đơn bán riêng", kind="decoy")
+    large = bill(vendors[1], D(2026, 3, 5), "TH-0305", 40_909_091, "Thép cuộn", by="binh", taxes=[PUR10])
+    pay(large, D(2026, 3, 9), amount=25_000_000)
+    pay(large, D(2026, 3, 12))
+    plant("fresh-two-large-payments", "O07", [large.name], "Hoá đơn 45 triệu trả 25 + 20 triệu: mỗi lần đều đã qua duyệt", kind="decoy")
+    office = partner("Công ty CP Xây dựng Thanh Khê", phone="0236 3 888 999", vat="9900000111", customer_rank=1)
+    buyer = partner("Chị Thảo (phòng vật tư)", company=False, parent_id=office.id, phone="0236 3 888 999", customer_rank=1)
+    plant("fresh-company-and-its-buyer", "O13", [office.name, buyer.name], "Công ty và người mua hàng của công ty dùng chung số máy bàn", kind="decoy")
+    small_orders = []
+    for when in (D(2025, 12, 15), D(2025, 12, 18)):
+        po, _ = purchase(vendors[5], when, [("khoan", 4, None)], "DC%s" % when.strftime("%m%d"), pay_on=when + datetime.timedelta(days=10))
+        small_orders.append(po.name)
+    plant("fresh-two-small-orders", "O16", small_orders, "2 đơn dụng cụ cùng NCC trong 3 ngày, mỗi đơn 8 triệu: nhỏ, không phải chia nhỏ", kind="decoy")
+    _, wrong = sale(customers[15], "hung", D(2026, 2, 20), [("ong21", 100, None, None)])
+    fix = credit(wrong, D(2026, 3, 2), share=0.1)
+    plant("fresh-price-correction-unpaid", "O21", [wrong.name, fix.name], "Hoá đơn chưa thu, giảm 10% vì sai giá: không có tiền chi ra", kind="decoy")
+    _, i1 = sale(customers[8], "tuan", D(2026, 1, 5), [("cat", 10, None, None)])
+    _, i2 = sale(customers[8], "tuan", D(2026, 1, 8), [("cat", 10, None, None)])
+    pay(i1, D(2026, 1, 20))
+    pay(i2, D(2026, 1, 20))
+    plant("fresh-two-invoices-same-amount-paid", "O22", [i1.name, i2.name], "Khách trả 2 hoá đơn cùng số tiền cùng ngày, cả hai đã đối soát", kind="decoy")
+    team = [expense(k, D(2026, 3, 19), 350_000, "Ăn trưa đoàn khảo sát").name for k in ("lan", "tuan")]
+    plant("fresh-team-lunch-split", "O23", team, "Hai người cùng kê 350.000 bữa trưa của mình cùng ngày", kind="decoy")
+    refused = env["hr.leave"].sudo().create({"employee_id": E["tuan"].id, "holiday_status_id": leave_type.id,
+                                             "request_date_from": D(2026, 3, 23), "request_date_to": D(2026, 3, 24), "name": "Xin nghỉ"})
+    refused.with_user(U["khoa"]).sudo().action_refuse()
+    worked = expense("tuan", D(2026, 3, 23), 210_000, "Xăng xe công tác")
+    plant("fresh-expense-on-refused-leave", "O24", [worked.name], "Tuấn kê xăng ngày 23/3: đơn nghỉ hôm đó bị từ chối, anh đi làm", kind="decoy")
+    _, prompt = sale(customers[1], "lan", D(2026, 1, 30), [("gach30", 15, None, None)], pay_on=D(2026, 2, 20))
+    stamps[prompt.id] = datetime.datetime(2026, 2, 2, 8, 30)
+    plant("fresh-invoice-made-two-days-later", "O26", [prompt.name], "Hoá đơn ghi 30/1, làm ngày 2/2: trong hạn 3 ngày", kind="decoy")
+    _, feb_end = sale(customers[2], "hung", D(2026, 2, 27), [("gach60", 20, None, None)])
+    small_fix = credit(feb_end, D(2026, 3, 3), share=0.1)
+    plant("fresh-month-end-small-credit", "O27", [feb_end.name, small_fix.name], "Hoá đơn 27/2 giảm 10% ngày 3/3: dưới một nửa", kind="decoy")
+    under = bill(stationer, D(2026, 3, 9), "VPP-0309", 4_500_000, "Văn phòng phẩm", taxes=[PUR10])
+    pay(under, D(2026, 3, 9), journal=cash)
+    plant("fresh-cash-bill-under-5m", "O28", [under.name], "Hoá đơn 4,95 triệu trả tiền mặt: dưới ngưỡng", kind="decoy")
+    split_vendors = [bill(stationer, D(2026, 3, 26), "VPP-0326", 2_700_000, "Văn phòng phẩm", taxes=[PUR10]),
+                     bill(telecom, D(2026, 3, 26), "VT-0326", 2_700_000, "Sim và thẻ cào", taxes=[PUR10])]
+    pay(split_vendors[0], D(2026, 3, 26), journal=cash)
+    pay(split_vendors[1], D(2026, 3, 26), journal=cash)
+    plant("fresh-same-day-cash-two-vendors", "O29", [b.name for b in split_vendors], "2 hoá đơn cùng ngày, 2 NCC khác nhau, mỗi NCC dưới 5 triệu", kind="decoy")
+    for case in truth[first_truth:]:
+        case["set"] = "fresh"
     env.cr.commit()
 
 # A business writes its documents on their day: Odoo stamped every record with the moment this script ran,

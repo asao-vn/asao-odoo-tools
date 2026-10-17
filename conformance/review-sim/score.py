@@ -40,7 +40,7 @@ def main():
             verdict = "KHÔNG BÁO NHẦM" if ok else "BÁO NHẦM"
         failed |= not ok
         severity = ", ".join(sorted({findings[i]["severity"] for i in hits})) or "—"
-        rows.append((case["case"], case["check"], case["kind"], verdict, severity, case["note"]))
+        rows.append((case["case"], case["check"], case["kind"], verdict, severity, case["note"], case.get("set", "")))
     # The prototype lists the checks that ran; odoo-cli review lists every check with its "ran" flag.
     run_checks = set(review["ran"]) if "ran" in review else {c["id"] for c in review.get("checks", []) if c.get("ran")}
     unexplained = [f for i, f in enumerate(findings) if i not in explained and f["check"] != "O15"]
@@ -53,6 +53,13 @@ def main():
     lines += [f"| {r[0]} | `{r[1]}` | {'cài sẵn' if r[2] == 'planted' else 'mồi nhử'} | **{r[3]}** | {r[4]} | {r[5]} |" for r in rows]
     lines += ["", f"Bắt được **{caught}/{len(planted)}** ca cài sẵn; **{clean}/{len(decoys)}** mồi nhử không bị báo nhầm; "
               f"**{len(unexplained)}** phát hiện ngoài đáp án (xem từng cái bên dưới).", ""]
+    fresh = [r for r in rows if r[6] == "fresh"]
+    if fresh:
+        fp = [r for r in fresh if r[2] == "planted"]
+        fd = [r for r in fresh if r[2] == "decoy"]
+        lines += [f"Riêng **bộ ca mới** (viết sau lần sửa cuối, chưa dùng để chỉnh): bắt được "
+                  f"**{sum(1 for r in fp if r[3] == 'BẮT ĐƯỢC')}/{len(fp)}** ca cài sẵn; "
+                  f"**{sum(1 for r in fd if r[3] == 'KHÔNG BÁO NHẦM')}/{len(fd)}** mồi nhử không bị báo nhầm.", ""]
     if unexplained:
         lines += ["Phát hiện ngoài đáp án:", ""] + [f"- `{f['check']}` [{f['severity']}] {f['title']}: {f['why']}" for f in unexplained]
     missing = sorted({c["check"] for c in truth} - run_checks)

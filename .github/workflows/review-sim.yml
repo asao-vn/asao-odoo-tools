@@ -19,6 +19,13 @@ on:
         description: Add a real shop's everyday noise (returns, part payments, discounts, a clearance week, cancellations).
         type: boolean
         default: false
+      profile:
+        description: The shape of the everyday sales (trader, retail, service).
+        default: trader
+      fresh:
+        description: Add the held-out set (needs 12 months or more).
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -39,6 +46,8 @@ jobs:
           SIM_MONTHS: ${{ inputs.months }}
           SIM_SCALE: ${{ inputs.scale }}
           SIM_MESS: ${{ inputs.mess && '1' || '' }}
+          SIM_PROFILE: ${{ inputs.profile }}
+          SIM_FRESH: ${{ inputs.fresh && '1' || '' }}
         run: conformance/review-sim/run.sh --out "$RUNNER_TEMP/review-sim" --engine docker --odoo-bin "$RUNNER_TEMP/odoo-cli"
       - name: Summary
         if: always()
