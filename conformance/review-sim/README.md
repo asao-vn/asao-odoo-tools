@@ -103,3 +103,46 @@ packages/odoo/review, with a test of its own:
 work. They do not show that the formulas hold on look-alikes nobody has seen. That needs a fresh set,
 as the upgrade check had.
 
+## 2026-10-17: the held-out set, on three kinds of business
+
+**What was written.** After the fixes above, a held-out set was written: 18 planted cases (19 answers,
+since one supplier is both O17 and O18) and 13 look-alikes, in shapes the earlier cases did not take.
+Examples:
+- a supplier reference retyped in lower case;
+- an invoice copied two days later;
+- a bill paid in four parts;
+- the accountant's own supplier;
+- 8% VAT on tiles that carry 10%;
+- half of a paid invoice credited and paid out;
+- a team lunch claimed by two people;
+- a claim on a refused leave;
+- two vendors paid in cash on one day.
+
+The set sits in November 2025 - March 2026, where nothing else is planted (`--fresh`, 12 months or
+more). It was not used to change a check. `--profile` shapes the everyday sales:
+- trader: the business above;
+- retail: a building-materials store selling every product to walk-in customers, paid at the counter;
+- service: the trade plus many small installation tickets paid on the spot.
+
+| Business, 12 months | Sales | All planted | All look-alikes | **Held-out planted** | **Held-out look-alikes** | Run |
+|---|---|---|---|---|---|---|
+| trader, with noise | 692 | 42/43 | 29/29 | 18/19 | 13/13 | [38993568020](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38993568020) |
+| retail | 1901 | 42/43 | 24/24 | 18/19 | 13/13 | [38993572677](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38993572677) |
+| service | 2063 | 42/43 | 24/24 | 18/19 | 13/13 | [38993577194](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38993577194) |
+| trader, with noise, answer corrected | 692 | **43/43** | **29/29** | **19/19** | **13/13** | [38995070451](https://github.com/asao-vn/asao-odoo-tools/actions/runs/38995070451) |
+
+**The one miss in the first three runs was the answer key, not a check.** O07 found the 36-million
+bill paid in four 9-million parts in every run, and it names the payments. The held-out answer named
+only the bill, so the scorer missed the match; the original split case names the payments. The answer
+was corrected (5c3b07a6). No check changed between these runs.
+
+**Findings outside the truth.** The findings outside the truth were O24: a random claim that fell on a
+planted approved leave, which is real in the data.
+
+**What this shows, and what it does not.**
+- On cases written after the formulas were fixed, every check found its case, and no look-alike was
+  flagged.
+- The result held for three shapes of business, from about 700 to 2,000 sales a year.
+- The set was still written by the person who wrote the checks. A set written by someone else, real
+  Vietnamese cases, and real data are the next tests.
+
