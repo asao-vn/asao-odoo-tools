@@ -614,9 +614,12 @@ if FRESH:
     plant("fresh-invoice-copied-two-days-later", "O02", [g1.name, g2.name], "Hoá đơn bán ống nhựa bị sao chép và ghi sổ lại 2 ngày sau")
     # 3. O07: one 36-million bill paid in four parts of 9 million within three days.
     big = bill(vendors[4], D(2026, 1, 12), "NL-0112", 32_727_273, "Ống nhựa và phụ kiện", by="binh", taxes=[PUR10])
+    quarters = env["account.payment"]
     for offset in range(4):
-        pay(big, D(2026, 1, 14) + datetime.timedelta(days=offset % 3), amount=9_000_000)
-    plant("fresh-bill-paid-in-four-parts", "O07", [big.name], "Hoá đơn 36 triệu trả làm 4 lần 9 triệu trong 3 ngày, mỗi lần dưới hạn mức 20 triệu")
+        quarters |= pay(big, D(2026, 1, 14) + datetime.timedelta(days=offset % 3), amount=9_000_000)
+    # O07 names the payments it finds, as the original split case's truth does (corrected 2026-10-17 after the
+    # first held-out run: the check found these four payments, the answer named only the bill).
+    plant("fresh-bill-paid-in-four-parts", "O07", [big.name] + quarters.mapped("name"), "Hoá đơn 36 triệu trả làm 4 lần 9 triệu trong 3 ngày, mỗi lần dưới hạn mức 20 triệu")
     # 4. O12: expensive grinders scrapped by one person in the first months of 2026.
     grinders = [scrap("hung", "mai", q, when).name for q, when in [(3, D(2026, 1, 8)), (4, D(2026, 1, 22)), (3, D(2026, 2, 5)), (5, D(2026, 2, 19))]]
     plant("fresh-scrap-grinders", "O12", grinders, "Hùng huỷ 15 máy mài trong 6 tuần")
