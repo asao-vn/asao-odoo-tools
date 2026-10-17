@@ -1,0 +1,127 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "each setting the CLI offers on the Settings page, read through the CLI and through an independent JSON-RPC oracle that opens the page as the web client does (a new res.config.settings); set to another value through the CLI, read back by both, then restored through the CLI and read back. A value Odoo refuses through the CLI is saved through the page itself: refused there too, the setting agrees. Setting names, statuses and hashes only; every setting was put back.",
+ "provider": {
+  "endpointHash": "sha256:89e72142c100b61b9e2f341da2b43adbbf5d742ce9622b3cdd70652f9023383b",
+  "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+  "series": "20.0",
+  "version": "20.0-20260926"
+ },
+ "recordedAt": "2026-10-17T00:06:36Z",
+ "records": {
+  "structure.settings.describe": {
+   "absentOnThisSeries": [
+    "default_invoice_policy",
+    "group_sale_order_template"
+   ],
+   "checkedFields": [
+    "account_default_credit_limit",
+    "account_price_include",
+    "account_use_credit_limit",
+    "auth_signup_reset_password",
+    "auth_signup_uninvited",
+    "auth_totp_policy",
+    "crm_use_auto_assignment",
+    "default_invoice_policy",
+    "digest_emails",
+    "display_invoice_amount_total_words",
+    "group_analytic_accounting",
+    "group_auto_done_setting",
+    "group_cash_rounding",
+    "group_discount_per_so_line",
+    "group_multi_currency",
+    "group_product_pricelist",
+    "group_product_variant",
+    "group_proforma_sales",
+    "group_project_stages",
+    "group_sale_delivery_address",
+    "group_sale_order_template",
+    "group_send_reminder",
+    "group_uom",
+    "group_use_lead",
+    "group_use_recurring_revenues",
+    "group_warning_purchase",
+    "group_warning_sale",
+    "hr_presence_control_login",
+    "lock_confirmed_po",
+    "pay_invoices_online",
+    "po_double_validation_amount",
+    "po_order_approval",
+    "portal_confirmation_pay",
+    "portal_confirmation_sign",
+    "qr_code",
+    "quotation_validity_days",
+    "restrict_template_rendering",
+    "restrictive_audit_trail",
+    "stock_text_confirmation",
+    "tax_calculation_rounding_method",
+    "timesheet_encode_method"
+   ],
+   "definitionHash": "sha256:ce7190e16ca18335e0761f811343201e08433d7d2618e77ce3f4e46032da38da",
+   "failures": [],
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE"
+  },
+  "structure.settings.update": {
+   "absentOnThisSeries": [
+    "default_invoice_policy",
+    "group_sale_order_template"
+   ],
+   "checkedFields": [
+    "account_default_credit_limit",
+    "account_price_include",
+    "account_use_credit_limit",
+    "auth_signup_reset_password",
+    "auth_signup_uninvited",
+    "auth_totp_policy",
+    "crm_use_auto_assignment",
+    "default_invoice_policy",
+    "digest_emails",
+    "display_invoice_amount_total_words",
+    "group_analytic_accounting",
+    "group_auto_done_setting",
+    "group_cash_rounding",
+    "group_discount_per_so_line",
+    "group_multi_currency",
+    "group_product_pricelist",
+    "group_product_variant",
+    "group_proforma_sales",
+    "group_project_stages",
+    "group_sale_delivery_address",
+    "group_sale_order_template",
+    "group_send_reminder",
+    "group_uom",
+    "group_use_lead",
+    "group_use_recurring_revenues",
+    "group_warning_purchase",
+    "group_warning_sale",
+    "hr_presence_control_login",
+    "lock_confirmed_po",
+    "pay_invoices_online",
+    "po_double_validation_amount",
+    "po_order_approval",
+    "portal_confirmation_pay",
+    "portal_confirmation_sign",
+    "qr_code",
+    "quotation_validity_days",
+    "restrict_template_rendering",
+    "restrictive_audit_trail",
+    "stock_text_confirmation",
+    "tax_calculation_rounding_method",
+    "timesheet_encode_method"
+   ],
+   "definitionHash": "sha256:6a15a1d6faab07209d4764c796e293fd1b8431053d687a260aa1090fd8cbebda",
+   "failures": [],
+   "modules": [
+    "base"
+   ],
+   "status": "AGREE"
+  }
+ },
+ "schemaVersion": "odoo.settings-conformance-run/v1"
+}

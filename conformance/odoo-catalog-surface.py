@@ -310,6 +310,10 @@ SETTINGS_FIELDS = {
     "group_sale_delivery_address": "boolean", "group_send_reminder": "boolean",
     "group_warning_purchase": "boolean", "lock_confirmed_po": "boolean", "po_order_approval": "boolean",
     "po_double_validation_amount": "number",
+    # Inventory. stock_text_confirmation is "text the customer when a delivery is done" (Odoo's paid SMS):
+    # while it is on and the customer has a phone, validating a delivery answers with the blocking
+    # confirm.stock.sms dialog, so a shop that does not text (cua-hang pack, 2026-10-17) switches it off.
+    "stock_text_confirmation": "boolean",
     # Projects, timesheets and people
     # (Not the timesheet reminders, reminder_allow and reminder_user_allow: Community declares them and keeps
     # neither; Enterprise's timesheet app stores them. Settings conformance, 2026-10-15.)

@@ -1,0 +1,40 @@
+name: review-sim
+
+# The review checks, measured on a simulated business: a throwaway Odoo 19 with the Vietnamese chart holds
+# months of a simulated company written through Odoo's own flows, with planted errors and frauds and
+# look-alikes that must not be flagged. odoo-cli review run reads it through the API, and score.py sets
+# its findings against the truth. The same script runs on any machine with Docker or Podman:
+# conformance/review-sim/run.sh --out /tmp/review-sim
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Build odoo-cli
+        run: go build -o "$RUNNER_TEMP/odoo-cli" ./cmd/odoo-cli
+      - name: Simulate the business, review it, score the review
+        run: conformance/review-sim/run.sh --out "$RUNNER_TEMP/review-sim" --engine docker --odoo-bin "$RUNNER_TEMP/odoo-cli"
+      - name: Summary
+        if: always()
+        run: cat "$RUNNER_TEMP/review-sim/summary.md" >> "$GITHUB_STEP_SUMMARY" || echo "The simulation stopped before its score; see the logs." >> "$GITHUB_STEP_SUMMARY"
+      - name: Pack the evidence (never the lab's secrets)
+        if: always()
+        run: |
+          cd "$RUNNER_TEMP/review-sim"
+          tar czf "$RUNNER_TEMP/review-sim.tar.gz" --exclude=secret --exclude=xdg --exclude=odoo-cli .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: review-sim
+          path: ${{ runner.temp }}/review-sim.tar.gz

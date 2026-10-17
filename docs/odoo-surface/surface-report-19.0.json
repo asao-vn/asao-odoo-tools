@@ -439,6 +439,7 @@
     "quotation_validity_days",
     "restrict_template_rendering",
     "restrictive_audit_trail",
+    "stock_text_confirmation",
     "tax_calculation_rounding_method",
     "timesheet_encode_method"
    ]

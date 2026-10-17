@@ -14058,30 +14058,6 @@
       "definitionHash": "sha256:f905bcb0d291c31a4a4224f27e7f7cb5bd6e37c36e646e227ec1282e94076737"
     },
     {
-      "operationId": "structure.settings.describe",
-      "providerVersion": "20.0-20260926",
-      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
-      "modules": [
-        "base"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/settings-conformance-20.0-20261015.json",
-      "verifiedAt": "2026-10-15T16:01:08Z",
-      "definitionHash": "sha256:d12b023ca553ccb2259c6b1730d78fe9a40f0b816335bbf07302224807802007"
-    },
-    {
-      "operationId": "structure.settings.update",
-      "providerVersion": "20.0-20260926",
-      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
-      "modules": [
-        "base"
-      ],
-      "status": "CURRENT_VERIFIED",
-      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/settings-conformance-20.0-20261015.json",
-      "verifiedAt": "2026-10-15T16:01:08Z",
-      "definitionHash": "sha256:9c09cd70b9196884953557d6607b0459feae419713de2c2bb1e4a2835ef01ab7"
-    },
-    {
       "operationId": "finance.journal.describe",
       "providerVersion": "20.0-20260926",
       "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
@@ -14248,6 +14224,30 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/alerts-conformance-20.0-20261016.json",
       "verifiedAt": "2026-10-15T21:03:24Z",
       "definitionHash": "sha256:1d4ae7833a1cefc940e234066ebfefa178ad1f2ef89176acfaf89cf317571fa7"
+    },
+    {
+      "operationId": "structure.settings.describe",
+      "providerVersion": "20.0-20260926",
+      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+      "modules": [
+        "base"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/settings-conformance-20.0-20261017.json",
+      "verifiedAt": "2026-10-17T00:06:36Z",
+      "definitionHash": "sha256:ce7190e16ca18335e0761f811343201e08433d7d2618e77ce3f4e46032da38da"
+    },
+    {
+      "operationId": "structure.settings.update",
+      "providerVersion": "20.0-20260926",
+      "imageDigest": "sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533",
+      "modules": [
+        "base"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/settings-conformance-20.0-20261017.json",
+      "verifiedAt": "2026-10-17T00:06:36Z",
+      "definitionHash": "sha256:6a15a1d6faab07209d4764c796e293fd1b8431053d687a260aa1090fd8cbebda"
     }
   ]
 }
