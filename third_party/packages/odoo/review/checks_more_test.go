@@ -266,8 +266,8 @@ func TestBelowCostIsOneSellersHabitNotAShopsMarkdown(t *testing.T) {
 	}
 }
 
-// Where refunds are routine, a single refund is not flagged; an invoice refunded twice and a seller whose
-// refunds stand out still are.
+// Where refunds are routine, a single refund is not flagged; an invoice refunded twice or in full, and a
+// seller whose refunds stand out, still are.
 func TestRoutineRefundsFlagOnlyWhatIsUnusualEvenThere(t *testing.T) {
 	var invoices, payments []map[string]interface{}
 	refundID := 1000
@@ -295,15 +295,19 @@ func TestRoutineRefundsFlagOnlyWhatIsUnusualEvenThere(t *testing.T) {
 		refund(i, "2026-07-20", 200_000)
 	}
 	refund(30, "2026-07-20", 300_000)
+	refund(50, "2026-07-20", 1_000_000) // the whole invoice
 	refund(40, "2026-07-20", 100_000)
 	refund(40, "2026-07-25", 100_000)
 	got := findings(run(t, fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: invoices, opPayment: payments}}, "O21"), "O21")
-	var twice, seller int
+	var twice, whole, seller int
 	for _, f := range got {
 		switch f.Subject.Type {
 		case "invoice":
-			twice++
-			if f.Facts["refunds"] != 2 {
+			if f.Facts["refunds"] == 2 {
+				twice++
+			} else if f.Facts["refunded"] == 1_000_000.0 {
+				whole++
+			} else {
 				t.Errorf("invoice finding %+v", f)
 			}
 		case "seller":
@@ -313,7 +317,7 @@ func TestRoutineRefundsFlagOnlyWhatIsUnusualEvenThere(t *testing.T) {
 			}
 		}
 	}
-	if len(got) != 2 || twice != 1 || seller != 1 {
+	if len(got) != 3 || twice != 1 || whole != 1 || seller != 1 {
 		t.Fatalf("findings %+v", got)
 	}
 }

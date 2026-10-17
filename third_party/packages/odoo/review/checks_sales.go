@@ -29,7 +29,7 @@ func init() {
 		id: "O21", name: "Giảm trừ sau khi đã thu tiền", kind: kindSign,
 		question: "Có hoá đơn đã thu đủ tiền rồi mới bị giảm trừ và chi trả lại không?",
 		needs:    []string{opInvoice, opPayment},
-		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out: an outbound payment to the customer settles it (a credit note settled against an invoice, in full or for part of it, moves no money and is not one). Where refunds are routine (paid-out refunds >= routine_rate of the paid invoices, over min_invoices or more), only what is unusual even there: a refund above the invoice, an invoice refunded more than once, or a seller whose refunds are >= times_others x everyone else's share, from min_refunds refunds",
+		formula:  "a credit note reversing a customer invoice the customer had paid, dated >= min_days after it, and paid out: an outbound payment to the customer settles it (a credit note settled against an invoice, in full or for part of it, moves no money and is not one). Where refunds are routine (paid-out refunds >= routine_rate of the paid invoices, over min_invoices or more), only what is unusual even there: the whole invoice or more refunded, an invoice refunded more than once, or a seller whose refunds are >= times_others x everyone else's share, from min_refunds refunds",
 		params:   map[string]float64{"min_days": 7, "routine_rate": 0.03, "min_invoices": 50, "times_others": 3, "min_refunds": 3},
 		run:      creditNoteAfterPayment,
 	})
@@ -381,8 +381,10 @@ func routineRefunds(candidates []refundCase, paidBySeller map[string]int, rate f
 		case len(group) > 1:
 			why = fmt.Sprintf("%s (%s, %s) được hoàn tiền %d lần: %s, tổng %s.", text(original["name"]), relName(original["partner"]),
 				money(num(original["total_amount"])), len(group), strings.Join(names, ", "), money(refunded))
-		case refunded > num(original["total_amount"])+0.5:
-			why = fmt.Sprintf("%s (%s, %s) được hoàn %s, nhiều hơn chính hoá đơn (%s).", text(original["name"]), relName(original["partner"]),
+		case refunded >= num(original["total_amount"])-0.5:
+			// The whole sale reversed and its money paid back: a false refund's shape, even where goods come
+			// back every week.
+			why = fmt.Sprintf("%s (%s, %s) được hoàn %s, toàn bộ hoá đơn hoặc hơn (%s).", text(original["name"]), relName(original["partner"]),
 				money(num(original["total_amount"])), money(refunded), strings.Join(names, ", "))
 		default:
 			continue
