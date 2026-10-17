@@ -292,7 +292,7 @@ command is a worst-case declaration about the command FAMILY, not about a specif
 	named operation's own strategy with "aerp catalog describe". UNVERIFIED operations are refused
 	before provider contact unless the local operator explicitly passes --allow-unverified; the override
 	does not change the UNVERIFIED readiness in output.`,
-		Flags: append(executionFlags(config), aerpsurface.VerifyFlag()),
+		Flags: append(executionFlags(config), aerpsurface.VerifyFlag(), acceptFlag()),
 		Examples: []string{
 			"aerp execute --profile lab-a --operation people.employee.list --limit 5 --output json",
 			`aerp execute --profile lab-a --operation identity.contact.create --set name="Synthetic Contact" --output json`,
@@ -306,9 +306,21 @@ command is a worst-case declaration about the command FAMILY, not about a specif
 			if request.Verify, err = invocation.Bool("verify"); err != nil {
 				return nil, err
 			}
+			accept, err := invocation.Bool("accept")
+			if err != nil {
+				return nil, err
+			}
+			request.Verify = request.Verify || accept
 			outcome, err := executor.Execute(ctx, request)
 			if err != nil {
 				return nil, classifyExecution(err, request.Operation, config.surface)
+			}
+			if accept {
+				op, describeErr := direct.DescribeAnyOperation(request.Operation)
+				if describeErr != nil {
+					return nil, clicore.InternalError(describeErr)
+				}
+				return acceptedOutcome{Outcome: outcome, Acceptance: judgeOutcome(ctx, executor, op, request, outcome, config)}, nil
 			}
 			return presentOutcome(invocation, outcome)
 		},
