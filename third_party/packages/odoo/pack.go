@@ -72,14 +72,27 @@ func IsSecretField(name string) bool {
 }
 
 // packRefusedModelPrefixes are refused besides the credential models: the whole technical layer,
-// who signs in and with which rights, company-wide settings, the models that run code, and the mail
-// a write would send or the template it would render.
-var packRefusedModelPrefixes = []string{"ir.", "res.users", "res.groups", "res.company", "res.config", "base.", "mail.mail", "mail.template"}
+// who signs in and with which rights, company-wide settings, the models that run code, and everything
+// that reaches outside the company or grants access, which odoo-cli leaves out on purpose (README, "Not
+// yet"): e-mail and SMS composers, mailings, sending an invoice, post, portal access and invitations. The
+// review of 2026-10-18 found a pack could open mail.compose.message, sms.composer or account.move.send.
+var packRefusedModelPrefixes = []string{"ir.", "res.users", "res.groups", "res.company", "res.config", "base.",
+	"mail.mail", "mail.template", "mail.compose", "mail.resend", "mail.wizard", "sms.", "mailing.", "mass.mailing",
+	"snailmail.", "account.move.send", "portal.", "survey.invite", "slide.channel.invite", "event.mail",
+	"website.visitor.mail", "loyalty.mail", "coupon.share"}
 
-// packMoneyModels move money or say who is paid: an operation on one is HIGH risk at least.
-var packMoneyModels = map[string]bool{
-	"res.partner.bank": true, "account.payment": true, "account.move": true, "account.move.line": true,
-	"account.bank.statement.line": true,
+// packMoneyModelPrefixes move money, book it or say who is paid: an operation on one is HIGH risk at
+// least. By prefix, so that a wizard over them (account.payment.register, account.move.reversal) is too;
+// the review of 2026-10-18 found account.payment.register rated MEDIUM.
+var packMoneyModelPrefixes = []string{"account.", "payment.", "res.partner.bank", "hr.payslip", "sale.advance.payment"}
+
+func packMoneyModel(model string) bool {
+	for _, prefix := range packMoneyModelPrefixes {
+		if strings.HasPrefix(model, prefix) {
+			return true
+		}
+	}
+	return false
 }
 
 // packRefusedMethods are the ORM's own methods: a pack names a button of the module, never a generic
@@ -306,6 +319,11 @@ func (p Pack) validateOperation(op PackOperation) error {
 			return err
 		}
 	case "WIZARD":
+		// A missing wizard is refused here: reading its model below would crash odoo-cli on a pack a module
+		// ships with a mistake (found in the review of 2026-10-18).
+		if op.Wizard == nil {
+			return fmt.Errorf("a WIZARD operation names its wizard: {\"model\", \"method\"}")
+		}
 		if op.Wizard.Model == op.Model {
 			return fmt.Errorf("the wizard is a model of its own")
 		}
@@ -438,7 +456,7 @@ func PackRisk(op PackOperation) RiskClassification {
 			models = append(models, op.Wizard.Model)
 		}
 		for _, model := range models {
-			if packMoneyModels[model] {
+			if packMoneyModel(model) {
 				floor = RiskHigh
 			}
 		}

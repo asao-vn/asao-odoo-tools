@@ -2,6 +2,16 @@
 
 ## 0.17.1 (2026-10-18)
 
+- **Fixed, operation packs (found in a review of packs on 2026-10-18):**
+  - **Crash.** A `WIZARD` operation without its `wizard` crashed odoo-cli when the pack was read: on
+    `pack add`, or on `pack sync` from a module that ships the mistake. It is now refused with a reason.
+  - **Reaching outside the company.** A pack could open a wizard that reaches outside the company or grants
+    access. Packs now refuse what odoo-cli leaves out on purpose:
+    - e-mail and SMS composers, and mailings;
+    - sending an invoice (`account.move.send`) and post;
+    - portal access, and invitations.
+  - **Money rated too low.** Every accounting and payment model is HIGH risk at least, matched by prefix.
+    `account.payment.register` was MEDIUM.
 - **Changed: at data level operate, `resolve` finds what is named and cannot count.** `mcp serve
   --data-access operate` runs it strictly:
   - conditions on a name, a reference, a state or the partner, by `=`, `!=`, `in` or `ilike`;

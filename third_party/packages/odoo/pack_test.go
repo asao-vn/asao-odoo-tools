@@ -164,3 +164,29 @@ func TestPackRiskFloorsNeverLowerADeclaration(t *testing.T) {
 		}
 	}
 }
+
+// The review of 2026-10-18: a WIZARD without its wizard is refused, not a crash; a pack reaches nothing
+// outside the company and grants no access; every accounting or payment model is HIGH at least.
+func TestAPackCannotCrashSendOrUnderrateMoney(t *testing.T) {
+	pack := func(wizard string) string {
+		w := ""
+		if wizard != "" {
+			w = `,"wizard":{"model":"` + wizard + `","method":"action_go"}`
+		}
+		return `{"schema":"odoo-cli.pack/v1","module":"probe_mod","operations":[{"id":"probe_mod.thing.go","kind":"ACTION","strategy":"WIZARD","model":"x.thing"` + w + `}]}`
+	}
+	if _, err := ParsePack([]byte(pack(""))); err == nil || !strings.Contains(err.Error(), "names its wizard") {
+		t.Fatalf("a wizard operation without its wizard: %v", err)
+	}
+	for _, model := range []string{"mail.compose.message", "sms.composer", "mailing.mailing", "account.move.send", "account.move.send.wizard", "portal.wizard", "snailmail.letter", "survey.invite"} {
+		if _, err := ParsePack([]byte(pack(model))); err == nil {
+			t.Errorf("%s was accepted", model)
+		}
+	}
+	for _, model := range []string{"account.payment.register", "account.move.reversal", "sale.advance.payment.inv", "hr.payslip.run"} {
+		p, err := ParsePack([]byte(pack(model)))
+		if err != nil || PackRisk(p.Operations[0]) != RiskHigh {
+			t.Errorf("%s: %v %v", model, err, p)
+		}
+	}
+}
