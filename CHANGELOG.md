@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.17.1 (unreleased)
+## 0.17.1 (2026-10-18)
 
 - **Changed: at data level operate, `resolve` finds what is named and cannot count.** `mcp serve
   --data-access operate` runs it strictly:
