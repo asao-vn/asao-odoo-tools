@@ -91,4 +91,4 @@ AERP_CREDENTIAL_PROOF="$(cat "$OUT/secret/api-key")"
 AERP_CREDENTIAL_PROOF_WEB=admin
 export AERP_CREDENTIAL_PROOF AERP_CREDENTIAL_PROOF_WEB
 echo "[$(date +%T)] the pack, through odoo-cli"
-python3 -I "$HERE/prove.py" --odoo-bin "$BIN" --profile proof --endpoint "http://127.0.0.1:$PORT" --database proof --login admin --out "$OUT"
+python3 -I "$HERE/prove.py" --odoo-bin "$BIN" --profile proof --endpoint "http://127.0.0.1:$PORT" --database proof --login admin --out "$OUT" --image "$IMAGE"

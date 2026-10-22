@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run.sh --out DIR [--engine docker|podman] [--odoo-bin PATH] [--months N] [--scale X] [--mess] [--profile P] [--fresh] [--seed N] [--real-sales FILE] [--keep]
+# run.sh --out DIR [--engine docker|podman] [--odoo-bin PATH] [--months N] [--scale X] [--mess] [--profile P] [--fresh] [--seed N] [--real-sales FILE] [--real-spend FILE] [--keep]
 #
 # The review simulation from start to end, on any machine with Docker or Podman:
 # 1. a throwaway Odoo 19 with the Vietnamese chart and no demo data (lab-up.sh);
@@ -14,7 +14,7 @@
 set -euo pipefail
 
 OUT=""; ENGINE=""; BIN=""; KEEP=false
-SIM_MONTHS="${SIM_MONTHS:-6}"; SIM_SCALE="${SIM_SCALE:-1}"; SIM_MESS="${SIM_MESS:-}"; SIM_PROFILE="${SIM_PROFILE:-trader}"; SIM_FRESH="${SIM_FRESH:-}"; SIM_SEED="${SIM_SEED:-20261014}"; REAL_SALES="${REAL_SALES:-}"
+SIM_MONTHS="${SIM_MONTHS:-6}"; SIM_SCALE="${SIM_SCALE:-1}"; SIM_MESS="${SIM_MESS:-}"; SIM_PROFILE="${SIM_PROFILE:-trader}"; SIM_FRESH="${SIM_FRESH:-}"; SIM_SEED="${SIM_SEED:-20261014}"; REAL_SALES="${REAL_SALES:-}"; REAL_SPEND="${REAL_SPEND:-}"
 while [ $# -gt 0 ]; do
   case "$1" in
     --out) OUT="$2"; shift 2 ;;
@@ -25,13 +25,14 @@ while [ $# -gt 0 ]; do
     --fresh) SIM_FRESH=1; shift ;;
     --seed) SIM_SEED="$2"; shift 2 ;;
     --real-sales) REAL_SALES="$2"; shift 2 ;;
+    --real-spend) REAL_SPEND="$2"; shift 2 ;;
     --engine) ENGINE="$2"; shift 2 ;;
     --odoo-bin) BIN="$2"; shift 2 ;;
     --keep) KEEP=true; shift ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
-[ -n "$OUT" ] || { echo "usage: $0 --out DIR [--engine docker|podman] [--odoo-bin PATH] [--months N] [--scale X] [--mess] [--profile P] [--fresh] [--seed N] [--real-sales FILE] [--keep]" >&2; exit 2; }
+[ -n "$OUT" ] || { echo "usage: $0 --out DIR [--engine docker|podman] [--odoo-bin PATH] [--months N] [--scale X] [--mess] [--profile P] [--fresh] [--seed N] [--real-sales FILE] [--real-spend FILE] [--keep]" >&2; exit 2; }
 ENGINE="${ENGINE:-$(command -v docker >/dev/null 2>&1 && echo docker || echo podman)}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 mkdir -p "$OUT"
@@ -56,7 +57,13 @@ if [ -n "$REAL_SALES" ]; then
   "$ENGINE" cp "$REAL_SALES" odoo-review-sim-web:/tmp/real-sales.json
   SIM_REAL_SALES=/tmp/real-sales.json
 fi
-"$ENGINE" exec -i -e SIM_REAL_SALES="$SIM_REAL_SALES" -e SIM_MONTHS="$SIM_MONTHS" -e SIM_SCALE="$SIM_SCALE" -e SIM_MESS="$SIM_MESS" -e SIM_PROFILE="$SIM_PROFILE" -e SIM_FRESH="$SIM_FRESH" -e SIM_SEED="$SIM_SEED" odoo-review-sim-web sh -c 'odoo shell --db_host="$HOST" --db_user="$USER" --db_password="$PASSWORD" -d reviewsim --no-http --log-level=error' \
+SIM_REAL_SPEND=""
+if [ -n "$REAL_SPEND" ]; then
+  # The real spending file (prepare_birmingham.py makes it), the same way.
+  "$ENGINE" cp "$REAL_SPEND" odoo-review-sim-web:/tmp/real-spend.json
+  SIM_REAL_SPEND=/tmp/real-spend.json
+fi
+"$ENGINE" exec -i -e SIM_REAL_SALES="$SIM_REAL_SALES" -e SIM_REAL_SPEND="$SIM_REAL_SPEND" -e SIM_MONTHS="$SIM_MONTHS" -e SIM_SCALE="$SIM_SCALE" -e SIM_MESS="$SIM_MESS" -e SIM_PROFILE="$SIM_PROFILE" -e SIM_FRESH="$SIM_FRESH" -e SIM_SEED="$SIM_SEED" odoo-review-sim-web sh -c 'odoo shell --db_host="$HOST" --db_user="$USER" --db_password="$PASSWORD" -d reviewsim --no-http --log-level=error' \
   < "$HERE/simulate.py" > "$OUT/sim.out" 2> "$OUT/sim.log"
 grep '^SIM ' "$OUT/sim.out" || { tail -30 "$OUT/sim.log" >&2; exit 1; }
 sed -n 's/^TRUTH=//p' "$OUT/sim.out" > "$OUT/truth.json"

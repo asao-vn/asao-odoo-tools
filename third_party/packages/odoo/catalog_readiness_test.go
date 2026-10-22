@@ -16,7 +16,9 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// 4 historical describes (product, invoice, contact, employee) on 2026-10-11, once the read oracle
 	// read a curated answer back through the names, enum spellings and relation shape describe publishes,
 	// and transfer reservation and the two guarded deletes, on fresh twins the same day.
-	if report.CatalogOperations != 105 || report.CurrentVerified != 103 || report.HistoricalOnly != 2 || report.Unverified != 0 {
+	// Then website.page.new on 2026-10-22, against an oracle calling website.new_page (scripts/dev/odoo-website-page-conformance.py),
+	// and website.site.code.describe the same day, against the read oracle (scripts/dev/odoo-read-conformance.py --only).
+	if report.CatalogOperations != 107 || report.CurrentVerified != 105 || report.HistoricalOnly != 2 || report.Unverified != 0 {
 		t.Fatalf("readiness report = %+v", report)
 	}
 	// The manifest also holds the surface operations the read, write and action runs promoted (291
@@ -52,8 +54,10 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 	// (odoo-settings-conformance.py), with the controls' settings and lock dates: 135 actions and wizards.
 	// 2026-10-16: the alerts (odoo-alerts-conformance.py), rules and actions read, created and updated
 	// through odoo-cli controls, with the metadata reads that resolve them: reads 532, writes 518.
-	if len(report.Records) != 103+532+518+135+7+6 {
-		t.Fatalf("current manifest has %d records, want 103 curated + 1198 surface", len(report.Records))
+	// 2026-10-22: website.page.new, a curated model method (odoo-website-page-conformance.py): curated 104.
+	// 2026-10-22: website.site.code.describe, a curated read (odoo-read-conformance.py --only): curated 105.
+	if len(report.Records) != 105+532+518+135+7+6 {
+		t.Fatalf("current manifest has %d records, want 105 curated + 1198 surface", len(report.Records))
 	}
 
 	counts := map[OperationReadiness]int{}
@@ -64,7 +68,7 @@ func TestReadinessCoversTheCanonicalCatalog(t *testing.T) {
 		}
 		counts[readiness]++
 	}
-	if counts[ReadinessCurrentVerified] != 103 || counts[ReadinessHistoricalOnly] != 2 || counts[ReadinessUnverified] != 0 {
+	if counts[ReadinessCurrentVerified] != 105 || counts[ReadinessHistoricalOnly] != 2 || counts[ReadinessUnverified] != 0 {
 		t.Fatalf("readiness counts = %v", counts)
 	}
 	if _, ok := ReadinessOf("not.a.catalog.operation"); ok {
@@ -114,7 +118,9 @@ func TestReleaseReadinessPassesOnceEveryCuratedOperationHasEvidence(t *testing.T
 	if readiness, ok := ReadinessOf("admin.module.install"); !ok || readiness != ReadinessCurrentVerified {
 		t.Fatalf("admin.module.install readiness = %q, %v; want CURRENT_VERIFIED, true", readiness, ok)
 	}
-	if Odoo19CatalogProvenance.CatalogOperations != 105 || Odoo19CatalogProvenance.HistoricalLiveEvidence != 55 || Odoo19CatalogProvenance.NewerUnverified != 50 {
+	// website.page.new (2026-10-22) is the 106th operation and the 51st of the newer lineage; website.site.code.describe
+	// (the same day) the 107th and the 52nd. The historical 55 does not move.
+	if Odoo19CatalogProvenance.CatalogOperations != 107 || Odoo19CatalogProvenance.HistoricalLiveEvidence != 55 || Odoo19CatalogProvenance.NewerUnverified != 52 {
 		t.Fatalf("historical provenance changed: %+v", Odoo19CatalogProvenance)
 	}
 }

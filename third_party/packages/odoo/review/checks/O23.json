@@ -1,16 +1,16 @@
 {
   "schema": "odoo-cli.check/v1",
   "id": "O23",
-  "version": 1,
+  "version": 2,
   "name": "Chi phí kê hai lần",
   "question": "Có ai kê cùng một khoản chi phí hai lần không?",
   "kind": "sai sót",
-  "formula": "two claims of one employee with the same amount, <= window_days apart",
+  "formula": "two claims of one employee with the same amount, <= window_days apart; a claim paid with the company card is not a claim for money back (its bank statement is the record) and is left out",
   "params": {"window_days": 3},
   "source": {
     "operation": "people.expense.list",
     "period": "date",
-    "where": [["state", "not in", ["draft", "refused"]]]
+    "where": [["state", "not in", ["draft", "refused"]], ["payment_mode", "!=", "company_account"]]
   },
   "match": {
     "kind": "pairs",
@@ -54,6 +54,26 @@
         {"id": 9, "name": "Xăng", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-05-03", "total_amount": 400000, "state": "refused"}
       ]},
       "expect": []
+    },
+    {
+      "name": "look-alikes: six charges of one amount on one day on the company card, and two the next day (a council's real card data, 2026-10-20)",
+      "records": {"people.expense.list": [
+        {"id": 11, "name": "Vé tập huấn", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-05-21", "total_amount": 14898000, "state": "approved", "payment_mode": "company_account"},
+        {"id": 12, "name": "Vé tập huấn", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-05-21", "total_amount": 14898000, "state": "approved", "payment_mode": "company_account"},
+        {"id": 13, "name": "Vé tập huấn", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-05-21", "total_amount": 14898000, "state": "approved", "payment_mode": "company_account"},
+        {"id": 14, "name": "Gửi xe", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-05-22", "total_amount": 30000, "state": "approved", "payment_mode": "company_account"},
+        {"id": 15, "name": "Gửi xe", "employee_id": [7, "Lê Văn Hùng"], "date": "2026-05-22", "total_amount": 30000, "state": "approved", "payment_mode": "company_account"}
+      ]},
+      "expect": []
+    },
+    {
+      "name": "the same taxi claimed back twice, once with the company card's charge beside it",
+      "records": {"people.expense.list": [
+        {"id": 21, "name": "Taxi", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-06-03", "total_amount": 265000, "state": "approved", "payment_mode": "own_account"},
+        {"id": 22, "name": "Taxi đi công trình", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-06-03", "total_amount": 265000, "state": "approved", "payment_mode": "company_account"},
+        {"id": 23, "name": "Taxi", "employee_id": [9, "Đỗ Minh Tuấn"], "date": "2026-06-04", "total_amount": 265000, "state": "approved", "payment_mode": "own_account"}
+      ]},
+      "expect": [{"evidence": [21, 23], "severity": "NEN_XU_LY"}]
     }
   ]
 }

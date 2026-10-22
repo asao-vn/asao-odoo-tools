@@ -194,6 +194,11 @@ type Odoo19Operation struct {
 	MethodKwargs         map[string]interface{}
 	MethodInputs         []string
 	MethodRequiredInputs []string
+	// ModelMethod marks a method Odoo declares @api.model (website.new_page): it is called on the model, with no record
+	// ids and keyword arguments only, so the operation takes no target. CreatedIDKey names the key of the method's
+	// answer that holds the record it made (new_page answers {page_id, view_id, url, menu_id}).
+	ModelMethod  bool
+	CreatedIDKey string
 	// ReportName is the report a REPORT operation renders (sale.report_saleorder).
 	ReportName string
 
@@ -1209,7 +1214,13 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"product"},
 		RequiredCapability: "catalog.product.write", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
 		ProviderModel: "product.template", WriteMode: WriteModeUpdate,
-		AllowedFields: []string{"list_price", "sale_ok", "purchase_ok"},
+		AllowedFields: []string{"list_price", "sale_ok", "purchase_ok", "taxes_id"},
+		Relations: map[string]RelationSpec{
+			// The product's sales taxes, replaced as a whole: an empty list leaves it with none. Tuition is the
+			// case that needs it (a teaching organization's Odoo adds its default sales tax to every new
+			// product, and teaching is usually outside VAT); the teacher can put a tax back the same way.
+			"taxes_id": {TargetModel: "account.tax", Multi: true},
+		},
 	},
 	{
 		SemanticID: "schedule.event.list", Kind: KindRead, Strategy: StrategyRead,
@@ -1383,6 +1394,22 @@ var odoo19Catalog = []Odoo19Operation{
 		ProviderModel: "website.menu", ReadFields: []string{"id", "name", "url", "website_id", "parent_id", "sequence"},
 	},
 	{
+		// Odoo's own way to make a page, the one the website builder's "New page" calls: it copies the default page
+		// template into a view of its own, puts the given sections inside the page's wrap, and makes the page, plus its
+		// menu entry when asked. website.page.create cannot make a page with content: a page's arch is its view's
+		// (related='view_id.arch'), and Odoo makes that view first, without one. The page is made unpublished;
+		// website.page.update publishes it. name is the address word (lop-hoc gives /lop-hoc, or /lop-hoc-1 when taken),
+		// page_title the title.
+		SemanticID: "website.page.new", Kind: KindCommand, Strategy: StrategyMethodCall,
+		RequiredModules:    []string{"website"},
+		RequiredCapability: "website.records.write", Risk: RiskLow, Confidence: "LIVE_WORKFLOW_VERIFIED",
+		ProviderModel: "website", Method: "new_page", ModelMethod: true, CreatedIDKey: "page_id",
+		MethodInputs:         []string{"name", "page_title", "sections_arch", "add_menu"},
+		MethodRequiredInputs: []string{"name"},
+		MethodKwargs:         map[string]interface{}{"template": "website.default_page", "ispage": true},
+		InputTypes:           map[string]string{"add_menu": "boolean"},
+	},
+	{
 		SemanticID: "website.page.list", Kind: KindRead, Strategy: StrategyRead,
 		RequiredModules:    []string{"website"},
 		RequiredCapability: "governance.providerbinding.read", Risk: RiskLow, Confidence: "SOURCE_DISCOVERED",
@@ -1393,6 +1420,16 @@ var odoo19Catalog = []Odoo19Operation{
 		RequiredModules:    []string{"website"},
 		RequiredCapability: "governance.providerbinding.read", Risk: RiskLow, Confidence: "SOURCE_DISCOVERED",
 		ProviderModel: "website", ReadFields: []string{"id", "name", "domain", "company_id", "default_lang_id"},
+	},
+	{
+		// The code a person or ASAO added to every page of the website (Website > Settings > Custom code): what Odoo
+		// renders at the end of <head> and of <body>. A writer of website.site.update's custom_code_head reads it first
+		// so that it replaces only its own part (asao presence schema). Both fields are rendered to every visitor, so
+		// they are public by nature.
+		SemanticID: "website.site.code.describe", Kind: KindRead, Strategy: StrategyRead,
+		RequiredModules:    []string{"website"},
+		RequiredCapability: "governance.providerbinding.read", Risk: RiskLow, Confidence: "SOURCE_DISCOVERED",
+		ProviderModel: "website", ReadFields: []string{"id", "name", "domain", "company_id", "custom_code_head", "custom_code_footer"},
 	},
 	{
 		SemanticID: "workforce.attendance.list", Kind: KindRead, Strategy: StrategyRead,

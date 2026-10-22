@@ -28,17 +28,9 @@ func init() {
 		id: "O01", name: "Hoá đơn mua trùng", kind: kindErr,
 		question: "Có hoá đơn của nhà cung cấp nào bị nhập (và trả) hai lần không?",
 		needs:    []string{opInvoice},
-		formula:  "same vendor and the same reference compared on letters and digits; or same vendor and total within window_days when a bill has no reference",
-		params:   map[string]float64{"window_days": 14},
+		formula:  "same vendor and the same reference compared on letters and digits; or same vendor and total within window_days when a bill has no reference. An amount the vendor bills recurring_min times or more is its fixed fee: only two such bills in a row closer than cadence_share of its usual gap are a pair, and the vendor gets one THEO_DOI finding asking for invoice numbers",
+		params:   map[string]float64{"window_days": 14, "recurring_min": 3, "cadence_share": 0.25},
 		run:      duplicateBills,
-	})
-	register(check{
-		id: "O16", name: "Chia nhỏ đơn mua", kind: kindSign,
-		question: "Có đơn mua nào bị chia nhỏ để lọt dưới ngưỡng phải duyệt không?",
-		needs:    []string{opRFQ},
-		formula:  "purchase orders of one vendor within window_days, each total (VAT included) in [band x threshold, threshold), together >= threshold, at least min_orders of them",
-		params:   map[string]float64{"threshold": 20_000_000, "band": 0.8, "window_days": 7, "min_orders": 2},
-		run:      splitPurchases,
 	})
 	register(check{
 		id: "O07", name: "Chia nhỏ khoản chi", kind: kindSign,
@@ -189,6 +181,44 @@ func duplicateBills(ctx context.Context, b *books, p map[string]float64) ([]Find
 			}
 			return relID(list[i]["id"]) < relID(list[j]["id"])
 		})
+		// Without a reference only the amount can match two bills, and a vendor that bills one amount again
+		// and again (a unit price, a weekly fee) makes pairs of it all year: 232 alarms for one supplier of
+		// a city council's real payments (2026-10-20). Such an amount is the vendor's fixed fee; a copy of it
+		// shows as two bills far closer together than the vendor's usual gap.
+		byAmount := map[int64][]map[string]interface{}{}
+		for _, bill := range list {
+			key := int64(math.Round(num(bill["total_amount"])))
+			byAmount[key] = append(byAmount[key], bill)
+		}
+		fixed := map[int64]bool{}
+		nextOf := map[int64]int64{}
+		cadence := map[int64]float64{}
+		var unreferenced []map[string]interface{}
+		for key, bills := range byAmount {
+			if float64(len(bills)) < p["recurring_min"] {
+				continue
+			}
+			fixed[key] = true
+			var gaps []float64
+			ambiguous := false
+			for k := 0; k+1 < len(bills); k++ {
+				a, _ := parseDay(bills[k]["invoice_date"])
+				z, _ := parseDay(bills[k+1]["invoice_date"])
+				gaps = append(gaps, float64(a.daysUntil(z)))
+				nextOf[relID(bills[k]["id"])] = relID(bills[k+1]["id"])
+				noRef := text(bills[k]["ref"]) == "" || text(bills[k+1]["ref"]) == ""
+				ambiguous = ambiguous || (noRef && float64(a.daysUntil(z)) <= p["window_days"])
+			}
+			sort.Float64s(gaps)
+			cadence[key] = gaps[len(gaps)/2]
+			if ambiguous {
+				for _, bill := range bills {
+					if text(bill["ref"]) == "" {
+						unreferenced = append(unreferenced, bill)
+					}
+				}
+			}
+		}
 		for i, first := range list {
 			for _, second := range list[i+1:] {
 				d1, _ := parseDay(first["invoice_date"])
@@ -199,6 +229,10 @@ func duplicateBills(ctx context.Context, b *books, p map[string]float64) ([]Find
 				sameAmount := math.Abs(num(first["total_amount"])-num(second["total_amount"])) < 1
 				bothRefs := text(first["ref"]) != "" && text(second["ref"]) != ""
 				if !(sameRef || (sameAmount && float64(gap) <= p["window_days"] && !bothRefs)) {
+					continue
+				}
+				if key := int64(math.Round(num(first["total_amount"]))); !sameRef && fixed[key] &&
+					(nextOf[relID(first["id"])] != relID(second["id"]) || float64(gap) >= p["cadence_share"]*cadence[key]) {
 					continue
 				}
 				paid := func(row map[string]interface{}) bool {
@@ -247,82 +281,21 @@ func duplicateBills(ctx context.Context, b *books, p map[string]float64) ([]Find
 				})
 			}
 		}
-	}
-	return out, nil
-}
-
-func splitPurchases(ctx context.Context, b *books, p map[string]float64) ([]Finding, error) {
-	rows, err := b.read(ctx, opRFQ, []interface{}{[]interface{}{"state", "in", []interface{}{"purchase", "done"}}})
-	if err != nil {
-		return nil, err
-	}
-	low := p["threshold"] * p["band"]
-	byVendor := map[int64][]map[string]interface{}{}
-	var vendors []int64
-	for _, order := range rows {
-		total := num(order["total_amount"])
-		if !b.inPeriod(order["date_order"]) || total < low || total >= p["threshold"] {
-			continue
-		}
-		vendor := relID(order["partner"])
-		if _, seen := byVendor[vendor]; !seen {
-			vendors = append(vendors, vendor)
-		}
-		byVendor[vendor] = append(byVendor[vendor], order)
-	}
-	sort.Slice(vendors, func(i, j int) bool { return vendors[i] < vendors[j] })
-	var out []Finding
-	for _, vendor := range vendors {
-		orders := byVendor[vendor]
-		sort.SliceStable(orders, func(i, j int) bool { return text(orders[i]["date_order"]) < text(orders[j]["date_order"]) })
-		var cluster []map[string]interface{}
-		var last *Finding
-		for _, order := range orders {
-			when, _ := parseDay(order["date_order"])
-			kept := cluster[:0:0]
-			for _, previous := range cluster {
-				before, _ := parseDay(previous["date_order"])
-				if float64(before.daysUntil(when)) <= p["window_days"] {
-					kept = append(kept, previous)
-				}
+		if len(unreferenced) > 0 {
+			sort.SliceStable(unreferenced, func(i, j int) bool { return relID(unreferenced[i]["id"]) < relID(unreferenced[j]["id"]) })
+			vendorName := relName(unreferenced[0]["partner"])
+			ev := make([]Evidence, 0, len(unreferenced))
+			for _, bill := range unreferenced {
+				ev = append(ev, evidence(opInvoice, bill, ""))
 			}
-			cluster = append(kept, order)
-			total := 0.0
-			for _, o := range cluster {
-				total += num(o["total_amount"])
-			}
-			if float64(len(cluster)) < p["min_orders"] || total < p["threshold"] {
-				continue
-			}
-			first, _ := parseDay(cluster[0]["date_order"])
-			lastDay, _ := parseDay(cluster[len(cluster)-1]["date_order"])
-			parts := make([]string, 0, len(cluster))
-			names := make([]string, 0, len(cluster))
-			ev := make([]Evidence, 0, len(cluster))
-			for _, o := range cluster {
-				parts = append(parts, text(o["name"])+" "+money(num(o["total_amount"])))
-				names = append(names, text(o["name"]))
-				ev = append(ev, evidence(opRFQ, o, ""))
-			}
-			severity := NenXuLy
-			if len(cluster) >= 3 {
-				severity = XemNgay
-			}
-			vendorName := relName(order["partner"])
-			finding := Finding{
-				Title: "Đơn mua có thể bị chia nhỏ dưới ngưỡng duyệt", Severity: severity,
+			out = append(out, Finding{
+				Title: "Hoá đơn mua không có số hoá đơn, cùng số tiền lặp lại: không kiểm được trùng", Severity: TheoDoi,
 				Subject: Subject{Type: "vendor", ID: fmt.Sprint(vendor), Name: vendorName},
-				Why: fmt.Sprintf("%s: %d đơn trong %d ngày (%s), mỗi đơn ngay dưới ngưỡng duyệt %s, cộng lại %s.",
-					vendorName, len(cluster), first.daysUntil(lastDay)+1, strings.Join(parts, ", "), money(p["threshold"]), money(total)),
-				AmountVND: total, Evidence: ev,
-				Facts: map[string]interface{}{"orders": names, "total": total, "threshold": p["threshold"]},
-			}
-			// A growing cluster replaces the finding it grew from.
-			if last != nil && len(out) > 0 && containsAll(names, out[len(out)-1].Facts["orders"].([]string)) {
-				out = out[:len(out)-1]
-			}
-			out = append(out, finding)
-			last = &out[len(out)-1]
+				Why: fmt.Sprintf("%s: %d hoá đơn không có số hoá đơn, với số tiền lặp lại từ %d lần trở lên, có lần cách nhau không quá %d ngày. Chỉ dựa vào số tiền thì không phân biệt được hoá đơn nhập hai lần với phí cố định; chỉ báo khi hai lần sát nhau bất thường so với nhịp thường lệ. Nhập số hoá đơn của nhà cung cấp để kiểm được trùng.",
+					vendorName, len(unreferenced), int(p["recurring_min"]), int(p["window_days"])),
+				Evidence: ev,
+				Facts:    map[string]interface{}{"vendor": vendorName, "bills": len(unreferenced)},
+			})
 		}
 	}
 	return out, nil

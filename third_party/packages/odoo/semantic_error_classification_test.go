@@ -37,6 +37,8 @@ type fakeTransport struct {
 	// createdValues and createdContexts are the values and provider contexts Create was called with.
 	createdValues   []map[string]interface{}
 	createdContexts []map[string]interface{}
+	// writtenValues are the values Write was called with, in order.
+	writtenValues []map[string]interface{}
 	// searchContexts are the provider contexts SearchRead was called with, in order.
 	searchContexts []map[string]interface{}
 }
@@ -75,8 +77,9 @@ func (f *fakeTransport) SearchCount(_ context.Context, model string, _ interface
 	return 0, nil
 }
 
-func (f *fakeTransport) Write(_ context.Context, model string, _ []int64, _ map[string]interface{}, _ map[string]interface{}) error {
+func (f *fakeTransport) Write(_ context.Context, model string, _ []int64, values map[string]interface{}, _ map[string]interface{}) error {
 	f.recordMutation("Write", model)
+	f.writtenValues = append(f.writtenValues, values)
 	return nil
 }
 

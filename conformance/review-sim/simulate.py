@@ -33,6 +33,9 @@ FRESH = os.environ.get("SIM_FRESH", "") == "1"
 # SIM_REAL_SALES names a file from prepare_uci.py: real sales of a UK online retailer (UCI Online Retail II,
 # CC BY 4.0), replayed as invoices beside the simulated business. Nothing in them is planted.
 REAL_SALES = os.environ.get("SIM_REAL_SALES", "")
+# SIM_REAL_SPEND names a file from prepare_birmingham.py: a council's real card transactions and supplier
+# payments (Birmingham City Council, OGL v3.0), replayed as expense claims and supplier bills. Nothing planted.
+REAL_SPEND = os.environ.get("SIM_REAL_SPEND", "")
 END = D(2026, 9, 30)
 START = D(2026 + (10 - MONTHS - 1) // 12, (10 - MONTHS - 1) % 12 + 1, 1)
 
@@ -372,6 +375,57 @@ if REAL_SALES:
             pay(refund, when + datetime.timedelta(days=real_rng.randint(1, 3)))
         REAL["credits"] += 1
     env.cr.commit()
+
+# ====================================== real spending (SIM_REAL_SPEND) ===========================
+# Each card is one cardholder whose transactions become expense claims paid with the company card, approved
+# by the director. Each supplier payment becomes a bill with no reference (the data carries none) paid the
+# same day. The suppliers get the simulation's placeholder tax codes and an address: the council's suppliers
+# are registered firms, and without them O18 would flag every one for a gap the data made, not the firm.
+REAL_SPEND_SUMMARY = {}
+if REAL_SPEND:
+    spend = json.load(open(REAL_SPEND, encoding="utf-8"))
+    card_category = CATEGORY["Văn phòng phẩm"]
+    holders = {}
+    for number in range(1, spend["holders"] + 1):
+        holders[number] = env["hr.employee"].create({"name": "Người cầm thẻ BHM %02d" % number, "job_title": "Cán bộ (dữ liệu thật)"})
+    claims_made = 0
+    for i, claim in enumerate(spend["claims"]):
+        when = datetime.date.fromisoformat(claim["date"])
+        if when < START or when > END:
+            continue
+        values = {"name": "BHM thẻ %02d #%05d" % (claim["holder"], i), "employee_id": holders[claim["holder"]].id,
+                  "product_id": card_category.id, "total_amount_currency": claim["amount"], "date": when,
+                  "payment_mode": "company_account"}
+        try:
+            with env.cr.savepoint():
+                exp = env["hr.expense"].sudo().create(values)
+        except Exception:  # no company-card journal on this build: the claim is the same, paid back instead
+            values["payment_mode"] = "own_account"
+            exp = env["hr.expense"].sudo().create(values)
+        for step in ("action_submit", "action_approve"):
+            try:
+                with env.cr.savepoint():
+                    getattr(exp.with_user(U["khoa"]).sudo(), step)()
+            except Exception:
+                pass
+        real_records.append(exp.name)
+        claims_made += 1
+    env.cr.commit()
+    suppliers, categories, bills_made = {}, {}, 0
+    for i, code in enumerate(spend["suppliers"]):
+        suppliers[code] = partner("NCC Birmingham %s" % code, vat="99%08d" % (77000000 + i), street="Birmingham (dữ liệu thật)",
+                                  supplier_rank=1)
+    for item in spend["bills"]:
+        when = datetime.date.fromisoformat(item["date"])
+        if when < START or when > END:
+            continue
+        move = bill(suppliers[item["supplier"]], when, False, item["amount"], item["category"] or "Chi phí", pay_on=when)
+        real_records.append(move.name)
+        bills_made += 1
+        if bills_made % 100 == 0:
+            env.cr.commit()
+    env.cr.commit()
+    REAL_SPEND_SUMMARY = {"holders": len(holders), "claims": claims_made, "suppliers": len(suppliers), "bills": bills_made}
 
 # ====================================== planted cases ===========================================
 # 1. A supplier bill entered twice: same supplier, same reference, same amount, six days apart, both paid.
@@ -814,12 +868,14 @@ print("SIM sales=%d purchases=%d bills=%d payments=%d expenses=%d scraps=%d" % (
     env["sale.order"].search_count([]), env["purchase.order"].search_count([]),
     env["account.move"].search_count([("move_type", "=", "in_invoice")]), env["account.payment"].search_count([]),
     env["hr.expense"].search_count([]), env["stock.scrap"].search_count([])))
-if REAL_SALES:
+if REAL_SALES or REAL_SPEND:
     # Payments of the real stream are named too: a check that pairs payments names them, not the invoices.
     real_moves = env["account.move"].search([("name", "in", real_records)])
     real_records += env["account.payment"].search([("reconciled_invoice_ids", "in", real_moves.ids)]).mapped("name")
     real_records += env["account.payment"].search([("reconciled_bill_ids", "in", real_moves.ids)]).mapped("name")
-    print("REAL invoices=%d credits=%d linked=%d records=%d" % (REAL["invoices"], REAL["credits"], REAL["linked"], len(real_records)))
+    print("REAL invoices=%d credits=%d linked=%d spend=%s records=%d" % (REAL["invoices"], REAL["credits"], REAL["linked"],
+                                                                       REAL_SPEND_SUMMARY, len(real_records)))
+real_sources = [json.load(open(path, encoding="utf-8"))["citation"] for path in (REAL_SALES, REAL_SPEND) if path]
 print("TRUTH=" + json.dumps({"from": str(START), "asOf": str(AS_OF), "cases": truth, "real": sorted(set(real_records)),
-                            "realSource": json.load(open(REAL_SALES, encoding="utf-8"))["citation"] if REAL_SALES else None},
+                            "realSource": " + ".join(real_sources) or None},
                            ensure_ascii=False))

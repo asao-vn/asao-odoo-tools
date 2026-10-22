@@ -40,6 +40,13 @@ on:
       real_seed:
         description: Which customers of the real sales to take (a seeded sample).
         default: "1"
+      real_spend:
+        description: Add real card transactions and supplier payments of Birmingham City Council (OGL v3.0), nothing planted in them.
+        type: boolean
+        default: false
+      real_spend_seed:
+        description: Which cardholders and suppliers of the real spending to take (a seeded sample).
+        default: "3"
 
 permissions:
   contents: read
@@ -64,6 +71,16 @@ jobs:
           python3 -I -c "import sys, zipfile; zipfile.ZipFile(sys.argv[1]).extract('online_retail_II.xlsx', sys.argv[2])" "$RUNNER_TEMP/uci/online_retail_ii.zip" "$RUNNER_TEMP/uci"
           python3 -I conformance/review-sim/prepare_uci.py --xlsx "$RUNNER_TEMP/uci/online_retail_II.xlsx" --out "$RUNNER_TEMP/uci-sales.json" --seed "${{ inputs.real_seed }}"
           echo "REAL_SALES=$RUNNER_TEMP/uci-sales.json" >> "$GITHUB_ENV"
+      - name: Fetch and sample the real spending (Birmingham City Council, OGL v3.0)
+        if: inputs.real_spend
+        run: |
+          # The portal is live and corrected over time: no fixed checksum, prepare_birmingham.py records each file's sha256.
+          B=https://www.cityobservatory.birmingham.gov.uk/api/explore/v2.1/catalog/datasets
+          mkdir -p "$RUNNER_TEMP/bhm"
+          curl -sSfL -o "$RUNNER_TEMP/bhm/cards.csv" "$B/purchase-card-transactions/exports/csv?delimiter=%2C&where=trans_date%3E%3Ddate%272024-10-01%27%20and%20trans_date%3Cdate%272025-10-01%27"
+          curl -sSfL -o "$RUNNER_TEMP/bhm/payments.csv" "$B/payments-to-suppliers-over-gbp500/exports/csv?delimiter=%2C&where=date%3E%3Ddate%272024-10-01%27%20and%20date%3Cdate%272025-10-01%27"
+          python3 -I conformance/review-sim/prepare_birmingham.py --cards "$RUNNER_TEMP/bhm/cards.csv" --payments "$RUNNER_TEMP/bhm/payments.csv" --out "$RUNNER_TEMP/bhm-spend.json" --seed "${{ inputs.real_spend_seed }}"
+          echo "REAL_SPEND=$RUNNER_TEMP/bhm-spend.json" >> "$GITHUB_ENV"
       - name: Simulate the business, review it, score the review
         env:
           SIM_MONTHS: ${{ github.event_name == 'schedule' && '12' || inputs.months }}

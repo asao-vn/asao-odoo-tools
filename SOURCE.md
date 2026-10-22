@@ -1,6 +1,6 @@
 # Source
 
-Exported from the ASAO monorepo commit `7add9a59bf12e546c95e75fbd73e1515a32118f2` by `scripts/release/public/export-public-repo.py asao-odoo-tools`.
+Exported from the ASAO monorepo commit `eab80ddb0d4fc967b641c190dae1ef9c64e2f989` by `scripts/release/public/export-public-repo.py asao-odoo-tools`.
 
 - Root module: `github.com/asao-platform/atoc/packages/cli` (monorepo `packages/cli`), pruned to the 15 packages `./cmd/odoo-cli` links, with their tests
 - `third_party/`: 8 imported packages from 2 monorepo modules; `packages/odoo` with tests

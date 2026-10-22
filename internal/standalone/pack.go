@@ -32,7 +32,9 @@ const (
 	// packStaticPath is where a module ships its pack: Odoo serves a module's static files without a
 	// login, at /<module>/static/...
 	packStaticPath = "static/odoo-cli/pack.json"
-	packMaxBytes   = 1 << 20
+	// packEvidencePath is where it ships the author's evidence (odoo.PackEvidence), if any.
+	packEvidencePath = "static/odoo-cli/evidence.json"
+	packMaxBytes     = 1 << 20
 )
 
 // packReserved are this program's own top-level commands: a pack's module named like one would mount
@@ -58,6 +60,14 @@ type storedPack struct {
 	Series    string          `json:"series"`
 	CheckedAt string          `json:"checkedAt"`
 	Warnings  []string        `json:"warnings,omitempty"`
+	// Evidence is the author's verification run, kept as shipped; what it shows is worked out on every
+	// read, against the definitions this build compiles.
+	Evidence *odoo.PackEvidence `json:"evidence,omitempty"`
+}
+
+// verifications says what the kept evidence shows for each operation, on the Odoo the pack was checked on.
+func (s storedPack) verifications() map[string]odoo.PackVerification {
+	return s.Pack.Verifications(s.Evidence, s.Series)
 }
 
 func packDir(profile string) (string, error) {
@@ -154,7 +164,9 @@ func LoadPacks(args []string, diagnostics io.Writer) {
 		fmt.Fprintf(diagnostics, "odoo-cli: a pack of profile %s is skipped: %v\n", selection.Profile.Name, problem)
 	}
 	for _, stored := range packs {
-		if err := odoo.RegisterPack(stored.Pack, stored.Origin, packReserved); err != nil {
+		origin := stored.Origin
+		origin.Verifications = stored.verifications()
+		if err := odoo.RegisterPack(stored.Pack, origin, packReserved); err != nil {
 			fmt.Fprintf(diagnostics, "odoo-cli: pack %s of profile %s is skipped (run `odoo-cli pack sync --profile %s`): %v\n",
 				stored.Pack.Module, selection.Profile.Name, selection.Profile.Name, err)
 		}
@@ -190,7 +202,9 @@ func packGroup(config programConfig) *clicore.Command {
 from the profile's own Odoo (static files need no login). Each pack found is checked against this Odoo: its
 module is installed, its models and fields exist, every method it calls is an object button of the model's
 views, its wizards are wizards and its reports exist. A pack that passes is kept for the profile; its
-operations are commands and MCP tools from the next run of this program. sync prints every pack added,
+operations are commands and MCP tools from the next run of this program. A module may ship the author's
+verification run next to the pack, as static/odoo-cli/evidence.json: an operation it covers, unchanged, is
+shown as verified by the author, never by ASAO, and still runs only with --allow-unverified. sync prints every pack added,
 changed or removed, and --dry-run prints them without keeping anything. Packs added from a file stay.`,
 		SideEffect:  clicore.EffectWriteLocalConfig,
 		Authority:   localAuthority,
@@ -209,13 +223,14 @@ changed or removed, and --dry-run prints them without keeping anything. Packs ad
 		Summary: "Check a pack from a file against this Odoo and keep it for the profile.",
 		Description: `For a module that ships no pack, a Studio customization or an Odoo Online database. The pack is checked
 as sync checks one; a pack of module "custom" covers what was made in the database itself and requires only
-base.`,
+base. --evidence keeps the author's verification run with it (odoo-cli.pack-evidence/v1).`,
 		SideEffect:  clicore.EffectWriteLocalConfig,
 		Authority:   localAuthority,
 		AgentAccess: clicore.AgentAccessNone,
 		Flags: []clicore.Flag{
 			profileFlag,
 			{Name: "file", Kind: clicore.KindString, Required: true, Description: "The pack (odoo-cli.pack/v1)."},
+			{Name: "evidence", Kind: clicore.KindString, Description: "The author's verification run of the pack (odoo-cli.pack-evidence/v1)."},
 		},
 		Examples: []string{config.name + " pack add --profile my-odoo --file pack.json --output json"},
 		Run: func(ctx context.Context, invocation *clicore.Invocation) (interface{}, error) {
@@ -506,8 +521,8 @@ func packSHA(data []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
-func fetchModulePack(ctx context.Context, endpoint, module string) ([]byte, error) {
-	address := strings.TrimRight(endpoint, "/") + "/" + module + "/" + packStaticPath
+func fetchModulePack(ctx context.Context, endpoint, module, path string) ([]byte, error) {
+	address := strings.TrimRight(endpoint, "/") + "/" + module + "/" + path
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, address, nil)
 	if err != nil {
 		return nil, err
@@ -527,17 +542,19 @@ func fetchModulePack(ctx context.Context, endpoint, module string) ([]byte, erro
 		return nil, err
 	}
 	if len(data) > packMaxBytes {
-		return nil, fmt.Errorf("the pack of %s is over %d bytes", module, packMaxBytes)
+		return nil, fmt.Errorf("%s of %s is over %d bytes", path, module, packMaxBytes)
 	}
 	return data, nil
 }
 
 type packChange struct {
-	Module     string   `json:"module"`
-	Status     string   `json:"status"`
-	Operations int      `json:"operations,omitempty"`
-	Error      string   `json:"error,omitempty"`
-	Warnings   []string `json:"warnings,omitempty"`
+	Module     string `json:"module"`
+	Status     string `json:"status"`
+	Operations int    `json:"operations,omitempty"`
+	// AuthorVerified counts the operations the author's evidence covers unchanged.
+	AuthorVerified int      `json:"authorVerified,omitempty"`
+	Error          string   `json:"error,omitempty"`
+	Warnings       []string `json:"warnings,omitempty"`
 }
 
 func runPackSync(ctx context.Context, invocation *clicore.Invocation, config programConfig) (interface{}, error) {
@@ -561,7 +578,7 @@ func runPackSync(ctx context.Context, invocation *clicore.Invocation, config pro
 			continue
 		}
 		looked++
-		data, err := fetchModulePack(ctx, target.profile.Profile.Endpoint, module)
+		data, err := fetchModulePack(ctx, target.profile.Profile.Endpoint, module, packStaticPath)
 		if err != nil {
 			changes = append(changes, packChange{Module: module, Status: "REFUSED", Error: err.Error()})
 			continue
@@ -570,13 +587,20 @@ func runPackSync(ctx context.Context, invocation *clicore.Invocation, config pro
 			continue
 		}
 		found[module] = true
-		change, next := target.accept(data, module, "module static file "+module+"/"+packStaticPath)
+		// Evidence that cannot be fetched is no evidence: the pack is still checked and kept, unverified.
+		evidence, err := fetchModulePack(ctx, target.profile.Profile.Endpoint, module, packEvidencePath)
+		var unreadable []string
+		if err != nil {
+			unreadable = []string{"the author's evidence is ignored: " + err.Error()}
+		}
+		change, next := target.accept(data, evidence, module, "module static file "+module+"/"+packStaticPath)
+		change.Warnings = append(change.Warnings, unreadable...)
 		if next != nil {
 			previous, had := kept[module]
 			switch {
 			case !had:
 				change.Status = "ADDED"
-			case previous.Origin.SHA256 == next.Origin.SHA256:
+			case previous.Origin.SHA256 == next.Origin.SHA256 && previous.Origin.EvidenceSHA256 == next.Origin.EvidenceSHA256:
 				change.Status = "UNCHANGED"
 			default:
 				change.Status = "CHANGED"
@@ -608,9 +632,10 @@ func runPackSync(ctx context.Context, invocation *clicore.Invocation, config pro
 	}, nil
 }
 
-// accept parses and checks one pack. It returns the change to report and, when the pack passed, the
-// pack to keep.
-func (t *packTarget) accept(data []byte, module, source string) (packChange, *storedPack) {
+// accept parses and checks one pack, with the author's evidence when there is some. It returns the
+// change to report and, when the pack passed, the pack to keep. Evidence that does not pass is left
+// out with a warning; it never refuses the pack, which is then unverified as any pack without evidence.
+func (t *packTarget) accept(data, evidenceData []byte, module, source string) (packChange, *storedPack) {
 	change := packChange{Module: module}
 	pack, err := odoo.ParsePack(data)
 	if err == nil {
@@ -629,14 +654,35 @@ func (t *packTarget) accept(data []byte, module, source string) (packChange, *st
 		change.Status, change.Error = "REFUSED", err.Error()
 		return change, nil
 	}
-	change.Operations, change.Warnings = len(checked.Operations), warnings
-	return change, &storedPack{
+	next := &storedPack{
 		Pack:      checked,
 		Origin:    odoo.PackOrigin{Module: checked.Module, Title: checked.Title, Author: checked.Author, SHA256: packSHA(data), Source: source},
 		Series:    t.series,
 		CheckedAt: time.Now().UTC().Format(time.RFC3339),
-		Warnings:  warnings,
 	}
+	if evidenceData != nil {
+		evidence, err := odoo.ParsePackEvidence(evidenceData, checked)
+		if err != nil {
+			warnings = append(warnings, "the author's evidence is ignored: "+err.Error())
+		} else {
+			next.Evidence, next.Origin.EvidenceSHA256 = &evidence, packSHA(evidenceData)
+			change.AuthorVerified = countAuthorVerified(next.verifications())
+		}
+	}
+	next.Warnings = warnings
+	change.Operations, change.Warnings = len(checked.Operations), warnings
+	return change, next
+}
+
+// countAuthorVerified counts the operations the author's evidence covers unchanged, on any series.
+func countAuthorVerified(verifications map[string]odoo.PackVerification) int {
+	count := 0
+	for _, verification := range verifications {
+		if verification.Status == odoo.PackAuthorVerified || verification.Status == odoo.PackAuthorVerifiedOtherSeries {
+			count++
+		}
+	}
+	return count
 }
 
 func runPackAdd(ctx context.Context, invocation *clicore.Invocation, config programConfig) (interface{}, error) {
@@ -645,11 +691,17 @@ func runPackAdd(ctx context.Context, invocation *clicore.Invocation, config prog
 	if err != nil {
 		return nil, err
 	}
+	var evidence []byte
+	if evidencePath := strings.TrimSpace(invocation.String("evidence")); evidencePath != "" {
+		if evidence, err = readPackFile(evidencePath); err != nil {
+			return nil, err
+		}
+	}
 	target, err := newPackTarget(ctx, invocation, config)
 	if err != nil {
 		return nil, err
 	}
-	change, next := target.accept(data, "", "file "+filepath.Base(path))
+	change, next := target.accept(data, evidence, "", "file "+filepath.Base(path))
 	if next == nil {
 		return nil, clicore.UsageError("PACK_REFUSED", "the pack is refused: %s", change.Error).WithContextValue("module", change.Module)
 	}
@@ -696,7 +748,7 @@ func runPackList(invocation *clicore.Invocation, config programConfig) (interfac
 		packs = append(packs, map[string]interface{}{
 			"module": pack.Pack.Module, "title": pack.Pack.Title, "author": pack.Pack.Author, "operations": len(pack.Pack.Operations),
 			"source": pack.Origin.Source, "sha256": pack.Origin.SHA256, "series": pack.Series, "checkedAt": pack.CheckedAt,
-			"warnings": pack.Warnings,
+			"warnings": pack.Warnings, "authorVerified": countAuthorVerified(pack.verifications()),
 		})
 	}
 	out := map[string]interface{}{"profile": selection.Profile.Name, "packs": packs, "count": len(packs)}
@@ -721,6 +773,8 @@ func runPackShow(invocation *clicore.Invocation, config programConfig) (interfac
 		if pack.Pack.Module != module {
 			continue
 		}
+		verifications := pack.verifications()
+		hashes := pack.Pack.DefinitionHashes()
 		operations := make([]map[string]interface{}, 0, len(pack.Pack.Operations))
 		for _, op := range pack.Pack.Operations {
 			access := clicore.AgentAccessRead
@@ -729,7 +783,12 @@ func runPackShow(invocation *clicore.Invocation, config programConfig) (interfac
 			}
 			entry := map[string]interface{}{
 				"id": op.ID, "strategy": op.Strategy, "model": op.Model, "risk": odoo.PackRisk(op), "agentAccess": access,
-				"command": config.name + " " + strings.Join(strings.Split(op.ID, "."), " "),
+				"command":        config.name + " " + strings.Join(strings.Split(op.ID, "."), " "),
+				"definitionHash": hashes[op.ID],
+				"readiness":      string(odoo.ReadinessUnverified),
+			}
+			if verification, ok := verifications[op.ID]; ok {
+				entry["verification"] = verification
 			}
 			if op.Summary != "" {
 				entry["summary"] = op.Summary
@@ -739,12 +798,21 @@ func runPackShow(invocation *clicore.Invocation, config programConfig) (interfac
 			}
 			operations = append(operations, entry)
 		}
-		return map[string]interface{}{
+		out := map[string]interface{}{
 			"profile": selection.Profile.Name, "module": module, "title": pack.Pack.Title, "author": pack.Pack.Author,
 			"source": pack.Origin.Source, "sha256": pack.Origin.SHA256, "series": pack.Series, "checkedAt": pack.CheckedAt,
 			"readiness": string(odoo.ReadinessUnverified), "operations": operations,
 			"notice": "A pack is its author's declaration. ASAO has not verified these operations; each runs only with --allow-unverified, and an agent's write always asks you first.",
-		}, nil
+		}
+		if evidence := pack.Evidence; evidence != nil {
+			out["evidence"] = map[string]interface{}{
+				"author": evidence.Author, "odoo": evidence.Odoo, "runner": evidence.Runner, "odooCli": evidence.OdooCLI,
+				"ranAt": evidence.RanAt, "run": evidence.Run, "sha256": pack.Origin.EvidenceSHA256,
+				"authorVerified": countAuthorVerified(verifications), "operations": len(operations),
+				"notice": "The author's own run, shipped with the pack. odoo-cli checks only that each operation is the one the run covered; it cannot prove who ran the lab or what it found. Nothing it shows changes a guard.",
+			}
+		}
+		return out, nil
 	}
 	return nil, clicore.NewError(clicore.CategoryNotFound, "PACK_NOT_FOUND", fmt.Sprintf("profile %s keeps no pack of %s", selection.Profile.Name, module)).
 		WithRemediation("Run `" + config.name + " pack list --profile " + selection.Profile.Name + "`.")

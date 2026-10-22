@@ -230,3 +230,105 @@ The four on sample 3 are three invoices refunded twice, and one invoice refunded
 calls them real is the next measure, through `review verdict`. Real fraud is not marked in the data, so
 these runs measure alarms and not precision.
 
+
+## 2026-10-20: real spending, for the checks on purchases and expenses
+
+UCI gave real sales only. The checks on what a business buys and claims had never met real data:
+- O01, a bill entered twice;
+- O07, a payment split under the limit;
+- O18, a new vendor paid fast;
+- O23, a claim made twice;
+- O25, claims in round numbers.
+
+`--real-spend FILE` adds the spending of a real organisation. Birmingham City Council publishes every
+purchase card transaction and every payment to a supplier over 500 pounds, under the Open Government
+Licence v3.0. `prepare_birmingham.py` does the following:
+- takes October 2024 - September 2025 of both datasets from the council's portal;
+- samples cardholders and suppliers whole (`--seed`), and gives no names (cardholders numbered, suppliers
+  by the council's supplier number);
+- moves the dates one year;
+- turns pounds into VND at 30,000. A whole number of pounds is round to O25's 100,000 VND exactly when it
+  is a multiple of 10 pounds.
+
+The simulator replays the sample as follows:
+- **card transactions:** expense claims paid with the company card;
+- **supplier payments:** bills with no reference (the data has none), paid the same day. The suppliers
+  get placeholder tax codes and an address, or O18 would flag every one for a gap the replay made.
+
+The public workflow takes `real_spend: true`. The portal is live, so each file's sha256 is written into
+the sample instead of being checked against a fixed one.
+
+**The first run** (sample 1, 12 months, the trader). The sample held 1,947 card transactions of 20 cards
+and 801 payments to 64 suppliers.
+
+| What | Result |
+|---|---|
+| The planted cases, among the real spending | 24/24 caught, 11/11 look-alikes left alone, nothing else on the simulated records |
+| Findings on the real spending | **346**: O01 274, O23 71, O25 1 |
+| O07, O18 | none |
+
+**What it says:**
+1. **O25 carries over.** One cardholder of 20 had 5 of 8 transactions in multiples of 10 pounds. Across the
+   whole year 25 of 508 cards are like that, mostly prepaid fuel. Fuel bought for 100,000 or 200,000 đồng
+   is the Vietnamese equivalent, so a person should judge these alarms.
+2. **O01's rule for bills with no reference does not carry over.**
+   - Without a reference only the amount can match two bills.
+   - Two suppliers bill one amount again and again: a unit price in bursts on consecutive days (232
+     alarms for one supplier) and a weekly agency fee.
+   - In a Vietnamese Odoo every e-invoice has a number, so this is a business that does not enter it. That
+     is common enough to matter.
+3. **O23 was asked the wrong question.** It asks whether someone claimed money back twice. A company card
+   charge is not a claim for money back: the bank statement is its record, and six tickets bought on one day
+   are six charges.
+
+**The changes,** made from these principles and not fitted to the 274:
+- **O01:** an amount a vendor bills 3 times or more is its fixed fee. For such an amount, only two bills in
+  a row closer than a quarter of the vendor's usual gap for it are a pair, for example a monthly rent entered
+  again three days later. The vendor gets one THEO_DOI finding asking for invoice numbers. Bills with a
+  reference are not touched.
+- **O23** (version 2) leaves out claims paid with the company card.
+
+**Measured on a sample not seen before** (sample 3, 12 months with noise and the held-out set). It held
+1,036 card transactions of 19 cards and 810 payments to 38 suppliers.
+
+| What | Result |
+|---|---|
+| All planted / look-alikes | 43/43, 29/29 |
+| Held-out set | 19/19, 13/13 |
+| O23, O25 on the real spending | 0, 0 |
+| O01 on the real spending, the old rule | 187 pairs |
+| **O01 on the real spending, the new rule** | **81 pairs**, plus 4 vendors asked for invoice numbers |
+
+Python reproductions of the old and new rules give the same counts as odoo-cli on all four samples: on
+sample 1, 274 before and 14 pairs plus 8 vendors after.
+
+**The new rule holds less well on the unseen sample:**
+- It removed 95% of the pairs on the sample it was written beside, and 57% on the one it was not.
+- 55 of the 81 come from one care provider, in two batches. Some fifteen amounts were paid one day and the
+  same fifteen again one or four days later (February, then September).
+- Under the rule's own logic, a batch repeated a day later is what a duplicate looks like. Two periods paid
+  at once is the innocent explanation. Without invoice numbers only a person can tell them apart.
+
+The rule was not changed again on sample 3.
+
+**Two more unseen samples,** with the rule unchanged (12 months with noise and the held-out set):
+
+| Sample | Old rule | New rule | Fewer | Run |
+|---|---|---|---|---|
+| 1 (written beside) | 274 | 14 pairs + 8 notices | 95% | odoo-cli on Odoo |
+| 2 (unseen) | 147 | 58 pairs + 7 notices | 61% | odoo-cli on Odoo; planted 43/43, held-out 19/19 |
+| 3 (unseen) | 187 | 81 pairs + 4 notices | 57% | odoo-cli on Odoo |
+| 4 (unseen) | 137 | 77 pairs + 5 notices | 44% | odoo-cli on Odoo; planted 43/43, held-out 19/19 |
+
+**Where the rest comes from.** On every unseen sample, the pairs left gather on one or two social-care
+providers:
+- they are paid per person cared for, in runs of 25 to 67 bills a day, at a hundred or more rates;
+- one rate recurs within a run and between runs a few days apart.
+
+That is a public body's way of paying. The nearest shape in a Vietnamese business is a supplier billing
+by trip or by job.
+
+**Why O01 stops here.** Without invoice numbers, no rule that sees only amounts can tell a run paid twice
+from runs paid close together. The vendor notice is the remedy: with the number entered, O01 compares
+references exactly. In Vietnam every e-invoice carries one, so the gap is in data entry. O25 held on every
+sample: about one cardholder in 20, as THEO_DOI.

@@ -214,7 +214,12 @@ func (t *ClientTransport) CallMethodKwargs(ctx context.Context, model string, id
 	if len(providerCtx) > 0 {
 		named["context"] = providerCtx
 	}
-	return t.Client.ExecuteKw(ctx, model, method, []interface{}{idArgs(ids)}, named)
+	// No ids is a model method (@api.model): Odoo would read a positional list of ids as its first parameter.
+	args := []interface{}{idArgs(ids)}
+	if ids == nil {
+		args = []interface{}{}
+	}
+	return t.Client.ExecuteKw(ctx, model, method, args, named)
 }
 
 // fieldProbe answers which fields a model has: the read execRead makes for OptionalReadFields. It

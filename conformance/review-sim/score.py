@@ -65,13 +65,13 @@ def main():
                   f"**{sum(1 for r in fp if r[3] == 'BẮT ĐƯỢC')}/{len(fp)}** ca cài sẵn; "
                   f"**{sum(1 for r in fd if r[3] == 'KHÔNG BÁO NHẦM')}/{len(fd)}** mồi nhử không bị báo nhầm.", ""]
     if real:
-        # Findings on the real sales (UCI Online Retail II): nobody planted anything there, so each is either a
+        # Findings on the real records (UCI sales, Birmingham spending): nobody planted anything there, so each is either a
         # thing a real shop does that a check takes for a problem, or a real problem. They are counted apart
         # and listed for a person to judge.
         by_check = {}
         for f in on_real:
             by_check[f["check"]] = by_check.get(f["check"], 0) + 1
-        lines += ["Trên **dữ liệu bán hàng thật** (%s, không ai cài gì): **%d** phát hiện%s." % (
+        lines += ["Trên **dữ liệu thật** (%s, không ai cài gì): **%d** phát hiện%s." % (
             document.get("realSource") or "UCI", len(on_real),
             (": " + ", ".join("`%s` %d" % (k, v) for k, v in sorted(by_check.items()))) if by_check else ""), ""]
         if on_real:

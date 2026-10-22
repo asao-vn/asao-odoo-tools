@@ -68,7 +68,10 @@ type CheckMatch struct {
 	Aggregate string     `json:"aggregate,omitempty"`
 	Threshold string     `json:"threshold,omitempty"`
 	EachBelow string     `json:"eachBelow,omitempty"`
-	MinCount  string     `json:"minCount,omitempty"`
+	// EachAtLeast keeps only records at or above it, as EachBelow keeps those under it. Either names a
+	// parameter or the product of two ("band*threshold"), so a band follows the threshold it is a share of.
+	EachAtLeast string `json:"eachAtLeast,omitempty"`
+	MinCount    string `json:"minCount,omitempty"`
 }
 
 // CheckFlag is the condition some records of a pair must meet.
@@ -163,8 +166,8 @@ func (f CheckFile) validate() error {
 	}
 	switch m.Kind {
 	case "pairs":
-		if m.Aggregate != "" || m.Threshold != "" || m.EachBelow != "" || m.MinCount != "" {
-			return fmt.Errorf("check %s: a pairs match takes no aggregate, threshold, eachBelow or minCount", f.ID)
+		if m.Aggregate != "" || m.Threshold != "" || m.EachBelow != "" || m.EachAtLeast != "" || m.MinCount != "" {
+			return fmt.Errorf("check %s: a pairs match takes no aggregate, threshold, eachBelow, eachAtLeast or minCount", f.ID)
 		}
 		if m.Flag != nil && (len(m.Flag.Where) == 0 || m.Flag.AtLeast < 1) {
 			return fmt.Errorf("check %s: match.flag needs where and atLeast from 1", f.ID)
@@ -176,9 +179,23 @@ func (f CheckFile) validate() error {
 		if m.Aggregate != "count" && !strings.HasPrefix(m.Aggregate, "sum(") {
 			return fmt.Errorf("check %s: match.aggregate is count or sum(field)", f.ID)
 		}
-		for role, name := range map[string]string{"threshold": m.Threshold, "eachBelow": m.EachBelow, "minCount": m.MinCount} {
+		for role, name := range map[string]string{"threshold": m.Threshold, "minCount": m.MinCount} {
 			if err := param(name, role); err != nil {
 				return err
+			}
+		}
+		for role, expr := range map[string]string{"eachBelow": m.EachBelow, "eachAtLeast": m.EachAtLeast} {
+			if expr == "" {
+				continue
+			}
+			names := strings.Split(expr, "*")
+			if len(names) > 2 {
+				return fmt.Errorf("check %s: match.%s is a parameter or the product of two", f.ID, role)
+			}
+			for _, name := range names {
+				if err := param(strings.TrimSpace(name), role); err != nil {
+					return err
+				}
 			}
 		}
 		if m.Threshold == "" {
@@ -306,43 +323,77 @@ func (f CheckFile) pairs(same []map[string]interface{}, p map[string]float64) []
 	return out
 }
 
-func (f CheckFile) groups(same []map[string]interface{}, p map[string]float64) []Finding {
-	var out []Finding
-	for i := 0; i < len(same); {
-		start, _ := parseDay(same[i][f.Match.Date])
-		var window []map[string]interface{}
-		end := i
-		for j := i; j < len(same); j++ {
-			d, _ := parseDay(same[j][f.Match.Date])
-			if float64(start.daysUntil(d)) > p[f.Match.Within] {
-				break
-			}
-			if f.Match.EachBelow != "" && f.aggregateOf(same[j]) >= p[f.Match.EachBelow] {
-				continue
-			}
-			window = append(window, same[j])
-			end = j
-		}
-		total := 0.0
-		for _, row := range window {
-			total += f.aggregateOf(row)
-		}
-		enough := f.Match.MinCount == "" || float64(len(window)) >= p[f.Match.MinCount]
-		if total >= p[f.Match.Threshold] && enough && len(window) > 0 {
-			names := make([]string, len(window))
-			for k, row := range window {
-				names[k] = text(row["name"])
-			}
-			last, _ := parseDay(window[len(window)-1][f.Match.Date])
-			vars := map[string]interface{}{"count": len(window), "total": total, "records": names,
-				"from": start.t.Format("2006-01-02"), "to": last.t.Format("2006-01-02")}
-			out = append(out, f.finding(map[string]map[string]interface{}{"first": window[0], "last": window[len(window)-1]}, vars, p, window))
-			i = end + 1 // a record makes one finding
+// bound is the value of eachBelow or eachAtLeast: one parameter, or the product of two.
+func bound(expr string, p map[string]float64) float64 {
+	value := 1.0
+	for _, name := range strings.Split(expr, "*") {
+		value *= p[strings.TrimSpace(name)]
+	}
+	return value
+}
+
+func (f CheckFile) groups(rows []map[string]interface{}, p map[string]float64) []Finding {
+	// A record outside the bounds takes no part: it neither joins a group nor starts one.
+	var same []map[string]interface{}
+	for _, row := range rows {
+		if f.Match.EachBelow != "" && f.aggregateOf(row) >= bound(f.Match.EachBelow, p) {
 			continue
 		}
-		i++
+		if f.Match.EachAtLeast != "" && f.aggregateOf(row) < bound(f.Match.EachAtLeast, p) {
+			continue
+		}
+		same = append(same, row)
+	}
+	// Each record closes a window of the records within `within` days before it. A window that qualifies is
+	// a finding; one that grew from the finding before it replaces that finding. A chain of records (a with
+	// b, then b with c) makes two findings, so no record that qualifies goes unreported.
+	var out []Finding
+	var window, previous []map[string]interface{}
+	for _, row := range same {
+		when, _ := parseDay(row[f.Match.Date])
+		kept := window[:0:0]
+		for _, earlier := range window {
+			if d, _ := parseDay(earlier[f.Match.Date]); float64(d.daysUntil(when)) <= p[f.Match.Within] {
+				kept = append(kept, earlier)
+			}
+		}
+		window = append(kept, row)
+		total := 0.0
+		for _, r := range window {
+			total += f.aggregateOf(r)
+		}
+		if total < p[f.Match.Threshold] || (f.Match.MinCount != "" && float64(len(window)) < p[f.Match.MinCount]) {
+			continue
+		}
+		names := make([]string, len(window))
+		for k, r := range window {
+			names[k] = text(r["name"])
+		}
+		first, _ := parseDay(window[0][f.Match.Date])
+		vars := map[string]interface{}{"count": len(window), "total": total, "records": names,
+			"from": first.t.Format("2006-01-02"), "to": when.t.Format("2006-01-02")}
+		finding := f.finding(map[string]map[string]interface{}{"first": window[0], "last": row}, vars, p, window)
+		if len(out) > 0 && within(previous, window) {
+			out = out[:len(out)-1]
+		}
+		out = append(out, finding)
+		previous = append([]map[string]interface{}(nil), window...)
 	}
 	return out
+}
+
+// within says whether every record of a is in b.
+func within(a, b []map[string]interface{}) bool {
+	in := map[interface{}]bool{}
+	for _, r := range b {
+		in[r["id"]] = true
+	}
+	for _, r := range a {
+		if !in[r["id"]] {
+			return false
+		}
+	}
+	return true
 }
 
 func (f CheckFile) aggregateOf(row map[string]interface{}) float64 {

@@ -5,8 +5,10 @@ import (
 )
 
 func TestConformanceContract_All101OperationsCovered(t *testing.T) {
-	if len(CatalogByID) != 105 {
-		t.Fatalf("catalog operations = %d, want 105", len(CatalogByID))
+	// website.page.new joined on 2026-10-22; its evidence is its own runner's (odoo-website-page-conformance.py).
+	// website.site.code.describe joined the same day, a read the read runner verifies.
+	if len(CatalogByID) != 107 {
+		t.Fatalf("catalog operations = %d, want 107", len(CatalogByID))
 	}
 	for id, op := range CatalogByID {
 		if op.Strategy == StrategyRead {
@@ -225,8 +227,8 @@ func TestConformanceContract_ConformanceCategoryOf(t *testing.T) {
 		counts[category]++
 	}
 
-	if counts[CategoryRead] != 57 {
-		t.Fatalf("CategoryRead count = %d, want 57", counts[CategoryRead])
+	if counts[CategoryRead] != 58 {
+		t.Fatalf("CategoryRead count = %d, want 58", counts[CategoryRead])
 	}
 	if counts[CategoryBaselineSafeMutation] != 8 {
 		t.Fatalf("CategoryBaselineSafeMutation count = %d, want 8", counts[CategoryBaselineSafeMutation])
@@ -234,12 +236,13 @@ func TestConformanceContract_ConformanceCategoryOf(t *testing.T) {
 	if counts[CategoryExpandedSafeMutation] != 18 {
 		t.Fatalf("CategoryExpandedSafeMutation count = %d, want 18", counts[CategoryExpandedSafeMutation])
 	}
-	if counts[CategoryBlockedMutation] != 22 {
-		t.Fatalf("CategoryBlockedMutation count = %d, want 22", counts[CategoryBlockedMutation])
+	// website.page.new is blocked for this runner: a model method, exercised by its own runner instead.
+	if counts[CategoryBlockedMutation] != 23 {
+		t.Fatalf("CategoryBlockedMutation count = %d, want 23", counts[CategoryBlockedMutation])
 	}
 	total := counts[CategoryRead] + counts[CategoryBaselineSafeMutation] + counts[CategoryExpandedSafeMutation] + counts[CategoryBlockedMutation]
-	if total != 105 {
-		t.Fatalf("total categorized operations = %d, want 105", total)
+	if total != 107 {
+		t.Fatalf("total categorized operations = %d, want 107", total)
 	}
 
 	if _, ok := ConformanceCategoryOf("unknown.nonexistent.op"); ok {
@@ -266,8 +269,8 @@ func TestConformanceContract_SafeConformanceMutationIDs(t *testing.T) {
 
 func TestConformanceContract_BlockedMutationIDs(t *testing.T) {
 	ids := BlockedMutationIDs()
-	if len(ids) != 22 {
-		t.Fatalf("BlockedMutationIDs len = %d, want 22", len(ids))
+	if len(ids) != 23 {
+		t.Fatalf("BlockedMutationIDs len = %d, want 23", len(ids))
 	}
 	for i := 1; i < len(ids); i++ {
 		if ids[i] <= ids[i-1] {

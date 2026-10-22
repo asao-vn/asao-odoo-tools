@@ -24,6 +24,9 @@ catalog operation has.
    a login, which is where odoo-cli looks.
 3. **Prove it** on your lab, as `conformance/packs/prove.sh` proves the demo module
    `conformance/packs/salon_demo`: every operation through odoo-cli, each checked against Odoo.
+4. **Ship the evidence** (optional) as `my_module/static/odoo-cli/evidence.json`: the result of your
+   run, in the format below. `prove.py` writes it as `pack-evidence.json`; take it as the pattern for
+   your own runner.
 
 ## For a person who uses the module
 
@@ -88,6 +91,49 @@ A pack's operations are **unverified**. `execute` runs one only with `--allow-un
 `pack show` names the pack's module, author, source and sha256. The proof run
 (`conformance/packs/prove.sh`) is how a module's author shows the pack does what it says. ASAO
 verifies the catalog, not your pack.
+
+### The author's evidence (`odoo-cli.pack-evidence/v1`)
+
+A module can ship the result of its author's run next to the pack, as
+`static/odoo-cli/evidence.json` (or `pack add --evidence FILE`). `pack sync` reads it with the pack, and
+`pack show` then says, for each operation:
+
+| status | when |
+|---|---|
+| `AUTHOR_VERIFIED` | the run covered it, agreed with Odoo, on this Odoo's series, and the operation is the one it ran |
+| `AUTHOR_VERIFIED_OTHER_SERIES` | the same, on another series than this Odoo's |
+| `CHANGED_SINCE_EVIDENCE` | the operation as kept differs from the one the run covered: unverified again |
+| `AUTHOR_RUN_DISAGREED` | the author's own run found it disagreeing with Odoo |
+| `NOT_IN_EVIDENCE` | the run did not cover it |
+
+**What it does not change.** An author-verified operation is still unverified to odoo-cli: `execute`
+needs `--allow-unverified`, and an agent's write still asks you. The evidence is the author's claim,
+shown as "verified by <author>", never as verified by ASAO. odoo-cli checks only that each operation is
+the one the run covered, by its definition hash. It cannot prove who ran the lab or what the run found.
+Evidence that does not pass its checks is left out with a warning; the pack is kept, unverified.
+
+```json
+{
+  "schema": "odoo-cli.pack-evidence/v1",
+  "module": "my_module",
+  "author": "the pack's author, exactly as the pack names it",
+  "odoo": {"series": "19.0", "serverVersion": "19.0-20251010", "image": "docker.io/library/odoo@sha256:..."},
+  "runner": "what ran the operations and what read Odoo back",
+  "odooCli": "0.18.0",
+  "ranAt": "2026-10-20T08:00:00Z",
+  "run": "https://github.com/you/my_module/actions/runs/1",
+  "operations": [
+    {"id": "my_module.booking.confirm", "definitionHash": "sha256:...", "outcome": "AGREE",
+     "check": "the state read back is confirmed"}
+  ]
+}
+```
+
+- `definitionHash` is the operation's hash as odoo-cli gave it on your lab after `pack sync`: the
+  `definitionHash` of `pack show` (or `catalog describe`). A sync completes the pack with the field types
+  of the Odoo it checks, so a database whose fields differ from your lab's gives another hash.
+- `outcome` is `AGREE` or `DISAGREE`. `image` is optional, and by digest. `run` is optional, an https
+  address.
 
 ## Format (`odoo-cli.pack/v1`)
 

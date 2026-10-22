@@ -8,8 +8,15 @@ a pack must not do: its operations need --allow-unverified, an agent's writes as
 (CONFIRM), and a method the pack does not name is no operation. It writes evidence.json and
 summary.md, and exits non-zero when a check fails.
 
+It also writes pack-evidence.json, the author's evidence of DEC-2026-0176 v0.2 (odoo-cli.pack-evidence/v1):
+each operation's definition hash as odoo-cli gave it on this lab, and AGREE when every check of that
+operation agreed. A module ships it next to its pack, at static/odoo-cli/evidence.json; this script
+then adds the pack with it and checks that odoo-cli shows the operations as verified by the author and
+changes no guard. An author of another module takes this script as the pattern for their own.
+
 prove.sh builds the lab and calls it; run alone, it needs a profile whose Odoo has salon_demo."""
 import argparse
+import datetime
 import json
 import os
 import re
@@ -22,6 +29,20 @@ import urllib.request
 
 MODULE = "salon_demo"
 MODEL = "salon_demo.booking"
+PACK = os.path.join(os.path.dirname(os.path.abspath(__file__)), MODULE, "static", "odoo-cli", "pack.json")
+
+# Which operation of the pack each check runs: an operation is verified when all of its checks agree.
+COVERS = {
+    "list: the records Odoo has": "salon_demo.booking.list",
+    "create: the record as written, the customer by name": "salon_demo.booking.create",
+    "update: seats and note": "salon_demo.booking.update",
+    "button: confirm": "salon_demo.booking.confirm",
+    "button: Odoo's refusal is reported, nothing changes": "salon_demo.booking.confirm",
+    "wizard: reschedule": "salon_demo.booking.reschedule",
+    "button: done": "salon_demo.booking.done",
+    "button: cancel": "salon_demo.booking.cancel",
+    "report: the booking as a PDF": "salon_demo.booking.print",
+}
 
 
 class Oracle:
@@ -171,6 +192,56 @@ def secret_page_checks(options, check):
         host.close()
 
 
+def pack_evidence(options, oracle, checks, hashes):
+    """The author's evidence of the run: every operation some check covered, with its definition hash."""
+    pack = json.load(open(PACK))
+    outcomes = {}
+    for c in checks:
+        op = COVERS.get(c["check"])
+        if op:
+            outcomes.setdefault(op, []).append(c)
+    version = oracle._rpc("common", "version", [])
+    run = options.run
+    if not run and os.environ.get("GITHUB_RUN_ID"):
+        run = "%s/%s/actions/runs/%s" % (os.environ["GITHUB_SERVER_URL"], os.environ["GITHUB_REPOSITORY"], os.environ["GITHUB_RUN_ID"])
+    code, version_doc, _ = cli(options, "version")
+    evidence = {
+        "schema": "odoo-cli.pack-evidence/v1", "module": MODULE, "author": pack["author"],
+        "odoo": {"series": version.get("server_serie", ""), "serverVersion": version.get("server_version", "")},
+        "runner": "conformance/packs/prove.py: odoo-cli runs each operation, a JSON-RPC client of its own reads Odoo back",
+        "ranAt": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "operations": [{"id": op, "definitionHash": hashes[op],
+                        "outcome": "AGREE" if all(c["status"] == "AGREE" for c in ran) else "DISAGREE",
+                        "check": "; ".join(c["check"] for c in ran)[:200]}
+                       for op, ran in sorted(outcomes.items()) if hashes.get(op)],
+    }
+    about = (version_doc.get("data") or {}) if code == 0 else {}
+    if about.get("cliVersion"):
+        evidence["odooCli"] = ("%s %s" % (about["cliVersion"], about.get("buildCommit", ""))).strip()[:64]
+    if options.image:
+        evidence["odoo"]["image"] = options.image
+    if run:
+        evidence["run"] = run
+    return evidence
+
+
+def evidence_checks(options, evidence, check):
+    """DEC-2026-0176 v0.2: the pack added with its evidence shows the covered operations as verified by
+    the author, never by ASAO, and the guards stand."""
+    path = os.path.join(options.out, "pack-evidence.json")
+    json.dump(evidence, open(path, "w"), indent=1)
+    code, added, err = cli(options, "pack", "add", "--file", PACK, "--evidence", path)
+    code_show, shown, _ = cli(options, "pack", "show", "--module", MODULE)
+    status = {op["id"]: (op.get("verification") or {}).get("status") for op in (shown.get("data") or {}).get("operations", [])}
+    agreed = {op["id"] for op in evidence["operations"] if op["outcome"] == "AGREE"}
+    check("evidence: the run's operations verified by the author", code == 0 and code_show == 0 and agreed
+          and all(status.get(op) == "AUTHOR_VERIFIED" for op in agreed)
+          and all(status.get(op) == "NOT_IN_EVIDENCE" for op in status if op not in {o["id"] for o in evidence["operations"]}),
+          {"status": status, "add": added or err})
+    code, refused, err = cli(options, "execute", "--operation", "salon_demo.booking.list")
+    check("evidence: an author-verified operation still needs --allow-unverified", code != 0 and "UNVERIFIED" in json.dumps(refused), refused or err)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--odoo-bin", required=True)
@@ -179,6 +250,8 @@ def main():
     parser.add_argument("--database", required=True)
     parser.add_argument("--login", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--image", default="", help="The lab's Odoo image by digest, for the evidence.")
+    parser.add_argument("--run", default="", help="Where the run can be read (https), for the evidence.")
     options = parser.parse_args()
     oracle = Oracle(options.endpoint, options.database, options.login, os.environ.get("ODOO_ORACLE_PASSWORD", "admin"))
     checks = []
@@ -270,6 +343,11 @@ def main():
         secret_page_checks(options, check)
     except (RuntimeError, OSError, ValueError, AttributeError, subprocess.SubprocessError) as error:
         check("secret page: the scripted MCP host ran", False, error)
+    try:
+        hashes = {op: entry.get("definitionHash") for op, entry in by_id.items()}
+        evidence_checks(options, pack_evidence(options, oracle, checks, hashes), check)
+    except (RuntimeError, OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+        check("evidence: written and added", False, error)
 
     agreed = sum(1 for c in checks if c["status"] == "AGREE")
     json.dump({"module": MODULE, "checks": checks, "agreed": agreed, "total": len(checks)},

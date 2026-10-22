@@ -29,8 +29,10 @@ import (
 // deliberate, reviewable act rather than a test quietly following a drifting implementation.
 // The current catalog is 105 operations with 77 current records and 28 historical-only operations;
 // none is UNVERIFIED since the 2026-10-10 oracle-backed read run promoted the four Gate 2 reads.
-// The provenance lineage is 55 + 50.
-const AcceptedCatalogSize = 105
+// The provenance lineage is 55 + 50. 2026-10-22: website.page.new, a model method with its own runner's evidence
+// (scripts/dev/odoo-website-page-conformance.py), joins the newer lineage: 106 operations, 55 + 51. The same day
+// website.site.code.describe, a read verified by scripts/dev/odoo-read-conformance.py: 107 operations, 55 + 52.
+const AcceptedCatalogSize = 107
 
 // AcceptedSurfaceSize is the same deliberate act for the generated surface catalog
 // (packages/odoo/odoo19_surface_catalog.gen.go): regenerating it changes this number on purpose,
@@ -458,7 +460,7 @@ func TestReadinessIsPublishedAndFilterable(t *testing.T) {
 
 	_, out, _ = run(t, "provenance", "--output", "json")
 	readiness, _ := decode(t, out)["readiness"].(map[string]interface{})
-	if readiness["catalogOperations"] != float64(AcceptedCatalogSize) || readiness["currentVerified"] != float64(103) || readiness["historicalOnly"] != float64(2) || readiness["unverified"] != float64(len(acceptedUnverifiedOperations)) {
+	if readiness["catalogOperations"] != float64(AcceptedCatalogSize) || readiness["currentVerified"] != float64(105) || readiness["historicalOnly"] != float64(2) || readiness["unverified"] != float64(len(acceptedUnverifiedOperations)) {
 		t.Fatalf("provenance readiness=%v", readiness)
 	}
 

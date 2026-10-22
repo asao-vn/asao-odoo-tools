@@ -25,7 +25,7 @@ const (
 // the strategy handlers actually enforce (see strategies.go's TargetRequirementError sites and
 // execRead's domain narrowing) — this function must never disagree with them.
 func TargetRequirementOf(op Odoo19Operation) TargetRequirement {
-	if op.WizardStandalone || op.ReadNewRecord {
+	if op.WizardStandalone || op.ReadNewRecord || op.ModelMethod {
 		return TargetRequirementNone
 	}
 	switch op.Strategy {

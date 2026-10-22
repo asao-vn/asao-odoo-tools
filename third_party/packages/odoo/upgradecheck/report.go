@@ -24,19 +24,21 @@ var NotChecked = []string{
 	"behaviour: a computed field or a workflow step whose meaning changed",
 	"data: records that hold a selection value the target series dropped (the migration converts them)",
 	"modules' own code, which OpenUpgrade and Odoo's upgrade scripts migrate",
+	"the methods and buttons a pack calls: run pack sync again on the upgraded database, which checks them",
 }
 
 var kindsVietnamese = map[string]string{
 	"saved filter": "Bộ lọc đã lưu", "automation rule": "Quy tắc tự động", "server action": "Hành động máy chủ",
 	"custom field": "Field tự tạo", "email template": "Mẫu email", "view": "Giao diện (view)", "record rule": "Quy tắc bản ghi",
 	"access right": "Quyền truy cập", "export template": "Mẫu xuất dữ liệu", "default value": "Giá trị mặc định",
-	"window action": "Hành động cửa sổ",
+	"window action": "Hành động cửa sổ", "pack operation": "Thao tác của gói (odoo-cli pack)",
 }
 
 var keysVietnamese = map[string]string{
 	"filters": "bộ lọc đã lưu", "automations": "quy tắc tự động", "server_actions": "hành động máy chủ", "custom_fields": "field tự tạo",
 	"templates": "mẫu email", "views": "giao diện", "rules": "quy tắc bản ghi", "access_rights": "quyền truy cập",
 	"exports": "mẫu xuất dữ liệu", "defaults": "giá trị mặc định", "window_actions": "hành động cửa sổ",
+	PackKey: "thao tác của gói",
 }
 
 func code(value string) string { return "`" + value + "`" }

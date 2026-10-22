@@ -73,6 +73,10 @@ func OperationDefinitionHash(op Odoo19Operation) string {
 	if len(op.RequiredOnCreate) > 0 {
 		definition["requiredOnCreate"] = op.RequiredOnCreate
 	}
+	if op.ModelMethod {
+		definition["modelMethod"] = true
+		definition["createdIdKey"] = op.CreatedIDKey
+	}
 	if op.ReadNewRecord {
 		definition["readNewRecord"] = true
 	}

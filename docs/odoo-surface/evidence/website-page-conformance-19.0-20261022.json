@@ -1,0 +1,46 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "one page made through the CLI's website.page.new and one through an independent JSON-RPC oracle calling website.new_page with the catalog's fixed keywords and the same inputs, under another address word; both read back through the oracle and compared relative to their own word: address, title, view key, type and website, content inside the view, the layout call, the header menu entry and its parent, and whether the page is published; plus that the CLI reported the page it made. Field names, statuses and hashes only. The pages, views and menu entries were deleted afterwards.",
+ "provider": {
+  "endpointHash": "sha256:3b106cefd3c415bcd0a4d440cca1e1a224db373fb0bff0fbaf0f5360aadbf4d2",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-21T18:43:49Z",
+ "records": {
+  "website.page.new": {
+   "checkedFields": [
+    "content",
+    "layout",
+    "menu_name",
+    "menu_parent",
+    "menu_url",
+    "menus",
+    "oracle_content",
+    "oracle_layout",
+    "oracle_menu_parent",
+    "oracle_menus",
+    "oracle_url",
+    "published",
+    "reported_page",
+    "title",
+    "url",
+    "view_key",
+    "view_type",
+    "view_website",
+    "website"
+   ],
+   "definitionHash": "sha256:17521a4529bfd11d23d0e125485ff491f03450c051c6517f50e4a3de9a713f56",
+   "failures": [],
+   "modules": [
+    "website"
+   ],
+   "status": "AGREE"
+  }
+ },
+ "schemaVersion": "odoo.website-page-conformance-run/v1"
+}

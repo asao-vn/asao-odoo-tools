@@ -48,6 +48,7 @@ var Odoo19Contracts = map[string]OperationContract{
 			{Name: "parent", ProviderField: "parent_id", Type: "reference", Required: false, ProviderNative: false, Description: "Parent record reference."},
 			{Name: "vendor_priority", ProviderField: "supplier_rank", Type: "integer", Required: false, ProviderNative: false, Description: "Higher values rank the contact more strongly as a vendor."},
 			{Name: "customer_priority", ProviderField: "customer_rank", Type: "integer", Required: false, ProviderNative: false, Description: "Higher values rank the contact more strongly as a customer."},
+			{Name: "reference", ProviderField: "ref", Type: "string", Required: false, ProviderNative: false, Description: "The contact's own reference code. A caller keeps its id for the contact here (ASAO writes asao-student:<id>), so it finds the contact again instead of matching on a name or an email."},
 		},
 	},
 	"identity.contact.update": {
@@ -675,6 +676,15 @@ var Odoo19Contracts = map[string]OperationContract{
 			{Name: "sale_price", ProviderField: "list_price", Type: "number", Required: false, ProviderNative: false, Description: "Customer-facing unit sale price."},
 			{Name: "sellable", ProviderField: "sale_ok", Type: "boolean", Required: false, ProviderNative: false, Description: "Whether the product may be sold."},
 			{Name: "purchasable", ProviderField: "purchase_ok", Type: "boolean", Required: false, ProviderNative: false, Description: "Whether the product may be purchased."},
+			{Name: "taxes", ProviderField: "taxes_id", Type: "reference_list", Required: false, ProviderNative: false, Description: "Sales taxes assigned to the product, replaced as a whole; an empty list removes them all."},
+		},
+	},
+	"website.page.new": {
+		Inputs: []SemanticField{
+			{Name: "name", ProviderField: "name", Type: "string", Required: true, ProviderNative: true, Description: "The page's address word: lop-hoc gives /lop-hoc (or /lop-hoc-1 when that is taken)."},
+			{Name: "page_title", ProviderField: "page_title", Type: "string", Required: false, ProviderNative: true, Description: "The page's title, when it differs from its address word."},
+			{Name: "sections_arch", ProviderField: "sections_arch", Type: "string", Required: false, ProviderNative: true, Description: "The page's content: HTML sections Odoo puts inside the page's wrap."},
+			{Name: "add_menu", ProviderField: "add_menu", Type: "boolean", Required: false, ProviderNative: true, Description: "Also add a header menu entry for the page."},
 		},
 	},
 	"schedule.event.list": {

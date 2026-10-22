@@ -1,5 +1,62 @@
 # Changelog
 
+## 0.18.0 (2026-10-22)
+
+- **New: `website.page.new`, a page made with its content.** `website.page.create` cannot make a page with
+  content on 19.0: Odoo makes the view first, without its architecture, and refuses. The new operation
+  calls what Odoo's own "New page" button calls (`website.new_page`):
+  - you give the address word (`name`), `page_title`, the HTML sections (`sections_arch`) and `add_menu`;
+  - the page is made unpublished;
+  - it is verified on 19.0 against a JSON-RPC client of its own (19 checks), not yet on 20.0.
+
+  It is the first operation called on a model rather than on records (`@api.model`): it takes no
+  `--provider-target-id`, and the record it made is the result.
+- **`catalog.product.update` takes `taxes`.** It replaces the product's sales taxes as a whole: `taxes=[]`
+  leaves none.
+- **`identity.contact.create` takes `reference`** (Odoo's `ref`), so a contact can carry your own id.
+- **A pack can carry its author's evidence.** A module ships the result of its author's run next to the
+  pack, as `static/odoo-cli/evidence.json` (`odoo-cli.pack-evidence/v1`), or a person adds it with
+  `pack add --evidence`.
+  - `pack show` names, for each operation, whether the run covered it unchanged: "verified by <author> on
+    Odoo 19.0", never by ASAO. An operation changed since the run is unverified again, by its
+    definition hash. `pack show` now gives each operation's `definitionHash`.
+  - **No guard changes.** An author-verified operation still needs `--allow-unverified`, and an agent's
+    write still asks the person. The evidence is a claim: odoo-cli cannot prove who ran the lab.
+  - The proof run (`conformance/packs/prove.py`) writes the demo module's evidence and checks both.
+- **`upgrade check` reads the packs of the profile.** Each pack operation is checked like a
+  customization: its model, the fields it reads, writes and sorts by, the field each relation searches by,
+  and its wizard.
+  - A field the target series renamed or dropped is named, as for a saved filter.
+  - A model of the module itself is UNKNOWN unless the target lab has the module: only the module's next
+    version can answer for it.
+  - The methods a pack calls are not in the map. Run `pack sync` again on the upgraded database.
+- **O01 tells a vendor's fixed fee from a bill entered twice.** On a city council's real supplier payments,
+  which have no invoice numbers, O01 raised 274 alarms on one sample, 232 of them for one supplier billing
+  a unit price day after day.
+  - An amount a vendor bills 3 times or more is now its fixed fee. For that amount, only two bills in a
+    row closer than a quarter of the vendor's usual gap are a pair.
+  - The vendor gets one THEO_DOI finding asking for invoice numbers.
+  - Bills with a reference are judged as before.
+  - On a sample not seen when the rule was written, the pairs went from 187 to 81. 55 of the 81 are two
+    batches of one care provider paid twice a day apart, which only a person can judge.
+  - New parameters: `recurring_min` and `cadence_share`.
+- **O23 (version 2) leaves out claims paid with the company card.** A card charge is not a claim for money
+  back. Six tickets bought on one day are six charges, and they made 71 alarms on the real card data.
+- **The review simulation takes real spending:**
+  - `--real-spend` and `prepare_birmingham.py`;
+  - in the workflow, `real_spend`: Birmingham City Council's card transactions and supplier payments, OGL
+    v3.0.
+
+- **O16 is a check file.** Purchase orders split under the approval threshold now live in
+  `checks/O16.json`, the third built-in check that is a file. On 3,000 random cases its findings had the
+  same severity, amount and evidence as the Go it replaces. The "why" names the dates instead of each
+  order's amount.
+- **`groups` matches no longer drop a record from a chain.** A team's `groups` check took a record into one
+  finding only. With a chain (a with b, then b with c) the second pair was never reported. A group now ends
+  at each record, and one that grew from the finding before it replaces that finding. A new `eachAtLeast`
+  keeps the records at or above a bound, and either bound may be the product of two parameters
+  (`"band*threshold"`).
+
 ## 0.17.1 (2026-10-18)
 
 - **Fixed, operation packs (found in a review of packs on 2026-10-18):**

@@ -1,0 +1,33 @@
+{
+ "contentPolicy": {
+  "credentialMaterial": false,
+  "rawProviderResponses": false
+ },
+ "method": "CLI execution vs independent JSON-RPC oracle, within the operation's published provider domain; ids for lists (order id, limit 5), field-by-field values for describes (a field the dialect renames against the series field it names). Hashes and statuses only.",
+ "provider": {
+  "endpointHash": "sha256:27c7f98c35c5d13083018ad03cc9a4786b4648dd51efdc6befe783a3fd0e4d77",
+  "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+  "series": "19.0",
+  "version": "19.0-20260803"
+ },
+ "recordedAt": "2026-10-22T04:56:34Z",
+ "records": {
+  "website.site.code.describe": {
+   "cliHash": "sha256:e90f1de1dcc58bc4d88f4fb79a497be60c9618e24d64f6ea97f28bce67b8ca6b",
+   "definitionHash": "sha256:296d5a92acfb99ab07c91c658bd4a428e8a437671225243dc4aab9c04b7b482e",
+   "fieldCount": 6,
+   "kind": "describe",
+   "mismatchedFields": [],
+   "modules": [
+    "website"
+   ],
+   "oracleHash": "sha256:e90f1de1dcc58bc4d88f4fb79a497be60c9618e24d64f6ea97f28bce67b8ca6b",
+   "providerDomain": false,
+   "renamedFields": [],
+   "status": "AGREE",
+   "uncheckedFields": []
+  }
+ },
+ "renames": null,
+ "schemaVersion": "odoo.read-conformance-run/v1"
+}

@@ -42,9 +42,13 @@ Anyone who can write the file can add an issue, without Go and without the SDK.
 - **`match`:**
   - `pairs` pairs records of one key that follow each other within `within` days. `flag` names records of
     the pair that must meet a condition, `atLeast` of them. This covers duplicates.
-  - `groups` takes records of one key within `within` days of the first, counted (`count`) or summed
-    (`sum(field)`) against `threshold`. Each record must be below `eachBelow` when it is set, and there must
-    be `minCount` records at least. This covers piling up and splitting.
+  - `groups` takes, at each record, the records of its key within `within` days before it, counted
+    (`count`) or summed (`sum(field)`) against `threshold`, with `minCount` records at least.
+    - Only records below `eachBelow` and at or above `eachAtLeast` take part, when those are set. Each
+      names a parameter or the product of two, as in `"band*threshold"`.
+    - A group that grew from the one before it replaces it. A chain (a with b, then b with c) makes two
+      findings, so no record that qualifies goes unreported.
+    - This covers piling up and splitting.
 - **`severity`:** the first rule whose `if` holds, written `name op number`. The names are `gap`,
   `flagged_count`, `count` and `total`.
 - **`finding`:** text in braces is filled in from the match: `{first.field}`, `{first.relation.name}`,
@@ -53,9 +57,15 @@ Anyone who can write the file can add an issue, without Go and without the SDK.
 - **`cases`:** at least one record set the check must flag and one it must leave alone. A file without both
   is refused.
 
-Two built-in checks are files today: O22 (a payment recorded twice) and O23 (an expense claimed twice).
-They are in `third_party/packages/odoo/review/checks/`. Before their Go code was removed, both versions
-gave byte-identical findings on 786 cases.
+Three built-in checks are files today:
+- O22, a payment recorded twice;
+- O23, an expense claimed twice;
+- O16, purchase orders split under the approval threshold.
+
+They are in `third_party/packages/odoo/review/checks/`. Before their Go code was removed, each file gave the
+same findings as the Go it replaced: byte-identical on 786 cases for O22 and O23. For O16 the severity,
+amount and evidence matched on 3,000 random cases; the wording of its "why" now gives the dates instead of
+each order's amount.
 
 ## The commands
 

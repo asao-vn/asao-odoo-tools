@@ -134,11 +134,24 @@ func ValidateSyntax(endpoint string) error {
 // disallowed-address policy. This is real network I/O — call it once, at the point a provider
 // adapter/client is actually constructed, never on a hot path that must stay I/O-free.
 func CheckHost(ctx context.Context, endpoint string) error {
+	return checkHost(ctx, endpoint, true)
+}
+
+// CheckPublicHost is CheckHost for an address a person or an agent typed, not a provider connection an
+// operator configured (`asao presence check` fetches any page it is given, DEC-2026-0193). It honours the
+// lab-wide opt-in AllowPrivateEnvVar but never PrivateAllowlistEnvVar: that list opens the platform's own
+// private providers (production's odoo:8069) to provider connections, and a URL anyone may type must not
+// reach them.
+func CheckPublicHost(ctx context.Context, endpoint string) error {
+	return checkHost(ctx, endpoint, false)
+}
+
+func checkHost(ctx context.Context, endpoint string, honourAllowlist bool) error {
 	u, host, err := parse(endpoint)
 	if err != nil {
 		return err
 	}
-	if Allowed() || allowlisted(u) {
+	if Allowed() || (honourAllowlist && allowlisted(u)) {
 		return nil
 	}
 	if ip := net.ParseIP(host); ip != nil {

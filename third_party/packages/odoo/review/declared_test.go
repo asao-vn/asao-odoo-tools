@@ -26,7 +26,7 @@ func TestACheckFileIsRefusedWhenItCannotBeTrusted(t *testing.T) {
 	valid := string(mustRead(t, "checks/O23.json"))
 	cases := map[string]struct{ from, to, want string }{
 		"another schema":       {`"odoo-cli.check/v1"`, `"odoo-cli.check/v9"`, "schema"},
-		"an unknown key":       {`"version": 1,`, `"version": 1, "code": "x",`, "unknown field"},
+		"an unknown key":       {`"version": 2,`, `"version": 2, "code": "x",`, "unknown field"},
 		"a write operation":    {`"people.expense.list"`, `"people.expense.create"`, "not a read operation"},
 		"an unknown operation": {`"people.expense.list"`, `"people.expense.lsit"`, "not a read operation"},
 		"a missing parameter":  {`"within": "window_days"`, `"within": "days"`, "params does not hold"},
@@ -37,6 +37,9 @@ func TestACheckFileIsRefusedWhenItCannotBeTrusted(t *testing.T) {
 	}
 	for name, c := range cases {
 		changed := strings.Replace(valid, c.from, c.to, 1)
+		if name == "no look-alike case" { // every look-alike case turned into one the check must flag
+			changed = strings.ReplaceAll(valid, c.from, c.to)
+		}
 		if changed == valid {
 			t.Fatalf("%s: the replacement did not apply", name)
 		}

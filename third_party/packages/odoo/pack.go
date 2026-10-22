@@ -170,6 +170,12 @@ type PackOrigin struct {
 	SHA256 string `json:"sha256,omitempty"`
 	// Source is where the person took the pack from: the module's static file or a file.
 	Source string `json:"source,omitempty"`
+	// EvidenceSHA256 is the hash of the author's evidence kept with the pack, if any.
+	EvidenceSHA256 string `json:"evidenceSha256,omitempty"`
+	// Verification is what the author's evidence shows for one registered operation (pack_evidence.go).
+	Verification *PackVerification `json:"verification,omitempty"`
+	// Verifications are given to RegisterPack, by operation id; each operation's origin keeps its own.
+	Verifications map[string]PackVerification `json:"-"`
 }
 
 // ParsePack reads a pack and checks everything that needs no Odoo. Unknown keys are refused, so a
@@ -567,7 +573,12 @@ func RegisterPack(pack Pack, origin PackOrigin, reserved []string) error {
 	}
 	for _, op := range pack.Operations {
 		packCatalogByID[op.ID] = pack.operation(op)
-		packOrigins[op.ID] = origin
+		own := origin
+		own.Verifications, own.Verification = nil, nil
+		if verification, ok := origin.Verifications[op.ID]; ok {
+			own.Verification = &verification
+		}
+		packOrigins[op.ID] = own
 		packSummaries[op.ID] = op.Summary
 	}
 	return nil

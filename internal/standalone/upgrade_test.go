@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/asao-platform/atoc/packages/cli/internal/clicore"
+	"github.com/asao-platform/atoc/packages/cli/internal/localprofile"
 )
 
 // upgradeOdoo is a 19.0 database with a few customizations: one a person made and archived, one a
@@ -205,5 +206,43 @@ func TestUpgradeMapsListsThePairs(t *testing.T) {
 	first := maps[0].(map[string]interface{})
 	if len(maps) != 1 || first["from"] != "19.0" || first["to"] != "20.0" || first["targetVersion"] != "20.0-20260926" {
 		t.Fatalf("maps %v", maps)
+	}
+}
+
+// A pack registered for the profile is checked with the customizations: its operation reading a field
+// 20.0 drops breaks, and is named as a pack operation.
+func TestUpgradeCheckReadsThePacksOfTheProfile(t *testing.T) {
+	var calls []string
+	var mu sync.Mutex
+	server := httptest.NewServer(upgradeOdoo(t, &calls, &mu))
+	defer server.Close()
+	writeTestProfile(t, server.URL)
+	dir := filepath.Join(filepath.Dir(os.Getenv(localprofile.FileVariable)), "packs", "lab-a")
+	if err := os.MkdirAll(dir, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	stored := `{"pack": {"schema": "odoo-cli.pack/v1", "module": "stage_tools", "operations": [
+		{"id": "stage_tools.stage.list", "kind": "READ", "strategy": "READ", "model": "crm.stage", "readFields": ["name", "color"], "defaultSort": "name"}]},
+		"origin": {"module": "stage_tools"}, "series": "19.0"}`
+	if err := os.WriteFile(filepath.Join(dir, "stage_tools.json"), []byte(stored), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	code, out, diag := runOdoo(t, "upgrade", "check", "--profile", "lab-a", "--to", "20.0", "--output", "json")
+	if code != clicore.ExitOK {
+		t.Fatalf("exit %d: %s\n%s", code, out.String(), diag.String())
+	}
+	data := decode(t, out)
+	if data["scanned"].(map[string]interface{})["pack_operations"] != 1.0 {
+		t.Fatalf("scanned %v", data["scanned"])
+	}
+	found := false
+	for _, item := range data["findings"].([]interface{}) {
+		f := item.(map[string]interface{})
+		if f["kind"] == "pack operation" {
+			found = f["name"] == "stage_tools.stage.list" && f["path"] == "color" && f["severity"] == "BREAKS"
+		}
+	}
+	if !found {
+		t.Fatalf("no BREAKS finding on the pack's color: %v", data["findings"])
 	}
 }

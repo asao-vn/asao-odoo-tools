@@ -3,6 +3,7 @@ package review
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strings"
 	"testing"
 	"time"
@@ -68,6 +69,39 @@ func TestABillEnteredTwiceIsFoundEvenRetypedAndAMonthlyRentIsNot(t *testing.T) {
 	}
 	if strings.Join(pairs, ",") != "4+3,2+1" && strings.Join(pairs, ",") != "3+4,1+2" {
 		t.Fatalf("pairs = %v, want the two duplicates and not the rent", pairs)
+	}
+}
+
+// Without references, a vendor's fixed fee is its norm: a copy shows only as a gap far shorter than the usual
+// one. Real council payments (2026-10-20) gave 232 alarms for one supplier billing a unit price in bursts.
+func TestAFixedFeeWithoutReferencesIsNotADuplicateButACopyOfItIs(t *testing.T) {
+	var rows []map[string]interface{}
+	start := time.Date(2026, 4, 6, 0, 0, 0, 0, time.UTC)
+	for week := 0; week < 10; week++ { // a weekly agency fee, and a copy of the third one a day later
+		rows = append(rows, bill(100+week, 7, start.AddDate(0, 0, 7*week).Format("2006-01-02"), "", 26_460_000))
+	}
+	rows = append(rows, bill(120, 7, start.AddDate(0, 0, 15).Format("2006-01-02"), "", 26_460_000))
+	for day := 0; day < 8; day++ { // a unit price billed on consecutive days, in two bursts
+		rows = append(rows, bill(200+day, 8, start.AddDate(0, 1, day%4+(day/4)*20).Format("2006-01-02"), "", 518_850_000))
+	}
+	rows = append(rows, bill(300, 9, "2026-06-02", "", 12_400_000), bill(301, 9, "2026-06-07", "", 12_400_000)) // twice, no more
+	report := run(t, fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: rows}}, "O01")
+	var got []string
+	for _, f := range report.Findings {
+		ids := make([]string, 0, len(f.Evidence))
+		for _, e := range f.Evidence {
+			ids = append(ids, fmt.Sprint(e.ID))
+		}
+		if f.Severity == TheoDoi {
+			got = append(got, fmt.Sprintf("%s:fixed(%d)", f.Subject.Name, len(f.Evidence)))
+		} else {
+			got = append(got, f.Subject.Name+":"+strings.Join(ids, "+"))
+		}
+	}
+	sort.Strings(got)
+	want := "NCC 7:102+120,NCC 7:fixed(11),NCC 8:fixed(8),NCC 9:300+301"
+	if strings.Join(got, ",") != want {
+		t.Fatalf("findings %v, want %s", got, want)
 	}
 }
 

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"reflect"
 	"sort"
+	"strconv"
 	"time"
 
 	"github.com/google/uuid"
@@ -137,10 +138,12 @@ func (a *Adapter) ValidateInvocation(intent *ExecutionIntent) error {
 			return &TargetRequirementError{Operation: entry.SemanticID, Mode: string(WriteModeUpdate), TargetSupplied: false}
 		}
 	case StrategyMethodCall, StrategyWizard, StrategyDestructiveGuarded:
+		// A standalone wizard and a model method act on no record.
+		noTarget := entry.WizardStandalone || entry.ModelMethod
 		switch {
-		case entry.WizardStandalone && in.TargetID != 0:
+		case noTarget && in.TargetID != 0:
 			return &TargetRequirementError{Operation: entry.SemanticID, Mode: string(WriteModeCreate), TargetSupplied: true}
-		case !entry.WizardStandalone && in.TargetID == 0:
+		case !noTarget && in.TargetID == 0:
 			return &TargetRequirementError{Operation: entry.SemanticID, Mode: string(WriteModeUpdate), TargetSupplied: false}
 		}
 		if entry.Strategy == StrategyWizard {
@@ -232,6 +235,12 @@ func (a *Adapter) Execute(ctx context.Context, intent *ExecutionIntent) (*Execut
 			data, callErr = a.execMethodCall(callCtx, entry, in)
 			return callErr
 		})
+		// A model method made a record; its id is the reference, as a create's is.
+		if answer, ok := data.(map[string]interface{}); ok && entry.ModelMethod && err == nil {
+			if created, ok := answer["created_id"].(int64); ok && created > 0 {
+				providerRef = strconv.FormatInt(created, 10)
+			}
+		}
 	case StrategyWizard:
 		err = Retry(ctx, a.effectiveRetryPolicy(), entry.Strategy, func(callCtx context.Context) error {
 			var wizErr error

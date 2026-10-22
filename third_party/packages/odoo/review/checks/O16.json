@@ -1,0 +1,70 @@
+{
+  "schema": "odoo-cli.check/v1",
+  "id": "O16",
+  "version": 1,
+  "name": "Chia nhỏ đơn mua",
+  "question": "Có đơn mua nào bị chia nhỏ để lọt dưới ngưỡng phải duyệt không?",
+  "kind": "dấu hiệu gian lận",
+  "formula": "purchase orders of one vendor within window_days of the first, each total (VAT included) in [band x threshold, threshold), together >= threshold, at least min_orders of them; an order makes one finding",
+  "params": {"threshold": 20000000, "band": 0.8, "window_days": 7, "min_orders": 2},
+  "source": {
+    "operation": "procurement.rfq.list",
+    "domain": [["state", "in", ["purchase", "done"]]],
+    "period": "date_order"
+  },
+  "match": {
+    "kind": "groups",
+    "key": ["partner.id"],
+    "date": "date_order",
+    "order": ["date_order", "id"],
+    "within": "window_days",
+    "aggregate": "sum(total_amount)",
+    "threshold": "threshold",
+    "eachBelow": "threshold",
+    "eachAtLeast": "band*threshold",
+    "minCount": "min_orders"
+  },
+  "severity": [
+    {"if": "count >= 3", "then": "XEM_NGAY"},
+    {"then": "NEN_XU_LY"}
+  ],
+  "finding": {
+    "title": "Đơn mua có thể bị chia nhỏ dưới ngưỡng duyệt",
+    "subject": {"type": "vendor", "id": "{first.partner.id}", "name": "{first.partner.name}"},
+    "why": "{first.partner.name}: {count} đơn từ {from} đến {to} ({join(records)}), mỗi đơn ngay dưới ngưỡng duyệt {money(params.threshold)}, cộng lại {money(total)}.",
+    "amount": "total",
+    "facts": {"orders": "records", "total": "total", "threshold": "params.threshold"}
+  },
+  "cases": [
+    {
+      "name": "three orders of one vendor in three days, each just under the approval threshold",
+      "records": {"procurement.rfq.list": [
+        {"id": 31, "name": "P00031", "partner": [5, "Cty Thép Ngọc Thành"], "date_order": "2026-08-12 08:00:00", "total_amount": 19673500, "state": "purchase"},
+        {"id": 32, "name": "P00032", "partner": [5, "Cty Thép Ngọc Thành"], "date_order": "2026-08-13 08:00:00", "total_amount": 19673500, "state": "purchase"},
+        {"id": 33, "name": "P00033", "partner": [5, "Cty Thép Ngọc Thành"], "date_order": "2026-08-14 08:00:00", "total_amount": 19673500, "state": "purchase"}
+      ]},
+      "expect": [{"evidence": [31, 32, 33], "severity": "XEM_NGAY"}]
+    },
+    {
+      "name": "two orders six days apart, one at the bottom of the band",
+      "records": {"procurement.rfq.list": [
+        {"id": 41, "name": "P00041", "partner": [6, "Cty Gạch Đồng Tâm Miền Trung"], "date_order": "2026-02-02 09:00:00", "total_amount": 16000000, "state": "purchase"},
+        {"id": 42, "name": "P00042", "partner": [6, "Cty Gạch Đồng Tâm Miền Trung"], "date_order": "2026-02-08 09:00:00", "total_amount": 18500000, "state": "done"}
+      ]},
+      "expect": [{"evidence": [41, 42], "severity": "NEN_XU_LY"}]
+    },
+    {
+      "name": "look-alikes: orders above the threshold, under the band, eight days apart, or of two vendors",
+      "records": {"procurement.rfq.list": [
+        {"id": 51, "name": "P00051", "partner": [5, "Cty Thép Ngọc Thành"], "date_order": "2026-05-04 08:00:00", "total_amount": 42000000, "state": "purchase"},
+        {"id": 52, "name": "P00052", "partner": [5, "Cty Thép Ngọc Thành"], "date_order": "2026-05-05 08:00:00", "total_amount": 19500000, "state": "purchase"},
+        {"id": 53, "name": "P00053", "partner": [7, "Cty Sơn Hải Âu"], "date_order": "2026-06-01 08:00:00", "total_amount": 12000000, "state": "purchase"},
+        {"id": 54, "name": "P00054", "partner": [7, "Cty Sơn Hải Âu"], "date_order": "2026-06-02 08:00:00", "total_amount": 15900000, "state": "purchase"},
+        {"id": 55, "name": "P00055", "partner": [6, "Cty Gạch Đồng Tâm Miền Trung"], "date_order": "2026-07-01 08:00:00", "total_amount": 18000000, "state": "purchase"},
+        {"id": 56, "name": "P00056", "partner": [6, "Cty Gạch Đồng Tâm Miền Trung"], "date_order": "2026-07-09 08:00:00", "total_amount": 18000000, "state": "purchase"},
+        {"id": 57, "name": "P00057", "partner": [8, "Cty Ống nhựa Bình Minh"], "date_order": "2026-07-20 08:00:00", "total_amount": 17000000, "state": "purchase"}
+      ]},
+      "expect": []
+    }
+  ]
+}

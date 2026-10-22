@@ -565,6 +565,9 @@ func (a *Adapter) resolveLines(ctx context.Context, entry Odoo19Operation, value
 // ---- METHOD_CALL ----------------------------------------------------------
 
 func (a *Adapter) execMethodCall(ctx context.Context, entry Odoo19Operation, in OperationInput) (interface{}, error) {
+	if entry.ModelMethod {
+		return a.execModelMethod(ctx, entry, in)
+	}
 	if in.TargetID == 0 {
 		return nil, &TargetRequirementError{
 			Operation: entry.SemanticID, Mode: string(WriteModeUpdate), TargetSupplied: false,
@@ -612,6 +615,42 @@ func (a *Adapter) execMethodCall(ctx context.Context, entry Odoo19Operation, in 
 		}
 	}
 	return map[string]interface{}{"id": in.TargetID, "created_id": createdID, "method": entry.Method, "result": res}, nil
+}
+
+// execModelMethod calls a method Odoo declares @api.model, on the model itself: no target, the caller's accepted
+// values as keywords under the operation's fixed ones, and the record it made read from its answer (CreatedIDKey).
+func (a *Adapter) execModelMethod(ctx context.Context, entry Odoo19Operation, in OperationInput) (interface{}, error) {
+	if in.TargetID != 0 {
+		return nil, &TargetRequirementError{Operation: entry.SemanticID, Mode: string(WriteModeCreate), TargetSupplied: true}
+	}
+	kwargs, err := methodInputs(entry, in.Values)
+	if err != nil {
+		return nil, err
+	}
+	if err := a.resolveRelations(ctx, entry, kwargs, in.ProviderContext); err != nil {
+		return nil, err
+	}
+	for name, value := range entry.MethodKwargs {
+		kwargs[name] = value
+	}
+	caller, ok := a.Transport.(KeywordCaller)
+	if !ok {
+		return nil, fmt.Errorf("odoo: this transport cannot call %s with keyword arguments", entry.Method)
+	}
+	res, err := caller.CallMethodKwargs(ctx, entry.ProviderModel, nil, entry.Method, kwargs, in.ProviderContext)
+	if err != nil {
+		return nil, err
+	}
+	var created int64
+	if answer, ok := res.(map[string]interface{}); ok && entry.CreatedIDKey != "" {
+		if id, ok := answer[entry.CreatedIDKey].(float64); ok && id > 0 {
+			created = int64(id)
+		}
+	}
+	if created == 0 {
+		return nil, fmt.Errorf("odoo: %s answered without the record it made (%s)", entry.Method, entry.CreatedIDKey)
+	}
+	return map[string]interface{}{"id": created, "created_id": created, "method": entry.Method, "result": res}, nil
 }
 
 // ---- WIZARD -----------------------------------------------------------------

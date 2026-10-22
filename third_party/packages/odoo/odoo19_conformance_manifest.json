@@ -15543,6 +15543,30 @@
       "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-invoice-origin-20261017.json",
       "verifiedAt": "2026-10-17T00:59:31Z",
       "definitionHash": "sha256:44a11f3919db387f6782c67355e2275a9e6dd85c72319a1e10c1dae4d544b73d"
+    },
+    {
+      "operationId": "website.page.new",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "website"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/website-page-conformance-19.0-20261022.json",
+      "verifiedAt": "2026-10-21T18:43:49Z",
+      "definitionHash": "sha256:17521a4529bfd11d23d0e125485ff491f03450c051c6517f50e4a3de9a713f56"
+    },
+    {
+      "operationId": "website.site.code.describe",
+      "providerVersion": "19.0-20260803",
+      "imageDigest": "sha256:0bfcfcdd2e1c80f499c25473b1b9ef2c1d31ad9e6d96534771b06b191ee4b89e",
+      "modules": [
+        "website"
+      ],
+      "status": "CURRENT_VERIFIED",
+      "evidenceRef": "docs/architecture/provider-research/odoo-surface/evidence/read-conformance-19.0-website-code-20261022.json",
+      "verifiedAt": "2026-10-22T04:56:34Z",
+      "definitionHash": "sha256:296d5a92acfb99ab07c91c658bd4a428e8a437671225243dc4aab9c04b7b482e"
     }
   ]
 }

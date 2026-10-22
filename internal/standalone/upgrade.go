@@ -28,7 +28,8 @@ func upgradeGroup(config programConfig) *clicore.Command {
 		Summary: "Say which customizations of this database an upgrade to the next series breaks, before the upgrade.",
 		Description: `Reads what people made in the selected Odoo (saved filters, automation rules, server actions, custom
 fields, email templates, views, record rules, access rights, export templates, default values and window
-actions: the records no standard module owns) and checks every model and field they reference against
+actions: the records no standard module owns), and the operations of the packs registered for the profile
+(odoo-cli pack), and checks every model and field they reference against
 the target series, with the map this build ships for the pair (upgrade maps). It reads and never writes.
 
 Each finding names the customization, the path that stops resolving, why, and a severity:
@@ -111,6 +112,18 @@ func runUpgradeCheck(ctx context.Context, invocation *clicore.Invocation, config
 	custom, err := reader.customizations()
 	if err != nil {
 		return nil, err
+	}
+	// The operation packs registered for the profile name the module's models and fields like any
+	// customization (DEC-2026-0176 v0.2): an upgrade that drops one breaks the operation.
+	if name, err := profileName(invocation, config); err == nil {
+		stored, _ := readStoredPacks(name)
+		packs := make([]odoo.Pack, 0, len(stored))
+		for _, pack := range stored {
+			packs = append(packs, pack.Pack)
+		}
+		if len(packs) > 0 {
+			custom.Records[upgradecheck.PackKey] = upgradecheck.PackRecords(packs)
+		}
 	}
 	report := upgradecheck.Scan(reader, custom, pair)
 	if reader.err != nil {

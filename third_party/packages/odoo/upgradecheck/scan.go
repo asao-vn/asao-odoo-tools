@@ -171,6 +171,9 @@ func label(key string) string {
 			return kind.Label
 		}
 	}
+	if key == PackKey {
+		return "pack operation"
+	}
 	return strings.ReplaceAll(key, "_", " ")
 }
 
@@ -1083,6 +1086,7 @@ func (s *scanner) run() {
 		model := s.modelOf(record["model_id"])
 		s.modelGone(s.where("access_rights", record, model), model)
 	}
+	s.packs()
 }
 
 // --- values as search_read gives them --------------------------------------------------------------

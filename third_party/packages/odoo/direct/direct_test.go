@@ -60,7 +60,7 @@ func TestTargetValidationBeforeContact(t *testing.T) {
 
 func TestCatalogParityAndNoGovernedInputs(t *testing.T) {
 	ops := direct.Operations()
-	if len(ops) != 105 || len(ops) != len(odoo.Catalog()) {
+	if len(ops) != 107 || len(ops) != len(odoo.Catalog()) {
 		t.Fatalf("catalog counts direct=%d parent=%d", len(ops), len(odoo.Catalog()))
 	}
 	seen := map[string]bool{}

@@ -145,6 +145,10 @@ var Odoo19NewerUnverifiedOperations = []string{
 	"inventory.quant.list",
 	"inventory.move_line.list",
 	"catalog.uom.describe",
+	// 2026-10-22: a model method; current evidence is the manifest's (odoo-website-page-conformance.py).
+	"website.page.new",
+	// 2026-10-22: the website's custom code; current evidence is the manifest's (odoo-read-conformance.py).
+	"website.site.code.describe",
 }
 
 // Odoo19CatalogProvenanceRecord is the whole provenance claim in one value,
