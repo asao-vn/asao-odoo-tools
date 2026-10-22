@@ -1207,7 +1207,7 @@
    "severity": "XEM_NGAY",
    "scheme": null,
    "signal": "Hai hoá đơn bán cho cùng khách, cùng số tiền, cùng ngày, khác số.",
-   "formula": "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed by a credit note; XEM_NGAY when their lines are the same",
+   "formula": "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed in full by credit notes (a return credited for part of it leaves the copy), and not each from its own sale order (an invoice copied by hand has no origin); XEM_NGAY when their lines are the same",
    "fields": [
     "account.move.partner_id",
     "account.move.amount_total",

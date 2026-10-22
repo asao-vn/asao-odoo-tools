@@ -37,7 +37,7 @@ func init() {
 		id: "O02", name: "Hoá đơn bán trùng", kind: kindErr,
 		question: "Có khách nào bị xuất hoá đơn hai lần cho cùng một lần bán không?",
 		needs:    []string{opInvoice, opLine},
-		formula:  "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed by a credit note, and not each from its own sale order (an invoice copied by hand has no origin); XEM_NGAY when their lines are the same",
+		formula:  "two posted customer invoices of one customer with the same total, <= window_days apart, neither reversed in full by credit notes (a return credited for part of it leaves the copy), and not each from its own sale order (an invoice copied by hand has no origin); XEM_NGAY when their lines are the same",
 		params:   map[string]float64{"window_days": 3},
 		run:      duplicateInvoices,
 	})
@@ -511,9 +511,16 @@ func duplicateInvoices(ctx context.Context, b *books, p map[string]float64) ([]F
 	if err != nil {
 		return nil, err
 	}
-	reversed := map[int64]bool{}
+	// What the credit notes took back from each invoice. Only a whole reversal deals with a copy: a return of
+	// part of the goods credited on one of the two leaves the customer billed twice for the rest (the weekly
+	// simulation of 2026-10-19 hid a planted copy behind a 20% return).
+	credited := map[int64]float64{}
 	for _, refund := range refunds {
-		reversed[relID(refund["reversed_entry_id"])] = true
+		credited[relID(refund["reversed_entry_id"])] += num(refund["total_amount"])
+	}
+	reversedInFull := func(invoice map[string]interface{}) bool {
+		total := num(invoice["total_amount"])
+		return total > 0 && credited[relID(invoice["id"])] >= total*0.995
 	}
 	lines, err := b.invoiceLines(ctx)
 	if err != nil {
@@ -533,7 +540,7 @@ func duplicateInvoices(ctx context.Context, b *books, p map[string]float64) ([]F
 	byKey := map[string][]map[string]interface{}{}
 	var keys []string
 	for _, invoice := range invoices {
-		if reversed[relID(invoice["id"])] {
+		if reversedInFull(invoice) {
 			continue
 		}
 		key := fmt.Sprintf("%d/%d", relID(invoice["partner"]), int64(math.Round(num(invoice["total_amount"]))))
@@ -571,12 +578,22 @@ func duplicateInvoices(ctx context.Context, b *books, p map[string]float64) ([]F
 				severity, lineWords = XemNgay, "cùng các dòng hàng, số lượng và đơn giá"
 			}
 			customer := relName(first["partner"])
+			creditWords := "chưa hoá đơn nào bị giảm trừ"
+			var partly []string
+			for _, invoice := range []map[string]interface{}{first, second} {
+				if amount := credited[relID(invoice["id"])]; amount > 0 {
+					partly = append(partly, fmt.Sprintf("%s giảm trừ %s", text(invoice["name"]), money(amount)))
+				}
+			}
+			if len(partly) > 0 {
+				creditWords = "chưa hoá đơn nào bị giảm trừ toàn bộ (" + strings.Join(partly, ", ") + ")"
+			}
 			out = append(out, Finding{
 				Title: "Một lần bán có thể bị xuất hoá đơn hai lần", Severity: severity,
 				Subject: Subject{Type: "customer", ID: fmt.Sprint(relID(first["partner"])), Name: customer},
-				Why: fmt.Sprintf("%s: %s (%s) và %s (%s), cùng %s, %s; chưa hoá đơn nào bị giảm trừ.",
+				Why: fmt.Sprintf("%s: %s (%s) và %s (%s), cùng %s, %s; %s.",
 					customer, text(first["name"]), text(first["invoice_date"]), text(second["name"]), text(second["invoice_date"]),
-					money(num(first["total_amount"])), lineWords),
+					money(num(first["total_amount"])), lineWords, creditWords),
 				AmountVND: num(second["total_amount"]),
 				Evidence:  []Evidence{evidence(opInvoice, first, ""), evidence(opInvoice, second, "")},
 				Facts: map[string]interface{}{"daysApart": gap, "sameLines": identical,

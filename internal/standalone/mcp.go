@@ -29,10 +29,43 @@ const mcpCatalogThreshold = 60
 // also set allow_out_payment, the flag Odoo checks before it pays an account.
 var payeeModels = map[string]bool{"res.partner.bank": true}
 
+// codeFields hold what Odoo runs as code: a view's QWeb architecture (arch), the sections a new page is
+// made of (sections_arch, which website.new_page puts into the page's arch as given), and the website's
+// custom code, put into every page (custom_code_head, custom_code_footer). QWeb runs on the server when
+// the page renders; custom code runs in every visitor's browser, an administrator's too. These writes are
+// rated LOW or MEDIUM as records, so before 22/10/2026 an agent under --confirm-writes=false wrote them
+// without the person; now an agent never writes code without the person, whatever the risk.
+var codeFields = map[string]bool{"arch": true, "arch_base": true, "arch_db": true, "sections_arch": true,
+	"custom_code_head": true, "custom_code_footer": true}
+
+// writesCode reports a write that can set a code field, by any name it accepts, or that writes a view.
+func writesCode(op direct.Operation) bool {
+	if op.ProviderModel == "ir.ui.view" {
+		return true
+	}
+	for _, input := range op.Inputs {
+		if codeFields[input.Name] || codeFields[input.ProviderField] {
+			return true
+		}
+	}
+	entry, ok := odoo.LookupStandaloneOperation(op.ID)
+	if !ok {
+		return false
+	}
+	for _, fields := range [][]string{entry.AllowedFields, entry.MethodInputs, entry.WizardAllowedFields} {
+		for _, field := range fields {
+			if codeFields[field] {
+				return true
+			}
+		}
+	}
+	return entry.WizardModel == "ir.ui.view"
+}
+
 // agentAccessFor is an operation's exposure to an agent on `mcp serve`: reads are offered; writes
 // are offered only on a server started with --allow-writes; a high-risk, critical or destructive
-// operation, one whose impact must be accepted, or one that changes a bank account, runs only after
-// the person confirms it in the agent host; installing a module is never offered.
+// operation, one whose impact must be accepted, one that changes a bank account, or one that writes
+// code, runs only after the person confirms it in the agent host; installing a module is never offered.
 func agentAccessFor(op direct.Operation) clicore.AgentAccess {
 	switch {
 	case op.Strategy == string(odoo.StrategyModuleInstall):
@@ -47,7 +80,7 @@ func agentAccessFor(op direct.Operation) clicore.AgentAccess {
 	case op.RequiresImpactConfirmation, op.Strategy == string(odoo.StrategyDestructiveGuarded),
 		op.Risk == string(odoo.RiskHigh), op.Risk == string(odoo.RiskCritical):
 		return clicore.AgentAccessConfirm
-	case payeeModels[op.ProviderModel]:
+	case payeeModels[op.ProviderModel], writesCode(op):
 		return clicore.AgentAccessConfirm
 	default:
 		return clicore.AgentAccessWrite
@@ -104,7 +137,7 @@ func findPath(root *clicore.Command, path []string) *clicore.Command {
 var mcpServeFlags = []clicore.Flag{
 	{Name: "profile", Kind: clicore.KindString, Description: "The profile every tool call runs against. Empty uses the profile file's default, as a typed command does."},
 	{Name: "allow-writes", Kind: clicore.KindBool, Description: "Offer the operations that change Odoo. Without it the server offers reads only, and a write cannot be reached through it."},
-	{Name: "confirm-writes", Kind: clicore.KindBool, Default: "true", Description: "Every write asks the person in the agent host before it runs (the default since 0.14). --confirm-writes=false asks only before the high-risk and destructive operations and a change to a bank account, as 0.13 did: only for an agent that reads no text written outside the company (leads, emails, sign-ups, messages), since such text can carry instructions."},
+	{Name: "confirm-writes", Kind: clicore.KindBool, Default: "true", Description: "Every write asks the person in the agent host before it runs (the default since 0.14). --confirm-writes=false asks only before the high-risk and destructive operations, a change to a bank account and a write of code (a page's or a view's architecture, the website's custom code), as 0.13 did: only for an agent that reads no text written outside the company (leads, emails, sign-ups, messages), since such text can carry instructions."},
 	{Name: "allow-unverified", Kind: clicore.KindBool, Description: "Run unverified operations and act on a customised Odoo, as --allow-unverified does on a typed command. The agent cannot set it."},
 	{Name: "mode", Kind: clicore.KindString, Default: "auto", Enum: []string{"auto", "tools", "catalog"},
 		Description: fmt.Sprintf("tools: one MCP tool per operation. catalog: four tools (odoo_find, odoo_describe, odoo_read, odoo_write) that reach the same operations. auto: catalog above %d tools.", mcpCatalogThreshold)},
@@ -128,7 +161,8 @@ What an agent is offered:
   in the agent host (MCP elicitation). A host that cannot ask gets a refusal with the exact command
   line instead;
 - with --confirm-writes=false, low- and medium-risk writes run without asking; the high-risk and
-  destructive operations and any change to a bank account still ask.
+  destructive operations, any change to a bank account and any write of code (a page's or a view's
+  architecture, the website's custom code) still ask.
 
 Text in Odoo records is often written outside the company (a website form, an email that became a
 lead or a task, a sign-up), and an agent can mistake it for an instruction. Keep the default when

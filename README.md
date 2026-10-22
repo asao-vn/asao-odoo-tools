@@ -147,7 +147,7 @@ claude mcp add odoo -- odoo-cli mcp serve --profile my-odoo --allow-writes  # an
 odoo-cli mcp tools --allow-writes --output json                             # what an agent would get
 ```
 
-- **Reads by default:** 623 tools:
+- **Reads by default:** 624 tools:
   - the 598 verified reads;
   - catalog discovery, the pre-flight check, `resolve` (ids only), `agents status`, the review
     (`review run`, `review checks`, `review test-check`, `review precision`), the
@@ -156,11 +156,13 @@ odoo-cli mcp tools --allow-writes --output json                             # wh
     `report draft`;
   - four generic reads (`explore models`, `fields`, `search`, `group`) that reach any model, an
     Enterprise app's or a customisation's included, and never a credential.
-- **With `--allow-writes`:** 1394 tools, and every write asks you first: the agent host shows you the
+- **With `--allow-writes`:** 1396 tools, and every write asks you first: the agent host shows you the
   command line, and nothing runs until you confirm. A host that cannot ask gets a refusal with the
   command line instead.
-- **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. The 61 high-risk
-  and destructive operations, and every change to a bank account (who you pay), still ask. Use it only
+- **`--confirm-writes=false`:** the low- and medium-risk writes run without asking. 68 still ask: the
+  high-risk and destructive operations, every change to a bank account (who you pay), and every write of
+  code (a page's or a view's QWeb architecture, which Odoo runs on the server, and the website's custom
+  code, which runs in every visitor's browser). Use it only
   for an agent that reads no text written outside the company: a lead from a website form or an
   email, a sign-up or a message can carry instructions, and an agent can follow them.
 - **Hosts with a short tool list:** above 60 tools the server offers four catalog tools instead:

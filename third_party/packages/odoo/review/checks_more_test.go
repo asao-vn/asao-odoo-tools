@@ -217,6 +217,26 @@ func TestACreditNoteCancellingAnUnpaidInvoiceIsNoRefund(t *testing.T) {
 	}
 }
 
+// A return credited on one of two copies leaves the customer billed twice for the rest; only a whole
+// reversal deals with a copy (the weekly simulation of 2026-10-19, seed 21).
+func TestAPartReturnDoesNotHideACopiedInvoice(t *testing.T) {
+	invoices := []map[string]interface{}{
+		customerInvoice(1, 7, "2026-07-21", "2026-07-21", 9_900_000), customerInvoice(2, 7, "2026-07-21", "2026-07-21", 9_900_000),
+		creditNote(3, 7, 1, "2026-08-04", 1_980_000),
+		// Reversed in two credit notes that add up to the whole: dealt with.
+		customerInvoice(4, 8, "2026-08-10", "2026-08-10", 2_200_000), customerInvoice(5, 8, "2026-08-10", "2026-08-10", 2_200_000),
+		creditNote(6, 8, 5, "2026-08-11", 1_100_000), creditNote(7, 8, 5, "2026-08-12", 1_100_000),
+	}
+	lines := []map[string]interface{}{line(1, 50, "2026-07-21", 10, 900_000), line(2, 50, "2026-07-21", 10, 900_000)}
+	got := findings(run(t, fakeBooks{rows: map[string][]map[string]interface{}{opInvoice: invoices, opLine: lines}}, "O02"), "O02")
+	if len(got) != 1 || got[0].Evidence[0].ID != 1 || got[0].Evidence[1].ID != 2 || got[0].Severity != XemNgay {
+		t.Fatalf("findings %+v", got)
+	}
+	if !strings.Contains(got[0].Why, "chưa hoá đơn nào bị giảm trừ toàn bộ") || !strings.Contains(got[0].Why, "1.980.000") {
+		t.Fatalf("why: %s", got[0].Why)
+	}
+}
+
 // Two invoices of one customer, same goods, two days apart, each from its own sale order, are two sales;
 // an invoice copied by hand has no origin.
 func TestTwoSaleOrdersAreTwoSalesAndACopiedInvoiceIsNot(t *testing.T) {

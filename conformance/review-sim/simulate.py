@@ -649,8 +649,11 @@ if MESS:
     def paid_on(when):
         return when if when <= AS_OF else None
 
-    regular = list(env["account.move"].search([("move_type", "=", "out_invoice"), ("state", "=", "posted"),
-                                               ("invoice_date", "<=", D(2026, 9, 10))], order="id"))
+    # Noise never touches a record of a case above: a return credited on a planted copy hid it from O02 on the
+    # weekly draw of 2026-10-19 (seed 21), and the case measured the noise, not the check.
+    in_cases = {name for case in truth for name in case["records"]}
+    regular = [m for m in env["account.move"].search([("move_type", "=", "out_invoice"), ("state", "=", "posted"),
+                                                      ("invoice_date", "<=", D(2026, 9, 10))], order="id") if m.name not in in_cases]
     # Returns: a customer sends part of a delivery back within three weeks and gets a credit note for it.
     returned = []
     for invoice in noise.sample(regular, k=max(1, len(regular) * 3 // 100)):
@@ -670,8 +673,9 @@ if MESS:
         parted.append(invoice.name)
     plant("customer-pays-in-two-parts", "O22", parted, "Khách trả một hoá đơn làm hai lần cách nhau vài tuần: bình thường", kind="decoy")
     # Instalments: a supplier bill paid in two halves a month apart.
-    open_bills = list(env["account.move"].search([("move_type", "=", "in_invoice"), ("state", "=", "posted"),
-                                                  ("payment_state", "=", "not_paid"), ("invoice_date", "<=", D(2026, 8, 15))], order="id"))
+    open_bills = [m for m in env["account.move"].search([("move_type", "=", "in_invoice"), ("state", "=", "posted"),
+                                                         ("payment_state", "=", "not_paid"), ("invoice_date", "<=", D(2026, 8, 15))], order="id")
+                  if m.name not in in_cases]
     instalments = []
     for open_bill in noise.sample(open_bills, k=min(len(open_bills), 3)):
         pay(open_bill, open_bill.invoice_date + datetime.timedelta(days=10), amount=round(open_bill.amount_residual / 2))
@@ -836,7 +840,9 @@ if FRESH:
     refused = env["hr.leave"].sudo().create({"employee_id": E["tuan"].id, "holiday_status_id": leave_type.id,
                                              "request_date_from": D(2026, 3, 23), "request_date_to": D(2026, 3, 24), "name": "Xin nghỉ"})
     refused.with_user(U["khoa"]).sudo().action_refuse()
-    worked = expense("tuan", D(2026, 3, 23), 210_000, "Xăng xe công tác")
+    # A name of its own: the score knows a claim by its name, and a plain "Xăng xe công tác" of another case
+    # matched this look-alike on the weekly draw of 2026-10-19.
+    worked = expense("tuan", D(2026, 3, 23), 210_000, "Xăng xe công tác Tam Kỳ")
     plant("fresh-expense-on-refused-leave", "O24", [worked.name], "Tuấn kê xăng ngày 23/3: đơn nghỉ hôm đó bị từ chối, anh đi làm", kind="decoy")
     _, prompt = sale(customers[1], "lan", D(2026, 1, 30), [("gach30", 15, None, None)], pay_on=D(2026, 2, 20))
     stamps[prompt.id] = datetime.datetime(2026, 2, 2, 8, 30)

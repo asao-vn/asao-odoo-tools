@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.18.1 (2026-10-22)
+
+- **Changed: an agent never writes code without you, even with `--confirm-writes=false`.** Five website
+  writes carry code and were rated LOW or MEDIUM as records, so an agent under `--confirm-writes=false`
+  ran them without asking:
+  - `website.page.new` (`sections_arch`), `website.page.create` and `website.page.update` (`arch`), and
+    `website.layout.update`: a page's or a view's QWeb architecture, which Odoo runs on the server when
+    the page renders. `website.new_page` puts the sections into the page as given;
+  - `website.site.update` (`custom_code_head`, `custom_code_footer`): code put into every page, which
+    runs in every visitor's browser, an administrator's too.
+
+  They now always ask, as a change to a bank account does. Their risk is unchanged. With
+  `--confirm-writes=false`, 68 tools ask (63 in 0.18.0).
+- **Fixed: a return credited on a copied invoice hid the copy from O02.** O02 left out any pair with a
+  credit note on either invoice. A 20% return credited on one of two copies leaves the customer billed
+  twice for the rest. Now only a whole reversal, in one credit note or several, deals with a copy, and the
+  finding names what was credited. Found by the weekly simulation of 2026-10-19 (seed 21).
+- **The review simulation:**
+  - its everyday noise no longer touches a record of a planted case or a look-alike: the return above
+    landed on the planted copy by chance;
+  - the look-alike "expense on a refused leave" has a name of its own. The score knows a claim by its
+    name, and another case's plain "Xăng xe công tác" made it look flagged.
+
 ## 0.18.0 (2026-10-22)
 
 - **New: `website.page.new`, a page made with its content.** `website.page.create` cannot make a page with

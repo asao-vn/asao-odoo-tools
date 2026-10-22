@@ -40,6 +40,14 @@ func TestMCPOffersReadsUnlessWritesAreAllowed(t *testing.T) {
 		"identity_bank_account_create":       clicore.AgentAccessConfirm,
 		"identity_bank_account_update":       clicore.AgentAccessConfirm,
 		"identity_bank_account_archive_bank": clicore.AgentAccessConfirm,
+		// Code is the person's to write, whatever the record's risk: QWeb runs on the server, custom code
+		// in every visitor's browser.
+		"website_page_new":      clicore.AgentAccessConfirm,
+		"website_page_create":   clicore.AgentAccessConfirm,
+		"website_page_update":   clicore.AgentAccessConfirm,
+		"website_layout_update": clicore.AgentAccessConfirm,
+		"website_site_update":   clicore.AgentAccessConfirm,
+		"website_page_list":     clicore.AgentAccessRead,
 	} {
 		if byName[name].AgentAccess != want {
 			t.Errorf("%s: access %q, want %q", name, byName[name].AgentAccess, want)
